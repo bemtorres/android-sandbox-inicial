@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
+<title>Strings & i18n — Sandbox</title>
+<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+<style type="text/tailwindcss">@theme{--font-sans:Inter,system-ui,sans-serif;--font-mono:JetBrains Mono,monospace;}</style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/codemirror.min.css"><script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+</head>
+<body class="bg-[#f8f9fb] text-zinc-800 antialiased">
+<header class="sticky top-0 z-50 bg-white/90 backdrop-blur border-b border-zinc-200">
+<div class="max-w-[1440px] mx-auto px-4 sm:px-6 py-3 flex items-center justify-between gap-4">
+<div class="flex items-center gap-3"><button id="menuBtn" class="lg:hidden p-2 rounded-xl border border-zinc-200 bg-white"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h16"/></svg></button><div class="w-9 h-9 rounded-xl bg-violet-600 flex items-center justify-center text-white font-bold">Sb</div><div class="hidden sm:block"><p class="font-semibold leading-none">Sandbox Android</p><p class="text-[11px] text-zinc-500">Strings & i18n</p></div></div>
+<a href="index.html" class="px-4 py-2 bg-white border border-zinc-200 rounded-full text-sm">← Dashboard</a>
+</div></header>
+<div id="overlay" class="fixed inset-0 bg-black/30 z-40 hidden lg:hidden"></div>
+<div class="max-w-[1440px] mx-auto px-4 sm:px-6 py-6 lg:py-8 grid grid-cols-1 lg:grid-cols-[300px_minmax(0,1fr)] gap-6 lg:gap-8">
+<aside id="sidebar" class="fixed lg:sticky top-0 lg:top-[65px] left-0 z-40 w-[300px] h-[100dvh] lg:h-[calc(100vh-65px)] bg-white lg:bg-transparent border-r lg:border-0 border-zinc-200 overflow-auto p-6 lg:p-0 -translate-x-full lg:translate-x-0 transition-transform duration-200">
+<div class="flex items-center justify-between lg:hidden mb-4"><p class="font-semibold">Navegación</p><button id="closeBtn" class="p-2 rounded-xl border border-zinc-200"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg></button></div>
+<nav class="space-y-6 text-[13px]">
+<div><p class="font-semibold mb-2">Fundamentos</p><ul class="space-y-1 text-zinc-600"><li><a href="index.html" class="block py-1.5 px-2 hover:bg-zinc-50 rounded-lg">Dashboard</a></li><li><a href="arquitectura.html" class="block py-1.5 px-2 hover:bg-zinc-50 rounded-lg">Arquitectura profunda</a></li><li><a href="strings-i18n.html" class="block py-1.5 px-2 rounded-lg bg-violet-50 text-violet-700 font-medium">Strings & i18n</a></li></ul></div>
+<div><p class="font-semibold mb-2">Core</p><ul class="space-y-1 text-zinc-600"><li><a href="auth.html" class="block py-1.5 px-2 hover:bg-zinc-50 rounded-lg">Login / Registro / Intro</a></li><li><a href="home.html" class="block py-1.5 px-2 hover:bg-zinc-50 rounded-lg">Home Hub</a></li></ul></div>
+<div><p class="font-semibold mb-2">Labs</p><ul class="space-y-1 text-zinc-600"><li><a href="labs.html" class="block py-1.5 px-2 hover:bg-zinc-50 rounded-lg">Índice labs</a></li><li><a href="lab-textinputs.html" class="block py-1.5 px-2 hover:bg-zinc-50 rounded-lg">Lab 1 · TextInputs</a></li><li><a href="lab-datetime.html" class="block py-1.5 px-2 hover:bg-zinc-50 rounded-lg">Lab 2 · Date/Time</a></li><li><a href="lab-buttons.html" class="block py-1.5 px-2 hover:bg-zinc-50 rounded-lg">Lab 3 · Buttons/Chip</a></li><li><a href="lab-selection.html" class="block py-1.5 px-2 hover:bg-zinc-50 rounded-lg">Lab 4 · Selection</a></li><li><a href="lab-feedback.html" class="block py-1.5 px-2 hover:bg-zinc-50 rounded-lg">Lab 5 · Feedback</a></li><li><a href="lab-webview.html" class="block py-1.5 px-2 hover:bg-zinc-50 rounded-lg">Lab 6 · WebView</a></li><li><a href="lab-dialog.html" class="block py-1.5 px-2 hover:bg-zinc-50 rounded-lg">Lab 7 · Dialog</a></li></ul></div>
+<div><p class="font-semibold mb-2">Técnico</p><ul class="space-y-1 text-zinc-600"><li><a href="vistas.html" class="block py-1.5 px-2 hover:bg-zinc-50 rounded-lg">Catálogo vistas</a></li><li><a href="validacion.html" class="block py-1.5 px-2 hover:bg-zinc-50 rounded-lg">Validación</a></li><li><a href="debug.html" class="block py-1.5 px-2 hover:bg-zinc-50 rounded-lg">Build & Logcat</a></li></ul></div>
+</nav></aside>
+<main class="min-w-0 space-y-8">
+<section class="bg-white rounded-[24px] border border-zinc-200 p-6 sm:p-8">
+<h1 class="text-3xl font-semibold tracking-tight">Strings, naming e i18n</h1>
+<p class="mt-2 text-sm text-zinc-500">187 keys, 0 literales en XML/Java, convención <code>common_</code> / <code>acXXXX_</code>, 3 locales idénticos.</p>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+<figure class="group rounded-2xl border-2 border-dashed border-zinc-300 bg-zinc-50 overflow-hidden">
+  <div class="aspect-[16/10] flex flex-col items-center justify-center p-6 text-center"><div class="w-10 h-10 rounded-xl bg-white border flex items-center justify-center">📷</div><p class="mt-2 font-medium text-xs">4 archivos strings.xml</p><p class="text-[11px] text-zinc-500">assets/images/strings-files.png</p></div>
+  <img src="assets/images/strings-files.png" alt="Strings files" class="hidden w-full object-cover" onload="this.parentElement.classList.add('loaded'); this.previousElementSibling.style.display='none'" />
+  <figcaption class="px-3 py-2 bg-white border-t text-[11px] text-zinc-500">Fig. — Project view con values / values-es / -en / -pt y 187 keys idénticas</figcaption>
+</figure>
+<figure class="group rounded-2xl border-2 border-dashed border-zinc-300 bg-zinc-50 overflow-hidden">
+  <div class="aspect-[16/10] flex flex-col items-center justify-center p-6 text-center"><div class="w-10 h-10 rounded-xl bg-white border flex items-center justify-center">📷</div><p class="mt-2 font-medium text-xs">Cambio de idioma</p><p class="text-[11px] text-zinc-500">assets/images/strings-locale.png</p></div>
+  <img src="assets/images/strings-locale.png" alt="Locale" class="hidden w-full object-cover" onload="this.parentElement.classList.add('loaded'); this.previousElementSibling.style.display='none'" />
+  <figcaption class="px-3 py-2 bg-white border-t text-[11px] text-zinc-500">Fig. — Emulador Ajustes → Idioma → en/pt + app reflejando traducción</figcaption>
+</figure>
+</div>
+<div class="mt-6 grid lg:grid-cols-2 gap-4">
+<div class="rounded-2xl border border-violet-200 bg-violet-50 p-5">
+<p class="font-mono text-sm font-semibold">common_*</p><p class="text-sm mt-1">Reutilizable: <code>common_app_name</code>, <code>common_hint_email</code>, <code>common_btn_validate</code>, <code>common_err_required</code>. 39 keys. Usados en ≥2 activities.</p>
+<pre class="mt-3 bg-white rounded-xl p-3 text-xs border border-violet-200"><code>&lt;string name="common_err_email"&gt;Email no válido&lt;/string&gt;
+tilEmail.setError(getString(R.string.common_err_email));</code></pre>
+</div>
+<div class="rounded-2xl border border-zinc-200 p-5">
+<p class="font-mono text-sm font-semibold">acXXXX_*</p><p class="text-sm mt-1"><code>ac</code> + 4 letras del layout: <code>acmain_</code> (main), <code>acregi_</code> (register), <code>achome_</code>, <code>actinp_</code>, <code>acdati_</code>, <code>acbutt_</code>, <code>acsele_</code>, <code>acfeed_</code>, <code>acwebv_</code>, <code>acdito_</code>.</p>
+<pre class="mt-3 bg-zinc-50 rounded-xl p-3 text-xs border"><code>&lt;string name="acbutt_chip_android"&gt;Android&lt;/string&gt;
+android:text="@string/acbutt_chip_android"</code></pre>
+</div>
+</div>
+<div class="mt-4 rounded-xl bg-amber-50 border border-amber-200 p-4 text-sm">
+<p class="font-medium">Lint gate</p><p class="text-zinc-600"><code>grep android:text="</code> en <code>res/layout</code> solo debe devolver <code>@string/</code>. Chips <code>Android/Java/Kotlin/Compose</code> también externalizados a <code>acbutt_chip_*</code>.</p>
+</div>
+</section>
+
+<section class="bg-white rounded-[24px] border border-zinc-200 p-6 sm:p-8">
+<h2 class="text-xl font-semibold tracking-tight">Cómo se resuelve el locale</h2>
+<div class="mt-4 grid md:grid-cols-3 gap-4">
+<div class="rounded-2xl border border-zinc-200 p-5"><p class="font-medium text-sm">values/strings.xml</p><p class="text-xs text-zinc-500">default = es (fallback)</p><pre class="mt-3 bg-zinc-900 text-zinc-100 rounded-xl p-3 text-xs"><code>&lt;string name="common_btn_login"&gt;Iniciar Sesión&lt;/string&gt;</code></pre></div>
+<div class="rounded-2xl border border-zinc-200 p-5"><p class="font-medium text-sm">values-en/strings.xml</p><p class="text-xs text-zinc-500">Inglés</p><pre class="mt-3 bg-zinc-900 text-zinc-100 rounded-xl p-3 text-xs"><code>&lt;string name="common_btn_login"&gt;Log In&lt;/string&gt;</code></pre></div>
+<div class="rounded-2xl border border-zinc-200 p-5"><p class="font-medium text-sm">values-pt/strings.xml</p><p class="text-xs text-zinc-500">Português</p><pre class="mt-3 bg-zinc-900 text-zinc-100 rounded-xl p-3 text-xs"><code>&lt;string name="common_btn_login"&gt;Entrar&lt;/string&gt;</code></pre></div>
+</div>
+<div class="mt-4 grid lg:grid-cols-2 gap-4">
+<div class="rounded-2xl bg-zinc-900 text-zinc-100 p-5">
+<p class="font-medium text-sm">Resolución (Resources)</p>
+<pre class="mt-3 bg-black rounded-xl p-4 text-xs"><code>Configuration locale = es → values-es
+locale = en → values-en
+locale = pt → values-pt
+sin coincidencia → values/ (es default)
+getString(R.string.common_msg_hello, name)
+  → "¡Hola, Javier!" / "Hello, John!" / "Olá, João!"</code></pre>
+</div>
+<div class="rounded-2xl border border-zinc-200 p-5">
+<p class="font-medium text-sm">Placeholders y escapes</p>
+<pre class="mt-3 bg-zinc-50 rounded-xl p-4 text-xs border"><code>%1$s, %2$s intactos en los 3 locales
+\' para apóstrofe: Don\'t have an account?
+\n para salto en strings largas
+&amp;amp; para &amp; en XML</code></pre>
+<p class="mt-3 text-xs text-zinc-600">Cambiar locale en emulador: Ajustes → Sistema → Idioma, o <code>adb shell setprop persist.sys.locale en-US && adb reboot</code>.</p>
+</div>
+</div>
+<div class="mt-4 flex flex-wrap gap-2 text-xs">
+<span class="px-3 py-1 rounded-full bg-zinc-900 text-white">187 keys idénticas</span>
+<span class="px-3 py-1 rounded-full border border-zinc-200">values + values-es/en/pt = 4 archivos</span>
+<span class="px-3 py-1 rounded-full border border-amber-200 bg-amber-50">No hardcode en Java: getString(R.string.*)</span>
+</div>
+</section>
+
+<section class="bg-white rounded-[24px] border border-zinc-200 p-6 sm:p-8">
+<h2 class="text-xl font-semibold tracking-tight">Tabla completa de prefijos</h2>
+<div class="mt-4 overflow-x-auto -mx-6 px-6">
+<table class="min-w-[640px] w-full text-xs border-collapse">
+<thead class="text-zinc-500"><tr><th class="text-left py-2 border-b">Prefijo</th><th class="text-left border-b">Layout origen</th><th class="text-left border-b">Ejemplo</th><th class="text-right border-b">Nº strings</th></tr></thead>
+<tbody class="divide-y divide-zinc-100">
+<tr><td class="py-2 font-mono">common_</td><td>— reutilizable</td><td class="font-mono">common_err_phone</td><td class="text-right">39</td></tr>
+<tr><td class="font-mono">acmain_</td><td>activity_main</td><td class="font-mono">acmain_title</td><td class="text-right">5</td></tr>
+<tr><td class="font-mono">acregi_</td><td>activity_register</td><td class="font-mono">acregi_go_login</td><td class="text-right">4</td></tr>
+<tr><td class="font-mono">acintr_</td><td>activity_intro</td><td class="font-mono">acintr_welcome</td><td class="text-right">5</td></tr>
+<tr><td class="font-mono">achome_</td><td>activity_home</td><td class="font-mono">achome_card_inputs</td><td class="text-right">17</td></tr>
+<tr><td class="font-mono">actinp_</td><td>activity_text_inputs</td><td class="font-mono">actinp_hint_email</td><td class="text-right">17</td></tr>
+<tr><td class="font-mono">acdati_</td><td>activity_date_time</td><td class="font-mono">acdati_btn_date</td><td class="text-right">11</td></tr>
+<tr><td class="font-mono">acbutt_</td><td>activity_buttons</td><td class="font-mono">acbutt_chip_java</td><td class="text-right">18</td></tr>
+<tr><td class="font-mono">acsele_</td><td>activity_selection</td><td class="font-mono">acsele_cb_terms</td><td class="text-right">17</td></tr>
+<tr><td class="font-mono">acfeed_</td><td>activity_feedback</td><td class="font-mono">acfeed_btn_start</td><td class="text-right">13</td></tr>
+<tr><td class="font-mono">acwebv_</td><td>activity_webview</td><td class="font-mono">acwebv_btn_load</td><td class="text-right">5</td></tr>
+<tr><td class="font-mono">acdito_</td><td>activity_dialog_toast</td><td class="font-mono">acdito_log_default</td><td class="text-right">22</td></tr>
+</tbody>
+</table>
+</div>
+</section>
+</main>
+</div>
+<script>const b=document.getElementById('menuBtn'),c=document.getElementById('closeBtn'),s=document.getElementById('sidebar'),o=document.getElementById('overlay');function open(){s.classList.remove('-translate-x-full');o.classList.remove('hidden');}function close(){s.classList.add('-translate-x-full');o.classList.add('hidden');}b?.addEventListener('click',open);c?.addEventListener('click',close);o?.addEventListener('click',close);</script>
+<script>
+  hljs.highlightAll();
+  // CodeMirror-like line numbers
+  document.querySelectorAll('pre code').forEach(code=>{
+    const pre = code.parentElement;
+    const lines = code.innerText.split('\n').length;
+    // avoid double injection
+    if(pre.querySelector('.cm-gutter')) return;
+    const gutter = document.createElement('div');
+    gutter.className='cm-gutter';
+    const count = code.innerHTML.split('\n').length || lines;
+    // use actual lines from text
+    const n = code.textContent.split('\n').length;
+    for(let i=1;i<=n;i++){
+      const s=document.createElement('span');
+      s.textContent=i;
+      gutter.appendChild(s);
+    }
+    pre.style.position='relative';
+    pre.appendChild(gutter);
+    pre.classList.add('cm-s-dracula');
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Home Hub — Sandbox</title>
+<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+<style type="text/tailwindcss">@theme{--font-sans:Inter,system-ui,sans-serif;--font-mono:JetBrains Mono,monospace;}</style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/codemirror.min.css"><script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+</head>
+<body class="bg-[#f8f9fb] text-zinc-800 antialiased">
+<header class="sticky top-0 z-50 bg-white/90 backdrop-blur border-b border-zinc-200">
+<div class="max-w-[1440px] mx-auto px-4 sm:px-6 py-3 flex items-center justify-between gap-4">
+<div class="flex items-center gap-3"><button id="menuBtn" class="lg:hidden p-2 rounded-xl border border-zinc-200 bg-white"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h16"/></svg></button><div class="w-9 h-9 rounded-xl bg-zinc-900 flex items-center justify-center text-white font-bold">H</div><div class="hidden sm:block"><p class="font-semibold leading-none">Home Hub</p><p class="text-[11px] text-zinc-500">Distribuidor a 7 labs</p></div></div>
+<a href="index.html" class="px-4 py-2 bg-white border border-zinc-200 rounded-full text-sm">← Dashboard</a>
+</div></header>
+<div id="overlay" class="fixed inset-0 bg-black/30 z-40 hidden lg:hidden"></div>
+<div class="max-w-[1440px] mx-auto px-4 sm:px-6 py-6 lg:py-8 grid grid-cols-1 lg:grid-cols-[300px_minmax(0,1fr)] gap-6 lg:gap-8">
+<aside id="sidebar" class="fixed lg:sticky top-0 lg:top-[65px] left-0 z-40 w-[300px] h-[100dvh] lg:h-[calc(100vh-65px)] bg-white lg:bg-transparent border-r lg:border-0 border-zinc-200 overflow-auto p-6 lg:p-0 -translate-x-full lg:translate-x-0 transition-transform duration-200">
+<div class="flex items-center justify-between lg:hidden mb-4"><p class="font-semibold">Navegación</p><button id="closeBtn" class="p-2 rounded-xl border border-zinc-200"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg></button></div>
+<nav class="space-y-6 text-[13px]">
+<div><p class="font-semibold mb-2">Fundamentos</p><ul class="space-y-1 text-zinc-600"><li><a href="index.html" class="block py-1.5 px-2 hover:bg-zinc-50 rounded-lg">Dashboard</a></li><li><a href="arquitectura.html" class="block py-1.5 px-2 hover:bg-zinc-50 rounded-lg">Arquitectura</a></li><li><a href="strings-i18n.html" class="block py-1.5 px-2 hover:bg-zinc-50 rounded-lg">Strings & i18n</a></li></ul></div>
+<div><p class="font-semibold mb-2">Core</p><ul class="space-y-1 text-zinc-600"><li><a href="auth.html" class="block py-1.5 px-2 hover:bg-zinc-50 rounded-lg">Login / Registro / Intro</a></li><li><a href="home.html" class="block py-1.5 px-2 rounded-lg bg-zinc-900 text-white">Home Hub</a></li></ul></div>
+<div><p class="font-semibold mb-2">Labs</p><ul class="space-y-1 text-zinc-600"><li><a href="labs.html" class="block py-1.5 px-2 hover:bg-zinc-50 rounded-lg">Índice labs</a></li><li><a href="lab-textinputs.html" class="block py-1.5 px-2 hover:bg-zinc-50 rounded-lg">Lab 1 · TextInputs</a></li><li><a href="lab-datetime.html" class="block py-1.5 px-2 hover:bg-zinc-50 rounded-lg">Lab 2 · Date/Time</a></li><li><a href="lab-buttons.html" class="block py-1.5 px-2 hover:bg-zinc-50 rounded-lg">Lab 3 · Buttons</a></li><li><a href="lab-selection.html" class="block py-1.5 px-2 hover:bg-zinc-50 rounded-lg">Lab 4 · Selection</a></li><li><a href="lab-feedback.html" class="block py-1.5 px-2 hover:bg-zinc-50 rounded-lg">Lab 5 · Feedback</a></li><li><a href="lab-webview.html" class="block py-1.5 px-2 hover:bg-zinc-50 rounded-lg">Lab 6 · WebView</a></li><li><a href="lab-dialog.html" class="block py-1.5 px-2 hover:bg-zinc-50 rounded-lg">Lab 7 · Dialog</a></li></ul></div>
+<div><p class="font-semibold mb-2">Técnico</p><ul class="space-y-1 text-zinc-600"><li><a href="vistas.html" class="block py-1.5 px-2 hover:bg-zinc-50 rounded-lg">Catálogo vistas</a></li><li><a href="validacion.html" class="block py-1.5 px-2 hover:bg-zinc-50 rounded-lg">Validación</a></li><li><a href="debug.html" class="block py-1.5 px-2 hover:bg-zinc-50 rounded-lg">Build & Logcat</a></li></ul></div>
+</nav></aside>
+<main class="min-w-0 space-y-8">
+<section class="bg-white rounded-[24px] border border-zinc-200 p-6 sm:p-8">
+<h1 class="text-3xl font-semibold tracking-tight">HomeActivity — Hub</h1>
+<p class="mt-2 text-sm text-zinc-500">activity_home.xml · <code>ScrollView > LinearLayout</code> + 8 MaterialCardViews (1 intro + 7 labs). Cada card es un <code>setOnClickListener → Intent</code>.</p>
+<div class="mt-6 grid lg:grid-cols-[1.2fr_0.8fr] gap-6">
+<pre class="bg-zinc-900 text-zinc-100 rounded-2xl p-5 text-xs overflow-auto"><code class="language-java">public class HomeActivity extends AppCompatActivity {
+  protected void onCreate(Bundle b){
+    super.onCreate(b);
+    setContentView(R.layout.activity_home);
+    findViewById(R.id.cardInputs).setOnClickListener(v -> go(TextInputsActivity.class, "TextInputs"));
+    // ... 6 cards más
+  }
+  private void go(Class&lt;?&gt; cls, String label){
+    Toast.makeText(this, getString(R.string.achome_toast_opening, label), SHORT).show();
+    Log.d("SANDBOX_HOME", "Navegando a "+cls.getSimpleName());
+    startActivity(new Intent(this, cls));
+  }
+}</code></pre>
+<div class="rounded-2xl border border-zinc-200 p-5">
+<p class="font-medium text-sm">Por qué CardView y no Button</p><p class="mt-2 text-sm text-zinc-600">Card da superficie Material con elevación y ripple: <code>app:cardElevation="2dp" android:foreground="?attr/selectableItemBackground"</code>. Más clicable que lista. Título <code>achome_card_*</code> + descripción <code>achome_desc_*</code> cuentan qué inputType/API se practica.</p>
+<p class="mt-3 text-xs text-zinc-500">Card intro superior <code>achome_arch_title/desc</code> explica patrón Hub: <em>cada botón hace startActivity a Activity aislada</em>.</p>
+</div>
+</div>
+<div class="mt-6 overflow-x-auto -mx-6 px-6">
+<table class="min-w-[560px] w-full text-xs border-collapse">
+<thead class="text-zinc-500"><tr><th class="text-left py-2 border-b">Card id</th><th class="text-left border-b">Activity</th><th class="text-left border-b">Strings</th></tr></thead>
+<tbody class="divide-y divide-zinc-100">
+<tr><td class="py-2 font-mono">cardInputs</td><td>.sandbox.TextInputsActivity</td><td class="font-mono">achome_card_inputs / achome_desc_inputs</td></tr>
+<tr><td class="py-2 font-mono">cardDateTime</td><td>.sandbox.DateTimeActivity</td><td class="font-mono">achome_card_datetime</td></tr>
+<tr><td class="py-2 font-mono">cardButtons</td><td>.sandbox.ButtonsActivity</td><td class="font-mono">achome_card_buttons</td></tr>
+<tr><td class="py-2 font-mono">cardSelection</td><td>.sandbox.SelectionActivity</td><td class="font-mono">achome_card_selection</td></tr>
+<tr><td class="py-2 font-mono">cardFeedback</td><td>.sandbox.FeedbackActivity</td><td class="font-mono">achome_card_feedback</td></tr>
+<tr><td class="py-2 font-mono">cardWebView</td><td>.sandbox.WebViewActivity</td><td class="font-mono">achome_card_webview</td></tr>
+<tr><td class="py-2 font-mono">cardDialogs</td><td>.sandbox.DialogToastActivity</td><td class="font-mono">achome_card_dialogs</td></tr>
+</tbody>
+</table>
+</div>
+<div class="mt-4 rounded-xl bg-violet-50 border border-violet-200 p-4 text-sm">
+<p class="font-medium">Cómo añadir tu propio Lab 8</p><p class="text-zinc-700 mt-1">1) Crea <code>activity_milab.xml</code> + <code>MilabActivity.java</code>. 2) Declara en <code>AndroidManifest.xml</code>. 3) Añade strings <code>achome_card_milab</code> en 4 locales. 4) Añade <code>MaterialCardView id=cardMilab</code> en <code>activity_home.xml</code> + listener en <code>HomeActivity.java</code>.</p>
+</div>
+<figure class="mt-8 group rounded-2xl border-2 border-dashed border-zinc-300 bg-zinc-50 overflow-hidden">
+  <div class="aspect-[16/10] flex flex-col items-center justify-center p-8 text-center">
+    <div class="w-12 h-12 rounded-xl bg-white border border-zinc-200 flex items-center justify-center">📷</div>
+    <p class="mt-3 font-medium text-sm">Home Hub — 7 cards</p>
+    <p class="text-xs text-zinc-500">Guarda como <code class="bg-white border px-1 rounded">assets/images/home-hub.png</code></p>
+  </div>
+  <img src="assets/images/home-hub.png" alt="Home" class="hidden w-full object-cover" onload="this.parentElement.classList.add('loaded'); this.previousElementSibling.style.display='none'" />
+  <figcaption class="px-4 py-2 bg-white border-t text-xs text-zinc-500">Fig. — Pixel 7 HomeActivity, card intro + 7 labs con descripciones achome_desc_*</figcaption>
+</figure>
+</section>
+<section class="bg-white rounded-[24px] border border-zinc-200 p-6 sm:p-8">
+<h2 class="text-xl font-semibold tracking-tight">Responsive del Home (clase real)</h2>
+<p class="mt-2 text-sm text-zinc-500">Aunque es ScrollView vertical, el layout no usa widths fijas. Cards <code>match_parent</code> + padding 16dp se adaptan a móvil/tablet. Sin breakpoint: es lista vertical que funciona de 320dp a 840dp.</p>
+<div class="mt-4 grid md:grid-cols-3 gap-4">
+<div class="rounded-2xl border border-zinc-200 p-5 text-sm"><p class="font-medium">320dp (móvil pequeño)</p><p class="text-zinc-600">Cards a ancho completo, títulos en 2 líneas, ripple ocupa todo.</p></div>
+<div class="rounded-2xl border border-zinc-200 p-5 text-sm"><p class="font-medium">600dp (tablet)</p><p class="text-zinc-600">Mismo layout, más padding lateral. Si quisieras grid 2 cols, cambia a <code>GridLayout</code> con <code>spanCount 2</code>.</p></div>
+<div class="rounded-2xl border border-zinc-200 p-5 text-sm"><p class="font-medium">Tip</p><p class="text-zinc-600"><code>ScrollView</code> evita <code>adjustResize</code> aquí porque no hay EditText.</p></div>
+</div>
+</section>
+</main>
+</div>
+<script>const b=document.getElementById('menuBtn'),c=document.getElementById('closeBtn'),s=document.getElementById('sidebar'),o=document.getElementById('overlay');function open(){s.classList.remove('-translate-x-full');o.classList.remove('hidden');}function close(){s.classList.add('-translate-x-full');o.classList.add('hidden');}b?.addEventListener('click',open);c?.addEventListener('click',close);o?.addEventListener('click',close);</script>
+<script>
+  hljs.highlightAll();
+  // CodeMirror-like line numbers
+  document.querySelectorAll('pre code').forEach(code=>{
+    const pre = code.parentElement;
+    const lines = code.innerText.split('\n').length;
+    // avoid double injection
+    if(pre.querySelector('.cm-gutter')) return;
+    const gutter = document.createElement('div');
+    gutter.className='cm-gutter';
+    const count = code.innerHTML.split('\n').length || lines;
+    // use actual lines from text
+    const n = code.textContent.split('\n').length;
+    for(let i=1;i<=n;i++){
+      const s=document.createElement('span');
+      s.textContent=i;
+      gutter.appendChild(s);
+    }
+    pre.style.position='relative';
+    pre.appendChild(gutter);
+    pre.classList.add('cm-s-dracula');
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Lab 3 · Buttons/Chip — Sandbox</title>
+<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+<style type="text/tailwindcss">@theme{--font-sans:Inter,system-ui,sans-serif;--font-mono:JetBrains Mono,monospace;}</style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/codemirror.min.css"><script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+</head>
+<body class="bg-[#f8f9fb] text-zinc-800 antialiased">
+<header class="sticky top-0 z-50 bg-white/90 backdrop-blur border-b border-zinc-200">
+<div class="max-w-[1440px] mx-auto px-4 sm:px-6 py-3 flex items-center justify-between">
+<div class="flex items-center gap-3"><button id="menuBtn" class="lg:hidden p-2 rounded-xl border border-zinc-200 bg-white"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h16"/></svg></button><div class="w-9 h-9 rounded-xl bg-violet-600 flex items-center justify-center text-white font-bold">3</div><div class="hidden sm:block"><p class="font-semibold leading-none">Lab 3 · Buttons / Chip</p><p class="text-[11px] text-zinc-500">acbutt_ · Click + debounce + ChipGroup</p></div></div>
+<a href="labs.html" class="px-4 py-2 bg-white border border-zinc-200 rounded-full text-sm">← Labs</a>
+</div></header>
+<div id="overlay" class="fixed inset-0 bg-black/30 z-40 hidden lg:hidden"></div>
+<div class="max-w-[1440px] mx-auto px-4 sm:px-6 py-6 lg:py-8 grid grid-cols-1 lg:grid-cols-[300px_minmax(0,1fr)] gap-6 lg:gap-8">
+<aside id="sidebar" class="fixed lg:sticky top-0 lg:top-[65px] left-0 z-40 w-[300px] h-[100dvh] lg:h-[calc(100vh-65px)] bg-white lg:bg-transparent border-r lg:border-0 border-zinc-200 overflow-auto p-6 lg:p-0 -translate-x-full lg:translate-x-0 transition-transform duration-200">
+<div class="flex items-center justify-between lg:hidden mb-4"><p class="font-semibold">Navegación</p><button id="closeBtn" class="p-2 rounded-xl border border-zinc-200"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg></button></div>
+<nav class="space-y-6 text-[13px]">
+<div><p class="font-semibold mb-2">Labs</p><ul class="space-y-1 text-zinc-600"><li><a href="labs.html" class="block py-1.5 px-2 hover:bg-zinc-50 rounded-lg">Índice labs</a></li><li><a href="lab-textinputs.html" class="block py-1.5 px-2 hover:bg-zinc-50 rounded-lg">Lab 1 · TextInputs</a></li><li><a href="lab-datetime.html" class="block py-1.5 px-2 hover:bg-zinc-50 rounded-lg">Lab 2 · Date/Time</a></li><li><a href="lab-buttons.html" class="block py-1.5 px-2 rounded-lg bg-violet-600 text-white">Lab 3 · Buttons</a></li><li><a href="lab-selection.html" class="block py-1.5 px-2 hover:bg-zinc-50 rounded-lg">Lab 4 · Selection</a></li><li><a href="lab-feedback.html" class="block py-1.5 px-2 hover:bg-zinc-50 rounded-lg">Lab 5 · Feedback</a></li><li><a href="lab-webview.html" class="block py-1.5 px-2 hover:bg-zinc-50 rounded-lg">Lab 6 · WebView</a></li><li><a href="lab-dialog.html" class="block py-1.5 px-2 hover:bg-zinc-50 rounded-lg">Lab 7 · Dialog</a></li></ul></div>
+</nav></aside>
+<main class="min-w-0 space-y-8">
+<section class="bg-white rounded-[24px] border border-zinc-200 p-6 sm:p-8">
+<h1 class="text-3xl font-semibold tracking-tight">Lab 3 — Button · ImageButton · Chip</h1>
+<p class="mt-2 text-sm text-zinc-500">Cómo funciona un click, cómo evitar doble click (debounce), por qué ImageButton necesita contentDescription y cómo ChipGroup maneja selección única.</p>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+<figure class="group rounded-2xl border-2 border-dashed border-zinc-300 bg-zinc-50 overflow-hidden">
+  <div class="aspect-[16/10] flex flex-col items-center justify-center p-6 text-center"><div class="w-10 h-10 rounded-xl bg-white border flex items-center justify-center">📷</div><p class="mt-2 font-medium text-xs">Buttons + ImageButton</p><p class="text-[11px] text-zinc-500">assets/images/lab-buttons-preview.png</p></div>
+  <img src="assets/images/lab-buttons-preview.png" alt="Buttons" class="hidden w-full object-cover" onload="this.parentElement.classList.add('loaded'); this.previousElementSibling.style.display='none'" />
+  <figcaption class="px-3 py-2 bg-white border-t text-[11px] text-zinc-500">Fig. — Design activity_buttons.xml, Button Normal + toggle</figcaption>
+</figure>
+<figure class="group rounded-2xl border-2 border-dashed border-zinc-300 bg-zinc-50 overflow-hidden">
+  <div class="aspect-[16/10] flex flex-col items-center justify-center p-6 text-center"><div class="w-10 h-10 rounded-xl bg-white border flex items-center justify-center">📷</div><p class="mt-2 font-medium text-xs">Chip seleccionado</p><p class="text-[11px] text-zinc-500">assets/images/lab-buttons-chip.png</p></div>
+  <img src="assets/images/lab-buttons-chip.png" alt="Chip" class="hidden w-full object-cover" onload="this.parentElement.classList.add('loaded'); this.previousElementSibling.style.display='none'" />
+  <figcaption class="px-3 py-2 bg-white border-t text-[11px] text-zinc-500">Fig. — ChipGroup Kotlin seleccionado → tvStatus actualizado</figcaption>
+</figure>
+</div>
+<div class="mt-6 grid lg:grid-cols-2 gap-6">
+<div class="rounded-2xl border border-zinc-200 p-5">
+<p class="font-semibold text-sm">Button + debounce + enabled toggle</p>
+<pre class="mt-3 bg-zinc-900 text-zinc-100 rounded-xl p-4 text-xs overflow-auto"><code class="language-java">long lastClick = 0;
+btnNormal.setOnClickListener(v -> {
+  long now = System.currentTimeMillis();
+  if(now - lastClick < 500){ Log.w(TAG,"debounce"); return; }
+  lastClick = now;
+  tvStatus.setText(getString(R.string.acbutt_status_button, String.valueOf(now)));
+  Toast.makeText(this, getString(R.string.acbutt_toast_button), SHORT).show();
+});
+btnToggle.setOnClickListener(v -> {
+  boolean enabled = btnNormal.isEnabled();
+  btnNormal.setEnabled(!enabled); // estado lógico vs visual
+  tvStatus.setText(getString(enabled ? R.string.acbutt_status_disabled : R.string.acbutt_status_enabled));
+});</code></pre>
+<p class="mt-2 text-xs text-zinc-600">500ms evita doble envío si usuario toca rápido. <code>setEnabled</code> deshabilita ripple y alpha automáticamente.</p>
+</div>
+<div class="space-y-4">
+<div class="rounded-2xl border border-zinc-200 p-5">
+<p class="font-semibold text-sm">ImageButton</p>
+<pre class="mt-3 bg-zinc-50 rounded-xl p-3 text-xs border overflow-auto"><code>&lt;ImageButton
+  android:id="@+id/imgBtn"
+  android:contentDescription="@string/acbutt_image_desc" // obligatorio a11y
+  android:src="@mipmap/ic_launcher_round"
+  android:background="?attr/selectableItemBackgroundBorderless"/&gt;</code></pre>
+<p class="mt-2 text-xs text-zinc-600">Es un <code>ImageView</code> con <code>clickable</code>. <code>contentDescription</code> lo lee TalkBack. <code>selectableItemBackgroundBorderless</code> da ripple circular.</p>
+</div>
+<div class="rounded-2xl border border-zinc-200 p-5">
+<p class="font-semibold text-sm">ChipGroup singleSelection</p>
+<pre class="mt-3 bg-zinc-900 text-zinc-100 rounded-xl p-4 text-xs"><code>&lt;ChipGroup app:singleSelection="true"&gt;
+  &lt;Chip android:text="@string/acbutt_chip_android" style="@style/Widget.Material3.Chip.Filter"/&gt;
+  // ... java, kotlin, compose
+&lt;/ChipGroup&gt;
+
+chipGroup.setOnCheckedStateChangeListener((group, checkedIds) -> {
+  if(checkedIds.isEmpty()){ tvStatus.setText(acbutt_status_chip_none); return; }
+  int id = checkedIds.get(0);
+  String label = id==R.id.chip1? getString(acbutt_chip_android) : ...;
+  tvStatus.setText(getString(R.string.acbutt_status_chip, label));
+});</code></pre>
+</div>
+</div>
+</div>
+</section>
+<section class="bg-white rounded-[24px] border border-zinc-200 p-6 sm:p-8">
+<h2 class="text-xl font-semibold tracking-tight">Responsive</h2>
+<p class="mt-2 text-sm text-zinc-600">Layout <code>ScrollView > LinearLayout</code>. <code>ImageButton</code> 56dp + TextView label flex row. <code>ChipGroup</code> hace wrap automático en móvil estrecho.</p>
+<div class="mt-4 flex flex-wrap gap-2 text-xs"><a href="lab-selection.html" class="px-4 py-2 bg-zinc-900 text-white rounded-full">Siguiente → Selection</a><a href="lab-datetime.html" class="px-4 py-2 bg-white border border-zinc-200 rounded-full">← Anterior Date/Time</a></div>
+</section>
+</main>
+</div>
+<script>const b=document.getElementById('menuBtn'),c=document.getElementById('closeBtn'),s=document.getElementById('sidebar'),o=document.getElementById('overlay');function open(){s.classList.remove('-translate-x-full');o.classList.remove('hidden');}function close(){s.classList.add('-translate-x-full');o.classList.add('hidden');}b?.addEventListener('click',open);c?.addEventListener('click',close);o?.addEventListener('click',close);</script>
+<script>
+  hljs.highlightAll();
+  // CodeMirror-like line numbers
+  document.querySelectorAll('pre code').forEach(code=>{
+    const pre = code.parentElement;
+    const lines = code.innerText.split('\n').length;
+    // avoid double injection
+    if(pre.querySelector('.cm-gutter')) return;
+    const gutter = document.createElement('div');
+    gutter.className='cm-gutter';
+    const count = code.innerHTML.split('\n').length || lines;
+    // use actual lines from text
+    const n = code.textContent.split('\n').length;
+    for(let i=1;i<=n;i++){
+      const s=document.createElement('span');
+      s.textContent=i;
+      gutter.appendChild(s);
+    }
+    pre.style.position='relative';
+    pre.appendChild(gutter);
+    pre.classList.add('cm-s-dracula');
+  });
+</script>
+</body>
+</html>

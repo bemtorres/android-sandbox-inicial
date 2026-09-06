@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Lab 2 · Date/Time — Sandbox</title>
+<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+<style type="text/tailwindcss">@theme{--font-sans:Inter,system-ui,sans-serif;--font-mono:JetBrains Mono,monospace;}</style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/codemirror.min.css"><script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+</head>
+<body class="bg-[#f8f9fb] text-zinc-800 antialiased">
+<header class="sticky top-0 z-50 bg-white/90 backdrop-blur border-b border-zinc-200">
+<div class="max-w-[1440px] mx-auto px-4 sm:px-6 py-3 flex items-center justify-between">
+<div class="flex items-center gap-3"><button id="menuBtn" class="lg:hidden p-2 rounded-xl border border-zinc-200 bg-white"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h16"/></svg></button><div class="w-9 h-9 rounded-xl bg-emerald-600 flex items-center justify-center text-white font-bold">2</div><div class="hidden sm:block"><p class="font-semibold leading-none">Lab 2 · Date & Time</p><p class="text-[11px] text-zinc-500">acdati_ · Dialogs sistema</p></div></div>
+<a href="labs.html" class="px-4 py-2 bg-white border border-zinc-200 rounded-full text-sm">← Labs</a>
+</div></header>
+<div id="overlay" class="fixed inset-0 bg-black/30 z-40 hidden lg:hidden"></div>
+<div class="max-w-[1440px] mx-auto px-4 sm:px-6 py-6 lg:py-8 grid grid-cols-1 lg:grid-cols-[300px_minmax(0,1fr)] gap-6 lg:gap-8">
+<aside id="sidebar" class="fixed lg:sticky top-0 lg:top-[65px] left-0 z-40 w-[300px] h-[100dvh] lg:h-[calc(100vh-65px)] bg-white lg:bg-transparent border-r lg:border-0 border-zinc-200 overflow-auto p-6 lg:p-0 -translate-x-full lg:translate-x-0 transition-transform duration-200">
+<div class="flex items-center justify-between lg:hidden mb-4"><p class="font-semibold">Navegación</p><button id="closeBtn" class="p-2 rounded-xl border border-zinc-200"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg></button></div>
+<nav class="space-y-6 text-[13px]"><div><p class="font-semibold mb-2">Labs</p><ul class="space-y-1 text-zinc-600"><li><a href="labs.html" class="block py-1.5 px-2 hover:bg-zinc-50 rounded-lg">Índice labs</a></li><li><a href="lab-textinputs.html" class="block py-1.5 px-2 hover:bg-zinc-50 rounded-lg">Lab 1 · TextInputs</a></li><li><a href="lab-datetime.html" class="block py-1.5 px-2 rounded-lg bg-emerald-600 text-white">Lab 2 · Date/Time</a></li><li><a href="lab-buttons.html" class="block py-1.5 px-2 hover:bg-zinc-50 rounded-lg">Lab 3 · Buttons</a></li><li><a href="lab-selection.html" class="block py-1.5 px-2 hover:bg-zinc-50 rounded-lg">Lab 4 · Selection</a></li><li><a href="lab-feedback.html" class="block py-1.5 px-2 hover:bg-zinc-50 rounded-lg">Lab 5 · Feedback</a></li><li><a href="lab-webview.html" class="block py-1.5 px-2 hover:bg-zinc-50 rounded-lg">Lab 6 · WebView</a></li><li><a href="lab-dialog.html" class="block py-1.5 px-2 hover:bg-zinc-50 rounded-lg">Lab 7 · Dialog</a></li></ul></div></nav></aside>
+<main class="min-w-0 space-y-8">
+<section class="bg-white rounded-[24px] border border-zinc-200 p-6 sm:p-8">
+<h1 class="text-3xl font-semibold tracking-tight">Lab 2 — Date & Time Pickers</h1>
+<p class="mt-2 text-sm text-zinc-500">DatePickerDialog y TimePickerDialog → Calendar → Formateo → Validación isNotFuture.</p>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+<figure class="group rounded-2xl border-2 border-dashed border-zinc-300 bg-zinc-50 overflow-hidden">
+  <div class="aspect-[16/10] flex flex-col items-center justify-center p-6 text-center"><div class="w-10 h-10 rounded-xl bg-white border flex items-center justify-center">📷</div><p class="mt-2 font-medium text-xs">Design + estado vacío</p><p class="text-[11px] text-zinc-500">assets/images/lab-datetime-preview.png</p></div>
+  <img src="assets/images/lab-datetime-preview.png" alt="Design DateTime" class="hidden w-full object-cover" onload="this.parentElement.classList.add('loaded'); this.previousElementSibling.style.display='none'" />
+  <figcaption class="px-3 py-2 bg-white border-t text-[11px] text-zinc-500">Fig. — activity_date_time.xml con TextViews "Fecha: no seleccionada"</figcaption>
+</figure>
+<figure class="group rounded-2xl border-2 border-dashed border-zinc-300 bg-zinc-50 overflow-hidden">
+  <div class="aspect-[16/10] flex flex-col items-center justify-center p-6 text-center"><div class="w-10 h-10 rounded-xl bg-white border flex items-center justify-center">📷</div><p class="mt-2 font-medium text-xs">Dialog abierto</p><p class="text-[11px] text-zinc-500">assets/images/lab-datetime-dialog.png</p></div>
+  <img src="assets/images/lab-datetime-dialog.png" alt="Dialog" class="hidden w-full object-cover" onload="this.parentElement.classList.add('loaded'); this.previousElementSibling.style.display='none'" />
+  <figcaption class="px-3 py-2 bg-white border-t text-[11px] text-zinc-500">Fig. — DatePickerDialog sistema sobre Lab 2</figcaption>
+</figure>
+</div>
+<div class="mt-6 grid lg:grid-cols-2 gap-6">
+<div class="rounded-2xl border border-zinc-200 p-5">
+<p class="font-semibold text-sm">Flujo técnico interno</p>
+<pre class="mt-3 bg-zinc-900 text-zinc-100 rounded-xl p-4 text-xs overflow-auto"><code class="language-java">Calendar c = Calendar.getInstance();
+new DatePickerDialog(this, (view,year,month,day)->{
+  selectedDate.set(year,month,day); // month 0-based
+  dateChosen = true;
+  String s = String.format(Locale.getDefault(),"%02d/%02d/%04d",day,month+1,year);
+  tvDate.setText(getString(R.string.acdati_date_prefix, s));
+  Toast.makeText(this, getString(R.string.acdati_date_prefix,s), SHORT).show();
+  Log.i(TAG, "Fecha elegida: "+s);
+}, c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH)).show();</code></pre>
+<p class="mt-3 text-xs text-zinc-600">TimePickerDialog análogo: <code>onTimeSet(hour,minute) → String.format("%02d:%02d")</code> → <code>acdate_time_prefix</code> + <code>is24HourView=true</code>.</p>
+</div>
+<div class="space-y-4">
+<div class="rounded-2xl border border-zinc-200 p-5">
+<p class="font-semibold text-sm">Validación no futura</p>
+<pre class="mt-3 bg-zinc-900 text-zinc-100 rounded-xl p-4 text-xs"><code>if(!dateChosen){ Toast(acdati_msg_pick_date_first); return; }
+boolean notFuture = ValidationUtils.isNotFuture(selectedDate.getTimeInMillis());
+if(notFuture) Toast(acdati_msg_date_ok);
+else { tvDate.setError(common_err_date_future); Toast(common_err_date_future); }</code></pre>
+<p class="mt-2 text-xs text-zinc-600"><code>isNotFuture(millis) = millis &lt;= System.currentTimeMillis()</code>. Útil para fecha nacimiento.</p>
+</div>
+<div class="rounded-2xl bg-amber-50 border border-amber-200 p-4 text-xs">
+<p class="font-medium">Estado</p><p class="mt-1 text-zinc-700">Dos booleans <code>dateChosen/timeChosen</code> + un <code>Calendar selectedDate</code> con hora 00:00. No hay EditText; TextViews <code>acdati_date_empty/time_empty</code> muestran placeholder hasta elegir.</p>
+</div>
+</div>
+</div>
+</section>
+<section class="bg-white rounded-[24px] border border-zinc-200 p-6 sm:p-8">
+<h2 class="text-xl font-semibold tracking-tight">Responsive y UI</h2>
+<div class="mt-4 grid md:grid-cols-2 gap-4">
+<div class="rounded-2xl border border-zinc-200 p-5 text-sm"><p class="font-medium">Layout</p><p class="mt-2 text-zinc-600"><code>ScrollView > LinearLayout</code> + Card intro <code>acdati_info_desc</code> + 2 TextView con backgrounds <code>#E8F5E9</code>/<code>#E3F2FD</code> + 3 Buttons (filled/outlined/filled).</p></div>
+<div class="rounded-2xl border border-zinc-200 p-5 text-sm"><p class="font-medium">Accesibilidad</p><p class="mt-2 text-zinc-600">Dialogs son del sistema (preservan a11y). TextViews no son editables, no necesitan <code>inputType</code>.</p></div>
+</div>
+<div class="mt-4 flex flex-wrap gap-2 text-xs"><a href="lab-buttons.html" class="px-4 py-2 bg-zinc-900 text-white rounded-full">Siguiente → Buttons/Chip</a><a href="lab-textinputs.html" class="px-4 py-2 bg-white border border-zinc-200 rounded-full">← Anterior TextInputs</a></div>
+</section>
+</main>
+</div>
+<script>const b=document.getElementById('menuBtn'),c=document.getElementById('closeBtn'),s=document.getElementById('sidebar'),o=document.getElementById('overlay');function open(){s.classList.remove('-translate-x-full');o.classList.remove('hidden');}function close(){s.classList.add('-translate-x-full');o.classList.add('hidden');}b?.addEventListener('click',open);c?.addEventListener('click',close);o?.addEventListener('click',close);</script>
+<script>
+  hljs.highlightAll();
+  // CodeMirror-like line numbers
+  document.querySelectorAll('pre code').forEach(code=>{
+    const pre = code.parentElement;
+    const lines = code.innerText.split('\n').length;
+    // avoid double injection
+    if(pre.querySelector('.cm-gutter')) return;
+    const gutter = document.createElement('div');
+    gutter.className='cm-gutter';
+    const count = code.innerHTML.split('\n').length || lines;
+    // use actual lines from text
+    const n = code.textContent.split('\n').length;
+    for(let i=1;i<=n;i++){
+      const s=document.createElement('span');
+      s.textContent=i;
+      gutter.appendChild(s);
+    }
+    pre.style.position='relative';
+    pre.appendChild(gutter);
+    pre.classList.add('cm-s-dracula');
+  });
+</script>
+</body>
+</html>

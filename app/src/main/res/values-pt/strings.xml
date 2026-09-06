@@ -1,0 +1,212 @@
+<resources>
+    <!-- COMMON -->
+    <string name="common_app_name">Sandbox</string>
+    <string name="common_app_desc">Sandbox educacional para testar widgets Android e validações</string>
+    <string name="common_btn_login">Entrar</string>
+    <string name="common_btn_register">Criar Conta</string>
+    <string name="common_btn_continue">Continuar</string>
+    <string name="common_btn_validate">Validar</string>
+    <string name="common_btn_clear">Limpar</string>
+    <string name="common_btn_go_home">Ir para Home</string>
+    <string name="common_hint_user">Usuário ou Email</string>
+    <string name="common_hint_pass">Senha</string>
+    <string name="common_hint_pass_numeric">PIN Numérico (4-6 dígitos)</string>
+    <string name="common_hint_email">email@exemplo.com</string>
+    <string name="common_hint_phone">+55 11 90000 0000</string>
+    <string name="common_hint_postal">CEP (5 dígitos)</string>
+    <string name="common_hint_plain">Texto livre</string>
+    <string name="common_label_remember">Lembrar-me</string>
+    <string name="common_msg_login_ok">Login correto. Bem-vindo!</string>
+    <string name="common_msg_register_ok">Cadastro concluído!</string>
+    <string name="common_msg_hello">Olá, %1$s!</string>
+    <string name="common_err_required">Campo obrigatório</string>
+    <string name="common_err_email">Email inválido</string>
+    <string name="common_err_pass_short">Mínimo 6 caracteres</string>
+    <string name="common_err_pass_numeric">Apenas dígitos, 4-6 caracteres</string>
+    <string name="common_err_phone">Telefone inválido (9-15 dígitos)</string>
+    <string name="common_err_postal">CEP: 5 dígitos</string>
+    <string name="common_err_date_future">A data não pode ser futura</string>
+    <string name="common_label_operation">Operação interna</string>
+    <string name="common_helper_email">inputType=textEmailAddress</string>
+    <string name="common_helper_pass">inputType=textPassword</string>
+    <string name="common_helper_phone">inputType=phone</string>
+    <string name="common_helper_postal">inputType=number (postalAddress)</string>
+    <string name="common_helper_plain">inputType=text (plainText)</string>
+    <string name="common_helper_pin">inputType=numberPassword</string>
+    <string name="common_msg_correct_errors">Corrija os erros</string>
+    <string name="common_msg_check_fields">Verifique os campos destacados</string>
+    <string name="common_toast_validation_ok">Validação correta!</string>
+    <string name="common_msg_no_history">Sem histórico</string>
+
+    <!-- ACMAIN -->
+    <string name="acmain_title">Sandbox — Login</string>
+    <string name="acmain_card_title">Como funciona internamente?</string>
+    <string name="acmain_card_desc">1. EditText com inputType=textEmailAddress e textPassword.\n2. Ao pressionar Button → ValidationUtils.isEmail/isPassword → setError() se falhar.\n3. Toast + Log.d + SharedPreferences + Intent para RegisterActivity.</string>
+    <string name="acmain_go_register">Não tem conta? Cadastre-se</string>
+    <string name="acmain_logger_hint">Veja o Logcat com tag \'SANDBOX_LOGIN\' para ver o Logger (Log.v/d/i/w/e)</string>
+
+    <!-- ACREGI -->
+    <string name="acregi_title">Criar Conta — Cadastro</string>
+    <string name="acregi_card_title">Widgets cobertos aqui</string>
+    <string name="acregi_card_desc">plainText (nome), textEmailAddress, phone, postalAddress, textPassword, numberPassword + validação com setError() + TextWatcher.</string>
+    <string name="acregi_go_login">Já tem conta? Entrar</string>
+
+    <!-- ACINTR -->
+    <string name="acintr_welcome">Bem-vindo ao Sandbox!</string>
+    <string name="acintr_desc">Você completou login e cadastro. Agora explore cada widget a partir da Home. Cada card abre uma Activity de demonstração com validação, Toast/Dialog e Logcat.</string>
+    <string name="acintr_user_placeholder">Olá, usuario@exemplo.com!</string>
+    <string name="acintr_next_title">Próximo passo → Home Sandbox</string>
+    <string name="acintr_info">Operação interna:\n• getIntent().getStringExtra() / SharedPreferences\n• TextView.setText()\n• Button onClick → startActivity(Intent → HomeActivity)\n• Log.i(TAG, \"intro exibido\")</string>
+
+    <!-- ACHOME -->
+    <string name="achome_title">Home — Sandbox de Widgets</string>
+    <string name="achome_subtitle">Toque em um card para abrir seu laboratório</string>
+    <string name="achome_arch_title">Arquitetura do Sandbox</string>
+    <string name="achome_arch_desc">HomeActivity = Hub. Cada botão faz startActivity(Intent) para uma Activity isolada. Cada lab valida, mostra Toast/Dialog e escreve no Logcat. Assim você testa um widget sem quebrar os outros.</string>
+    <string name="achome_card_inputs">1. TextInputs — TextView + EditText</string>
+    <string name="achome_card_datetime">2. Date &amp; Time Pickers</string>
+    <string name="achome_card_buttons">3. Button · ImageButton · Chip</string>
+    <string name="achome_card_selection">4. CheckBox · RadioButton · Switch</string>
+    <string name="achome_card_feedback">5. ProgressBar · RatingBar · Spinner</string>
+    <string name="achome_card_webview">6. WebView</string>
+    <string name="achome_card_dialogs">7. Dialog · Toast · Logger</string>
+    <string name="achome_desc_inputs">plainText, password, numberPassword, email, phone, postalCode + TextWatcher + setError()</string>
+    <string name="achome_desc_datetime">DatePickerDialog e TimePickerDialog com validação de data futura/passada</string>
+    <string name="achome_desc_buttons">onClick, debouncing, ImageButton com contentDescription, ChipGroup</string>
+    <string name="achome_desc_selection">Estados checked, RadioGroup, Switch com listener</string>
+    <string name="achome_desc_feedback">Progress horizontal/indeterminado, RatingBar, Spinner com ArrayAdapter</string>
+    <string name="achome_desc_webview">WebView + WebViewClient + permissão INTERNET</string>
+    <string name="achome_desc_dialogs">AlertDialog, Date/Time dialogs, Snackbar simulado com Toast, Log.v/d/i/w/e</string>
+    <string name="achome_tip">Dica: abra o Logcat, filtre por SANDBOX_* para ver cada laboratório.</string>
+    <string name="achome_toast_opening">Abrindo %1$s</string>
+
+    <!-- ACTINP -->
+    <string name="actinp_title">Lab 1 — TextView + EditText</string>
+    <string name="actinp_info_desc">• TextView apenas exibe texto (setText)\n• EditText inputType define teclado: text, textEmailAddress, phone, number, textPassword, numberPassword\n• TextInputLayout envolve EditText e mostra erro/helper com setError()\n• TextWatcher valida ao digitar, Button valida ao pressionar</string>
+    <string name="actinp_preview">Preview TextView: atualiza ao validar</string>
+    <string name="actinp_hint_plain">Nome (plainText)</string>
+    <string name="actinp_hint_email">Email</string>
+    <string name="actinp_hint_phone">Telefone</string>
+    <string name="actinp_hint_postal">CEP</string>
+    <string name="actinp_hint_pass">Senha</string>
+    <string name="actinp_hint_pin">PIN numérico</string>
+    <string name="actinp_helper_text">inputType=text</string>
+    <string name="actinp_helper_textEmail">inputType=textEmailAddress</string>
+    <string name="actinp_helper_phone">inputType=phone</string>
+    <string name="actinp_helper_number">inputType=number</string>
+    <string name="actinp_helper_textPassword">inputType=textPassword</string>
+    <string name="actinp_helper_numberPassword">inputType=numberPassword</string>
+    <string name="actinp_preview_error">Preview: ❌ erros, verifique setError()</string>
+    <string name="actinp_preview_ok">✓ Tudo válido → plain:%1$s email:%2$s phone:%3$s</string>
+
+    <!-- ACDATI -->
+    <string name="acdati_title">Lab 2 — Date &amp; Time</string>
+    <string name="acdati_info_desc">• DatePickerDialog e TimePickerDialog são diálogos do sistema\n• Ao escolher data: onDateSet(year,month,day) → Calendar → formatação\n• Validação: isNotFuture() para nascimento\n• Button onClick abre dialog; TextView mostra resultado + Log</string>
+    <string name="acdati_date_empty">Data: não selecionada</string>
+    <string name="acdati_time_empty">Hora: não selecionada</string>
+    <string name="acdati_date_prefix">Data: %1$s</string>
+    <string name="acdati_time_prefix">Hora: %1$s</string>
+    <string name="acdati_btn_date">Escolher Data (DatePicker)</string>
+    <string name="acdati_btn_time">Escolher Hora (TimePicker)</string>
+    <string name="acdati_btn_validate">Validar data não futura</string>
+    <string name="acdati_msg_pick_date_first">Escolha uma data primeiro</string>
+    <string name="acdati_msg_date_ok">✓ Data válida (não futura)</string>
+
+    <!-- ACBUTT -->
+    <string name="acbutt_title">Lab 3 — Button · ImageButton · Chip</string>
+    <string name="acbutt_info_desc">• Button: android:onClick ou setOnClickListener → Toast + Log + validação\n• ImageButton: ImageView clicável, precisa contentDescription\n• Chip: com.google.android.material.chip.Chip, ChipGroup com singleSelection, OnCheckedStateChangeListener</string>
+    <string name="acbutt_status_waiting">Estado: aguardando interação...</string>
+    <string name="acbutt_status_button">Estado: Button pressionado em %1$s</string>
+    <string name="acbutt_status_disabled">Estado: Button desabilitado</string>
+    <string name="acbutt_status_enabled">Estado: Button habilitado</string>
+    <string name="acbutt_status_image">Estado: ImageButton pressionado</string>
+    <string name="acbutt_status_chip">Estado: Chip selecionado → %1$s</string>
+    <string name="acbutt_status_chip_none">Estado: nenhum Chip selecionado</string>
+    <string name="acbutt_btn_normal">Button Normal</string>
+    <string name="acbutt_btn_toggle">Desabilitar / Habilitar botão</string>
+    <string name="acbutt_image_desc">Botão de favorito</string>
+    <string name="acbutt_image_label">ImageButton (clique → Toast + Log)</string>
+    <string name="acbutt_chips_label">Chips (seleção única):</string>
+    <string name="acbutt_toast_button">Button click!</string>
+    <string name="acbutt_toast_image">ImageButton ❤</string>
+    <string name="acbutt_toast_disabled">Desabilitado</string>
+    <string name="acbutt_toast_enabled">Habilitado</string>
+    <string name="acbutt_chip_android">Android</string>
+    <string name="acbutt_chip_java">Java</string>
+    <string name="acbutt_chip_kotlin">Kotlin</string>
+    <string name="acbutt_chip_compose">Compose</string>
+
+    <!-- ACSELE -->
+    <string name="acsele_title">Lab 4 — CheckBox · RadioButton · Switch</string>
+    <string name="acsele_info_desc">• CheckBox: isChecked() + OnCheckedChangeListener\n• RadioButton dentro de RadioGroup → getCheckedRadioButtonId()\n• Switch (Material): OnCheckedChangeListener, valida combinações\n• Botão Validar coleta estados e mostra Toast + Log</string>
+    <string name="acsele_label_checkboxes">CheckBoxes (múltiplo):</string>
+    <string name="acsele_cb_terms">Aceito termos e condições</string>
+    <string name="acsele_cb_newsletter">Assinar newsletter</string>
+    <string name="acsele_label_radios">RadioButtons (exclusivo):</string>
+    <string name="acsele_rb_free">Plano Grátis</string>
+    <string name="acsele_rb_pro">Plano Pro (R$ 9,99/mês)</string>
+    <string name="acsele_rb_ent">Plano Empresa</string>
+    <string name="acsele_label_switch">Switch:</string>
+    <string name="acsele_sw_notif">Notificações ativadas</string>
+    <string name="acsele_sw_dark">Modo escuro (demo)</string>
+    <string name="acsele_result_default">Resultado: —</string>
+    <string name="acsele_result_terms_fail">Resultado: ❌ aceite os termos</string>
+    <string name="acsele_result_plan_fail">Resultado: ❌ escolha um plano</string>
+    <string name="acsele_result_ok">Resultado: %1$s</string>
+    <string name="acsele_result_detail">✓ Terms OK | Plano: %1$s | Newsletter:%2$s | Notif:%3$s | Dark:%4$s</string>
+    <string name="acsele_btn_validate">Validar seleção</string>
+    <string name="acsele_toast_terms">Você deve aceitar os termos</string>
+    <string name="acsele_toast_plan">Escolha um plano</string>
+    <string name="acsele_toast_ok">Seleção válida</string>
+
+    <!-- ACFEED -->
+    <string name="acfeed_title">Lab 5 — ProgressBar · RatingBar · Spinner</string>
+    <string name="acfeed_info_desc">• ProgressBar horizontal: setProgress() + Handler para simular carregamento\n• ProgressBar indeterminado: visibility VISIBLE/GONE\n• RatingBar: OnRatingBarChangeListener → getRating()\n• Spinner: ArrayAdapter + OnItemSelectedListener</string>
+    <string name="acfeed_label_progress">ProgressBar</string>
+    <string name="acfeed_label_rating">RatingBar</string>
+    <string name="acfeed_label_spinner">Spinner</string>
+    <string name="acfeed_btn_start">Iniciar carregamento</string>
+    <string name="acfeed_btn_reset">Reset</string>
+    <string name="acfeed_rating">Avaliação: %1$s / 5</string>
+    <string name="acfeed_rating_default">Avaliação: 3.5 / 5</string>
+    <string name="acfeed_spinner_default">Selecionado: —</string>
+    <string name="acfeed_spinner_selected">Selecionado: %1$s</string>
+    <string name="acfeed_toast_complete">Carregamento completo!</string>
+    <string name="acfeed_toast_rating">Avaliação: %1$s</string>
+
+    <!-- ACWEBV -->
+    <string name="acwebv_title">Lab 6 — WebView</string>
+    <string name="acwebv_info_desc">Interna: WebView + WebViewClient + WebSettings.javaScriptEnabled + permissão INTERNET. Botão carrega URL, progress visível com onPageStarted/onPageFinished.</string>
+    <string name="acwebv_btn_load">Carregar developer.android.com</string>
+    <string name="acwebv_btn_back">Voltar</string>
+    <string name="acwebv_toast_loading">Carregando %1$s</string>
+
+    <!-- ACDITO -->
+    <string name="acdito_title">Lab 7 — Dialog · Toast · Logger</string>
+    <string name="acdito_info_desc">• Toast.makeText(context, msg, LENGTH_SHORT).show() → mensagem efêmera\n• AlertDialog.Builder → setTitle/setMessage/setPositive/NegativeButton → show()\n• Logger: Log.v/d/i/w/e(TAG, msg) visível no Logcat</string>
+    <string name="acdito_log_default">Logcat tag: SANDBOX_DIALOG\nPressione botões e veja Android Studio → Logcat</string>
+    <string name="acdito_log_append">\n• %1$s</string>
+    <string name="acdito_log_levels">Logs v/d/i/w/e disparados → veja Logcat</string>
+    <string name="acdito_btn_short">Toast curto</string>
+    <string name="acdito_btn_long">Toast longo</string>
+    <string name="acdito_btn_alert">AlertDialog confirmação</string>
+    <string name="acdito_btn_list">Dialog com lista</string>
+    <string name="acdito_btn_logger">Disparar todos os níveis Log</string>
+    <string name="acdito_toast_short">Toast curto (2s) — LENGTH_SHORT</string>
+    <string name="acdito_toast_long">Toast longo (3.5s) — LENGTH_LONG, útil para mensagens importantes</string>
+    <string name="acdito_toast_logs">Ver Logcat</string>
+    <string name="acdito_toast_yes">Você pressionou Sim</string>
+    <string name="acdito_dialog_title">Confirmação</string>
+    <string name="acdito_dialog_msg">Deseja continuar? Este é um AlertDialog.Builder com Positive/Negative.</string>
+    <string name="acdito_dialog_yes">Sim</string>
+    <string name="acdito_dialog_no">Não</string>
+    <string name="acdito_dialog_cancel">Cancelar</string>
+    <string name="acdito_dialog_list_title">Escolha o idioma</string>
+    <string name="acdito_toast_chosen">Você escolheu: %1$s</string>
+    <string name="acdito_log_short">Toast SHORT exibido</string>
+    <string name="acdito_log_long">Toast LONG exibido</string>
+    <string name="acdito_log_yes">Dialog: Sim</string>
+    <string name="acdito_log_no">Dialog: Não</string>
+    <string name="acdito_log_list">Lista: %1$s</string>
+    <string name="acfeed_spinner_hint">Selecione a opção</string>
+</resources>

@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Lab 1 · TextInputs — Sandbox</title>
+<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+<style type="text/tailwindcss">@theme{--font-sans:Inter,system-ui,sans-serif;--font-mono:JetBrains Mono,monospace;}</style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/codemirror.min.css"><script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+</head>
+<body class="bg-[#f8f9fb] text-zinc-800 antialiased">
+<header class="sticky top-0 z-50 bg-white/90 backdrop-blur border-b border-zinc-200">
+<div class="max-w-[1440px] mx-auto px-4 sm:px-6 py-3 flex items-center justify-between">
+<div class="flex items-center gap-3"><button id="menuBtn" class="lg:hidden p-2 rounded-xl border border-zinc-200 bg-white"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h16"/></svg></button><div class="w-9 h-9 rounded-xl bg-violet-600 flex items-center justify-center text-white font-bold">1</div><div class="hidden sm:block"><p class="font-semibold leading-none">Lab 1 · TextInputs</p><p class="text-[11px] text-zinc-500">actinp_ · TextView + 6 EditText</p></div></div>
+<div class="hidden md:flex items-center gap-2 text-xs"><span class="px-2 py-1 rounded-full bg-zinc-900 text-white">activity_text_inputs.xml</span><span class="px-2 py-1 rounded-full border border-zinc-200">TextInputsActivity.java:11</span></div>
+<a href="labs.html" class="px-4 py-2 bg-white border border-zinc-200 rounded-full text-sm">← Labs</a>
+</div></header>
+<div id="overlay" class="fixed inset-0 bg-black/30 z-40 hidden lg:hidden"></div>
+<div class="max-w-[1440px] mx-auto px-4 sm:px-6 py-6 lg:py-8 grid grid-cols-1 lg:grid-cols-[300px_minmax(0,1fr)] gap-6 lg:gap-8">
+<aside id="sidebar" class="fixed lg:sticky top-0 lg:top-[65px] left-0 z-40 w-[300px] h-[100dvh] lg:h-[calc(100vh-65px)] bg-white lg:bg-transparent border-r lg:border-0 border-zinc-200 overflow-auto p-6 lg:p-0 -translate-x-full lg:translate-x-0 transition-transform duration-200">
+<div class="flex items-center justify-between lg:hidden mb-4"><p class="font-semibold">Navegación</p><button id="closeBtn" class="p-2 rounded-xl border border-zinc-200"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg></button></div>
+<nav class="space-y-6 text-[13px]">
+<div><p class="font-semibold mb-2">Fundamentos</p><ul class="space-y-1 text-zinc-600"><li><a href="index.html" class="block py-1.5 px-2 hover:bg-zinc-50 rounded-lg">Dashboard</a></li><li><a href="arquitectura.html" class="block py-1.5 px-2 hover:bg-zinc-50 rounded-lg">Arquitectura</a></li><li><a href="strings-i18n.html" class="block py-1.5 px-2 hover:bg-zinc-50 rounded-lg">Strings & i18n</a></li></ul></div>
+<div><p class="font-semibold mb-2">Labs</p><ul class="space-y-1 text-zinc-600"><li><a href="labs.html" class="block py-1.5 px-2 hover:bg-zinc-50 rounded-lg">Índice labs</a></li><li><a href="lab-textinputs.html" class="block py-1.5 px-2 rounded-lg bg-violet-600 text-white">Lab 1 · TextInputs</a></li><li><a href="lab-datetime.html" class="block py-1.5 px-2 hover:bg-zinc-50 rounded-lg">Lab 2 · Date/Time</a></li><li><a href="lab-buttons.html" class="block py-1.5 px-2 hover:bg-zinc-50 rounded-lg">Lab 3 · Buttons</a></li><li><a href="lab-selection.html" class="block py-1.5 px-2 hover:bg-zinc-50 rounded-lg">Lab 4 · Selection</a></li><li><a href="lab-feedback.html" class="block py-1.5 px-2 hover:bg-zinc-50 rounded-lg">Lab 5 · Feedback</a></li><li><a href="lab-webview.html" class="block py-1.5 px-2 hover:bg-zinc-50 rounded-lg">Lab 6 · WebView</a></li><li><a href="lab-dialog.html" class="block py-1.5 px-2 hover:bg-zinc-50 rounded-lg">Lab 7 · Dialog</a></li></ul></div>
+</nav></aside>
+<main class="min-w-0 space-y-8">
+<section class="bg-white rounded-[24px] border border-zinc-200 p-6 sm:p-8">
+<h1 class="text-3xl font-semibold tracking-tight">Lab 1 — TextView + 6 EditText</h1>
+<p class="mt-2 text-sm text-zinc-500">Objetivo: dominar <code>inputType</code>, <code>TextInputLayout</code>, <code>setError</code>, <code>TextWatcher</code> y <code>TextView</code> como preview. Carpeta: <code>sandbox/TextInputsActivity.java</code></p>
+<div class="mt-6 grid lg:grid-cols-2 gap-6">
+<div class="rounded-2xl border border-zinc-200 p-5">
+<p class="font-semibold text-sm">6 EditText — qué teclado abre cada inputType</p>
+<div class="mt-3 overflow-x-auto -mx-2 px-2">
+<table class="min-w-[520px] w-full text-xs border-collapse"><thead class="text-zinc-500"><tr><th class="text-left py-2 border-b">Campo (hint actinp_)</th><th class="text-left border-b">inputType</th><th class="text-left border-b">Teclado</th><th class="text-left border-b">Validador</th></tr></thead>
+<tbody class="divide-y divide-zinc-100">
+<tr><td class="py-2 font-mono">actinp_hint_plain → Nombre</td><td class="font-mono">text</td><td>Texto + autocorrect</td><td>isRequired</td></tr>
+<tr><td class="py-2">Email</td><td class="font-mono">textEmailAddress</td><td>Email (@, .com)</td><td>isEmail → Patterns</td></tr>
+<tr><td class="py-2">Teléfono</td><td class="font-mono">phone</td><td>Marcación</td><td>isPhone ^\+?[0-9 ]{9,15}$</td></tr>
+<tr><td class="py-2">Código Postal</td><td class="font-mono">number</td><td>Numérico</td><td>isPostal ^\d{5}$</td></tr>
+<tr><td class="py-2">Password</td><td class="font-mono">textPassword</td><td>Texto oculto + ojito</td><td>isPassword len≥6</td></tr>
+<tr><td class="py-2">PIN</td><td class="font-mono">numberPassword</td><td>Numérico oculto</td><td>isNumericPassword ^\d{4,6}$</td></tr>
+</tbody></table>
+</div>
+<p class="mt-3 text-xs text-zinc-600"><code>TextInputLayout</code> envuelve y pinta <code>android:hint</code> flotante + <code>app:helperText</code> (ej. <code>actinp_helper_textEmail</code>) + <code>app:passwordToggleEnabled</code> para ojito.</p>
+</div>
+<div class="rounded-2xl bg-zinc-50 border border-zinc-200 p-5">
+<p class="font-semibold text-sm">TextView preview</p>
+<pre class="mt-3 bg-white rounded-xl p-4 text-xs border overflow-auto"><code>&lt;TextView android:id="@+id/tvPreview"
+  android:text="@string/actinp_preview" // "Preview TextView: se actualiza al validar"
+  android:background="#FFEDE7F6"/&gt;</code></pre>
+<p class="mt-2 text-xs text-zinc-600">Solo muestra texto: <code>tvPreview.setText(getString(actinp_preview_ok, plain,email,phone))</code> o <code>actinp_preview_error</code>. Demuestra <code>TextView.setText</code> vs <code>EditText.getText</code>.</p>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
+<figure class="group rounded-2xl border-2 border-dashed border-zinc-300 bg-zinc-50 overflow-hidden">
+  <div class="aspect-[16/10] flex flex-col items-center justify-center p-6 text-center"><div class="w-10 h-10 rounded-xl bg-white border flex items-center justify-center">📷</div><p class="mt-2 font-medium text-xs">Design preview</p><p class="text-[11px] text-zinc-500">assets/images/lab-textinputs-preview.png</p></div>
+  <img src="assets/images/lab-textinputs-preview.png" alt="Design" class="hidden w-full object-cover" onload="this.parentElement.classList.add('loaded'); this.previousElementSibling.style.display='none'" />
+  <figcaption class="px-3 py-2 bg-white border-t text-[11px] text-zinc-500">Fig. — activity_text_inputs.xml Design split, 6 TextInputLayout</figcaption>
+</figure>
+<figure class="group rounded-2xl border-2 border-dashed border-zinc-300 bg-zinc-50 overflow-hidden">
+  <div class="aspect-[16/10] flex flex-col items-center justify-center p-6 text-center"><div class="w-10 h-10 rounded-xl bg-white border flex items-center justify-center">📷</div><p class="mt-2 font-medium text-xs">Emulador validado</p><p class="text-[11px] text-zinc-500">assets/images/lab-textinputs-emulator.png</p></div>
+  <img src="assets/images/lab-textinputs-emulator.png" alt="Emulador" class="hidden w-full object-cover" onload="this.parentElement.classList.add('loaded'); this.previousElementSibling.style.display='none'" />
+  <figcaption class="px-3 py-2 bg-white border-t text-[11px] text-zinc-500">Fig. — Lab 1 con preview "✓ Todo válido → plain:..."</figcaption>
+</figure>
+<figure class="group rounded-2xl border-2 border-dashed border-zinc-300 bg-zinc-50 overflow-hidden">
+  <div class="aspect-[16/10] flex flex-col items-center justify-center p-6 text-center"><div class="w-10 h-10 rounded-xl bg-white border flex items-center justify-center">📷</div><p class="mt-2 font-medium text-xs">Error setError</p><p class="text-[11px] text-zinc-500">assets/images/lab-textinputs-error.png</p></div>
+  <img src="assets/images/lab-textinputs-error.png" alt="Error" class="hidden w-full object-cover" onload="this.parentElement.classList.add('loaded'); this.previousElementSibling.style.display='none'" />
+  <figcaption class="px-3 py-2 bg-white border-t text-[11px] text-zinc-500">Fig. — Campo en rojo + Toast "Corrige los errores"</figcaption>
+</figure>
+</div>
+<div class="mt-6 grid lg:grid-cols-2 gap-6">
+<pre class="bg-zinc-900 text-zinc-100 rounded-2xl p-5 text-xs overflow-auto"><code class="language-java">// Validación en bloque — patrón fail acumulativo
+boolean ok = true;
+if(!ValidationUtils.isRequired(plain)){ tilPlain.setError(common_err_required); ok=false; } else tilPlain.setError(null);
+if(!isEmail(email)){ tilEmail.setError(common_err_email); ok=false; } else tilEmail.setError(null);
+// ... phone, postal, pass, pin
+if(!ok){
+  Toast.makeText(this, getString(common_msg_correct_errors), SHORT).show();
+  tvPreview.setText(getString(R.string.actinp_preview_error));
+  Log.e(TAG, "Validación Inputs fallida");
+  return;
+}
+tvPreview.setText(getString(R.string.actinp_preview_ok, plain, email, phone));
+Toast.makeText(this, getString(common_toast_validation_ok), SHORT).show();</code></pre>
+<div class="rounded-2xl border border-zinc-200 p-5">
+<p class="font-semibold text-sm">Por qué dos botones Validar/Limpiar</p><p class="mt-2 text-sm text-zinc-600">Validar = ejecuta bloque anterior. Limpiar = <code>setText("")</code> + <code>setError(null)</code> + <code>tvPreview=actinp_preview</code> + <code>Log.d</code>. Así practicas reset sin re-crear Activity.</p>
+<div class="mt-4 rounded-xl bg-amber-50 border border-amber-200 p-3 text-xs"><p class="font-medium">Responsive</p><p>ScrollView + LinearLayout: todos <code>match_parent</code>, 12dp horizontal padding. No Card anidada, scroll natural. MaterialButton Validar peso 1 + Space 8dp + Limpiar outlined peso 1.</p></div>
+</div>
+</div>
+</section>
+<section class="bg-white rounded-[24px] border border-zinc-200 p-6 sm:p-8">
+<h2 class="text-xl font-semibold tracking-tight">Cómo se desarrolló paso a paso (mano a mano)</h2>
+<ol class="mt-4 list-decimal pl-5 text-sm text-zinc-700 space-y-2">
+<li>Crea <code>activity_text_inputs.xml</code> con <code>ScrollView</code> + título <code>actinp_title</code> + Card <code>common_label_operation / actinp_info_desc</code>.</li>
+<li>Añade 6 <code>TextInputLayout</code> con ids <code>tilPlain…tilPin</code> y 6 <code>TextInputEditText</code> <code>etPlain…etPin</code> + <code>app:helperText</code> <code>actinp_helper_*</code>.</li>
+<li>Añade <code>TextView id=tvPreview</code> con <code>actinp_preview</code>.</li>
+<li>En <code>TextInputsActivity.onCreate</code>: <code>setContentView</code> → <code>bind()</code> (findViewById x 13) → listeners de 2 botones.</li>
+<li>Implementa <code>validate()</code> con bloque acumulativo <code>boolean ok</code> + <code>Toast common_msg_correct_errors</code> + <code>actinp_preview_error</code>.</li>
+<li>Implementa <code>clear()</code> con reset + <code>Log.d</code>. Valida strings con <code>ValidationUtils</code>.</li>
+</ol>
+<div class="mt-4 flex flex-wrap gap-2 text-xs"><a href="lab-datetime.html" class="px-4 py-2 bg-violet-600 text-white rounded-full">Siguiente Lab 2 →</a><a href="validacion.html" class="px-4 py-2 bg-white border border-zinc-200 rounded-full">Ver estrategia validación →</a></div>
+</section>
+</main>
+</div>
+<script>const b=document.getElementById('menuBtn'),c=document.getElementById('closeBtn'),s=document.getElementById('sidebar'),o=document.getElementById('overlay');function open(){s.classList.remove('-translate-x-full');o.classList.remove('hidden');}function close(){s.classList.add('-translate-x-full');o.classList.add('hidden');}b?.addEventListener('click',open);c?.addEventListener('click',close);o?.addEventListener('click',close);</script>
+<script>
+  hljs.highlightAll();
+  // CodeMirror-like line numbers
+  document.querySelectorAll('pre code').forEach(code=>{
+    const pre = code.parentElement;
+    const lines = code.innerText.split('\n').length;
+    // avoid double injection
+    if(pre.querySelector('.cm-gutter')) return;
+    const gutter = document.createElement('div');
+    gutter.className='cm-gutter';
+    const count = code.innerHTML.split('\n').length || lines;
+    // use actual lines from text
+    const n = code.textContent.split('\n').length;
+    for(let i=1;i<=n;i++){
+      const s=document.createElement('span');
+      s.textContent=i;
+      gutter.appendChild(s);
+    }
+    pre.style.position='relative';
+    pre.appendChild(gutter);
+    pre.classList.add('cm-s-dracula');
+  });
+</script>
+</body>
+</html>
