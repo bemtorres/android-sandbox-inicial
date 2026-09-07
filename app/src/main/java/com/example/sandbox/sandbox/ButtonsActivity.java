@@ -50,10 +50,10 @@ public class ButtonsActivity extends AppCompatActivity {
             if(checkedIds.isEmpty()){ tvStatus.setText(getString(R.string.acbutt_status_chip_none)); return; }
             int id=checkedIds.get(0);
             String label="";
-            if(id==R.id.chip1) label=getString(R.string.acbutt_chip_android);
-            else if(id==R.id.chip2) label=getString(R.string.acbutt_chip_java);
-            else if(id==R.id.chip3) label=getString(R.string.acbutt_chip_kotlin);
-            else if(id==R.id.chip4) label=getString(R.string.acbutt_chip_compose);
+            if (id==R.id.chip1) { label=getString(R.string.acbutt_chip_android); }
+            else if (id==R.id.chip2) { label=getString(R.string.acbutt_chip_java); }
+            else if (id==R.id.chip3) { label=getString(R.string.acbutt_chip_kotlin); }
+            else if (id==R.id.chip4) { label=getString(R.string.acbutt_chip_compose); }
             tvStatus.setText(getString(R.string.acbutt_status_chip, label));
             Toast.makeText(this,getString(R.string.achome_toast_opening, label),Toast.LENGTH_SHORT).show();
             LoggerUtils.i(TAG,"Chip seleccionado: "+label);

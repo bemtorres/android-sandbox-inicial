@@ -41,7 +41,7 @@ public final class ValidationUtils {
     }
 
     public static boolean isPhone(String s) {
-        if (s == null) return false;
+        if (s == null) { return false; }
         String noSpaces = s.replace(" ", "");
         // validamos longitud dígitos 9-15
         return PHONE_PATTERN.matcher(s).matches() && noSpaces.replace("+","").length() >= 9;

@@ -39,12 +39,12 @@ public class TextInputsActivity extends AppCompatActivity {
         String plain=t(etPlain), email=t(etEmail), phone=t(etPhone), postal=t(etPostal), pass=t(etPass), pin=t(etPin);
         boolean ok=true;
 
-        if(!ValidationUtils.isRequired(plain)){ tilPlain.setError(getString(R.string.common_err_required)); ok=false; } else tilPlain.setError(null);
-        if(!ValidationUtils.isRequired(email)){ tilEmail.setError(getString(R.string.common_err_required)); ok=false; } else if(!ValidationUtils.isEmail(email)){ tilEmail.setError(getString(R.string.common_err_email)); ok=false; } else tilEmail.setError(null);
-        if(!ValidationUtils.isRequired(phone)){ tilPhone.setError(getString(R.string.common_err_required)); ok=false; } else if(!ValidationUtils.isPhone(phone)){ tilPhone.setError(getString(R.string.common_err_phone)); ok=false; } else tilPhone.setError(null);
-        if(!ValidationUtils.isRequired(postal)){ tilPostal.setError(getString(R.string.common_err_required)); ok=false; } else if(!ValidationUtils.isPostalCode(postal)){ tilPostal.setError(getString(R.string.common_err_postal)); ok=false; } else tilPostal.setError(null);
-        if(!ValidationUtils.isRequired(pass)){ tilPass.setError(getString(R.string.common_err_required)); ok=false; } else if(!ValidationUtils.isPassword(pass)){ tilPass.setError(getString(R.string.common_err_pass_short)); ok=false; } else tilPass.setError(null);
-        if(!ValidationUtils.isRequired(pin)){ tilPin.setError(getString(R.string.common_err_required)); ok=false; } else if(!ValidationUtils.isNumericPassword(pin)){ tilPin.setError(getString(R.string.common_err_pass_numeric)); ok=false; } else tilPin.setError(null);
+        if (!ValidationUtils.isRequired(plain)) { tilPlain.setError(getString(R.string.common_err_required)); ok=false; } else { tilPlain.setError(null); }
+        if (!ValidationUtils.isRequired(email)) { tilEmail.setError(getString(R.string.common_err_required)); ok=false; } else { if (!ValidationUtils.isEmail(email)) { tilEmail.setError(getString(R.string.common_err_email)); ok=false; } else { tilEmail.setError(null); } }
+        if (!ValidationUtils.isRequired(phone)) { tilPhone.setError(getString(R.string.common_err_required)); ok=false; } else { if (!ValidationUtils.isPhone(phone)) { tilPhone.setError(getString(R.string.common_err_phone)); ok=false; } else { tilPhone.setError(null); } }
+        if (!ValidationUtils.isRequired(postal)) { tilPostal.setError(getString(R.string.common_err_required)); ok=false; } else { if (!ValidationUtils.isPostalCode(postal)) { tilPostal.setError(getString(R.string.common_err_postal)); ok=false; } else { tilPostal.setError(null); } }
+        if (!ValidationUtils.isRequired(pass)) { tilPass.setError(getString(R.string.common_err_required)); ok=false; } else { if (!ValidationUtils.isPassword(pass)) { tilPass.setError(getString(R.string.common_err_pass_short)); ok=false; } else { tilPass.setError(null); } }
+        if (!ValidationUtils.isRequired(pin)) { tilPin.setError(getString(R.string.common_err_required)); ok=false; } else { if (!ValidationUtils.isNumericPassword(pin)) { tilPin.setError(getString(R.string.common_err_pass_numeric)); ok=false; } else { tilPin.setError(null); } }
 
         if(!ok){
             Toast.makeText(this,getString(R.string.common_msg_correct_errors),Toast.LENGTH_SHORT).show();

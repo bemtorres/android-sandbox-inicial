@@ -20,8 +20,8 @@ public class IntroActivity extends AppCompatActivity {
 
         String name = getIntent().getStringExtra("name");
         String email = getIntent().getStringExtra("email");
-        if (email == null) email = Prefs.getUser(this);
-        if (name == null || name.isEmpty()) name = email;
+        if (email == null) { email = Prefs.getUser(this); }
+        if (name == null || name.isEmpty()) { name = email; }
 
         TextView tvUser = findViewById(R.id.tvUser);
         tvUser.setText(getString(R.string.common_msg_hello, name));

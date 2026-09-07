@@ -1,148 +1,287 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" class="h-full bg-white text-zinc-950 antialiased">
 <head>
-<meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Home Hub — Sandbox</title>
-<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-<style type="text/tailwindcss">@theme{--font-sans:Inter,system-ui,sans-serif;--font-mono:JetBrains Mono,monospace;}</style>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/codemirror.min.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/theme/dracula.min.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
-<style>
-  /* CodeMirror-like code blocks — Dracula, Java + XML */
-  pre {
-    background:#282a36 !important;
-    border:1px solid #44475a !important;
-    border-radius:12px !important;
-    padding:0 !important;
-    overflow:hidden !important;
-    position:relative !important;
-    margin:0 !important;
-  }
-  pre code {
-    display:block !important;
-    padding:1rem 1rem 1rem 3.8rem !important;
-    font-family:'JetBrains Mono', Consolas, monospace !important;
-    font-size:12.5px !important;
-    line-height:1.65 !important;
-    color:#f8f8f2 !important;
-    background:transparent !important;
-    overflow-x:auto !important;
-  }
-  pre::before {
-    content:"";
-    position:absolute;
-    left:0; top:0; bottom:0;
-    width:3.2rem;
-    background:#21222c;
-    border-right:1px solid #44475a;
-    z-index:0;
-  }
-  .cm-gutter {
-    position:absolute;
-    left:0; top:0; bottom:0;
-    width:3.2rem;
-    padding:1rem 0;
-    text-align:right;
-    font-family:'JetBrains Mono', monospace;
-    font-size:11.5px;
-    line-height:1.65;
-    color:#6272a4;
-    user-select:none;
-    z-index:1;
-    pointer-events:none;
-  }
-  .cm-gutter span { display:block; padding-right:0.75rem; }
-  .hljs { background:transparent !important; }
-  .hljs-keyword{color:#ff79c6 !important}
-  .hljs-string{color:#f1fa8c !important}
-  .hljs-comment{color:#6272a4 !important}
-  .hljs-type{color:#8be9fd !important}
-  .hljs-title{color:#50fa7b !important}
-  .hljs-number{color:#bd93f9 !important}
-  .hljs-tag{color:#f8f8f2 !important}
-  .hljs-name{color:#ff79c6 !important}
-  .hljs-attr{color:#50fa7b !important}
-  .hljs-attribute{color:#50fa7b !important}
-  .hljs-meta{color:#ff79c6 !important}
-  .hljs-meta-string{color:#f1fa8c !important}
-  .hljs-value{color:#f1fa8c !important}
-  .hljs-function .hljs-title{color:#50fa7b !important}
-  .hljs-params{color:#f8f8f2 !important}
-  .hljs-built_in{color:#8be9fd !important}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Home Hub — Sandbox Docs</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <style type="text/tailwindcss">
+    @theme {
+      --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+  </style>
+  <style>
+    pre {
+      background: #09090b !important;
+      border: 1px solid #27272a !important;
+      border-radius: 8px !important;
+      padding: 0 !important;
+      overflow: hidden !important;
+      position: relative !important;
+      margin: 0 !important;
+    }
+    pre code {
+      display: block !important;
+      padding: 1rem 1rem 1rem 3.8rem !important;
+      font-family: var(--font-mono) !important;
+      font-size: 13px !important;
+      line-height: 1.6 !important;
+      color: #fafafa !important;
+      background: transparent !important;
+      overflow-x: auto !important;
+    }
+    .cm-gutter {
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 3rem;
+      padding: 1rem 0;
+      text-align: right;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      line-height: 1.6;
+      color: #71717a;
+      background: #18181b;
+      border-right: 1px solid #27272a;
+      user-select: none;
+      z-index: 1;
+      pointer-events: none;
+    }
+    .cm-gutter span { display: block; padding-right: 0.6rem; }
+  </style>
 </head>
-<body class="bg-[#f8f9fb] text-zinc-800 antialiased">
-<header class="sticky top-0 z-50 bg-white/90 backdrop-blur border-b border-zinc-200">
-<div class="max-w-[1440px] mx-auto px-4 sm:px-6 py-2 flex items-center justify-between gap-4">
-<div class="flex items-center gap-3"><button id="menuBtn" class="lg:hidden p-2 rounded-xl border border-zinc-200 bg-white"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h16"/></svg></button><div class="w-8 h-8 rounded-xl text-sm bg-zinc-900 flex items-center justify-center text-white font-bold">H</div><div class="hidden sm:block"><p class="font-semibold leading-none">Home Hub</p><p class="text-[10px] text-zinc-500">Distribuidor a 7 labs</p></div></div>
-<a href="index.html" class="px-4 py-2 bg-white border border-zinc-200 rounded-full text-sm">← Dashboard</a>
-</div></header>
-<div id="overlay" class="fixed inset-0 bg-black/30 z-40 hidden lg:hidden"></div>
-<div class="max-w-[1440px] mx-auto px-4 sm:px-6 py-4 lg:py-6 grid grid-cols-1 lg:grid-cols-[240px_minmax(0,1fr)] gap-4 lg:gap-6">
-<aside id="sidebar" class="fixed lg:sticky top-0 lg:top-[53px] left-0 z-40 w-[240px] h-[100dvh] lg:h-[calc(100vh-53px)] bg-white lg:bg-transparent border-r lg:border-0 border-zinc-200 overflow-auto p-4 lg:p-0 -translate-x-full lg:translate-x-0 transition-transform duration-200"></aside>
-<main class="min-w-0 space-y-6">
-<section class="bg-white rounded-[24px] border border-zinc-200 p-6 sm:p-8">
-<h1 class="text-3xl font-semibold tracking-tight">HomeActivity — Hub</h1>
-<p class="mt-2 text-sm text-zinc-500">activity_home.xml · <code>ScrollView > LinearLayout</code> + 8 MaterialCardViews (1 intro + 7 labs). Cada card es un <code>setOnClickListener → Intent</code>.</p>
-<div class="mt-6 grid lg:grid-cols-[1.2fr_0.8fr] gap-6">
-<pre class="bg-zinc-900 text-zinc-100 rounded-2xl p-5 text-xs overflow-auto"><code class="language-java">public class HomeActivity extends AppCompatActivity {
-  protected void onCreate(Bundle b){
-    super.onCreate(b);
-    setContentView(R.layout.activity_home);
-    findViewById(R.id.cardInputs).setOnClickListener(v -> go(TextInputsActivity.class, "TextInputs"));
-    // ... 6 cards más
-  }
-  private void go(Class&lt;?&gt; cls, String label){
-    Toast.makeText(this, getString(R.string.achome_toast_opening, label), SHORT).show();
-    Log.d("SANDBOX_HOME", "Navegando a "+cls.getSimpleName());
-    startActivity(new Intent(this, cls));
-  }
+<body class="min-h-full flex flex-col font-sans bg-white text-zinc-950">
+
+  <!-- Header / Topbar (shadcn style) -->
+  <header class="sticky top-0 z-50 w-full border-b border-zinc-200 bg-white/80 backdrop-blur-md">
+    <div class="max-w-[1440px] mx-auto px-4 sm:px-6 h-14 flex items-center justify-between gap-4">
+      <div class="flex items-center gap-3">
+        <button id="menuBtn" class="lg:hidden p-2 rounded-md border border-zinc-200 text-zinc-700 hover:bg-zinc-100 transition-colors">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+        </button>
+        <a href="index.html" class="flex items-center gap-2 font-bold text-sm tracking-tight text-zinc-900">
+          <div class="w-6 h-6 rounded-md bg-zinc-900 text-white flex items-center justify-center text-xs">Sb</div>
+          <span>Sandbox <span class="text-zinc-400 font-normal">Docs</span></span>
+        </a>
+        <span class="text-zinc-300">/</span>
+        <span class="text-xs font-medium text-zinc-600 bg-zinc-100 px-2 py-0.5 rounded-full border border-zinc-200">Home Hub</span>
+      </div>
+
+      <div class="flex items-center gap-2">
+        <span class="hidden sm:inline-flex text-xs text-zinc-500 font-mono bg-zinc-100 px-2.5 py-1 rounded-md border border-zinc-200">HomeActivity.java</span>
+        <a href="labs.html" class="inline-flex items-center justify-center text-xs font-medium h-8 px-3 rounded-md border border-zinc-200 bg-white text-zinc-900 hover:bg-zinc-100 transition-colors">
+          Índice de Labs →
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <div id="overlay" class="fixed inset-0 bg-black/40 backdrop-blur-xs z-40 hidden lg:hidden"></div>
+
+  <!-- Layout Container -->
+  <div class="max-w-[1440px] mx-auto px-4 sm:px-6 py-6 grid grid-cols-1 lg:grid-cols-[240px_minmax(0,1fr)] gap-8 w-full flex-1">
+    <aside id="sidebar" class="fixed lg:sticky top-0 lg:top-20 left-0 z-40 w-[240px] h-[100dvh] lg:h-[calc(100vh-5rem)] bg-white lg:bg-transparent border-r lg:border-0 border-zinc-200 overflow-y-auto p-4 lg:p-0 -translate-x-full lg:translate-x-0 transition-transform duration-200"></aside>
+
+    <!-- Main Content -->
+    <main class="min-w-0 space-y-8 pb-16">
+      
+      <!-- Page Header -->
+      <div class="space-y-2 border-b border-zinc-200 pb-6">
+        <div class="flex items-center gap-2">
+          <span class="px-2 py-0.5 rounded-md text-[11px] font-semibold bg-zinc-100 text-zinc-700 border border-zinc-200">Módulo Hub</span>
+          <span class="text-xs text-zinc-400 font-mono">achome_ · Distribuidor a 10 Laboratorios</span>
+        </div>
+        <h1 class="text-3xl font-bold tracking-tight text-zinc-950">Home Hub (HomeActivity)</h1>
+        <p class="text-sm text-zinc-600 leading-relaxed max-w-3xl">
+          Panel de control y selector de módulos técnicos. Implementado mediante un contenedor <code class="text-zinc-800">ScrollView</code> con tarjetas táctiles <code class="text-zinc-800">MaterialCardView</code> que despachan Intents explícitos hacia cada Activity independiente.
+        </p>
+      </div>
+
+      <!-- Preview Image -->
+      <figure class="rounded-xl border border-zinc-200 bg-zinc-50/50 p-3 space-y-2">
+        <div class="flex items-center justify-between text-xs text-zinc-500">
+          <span class="font-medium text-zinc-700">Home Hub en Dispositivo</span>
+          <span class="font-mono text-[11px]">home-hub.png</span>
+        </div>
+        <div class="relative rounded-lg border border-zinc-200 overflow-hidden bg-zinc-900 min-h-[220px] flex items-center justify-center">
+          <img src="assets/images/home-hub.png" alt="Home Hub" class="w-full h-auto object-contain max-h-[300px]" onerror="this.src='assets/images/home-hub.jpg'">
+        </div>
+        <figcaption class="text-[11px] text-zinc-500">Malla de tarjetas interactivas con elevación 2dp y efecto ripple seleccionable.</figcaption>
+      </figure>
+
+      <!-- Segmented Tabs: Java vs Kotlin -->
+      <div class="space-y-4">
+        <div class="flex items-center justify-between">
+          <h2 class="text-lg font-semibold tracking-tight text-zinc-900">Enrutamiento Centralizado (Intent Dispatcher)</h2>
+          <div class="inline-flex p-1 rounded-lg bg-zinc-100 border border-zinc-200 text-xs">
+            <button onclick="switchTab('java-home', 'kotlin-home', this)" class="px-3 py-1 rounded-md font-medium transition-all bg-white text-zinc-900 shadow-xs">Java 11</button>
+            <button onclick="switchTab('kotlin-home', 'java-home', this)" class="px-3 py-1 rounded-md font-medium transition-all text-zinc-600 hover:text-zinc-900">Kotlin</button>
+          </div>
+        </div>
+
+        <div id="java-home" class="tab-content space-y-4">
+          <div class="rounded-xl border border-zinc-200 bg-white p-5 space-y-3">
+            <pre><code>public class HomeActivity extends AppCompatActivity {
+
+    private static final String TAG = "SANDBOX_HOME";
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_home);
+
+        findViewById(R.id.cardInputs).setOnClickListener(v -> navigateTo(TextInputsActivity.class, "TextInputs"));
+        findViewById(R.id.cardDateTime).setOnClickListener(v -> navigateTo(DateTimeActivity.class, "DateTime"));
+        findViewById(R.id.cardButtons).setOnClickListener(v -> navigateTo(ButtonsActivity.class, "Buttons"));
+        findViewById(R.id.cardSelection).setOnClickListener(v -> navigateTo(SelectionActivity.class, "Selection"));
+        findViewById(R.id.cardFeedback).setOnClickListener(v -> navigateTo(FeedbackActivity.class, "Feedback"));
+        findViewById(R.id.cardWebView).setOnClickListener(v -> navigateTo(WebViewActivity.class, "WebView"));
+        findViewById(R.id.cardDialogs).setOnClickListener(v -> navigateTo(DialogToastActivity.class, "Dialogs"));
+        findViewById(R.id.cardLayouts).setOnClickListener(v -> navigateTo(LayoutsActivity.class, "Layouts"));
+        findViewById(R.id.cardScroll).setOnClickListener(v -> navigateTo(SimpleScrollListActivity.class, "ScrollView"));
+        findViewById(R.id.cardRecycler).setOnClickListener(v -> navigateTo(ContactRecyclerActivity.class, "RecyclerView"));
+    }
+
+    private void navigateTo(Class&lt;?&gt; targetActivity, String label) {
+        Toast.makeText(this, getString(R.string.achome_toast_opening, label), Toast.LENGTH_SHORT).show();
+        Log.d(TAG, "Navegando a: " + targetActivity.getSimpleName());
+        startActivity(new Intent(this, targetActivity));
+    }
 }</code></pre>
-<div class="rounded-2xl border border-zinc-200 p-5">
-<p class="font-medium text-sm">Por qué CardView y no Button</p><p class="mt-2 text-sm text-zinc-600">Card da superficie Material con elevación y ripple: <code>app:cardElevation="2dp" android:foreground="?attr/selectableItemBackground"</code>. Más clicable que lista. Título <code>achome_card_*</code> + descripción <code>achome_desc_*</code> cuentan qué inputType/API se practica.</p>
-<p class="mt-3 text-xs text-zinc-500">Card intro superior <code>achome_arch_title/desc</code> explica patrón Hub: <em>cada botón hace startActivity a Activity aislada</em>.</p>
-</div>
-</div>
-<div class="mt-6 overflow-x-auto -mx-6 px-6">
-<table class="min-w-[560px] w-full text-xs border-collapse">
-<thead class="text-zinc-500"><tr><th class="text-left py-2 border-b">Card id</th><th class="text-left border-b">Activity</th><th class="text-left border-b">Strings</th></tr></thead>
-<tbody class="divide-y divide-zinc-100">
-<tr><td class="py-2 font-mono">cardInputs</td><td>.sandbox.TextInputsActivity</td><td class="font-mono">achome_card_inputs / achome_desc_inputs</td></tr>
-<tr><td class="py-2 font-mono">cardDateTime</td><td>.sandbox.DateTimeActivity</td><td class="font-mono">achome_card_datetime</td></tr>
-<tr><td class="py-2 font-mono">cardButtons</td><td>.sandbox.ButtonsActivity</td><td class="font-mono">achome_card_buttons</td></tr>
-<tr><td class="py-2 font-mono">cardSelection</td><td>.sandbox.SelectionActivity</td><td class="font-mono">achome_card_selection</td></tr>
-<tr><td class="py-2 font-mono">cardFeedback</td><td>.sandbox.FeedbackActivity</td><td class="font-mono">achome_card_feedback</td></tr>
-<tr><td class="py-2 font-mono">cardWebView</td><td>.sandbox.WebViewActivity</td><td class="font-mono">achome_card_webview</td></tr>
-<tr><td class="py-2 font-mono">cardDialogs</td><td>.sandbox.DialogToastActivity</td><td class="font-mono">achome_card_dialogs</td></tr>
-</tbody>
-</table>
-</div>
-<div class="mt-4 rounded-xl bg-violet-50 border border-violet-200 p-4 text-sm">
-<p class="font-medium">Cómo añadir tu propio Lab 8</p><p class="text-zinc-700 mt-1">1) Crea <code>activity_milab.xml</code> + <code>MilabActivity.java</code>. 2) Declara en <code>AndroidManifest.xml</code>. 3) Añade strings <code>achome_card_milab</code> en 4 locales. 4) Añade <code>MaterialCardView id=cardMilab</code> en <code>activity_home.xml</code> + listener en <code>HomeActivity.java</code>.</p>
-</div>
-<figure class="mt-8 group rounded-2xl border-2 border-dashed border-zinc-300 bg-zinc-50 overflow-hidden">
-  <div class="aspect-[16/10] flex flex-col items-center justify-center p-8 text-center">
-    <div class="w-12 h-12 rounded-xl bg-white border border-zinc-200 flex items-center justify-center">📷</div>
-    <p class="mt-3 font-medium text-sm">Home Hub — 7 cards</p>
-    <p class="text-xs text-zinc-500">Guarda como <code class="bg-white border px-1 rounded">assets/images/home-hub.png</code></p>
+          </div>
+        </div>
+
+        <div id="kotlin-home" class="tab-content hidden space-y-4">
+          <div class="rounded-xl border border-zinc-200 bg-white p-5 space-y-3">
+            <pre><code>class HomeActivity : AppCompatActivity() {
+
+    private lateinit var binding: ActivityHomeBinding
+    private val TAG = "SANDBOX_HOME"
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        binding = ActivityHomeBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        binding.cardInputs.setOnClickListener { navigateTo(TextInputsActivity::class.java, "TextInputs") }
+        binding.cardDateTime.setOnClickListener { navigateTo(DateTimeActivity::class.java, "DateTime") }
+        binding.cardButtons.setOnClickListener { navigateTo(ButtonsActivity::class.java, "Buttons") }
+        binding.cardSelection.setOnClickListener { navigateTo(SelectionActivity::class.java, "Selection") }
+        binding.cardFeedback.setOnClickListener { navigateTo(FeedbackActivity::class.java, "Feedback") }
+        binding.cardWebView.setOnClickListener { navigateTo(WebViewActivity::class.java, "WebView") }
+        binding.cardDialogs.setOnClickListener { navigateTo(DialogToastActivity::class.java, "Dialogs") }
+        binding.cardLayouts.setOnClickListener { navigateTo(LayoutsActivity::class.java, "Layouts") }
+        binding.cardScroll.setOnClickListener { navigateTo(SimpleScrollListActivity::class.java, "ScrollView") }
+        binding.cardRecycler.setOnClickListener { navigateTo(ContactRecyclerActivity::class.java, "RecyclerView") }
+    }
+
+    private fun navigateTo(targetActivity: Class&lt;*&gt;, label: String) {
+        Toast.makeText(this, getString(R.string.achome_toast_opening, label), Toast.LENGTH_SHORT).show()
+        Log.d(TAG, "Navegando a: ${targetActivity.simpleName}")
+        startActivity(Intent(this, targetActivity))
+    }
+}</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <!-- Module Mapping Table -->
+      <div class="rounded-xl border border-zinc-200 bg-white p-6 space-y-4">
+        <h2 class="text-sm font-semibold tracking-tight text-zinc-900">Mapa de Componentes de Tarjetas</h2>
+        <div class="overflow-x-auto">
+          <table class="w-full text-xs border-collapse">
+            <thead>
+              <tr class="border-b border-zinc-200 text-zinc-500 text-left">
+                <th class="py-2.5 font-medium">ID en Layout (Card)</th>
+                <th class="py-2.5 font-medium">Clase Destino</th>
+                <th class="py-2.5 font-medium">Prefijo String i18n</th>
+                <th class="py-2.5 font-medium">Temática Principal</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-zinc-100 text-zinc-700 font-mono text-[12px]">
+              <tr>
+                <td class="py-2 text-zinc-900 font-semibold">cardInputs</td>
+                <td>TextInputsActivity</td>
+                <td>achome_card_inputs</td>
+                <td class="font-sans text-zinc-600">6 inputTypes + TextWatcher</td>
+              </tr>
+              <tr>
+                <td class="py-2 text-zinc-900 font-semibold">cardDateTime</td>
+                <td>DateTimeActivity</td>
+                <td>achome_card_datetime</td>
+                <td class="font-sans text-zinc-600">DatePicker + TimePicker</td>
+              </tr>
+              <tr>
+                <td class="py-2 text-zinc-900 font-semibold">cardButtons</td>
+                <td>ButtonsActivity</td>
+                <td>achome_card_buttons</td>
+                <td class="font-sans text-zinc-600">MaterialButton + Debounce</td>
+              </tr>
+              <tr>
+                <td class="py-2 text-zinc-900 font-semibold">cardSelection</td>
+                <td>SelectionActivity</td>
+                <td>achome_card_selection</td>
+                <td class="font-sans text-zinc-600">CheckBox + Radio + Switch</td>
+              </tr>
+              <tr>
+                <td class="py-2 text-zinc-900 font-semibold">cardFeedback</td>
+                <td>FeedbackActivity</td>
+                <td>achome_card_feedback</td>
+                <td class="font-sans text-zinc-600">Progress + Rating + Spinner</td>
+              </tr>
+              <tr>
+                <td class="py-2 text-zinc-900 font-semibold">cardWebView</td>
+                <td>WebViewActivity</td>
+                <td>achome_card_webview</td>
+                <td class="font-sans text-zinc-600">Navegación web integrada</td>
+              </tr>
+              <tr>
+                <td class="py-2 text-zinc-900 font-semibold">cardDialogs</td>
+                <td>DialogToastActivity</td>
+                <td>achome_card_dialogs</td>
+                <td class="font-sans text-zinc-600">AlertDialog + Toast + Logger</td>
+              </tr>
+              <tr>
+                <td class="py-2 text-zinc-900 font-semibold">cardLayouts</td>
+                <td>LayoutsActivity</td>
+                <td>achome_card_layouts</td>
+                <td class="font-sans text-zinc-600">Constraint vs Linear vs Table</td>
+              </tr>
+              <tr>
+                <td class="py-2 text-zinc-900 font-semibold">cardScroll</td>
+                <td>SimpleScrollListActivity</td>
+                <td>achome_card_scroll</td>
+                <td class="font-sans text-zinc-600">Lista simple con ScrollView</td>
+              </tr>
+              <tr>
+                <td class="py-2 text-zinc-900 font-semibold">cardRecycler</td>
+                <td>ContactRecyclerActivity</td>
+                <td>achome_card_recycler</td>
+                <td class="font-sans text-zinc-600">RecyclerView virtualizado</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Navigation Footer -->
+      <div class="flex items-center justify-between pt-6 border-t border-zinc-200">
+        <a href="auth.html" class="inline-flex items-center gap-2 text-xs font-medium text-zinc-600 hover:text-zinc-900 transition-colors">
+          ← Flujo Auth
+        </a>
+        <a href="labs.html" class="inline-flex items-center gap-2 text-xs font-medium text-zinc-900 hover:text-zinc-700 transition-colors">
+          Índice de Laboratorios →
+        </a>
+      </div>
+
+    </main>
   </div>
-  <img src="assets/images/home-hub.png" alt="Home" class="hidden w-full object-cover" onload="this.parentElement.classList.add('loaded'); this.previousElementSibling.style.display='none'" />
-  <figcaption class="px-4 py-2 bg-white border-t text-xs text-zinc-500">Fig. — Pixel 7 HomeActivity, card intro + 7 labs con descripciones achome_desc_*</figcaption>
-</figure>
-</section>
-<section class="bg-white rounded-[24px] border border-zinc-200 p-6 sm:p-8">
-<h2 class="text-xl font-semibold tracking-tight">Responsive del Home (clase real)</h2>
-<p class="mt-2 text-sm text-zinc-500">Aunque es ScrollView vertical, el layout no usa widths fijas. Cards <code>match_parent</code> + padding 16dp se adaptan a móvil/tablet. Sin breakpoint: es lista vertical que funciona de 320dp a 840dp.</p>
-<div class="mt-4 grid md:grid-cols-3 gap-4">
-<div class="rounded-2xl border border-zinc-200 p-5 text-sm"><p class="font-medium">320dp (móvil pequeño)</p><p class="text-zinc-600">Cards a ancho completo, títulos en 2 líneas, ripple ocupa todo.</p></div>
-<div class="rounded-2xl border border-zinc-200 p-5 text-sm"><p class="font-medium">600dp (tablet)</p><p class="text-zinc-600">Mismo layout, más padding lateral. Si quisieras grid 2 cols, cambia a <code>GridLayout</code> con <code>spanCount 2</code>.</p></div>
-<div class="rounded-2xl border border-zinc-200 p-5 text-sm"><p class="font-medium">Tip</p><p class="text-zinc-600"><code>ScrollView</code> evita <code>adjustResize</code> aquí porque no hay EditText.</p></div>
-</div>
-</section>
-</main>
-</div>
-<script src="assets/nav.js"></script>
+
+  <script src="assets/nav.js"></script>
 </body>
 </html>

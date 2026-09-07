@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
         MaterialButton btnLogin = findViewById(R.id.btnLogin);
 
         String saved = Prefs.getUser(this);
-        if (!saved.isEmpty()) etEmail.setText(saved);
+        if (!saved.isEmpty()) { etEmail.setText(saved); }
 
         btnLogin.setOnClickListener(v -> attemptLogin());
         findViewById(R.id.tvGoRegister).setOnClickListener(v -> {

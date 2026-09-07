@@ -1,22 +1,37 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" class="h-full bg-white text-zinc-950 antialiased">
 
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Lab 2 · Date/Time — Sandbox</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <title>Lab 2 · Date & Time — Sandbox Android</title>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-    <style type="text/tailwindcss">@theme{--font-sans:Inter,system-ui,sans-serif;--font-mono:JetBrains Mono,monospace;}</style>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/codemirror.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/theme/dracula.min.css">
+    <style type="text/tailwindcss">
+      @theme {
+      --font-sans: 'Plus Jakarta Sans', Inter, system-ui, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+  </style>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/kotlin.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/java.min.js"></script>
     <style>
-      /* CodeMirror-like code blocks — Dracula, Java + XML */
+      @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+
+      body {
+        font-family: 'Plus Jakarta Sans', sans-serif;
+      }
+
+      code,
       pre {
-        background: #282a36 !important;
-        border: 1px solid #44475a !important;
-        border-radius: 12px !important;
+        font-family: 'JetBrains Mono', monospace;
+      }
+
+      pre {
+        background: #09090b !important;
+        border: 1px solid #27272a !important;
+        border-radius: 0.75rem !important;
         padding: 0 !important;
         overflow: hidden !important;
         position: relative !important;
@@ -25,25 +40,12 @@
 
       pre code {
         display: block !important;
-        padding: 1rem 1rem 1rem 3.8rem !important;
-        font-family: 'JetBrains Mono', Consolas, monospace !important;
+        padding: 1rem 1rem 1rem 3.6rem !important;
         font-size: 12.5px !important;
         line-height: 1.65 !important;
-        color: #f8f8f2 !important;
+        color: #f4f4f5 !important;
         background: transparent !important;
         overflow-x: auto !important;
-      }
-
-      pre::before {
-        content: "";
-        position: absolute;
-        left: 0;
-        top: 0;
-        bottom: 0;
-        width: 3.2rem;
-        background: #21222c;
-        border-right: 1px solid #44475a;
-        z-index: 0;
       }
 
       .cm-gutter {
@@ -51,13 +53,14 @@
         left: 0;
         top: 0;
         bottom: 0;
-        width: 3.2rem;
+        width: 3rem;
         padding: 1rem 0;
         text-align: right;
-        font-family: 'JetBrains Mono', monospace;
-        font-size: 11.5px;
+        font-size: 11px;
         line-height: 1.65;
-        color: #6272a4;
+        color: #71717a;
+        background: #18181b;
+        border-right: 1px solid #27272a;
         user-select: none;
         z-index: 1;
         pointer-events: none;
@@ -65,210 +68,576 @@
 
       .cm-gutter span {
         display: block;
-        padding-right: 0.75rem;
-      }
-
-      .hljs {
-        background: transparent !important;
-      }
-
-      .hljs-keyword {
-        color: #ff79c6 !important
-      }
-
-      .hljs-string {
-        color: #f1fa8c !important
-      }
-
-      .hljs-comment {
-        color: #6272a4 !important
-      }
-
-      .hljs-type {
-        color: #8be9fd !important
-      }
-
-      .hljs-title {
-        color: #50fa7b !important
-      }
-
-      .hljs-number {
-        color: #bd93f9 !important
-      }
-
-      .hljs-tag {
-        color: #f8f8f2 !important
-      }
-
-      .hljs-name {
-        color: #ff79c6 !important
-      }
-
-      .hljs-attr {
-        color: #50fa7b !important
-      }
-
-      .hljs-attribute {
-        color: #50fa7b !important
-      }
-
-      .hljs-meta {
-        color: #ff79c6 !important
-      }
-
-      .hljs-meta-string {
-        color: #f1fa8c !important
-      }
-
-      .hljs-value {
-        color: #f1fa8c !important
-      }
-
-      .hljs-function .hljs-title {
-        color: #50fa7b !important
-      }
-
-      .hljs-params {
-        color: #f8f8f2 !important
-      }
-
-      .hljs-built_in {
-        color: #8be9fd !important
+        padding-right: 0.6rem;
       }
     </style>
   </head>
 
-  <body class="bg-[#f8f9fb] text-zinc-800 antialiased">
-    <header class="sticky top-0 z-50 bg-white/90 backdrop-blur border-b border-zinc-200">
-      <div class="max-w-[1440px] mx-auto px-4 sm:px-6 py-2 flex items-center justify-between">
-        <div class="flex items-center gap-3"><button id="menuBtn" class="lg:hidden p-2 rounded-xl border border-zinc-200 bg-white"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"
-              stroke="currentColor" stroke-width="2">
+  <body class="min-h-full flex flex-col bg-white">
+
+    <!-- Header Superior shadcn -->
+    <header class="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-zinc-200">
+      <div class="max-w-[1440px] mx-auto px-4 sm:px-6 h-14 flex items-center justify-between gap-4">
+        <div class="flex items-center gap-3">
+          <button id="menuBtn" class="lg:hidden p-1.5 rounded-md text-zinc-600 hover:bg-zinc-100 transition-colors" aria-label="Abrir navegación">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <path d="M4 6h16M4 12h16M4 18h16" />
-            </svg></button>
-          <div class="w-8 h-8 rounded-xl text-sm bg-emerald-600 flex items-center justify-center text-white font-bold">2</div>
-          <div class="hidden sm:block">
-            <p class="font-semibold leading-none">Lab 2 · Date & Time</p>
-            <p class="text-[10px] text-zinc-500">acdati_ · Dialogs sistema</p>
+            </svg>
+          </button>
+          <div class="flex items-center gap-2">
+            <div class="w-6 h-6 rounded-md bg-zinc-900 text-white flex items-center justify-center font-bold text-xs shadow-xs">2</div>
+            <span class="font-semibold text-sm tracking-tight text-zinc-900">Lab 2</span>
+            <span class="text-zinc-300">/</span>
+            <span class="text-xs text-zinc-500 font-medium">Date & Time Pickers</span>
           </div>
         </div>
-        <a href="labs.html" class="px-4 py-2 bg-white border border-zinc-200 rounded-full text-sm">← Labs</a>
+
+        <div class="flex items-center gap-2">
+          <div class="hidden sm:flex items-center gap-1 text-xs font-mono text-zinc-500">
+            <span class="px-2 py-0.5 rounded-md bg-zinc-100 text-zinc-800 border border-zinc-200">activity_date_time.xml</span>
+            <span class="px-2 py-0.5 rounded-md bg-zinc-100 text-zinc-800 border border-zinc-200">DateTimeActivity.java</span>
+          </div>
+          <a href="labs.html" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-md text-xs font-medium border border-zinc-200 hover:bg-zinc-50 transition-colors">
+            <span>← Labs</span>
+          </a>
+        </div>
       </div>
     </header>
-    <div id="overlay" class="fixed inset-0 bg-black/30 z-40 hidden lg:hidden"></div>
-    <div class="max-w-[1440px] mx-auto px-4 sm:px-6 py-4 lg:py-6 grid grid-cols-1 lg:grid-cols-[240px_minmax(0,1fr)] gap-4 lg:gap-6">
+
+    <!-- Contenedor Principal Layout -->
+    <div id="overlay" class="fixed inset-0 bg-black/40 z-40 hidden lg:hidden"></div>
+    <div class="max-w-[1440px] mx-auto px-4 sm:px-6 py-6 grid grid-cols-1 lg:grid-cols-[240px_minmax(0,1fr)] gap-8 w-full">
+
+      <!-- Sidebar -->
       <aside id="sidebar"
-        class="fixed lg:sticky top-0 lg:top-[53px] left-0 z-40 w-[240px] h-[100dvh] lg:h-[calc(100vh-53px)] bg-white lg:bg-transparent border-r lg:border-0 border-zinc-200 overflow-auto p-4 lg:p-0 -translate-x-full lg:translate-x-0 transition-transform duration-200">
+        class="fixed lg:sticky top-0 lg:top-20 left-0 z-40 w-[240px] h-[100dvh] lg:h-[calc(100vh-5rem)] bg-white lg:bg-transparent border-r lg:border-0 border-zinc-200 overflow-y-auto p-4 lg:p-0 -translate-x-full lg:translate-x-0 transition-transform duration-200">
       </aside>
-      <main class="min-w-0 space-y-6">
-        <section class="bg-white rounded-[24px] border border-zinc-200 p-6 sm:p-8">
-          <h1 class="text-3xl font-semibold tracking-tight">Lab 2 — Date & Time Pickers</h1>
-          <p class="mt-2 text-sm text-zinc-500">DatePickerDialog y TimePickerDialog → Calendar → Formateo → Validación isNotFuture.</p>
-          <!-- BLOQUES DE CAPTURA EN ROJO (GUÍA TEMPORAL PARA BORRAR TRAS AGREGAR FOTOS) -->
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-            <!-- Foto 1 -->
-            <div class="rounded-2xl border-2 border-red-500 bg-red-50/90 p-5 text-red-950 flex flex-col justify-between">
-              <div>
-                <div class="flex items-center justify-between gap-1 pb-2 border-b border-red-200">
-                  <span class="px-2 py-0.5 rounded bg-red-600 text-white font-bold text-[11px] uppercase tracking-wider">🔴 Foto 1: Estado Inicial</span>
-                  <span class="text-[10px] font-bold text-red-600 uppercase bg-red-100 px-2 py-0.5 rounded border border-red-300">Borrar al poner foto</span>
+
+      <!-- Contenido Principal -->
+      <main class="min-w-0 space-y-8">
+
+        <!-- Encabezado del Lab -->
+        <section class="space-y-3">
+          <div class="inline-flex items-center gap-2 px-2.5 py-1 rounded-full text-xs font-medium bg-zinc-100 text-zinc-800 border border-zinc-200">
+            <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+            Laboratorio 2 · Diálogos Modales de Fecha y Hora
+          </div>
+          <h1 class="text-3xl font-extrabold tracking-tight text-zinc-950">
+            DatePickerDialog, TimePickerDialog & Validación No Futura
+          </h1>
+          <p class="text-sm text-zinc-600 leading-relaxed max-w-3xl">
+            Aprende a integrar los selectores modales estándar de Android, almacenar el estado en un objeto <code class="font-mono text-zinc-800 bg-zinc-100 px-1 py-0.5 rounded">Calendar</code>,
+            formatear la salida a cadenas legibles y validar reglas temporales como <code class="font-mono text-zinc-800 bg-zinc-100 px-1 py-0.5 rounded">isNotFuture</code> (ideal para fechas de
+            nacimiento o eventos pasados).
+          </p>
+        </section>
+
+        <!-- Capturas de Pantalla (Completas y Separadas) -->
+        <section class="space-y-4">
+          <div class="flex items-center justify-between">
+            <div>
+              <h2 class="text-base font-bold text-zinc-950">1. Capturas en Emulador</h2>
+              <p class="text-xs text-zinc-500">Haz clic sobre cualquier captura para abrirla en zoom interactivo</p>
+            </div>
+            <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-zinc-100 text-[11px] text-zinc-600 font-mono border border-zinc-200">
+              🔍 Clic para ampliar
+            </span>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <figure class="group rounded-xl border border-zinc-200 bg-white overflow-hidden shadow-xs hover:shadow-md hover:border-zinc-300 transition-all flex flex-col cursor-zoom-in">
+              <div class="h-64 sm:h-72 w-full bg-zinc-50/80 flex items-center justify-center p-3 relative">
+                <div class="img-placeholder flex flex-col items-center justify-center p-4 text-center">
+                  <div class="w-8 h-8 rounded-lg bg-white border border-zinc-200 flex items-center justify-center text-sm text-zinc-600 shadow-xs">📷</div>
+                  <p class="mt-2 font-medium text-xs text-zinc-700">Estado Inicial</p>
+                  <p class="text-[11px] text-zinc-400 font-mono">lab-datetime-preview.png</p>
                 </div>
-                <div class="mt-3 space-y-1.5 text-xs">
-                  <p><strong class="text-red-900">📄 Vista XML:</strong> <code
-                      class="text-red-700 bg-white px-1.5 py-0.5 rounded border border-red-200 font-mono font-bold">res/layout/activity_date_time.xml</code></p>
-                  <p><strong class="text-red-900">☕ Clase:</strong> <code class="text-red-700 bg-white px-1.5 py-0.5 rounded border border-red-200 font-mono font-bold">DateTimeActivity.java</code></p>
-                  <p><strong class="text-red-900">🎯 Qué capturar:</strong> Pantalla inicial en emulador con los TextViews mostrando "Fecha: no seleccionada" y "Hora: no seleccionada".</p>
-                  <p><strong class="text-red-900">💾 Guardar en:</strong> <code
-                      class="text-red-800 bg-white px-1.5 py-0.5 rounded border border-red-200 font-mono font-bold">assets/images/lab-datetime-preview.png</code></p>
-                </div>
+                <img src="assets/images/lab-datetime-preview.png" alt="Design DateTime" class="hidden max-h-full max-w-full object-contain rounded drop-shadow-xs"
+                  onerror="this.src='assets/images/lab-datetime-preview.jpg'" />
               </div>
-              <figure class="group rounded-xl border-2 border-dashed border-red-400 bg-white overflow-hidden mt-4">
-                <div class="aspect-[16/10] flex flex-col items-center justify-center p-4 text-center">
-                  <div class="w-8 h-8 rounded-lg bg-red-100 border border-red-300 flex items-center justify-center text-red-600">📷</div>
-                  <p class="mt-1 font-bold text-xs text-red-800">lab-datetime-preview.png</p>
+              <figcaption class="px-3.5 py-2.5 bg-white border-t border-zinc-100 text-xs font-medium text-zinc-700 flex items-center justify-between">
+                <span>Fig. 1 — Estado inicial ("Fecha: no seleccionada")</span>
+                <span class="text-[11px] text-zinc-400 font-mono">Estado Inicial</span>
+              </figcaption>
+            </figure>
+
+            <figure class="group rounded-xl border border-zinc-200 bg-white overflow-hidden shadow-xs hover:shadow-md hover:border-zinc-300 transition-all flex flex-col cursor-zoom-in">
+              <div class="h-64 sm:h-72 w-full bg-zinc-50/80 flex items-center justify-center p-3 relative">
+                <div class="img-placeholder flex flex-col items-center justify-center p-4 text-center">
+                  <div class="w-8 h-8 rounded-lg bg-white border border-zinc-200 flex items-center justify-center text-sm text-zinc-600 shadow-xs">📷</div>
+                  <p class="mt-2 font-medium text-xs text-zinc-700">DatePickerDialog</p>
+                  <p class="text-[11px] text-zinc-400 font-mono">lab-datetime-dialog.png</p>
                 </div>
-                <img src="assets/images/lab-datetime-preview.png" alt="Design DateTime" class="hidden w-full object-cover"
-                  onload="this.parentElement.classList.add('loaded'); this.previousElementSibling.style.display='none'" />
-                <figcaption class="px-3 py-1.5 bg-red-100/60 border-t border-red-200 text-[11px] text-red-800 font-medium">Fig. 1 — Estado inicial sin selección</figcaption>
-              </figure>
+                <img src="assets/images/lab-datetime-dialog.png" alt="DatePickerDialog" class="hidden max-h-full max-w-full object-contain rounded drop-shadow-xs"
+                  onerror="this.src='assets/images/lab-datetime-dialog.jpg'" />
+              </div>
+              <figcaption class="px-3.5 py-2.5 bg-white border-t border-zinc-100 text-xs font-medium text-zinc-700 flex items-center justify-between">
+                <span>Fig. 2 — DatePickerDialog modal desplegado</span>
+                <span class="text-[11px] text-indigo-600 font-mono">Dialog</span>
+              </figcaption>
+            </figure>
+
+            <figure class="group rounded-xl border border-zinc-200 bg-white overflow-hidden shadow-xs hover:shadow-md hover:border-zinc-300 transition-all flex flex-col cursor-zoom-in">
+              <div class="h-64 sm:h-72 w-full bg-zinc-50/80 flex items-center justify-center p-3 relative">
+                <div class="img-placeholder flex flex-col items-center justify-center p-4 text-center">
+                  <div class="w-8 h-8 rounded-lg bg-white border border-zinc-200 flex items-center justify-center text-sm text-zinc-600 shadow-xs">📷</div>
+                  <p class="mt-2 font-medium text-xs text-zinc-700">DatePickerDialog</p>
+                  <p class="text-[11px] text-zinc-400 font-mono">lab-datetime-preview_live.gif</p>
+                </div>
+                <img src="assets/images/lab-datetime-preview_live.gif" alt="DatePickerDialog" class="hidden mobile-gif max-h-full max-w-full object-contain rounded drop-shadow-xs"
+                  onerror="this.src='assets/images/lab-datetime-preview_live.gif'" />
+              </div>
+              <figcaption class="px-3.5 py-2.5 bg-white border-t border-zinc-100 text-xs font-medium text-zinc-700 flex items-center justify-between">
+                <span>Fig. 3 — DatePickerDialog live</span>
+                <span class="text-[11px] text-indigo-600 font-mono">Dialog</span>
+              </figcaption>
+            </figure>
+          </div>
+        </section>
+
+        <!-- Tabla de Componentes y Funciones -->
+        <section class="space-y-4">
+          <div class="flex items-center justify-between">
+            <h2 class="text-lg font-bold text-zinc-950">2. Componentes y Diálogos Clave</h2>
+            <span class="text-xs font-mono text-zinc-400">android.app.*</span>
+          </div>
+
+          <div class="overflow-x-auto rounded-xl border border-zinc-200 shadow-2xs">
+            <table class="w-full text-left text-xs border-collapse">
+              <thead class="bg-zinc-50 border-b border-zinc-200 text-zinc-700 font-semibold">
+                <tr>
+                  <th class="py-2.5 px-4">Componente / ID</th>
+                  <th>Tipo / Diálogo</th>
+                  <th>Propósito</th>
+                  <th>Validación / Regla</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-zinc-200 text-zinc-600 bg-white">
+                <tr>
+                  <td class="py-2.5 px-4 font-mono font-bold text-zinc-900">btnPickDate · tvDate</td>
+                  <td class="font-mono text-zinc-600">DatePickerDialog</td>
+                  <td>Selector modal de calendario (año, mes 0-index, día)</td>
+                  <td>Requerido antes de validar</td>
+                </tr>
+                <tr>
+                  <td class="py-2.5 px-4 font-mono font-bold text-zinc-900">btnPickTime · tvTime</td>
+                  <td class="font-mono text-zinc-600">TimePickerDialog</td>
+                  <td>Selector modal de reloj en formato 24 horas (HH:mm)</td>
+                  <td>Opcional / Informativo</td>
+                </tr>
+                <tr>
+                  <td class="py-2.5 px-4 font-mono font-bold text-zinc-900">btnValidateDate</td>
+                  <td class="font-mono text-zinc-600">ValidationUtils</td>
+                  <td>Verifica que la fecha seleccionada no sea futura</td>
+                  <td><code class="font-mono text-zinc-800">isNotFuture()</code> (millis ≤ now)</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- Selector de Código (Layout XML, Java 11 y Kotlin + ViewBinding) -->
+        <section class="space-y-4">
+          <h2 class="text-lg font-bold text-zinc-950">3. Código Fuente del Layout XML y Controladores</h2>
+
+          <div id="codeTabDateTime" class="space-y-3">
+            <div class="flex items-center justify-between flex-wrap gap-2">
+              <!-- Segmented Control de 3 Pestañas -->
+              <div class="inline-flex p-1 bg-zinc-100 rounded-lg border border-zinc-200 text-xs">
+                <button type="button" class="tab-btn px-3 py-1.5 rounded-md bg-white text-zinc-900 font-semibold shadow-xs transition-all" data-tab="xml" onclick="switchTab('codeTabDateTime', 'xml')">
+                  📐 Layout XML (activity_date_time.xml)
+                </button>
+                <button type="button" class="tab-btn px-3 py-1.5 rounded-md text-zinc-500 hover:text-zinc-900 transition-all" data-tab="java" onclick="switchTab('codeTabDateTime', 'java')">
+                  ☕ Java 11
+                </button>
+                <button type="button" class="tab-btn px-3 py-1.5 rounded-md text-zinc-500 hover:text-zinc-900 transition-all" data-tab="kotlin" onclick="switchTab('codeTabDateTime', 'kotlin')">
+                  ⚡ Kotlin + ViewBinding
+                </button>
+              </div>
+              <span class="text-[11px] text-zinc-400 font-mono">res/layout & src/main/java</span>
             </div>
 
-            <!-- Foto 2 -->
-            <div class="rounded-2xl border-2 border-red-500 bg-red-50/90 p-5 text-red-950 flex flex-col justify-between">
-              <div>
-                <div class="flex items-center justify-between gap-1 pb-2 border-b border-red-200">
-                  <span class="px-2 py-0.5 rounded bg-red-600 text-white font-bold text-[11px] uppercase tracking-wider">🔴 Foto 2: Dialog Abierto</span>
-                  <span class="text-[10px] font-bold text-red-600 uppercase bg-red-100 px-2 py-0.5 rounded border border-red-300">Borrar al poner foto</span>
-                </div>
-                <div class="mt-3 space-y-1.5 text-xs">
-                  <p><strong class="text-red-900">📄 Vista XML:</strong> <code
-                      class="text-red-700 bg-white px-1.5 py-0.5 rounded border border-red-200 font-mono font-bold">activity_date_time.xml</code></p>
-                  <p><strong class="text-red-900">☕ Clase:</strong> <code class="text-red-700 bg-white px-1.5 py-0.5 rounded border border-red-200 font-mono font-bold">DateTimeActivity.java</code></p>
-                  <p><strong class="text-red-900">🎯 Qué capturar:</strong> Pulsar "Seleccionar fecha" para que el <code>DatePickerDialog</code> del sistema se despliegue en primer plano.</p>
-                  <p><strong class="text-red-900">💾 Guardar en:</strong> <code
-                      class="text-red-800 bg-white px-1.5 py-0.5 rounded border border-red-200 font-mono font-bold">assets/images/lab-datetime-dialog.png</code></p>
-                </div>
-              </div>
-              <figure class="group rounded-xl border-2 border-dashed border-red-400 bg-white overflow-hidden mt-4">
-                <div class="aspect-[16/10] flex flex-col items-center justify-center p-4 text-center">
-                  <div class="w-8 h-8 rounded-lg bg-red-100 border border-red-300 flex items-center justify-center text-red-600">📷</div>
-                  <p class="mt-1 font-bold text-xs text-red-800">lab-datetime-dialog.png</p>
-                </div>
-                <img src="assets/images/lab-datetime-dialog.png" alt="Dialog" class="hidden w-full object-cover"
-                  onload="this.parentElement.classList.add('loaded'); this.previousElementSibling.style.display='none'" />
-                <figcaption class="px-3 py-1.5 bg-red-100/60 border-t border-red-200 text-[11px] text-red-800 font-medium">Fig. 2 — DatePickerDialog abierto en emulador</figcaption>
-              </figure>
+            <!-- Panel 1: Layout XML Completo -->
+            <div class="tab-pane" data-tab="xml">
+              <pre><code class="language-xml">&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"&gt;
+
+    &lt;LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp"&gt;
+
+        &lt;!-- Título Principal del Laboratorio --&gt;
+        &lt;TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/acdati_title"
+            android:textSize="20sp"
+            android:textStyle="bold" /&gt;
+
+        &lt;!-- Tarjeta de Operación / Contexto --&gt;
+        &lt;com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            app:strokeColor="@color/cardStroke"
+            app:strokeWidth="1dp"
+            app:cardElevation="0dp"&gt;
+
+            &lt;LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="12dp"&gt;
+
+                &lt;TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/common_label_operation"
+                    android:textStyle="bold"
+                    android:textSize="12sp" /&gt;
+
+                &lt;TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="@string/acdati_info_desc"
+                    android:textSize="11sp" /&gt;
+            &lt;/LinearLayout&gt;
+        &lt;/com.google.android.material.card.MaterialCardView&gt;
+
+        &lt;!-- Preview de Fecha Seleccionada --&gt;
+        &lt;TextView
+            android:id="@+id/tvDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:background="#FFE8F5E9"
+            android:padding="12dp"
+            android:text="@string/acdati_date_empty" /&gt;
+
+        &lt;!-- Preview de Hora Seleccionada --&gt;
+        &lt;TextView
+            android:id="@+id/tvTime"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:background="#FFE3F2FD"
+            android:padding="12dp"
+            android:text="@string/acdati_time_empty" /&gt;
+
+        &lt;!-- Botón para Elegir Fecha con DatePickerDialog --&gt;
+        &lt;com.google.android.material.button.MaterialButton
+            android:id="@+id/btnPickDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/acdati_btn_date" /&gt;
+
+        &lt;!-- Botón para Elegir Hora con TimePickerDialog --&gt;
+        &lt;com.google.android.material.button.MaterialButton
+            android:id="@+id/btnPickTime"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/acdati_btn_time"
+            style="@style/Widget.Material3.Button.OutlinedButton" /&gt;
+
+        &lt;!-- Botón para Validar Fecha No Futura --&gt;
+        &lt;com.google.android.material.button.MaterialButton
+            android:id="@+id/btnValidateDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/acdati_btn_validate" /&gt;
+
+    &lt;/LinearLayout&gt;
+&lt;/ScrollView&gt;</code></pre>
             </div>
-          </div>
-          <div class="mt-6 grid lg:grid-cols-1 gap-6">
-            <div class="rounded-2xl border border-zinc-200 p-5">
-              <p class="font-semibold text-sm">Flujo técnico interno</p>
-              <pre class="mt-3 bg-zinc-900 text-zinc-100 rounded-xl p-4 text-xs overflow-auto"><code class="language-java">Calendar c = Calendar.getInstance();
-new DatePickerDialog(this, (view,year,month,day)->{
-  selectedDate.set(year,month,day); // month 0-based
-  dateChosen = true;
-  String s = String.format(Locale.getDefault(),"%02d/%02d/%04d",day,month+1,year);
-  tvDate.setText(getString(R.string.acdati_date_prefix, s));
-  Toast.makeText(this, getString(R.string.acdati_date_prefix,s), SHORT).show();
-  Log.i(TAG, "Fecha elegida: "+s);
-}, c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH)).show();</code></pre>
-              <p class="mt-3 text-xs text-zinc-600">TimePickerDialog análogo: <code>onTimeSet(hour,minute) → String.format("%02d:%02d")</code> → <code>acdate_time_prefix</code> +
-                <code>is24HourView=true</code>.</p>
+
+            <!-- Panel 2: Java 11 Completo -->
+            <div class="tab-pane hidden" data-tab="java">
+              <pre><code class="language-java">package com.example.sandbox.sandbox;
+
+import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
+import android.os.Bundle;
+import android.widget.TextView;
+import android.widget.Toast;
+import androidx.appcompat.app.AppCompatActivity;
+import com.example.sandbox.R;
+import com.example.sandbox.utils.LoggerUtils;
+import com.example.sandbox.utils.ValidationUtils;
+import java.util.Calendar;
+import java.util.Locale;
+
+/**
+ * DateTimeActivity — Controlador completo para el laboratorio de Date & Time Pickers.
+ * Demuestra:
+ *  1. Lanzamiento de DatePickerDialog modal del sistema con Calendar (año, mes base-0, día).
+ *  2. Lanzamiento de TimePickerDialog modal del sistema en formato 24h.
+ *  3. Formateo de fechas y horas mediante String.format y Locale estándar.
+ *  4. Validación de fecha temporal no futura mediante ValidationUtils.isNotFuture().
+ */
+public class DateTimeActivity extends AppCompatActivity {
+
+    private static final String TAG = "SANDBOX_DATETIME";
+
+    // Vistas para desplegar las selecciones
+    private TextView tvDate, tvTime;
+
+    // Calendario para retener la fecha elegida por el usuario
+    private Calendar selectedDate = Calendar.getInstance();
+    private boolean dateChosen = false;
+    private boolean timeChosen = false;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_date_time);
+
+        // 1. Vinculación de vistas
+        tvDate = findViewById(R.id.tvDate);
+        tvTime = findViewById(R.id.tvTime);
+
+        // 2. Configuración de listeners de eventos
+        findViewById(R.id.btnPickDate).setOnClickListener(v -> showDatePicker());
+        findViewById(R.id.btnPickTime).setOnClickListener(v -> showTimePicker());
+        findViewById(R.id.btnValidateDate).setOnClickListener(v -> validateDate());
+
+        LoggerUtils.d(TAG, "DateTimeActivity inicializada correctamente");
+    }
+
+    /**
+     * Muestra el DatePickerDialog del sistema configurado con la fecha actual.
+     */
+    private void showDatePicker() {
+        Calendar c = Calendar.getInstance();
+        new DatePickerDialog(
+                this,
+                (view, year, month, day) -> {
+                    // Actualizar el calendario interno (recordar: month es 0-indexed)
+                    selectedDate.set(year, month, day);
+                    dateChosen = true;
+
+                    // Formatear salida en formato dd/MM/yyyy
+                    String formatted = String.format(Locale.getDefault(), "%02d/%02d/%04d", day, month + 1, year);
+                    tvDate.setText(getString(R.string.acdati_date_prefix, formatted));
+                    
+                    LoggerUtils.i(TAG, "Fecha seleccionada: " + formatted);
+                    Toast.makeText(this, getString(R.string.acdati_date_prefix, formatted), Toast.LENGTH_SHORT).show();
+                },
+                c.get(Calendar.YEAR),
+                c.get(Calendar.MONTH),
+                c.get(Calendar.DAY_OF_MONTH)
+        ).show();
+
+        LoggerUtils.d(TAG, "DatePickerDialog desplegado");
+    }
+
+    /**
+     * Muestra el TimePickerDialog del sistema en formato de 24 horas.
+     */
+    private void showTimePicker() {
+        Calendar c = Calendar.getInstance();
+        new TimePickerDialog(
+                this,
+                (view, hour, minute) -> {
+                    timeChosen = true;
+
+                    // Formatear salida en formato HH:mm
+                    String formatted = String.format(Locale.getDefault(), "%02d:%02d", hour, minute);
+                    tvTime.setText(getString(R.string.acdati_time_prefix, formatted));
+                    
+                    LoggerUtils.i(TAG, "Hora seleccionada: " + formatted);
+                    Toast.makeText(this, getString(R.string.acdati_time_prefix, formatted), Toast.LENGTH_SHORT).show();
+                },
+                c.get(Calendar.HOUR_OF_DAY),
+                c.get(Calendar.MINUTE),
+                true // is24HourView
+        ).show();
+
+        LoggerUtils.d(TAG, "TimePickerDialog desplegado");
+    }
+
+    /**
+     * Valida que la fecha haya sido seleccionada y que no se encuentre en el futuro.
+     */
+    private void validateDate() {
+        if (!dateChosen) {
+            Toast.makeText(this, getString(R.string.acdati_msg_pick_date_first), Toast.LENGTH_SHORT).show();
+            LoggerUtils.w(TAG, "Intento de validación sin fecha seleccionada");
+            return;
+        }
+
+        // Validación de regla de negocio: la fecha debe ser igual o anterior a hoy
+        boolean notFuture = ValidationUtils.isNotFuture(selectedDate.getTimeInMillis());
+        if (notFuture) {
+            Toast.makeText(this, getString(R.string.acdati_msg_date_ok), Toast.LENGTH_SHORT).show();
+            LoggerUtils.i(TAG, "Fecha validada exitosamente (no futura)");
+        } else {
+            tvDate.setError(getString(R.string.common_err_date_future));
+            Toast.makeText(this, getString(R.string.common_err_date_future), Toast.LENGTH_SHORT).show();
+            LoggerUtils.e(TAG, "Fecha rechazada: se encuentra en el futuro");
+        }
+
+        if (!timeChosen) {
+            LoggerUtils.w(TAG, "Aviso: Hora aún no elegida");
+        }
+    }
+}</code></pre>
             </div>
-            <div class="space-y-4">
-              <div class="rounded-2xl border border-zinc-200 p-5">
-                <p class="font-semibold text-sm">Validación no futura</p>
-                <pre class="mt-3 bg-zinc-900 text-zinc-100 rounded-xl p-4 text-xs"><code>if(!dateChosen){ Toast(acdati_msg_pick_date_first); return; }
-boolean notFuture = ValidationUtils.isNotFuture(selectedDate.getTimeInMillis());
-if(notFuture) Toast(acdati_msg_date_ok);
-else { tvDate.setError(common_err_date_future); Toast(common_err_date_future); }</code></pre>
-                <p class="mt-2 text-xs text-zinc-600"><code>isNotFuture(millis) = millis &lt;= System.currentTimeMillis()</code>. Útil para fecha nacimiento.</p>
-              </div>
-              <div class="rounded-2xl bg-amber-50 border border-amber-200 p-4 text-xs">
-                <p class="font-medium">Estado</p>
-                <p class="mt-1 text-zinc-700">Dos booleans <code>dateChosen/timeChosen</code> + un <code>Calendar selectedDate</code> con hora 00:00. No hay EditText; TextViews
-                  <code>acdati_date_empty/time_empty</code> muestran placeholder hasta elegir.</p>
-              </div>
+
+            <!-- Panel 3: Kotlin + ViewBinding Completo -->
+            <div class="tab-pane hidden" data-tab="kotlin">
+              <pre><code class="language-kotlin">package com.example.sandbox.sandbox
+
+import android.app.DatePickerDialog
+import android.app.TimePickerDialog
+import android.os.Bundle
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import com.example.sandbox.R
+import com.example.sandbox.databinding.ActivityDateTimeBinding
+import com.example.sandbox.utils.LoggerUtils
+import com.example.sandbox.utils.ValidationUtils
+import java.util.Calendar
+import java.util.Locale
+
+/**
+ * DateTimeActivity — Implementación idiomática completa en Kotlin + ViewBinding.
+ * Demuestra modales DatePickerDialog y TimePickerDialog, binding y validación temporal.
+ */
+class DateTimeActivity : AppCompatActivity() {
+
+    private val binding by lazy { ActivityDateTimeBinding.inflate(layoutInflater) }
+    private val TAG = "SANDBOX_DATETIME"
+
+    private val selectedDate: Calendar = Calendar.getInstance()
+    private var dateChosen = false
+    private var timeChosen = false
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(binding.root)
+
+        setupListeners()
+        LoggerUtils.d(TAG, "DateTimeActivity (Kotlin) inicializada")
+    }
+
+    private fun setupListeners() = with(binding) {
+        btnPickDate.setOnClickListener { showDatePicker() }
+        btnPickTime.setOnClickListener { showTimePicker() }
+        btnValidateDate.setOnClickListener { validateDate() }
+    }
+
+    /**
+     * Abre el selector DatePickerDialog modal y actualiza el TextView con la fecha formateada.
+     */
+    private fun showDatePicker() {
+        val now = Calendar.getInstance()
+        DatePickerDialog(
+            this,
+            { _, year, month, day ->
+                selectedDate.set(year, month, day)
+                dateChosen = true
+
+                val formatted = String.format(Locale.getDefault(), "%02d/%02d/%04d", day, month + 1, year)
+                binding.tvDate.text = getString(R.string.acdati_date_prefix, formatted)
+
+                LoggerUtils.i(TAG, "Fecha elegida: $formatted")
+                Toast.makeText(this, getString(R.string.acdati_date_prefix, formatted), Toast.LENGTH_SHORT).show()
+            },
+            now.get(Calendar.YEAR),
+            now.get(Calendar.MONTH),
+            now.get(Calendar.DAY_OF_MONTH)
+        ).show()
+
+        LoggerUtils.d(TAG, "DatePickerDialog mostrado")
+    }
+
+    /**
+     * Abre el selector TimePickerDialog modal en formato 24 horas.
+     */
+    private fun showTimePicker() {
+        val now = Calendar.getInstance()
+        TimePickerDialog(
+            this,
+            { _, hour, minute ->
+                timeChosen = true
+
+                val formatted = String.format(Locale.getDefault(), "%02d:%02d", hour, minute)
+                binding.tvTime.text = getString(R.string.acdati_time_prefix, formatted)
+
+                LoggerUtils.i(TAG, "Hora elegida: $formatted")
+                Toast.makeText(this, getString(R.string.acdati_time_prefix, formatted), Toast.LENGTH_SHORT).show()
+            },
+            now.get(Calendar.HOUR_OF_DAY),
+            now.get(Calendar.MINUTE),
+            true // is24HourView
+        ).show()
+
+        LoggerUtils.d(TAG, "TimePickerDialog mostrado")
+    }
+
+    /**
+     * Valida si se eligió fecha y si no es futura mediante ValidationUtils.
+     */
+    private fun validateDate() {
+        if (!dateChosen) {
+            Toast.makeText(this, getString(R.string.acdati_msg_pick_date_first), Toast.LENGTH_SHORT).show()
+            LoggerUtils.w(TAG, "Validación omitida: falta seleccionar fecha")
+            return
+        }
+
+        val isNotFuture = ValidationUtils.isNotFuture(selectedDate.timeInMillis)
+        if (isNotFuture) {
+            Toast.makeText(this, getString(R.string.acdati_msg_date_ok), Toast.LENGTH_SHORT).show()
+            LoggerUtils.i(TAG, "Fecha validada correctamente (no futura)")
+        } else {
+            binding.tvDate.error = getString(R.string.common_err_date_future)
+            Toast.makeText(this, getString(R.string.common_err_date_future), Toast.LENGTH_SHORT).show()
+            LoggerUtils.e(TAG, "Fecha futura rechazada")
+        }
+
+        if (!timeChosen) {
+            LoggerUtils.w(TAG, "Aviso: Hora aún no configurada")
+        }
+    }
+}</code></pre>
             </div>
           </div>
         </section>
-        <section class="bg-white rounded-[24px] border border-zinc-200 p-6 sm:p-8">
-          <h2 class="text-xl font-semibold tracking-tight">Responsive y UI</h2>
-          <div class="mt-4 grid md:grid-cols-2 gap-4">
-            <div class="rounded-2xl border border-zinc-200 p-5 text-sm">
-              <p class="font-medium">Layout</p>
-              <p class="mt-2 text-zinc-600"><code>ScrollView > LinearLayout</code> + Card intro <code>acdati_info_desc</code> + 2 TextView con backgrounds <code>#E8F5E9</code>/<code>#E3F2FD</code> + 3
-                Buttons (filled/outlined/filled).</p>
-            </div>
-            <div class="rounded-2xl border border-zinc-200 p-5 text-sm">
-              <p class="font-medium">Accesibilidad</p>
-              <p class="mt-2 text-zinc-600">Dialogs son del sistema (preservan a11y). TextViews no son editables, no necesitan <code>inputType</code>.</p>
-            </div>
+
+        <!-- Guía Paso a Paso -->
+        <section class="p-6 rounded-xl border border-zinc-200 bg-zinc-50 space-y-4">
+          <h2 class="text-base font-semibold text-zinc-900">4. Guía de Desarrollo Paso a Paso</h2>
+          <ol class="list-decimal pl-5 text-xs text-zinc-700 space-y-2 leading-relaxed">
+            <li>Crear el layout <code class="font-mono bg-white px-1.5 py-0.5 rounded border border-zinc-200 text-zinc-900">res/layout/activity_date_time.xml</code> con <code
+                class="font-mono text-zinc-800">tvDate</code>, <code class="font-mono text-zinc-800">tvTime</code> y botones de acción.</li>
+            <li>En la actividad, instanciar un objeto <code class="font-mono text-zinc-800">Calendar.getInstance()</code> para guardar el estado de la fecha.</li>
+            <li>Implementar <code class="font-mono text-zinc-800">DatePickerDialog</code> recordando que los meses en la API clásica de Calendar son 0-indexados (<code
+                class="font-mono text-zinc-700">month + 1</code>).</li>
+            <li>Implementar <code class="font-mono text-zinc-800">TimePickerDialog</code> con el flag <code class="font-mono text-zinc-700">is24HourView = true</code>.</li>
+            <li>Al pulsar validar, verificar que <code class="font-mono text-zinc-800">selectedDate.getTimeInMillis() &lt;= System.currentTimeMillis()</code> usando <code
+                class="font-mono text-zinc-800">ValidationUtils.isNotFuture</code>.</li>
+          </ol>
+
+          <div class="pt-2 flex items-center justify-between border-t border-zinc-200/80">
+            <a href="lab-textinputs.html" class="text-xs font-medium text-zinc-600 hover:text-zinc-950 transition-colors">← Lab 1 (TextInputs)</a>
+            <a href="lab-buttons.html" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-md text-xs font-medium bg-zinc-900 text-white hover:bg-zinc-800 transition-colors shadow-xs">
+              <span>Siguiente: Lab 3 (Buttons/Chip) →</span>
+            </a>
           </div>
-          <div class="mt-4 flex flex-wrap gap-2 text-xs"><a href="lab-buttons.html" class="px-4 py-2 bg-zinc-900 text-white rounded-full">Siguiente → Buttons/Chip</a><a href="lab-textinputs.html"
-              class="px-4 py-2 bg-white border border-zinc-200 rounded-full">← Anterior TextInputs</a></div>
         </section>
+
       </main>
     </div>
+
     <script src="assets/nav.js"></script>
   </body>
 

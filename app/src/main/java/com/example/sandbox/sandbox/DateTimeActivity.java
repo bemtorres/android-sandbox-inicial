@@ -66,6 +66,6 @@ public class DateTimeActivity extends AppCompatActivity {
             Toast.makeText(this,getString(R.string.common_err_date_future),Toast.LENGTH_SHORT).show();
             LoggerUtils.e(TAG,"Fecha futura rechazada");
         }
-        if(!timeChosen) LoggerUtils.w(TAG,"Hora aún no elegida");
+        if (!timeChosen) { LoggerUtils.w(TAG,"Hora aún no elegida"); }
     }
 }

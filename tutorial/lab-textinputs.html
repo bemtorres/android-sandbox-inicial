@@ -1,22 +1,34 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" class="h-full bg-white text-zinc-950 antialiased">
 
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Lab 1 · TextInputs — Sandbox</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <title>Lab 1 · TextInputs & Layout XML — Sandbox Android</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-    <style type="text/tailwindcss">@theme{--font-sans:Inter,system-ui,sans-serif;--font-mono:JetBrains Mono,monospace;}</style>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/codemirror.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/theme/dracula.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <style type="text/tailwindcss">
+      @theme {
+      --font-sans: 'Plus Jakarta Sans', Inter, system-ui, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+  </style>
     <style>
-      /* CodeMirror-like code blocks — Dracula, Java + XML */
+      body {
+        font-family: 'Plus Jakarta Sans', sans-serif;
+      }
+
+      code,
       pre {
-        background: #282a36 !important;
-        border: 1px solid #44475a !important;
-        border-radius: 12px !important;
+        font-family: 'JetBrains Mono', monospace;
+      }
+
+      pre {
+        background: #09090b !important;
+        border: 1px solid #27272a !important;
+        border-radius: 0.75rem !important;
         padding: 0 !important;
         overflow: hidden !important;
         position: relative !important;
@@ -25,25 +37,12 @@
 
       pre code {
         display: block !important;
-        padding: 1rem 1rem 1rem 3.8rem !important;
-        font-family: 'JetBrains Mono', Consolas, monospace !important;
+        padding: 1rem 1rem 1rem 3.6rem !important;
         font-size: 12.5px !important;
         line-height: 1.65 !important;
-        color: #f8f8f2 !important;
+        color: #f4f4f5 !important;
         background: transparent !important;
         overflow-x: auto !important;
-      }
-
-      pre::before {
-        content: "";
-        position: absolute;
-        left: 0;
-        top: 0;
-        bottom: 0;
-        width: 3.2rem;
-        background: #21222c;
-        border-right: 1px solid #44475a;
-        z-index: 0;
       }
 
       .cm-gutter {
@@ -51,13 +50,14 @@
         left: 0;
         top: 0;
         bottom: 0;
-        width: 3.2rem;
+        width: 3rem;
         padding: 1rem 0;
         text-align: right;
-        font-family: 'JetBrains Mono', monospace;
-        font-size: 11.5px;
+        font-size: 11px;
         line-height: 1.65;
-        color: #6272a4;
+        color: #71717a;
+        background: #18181b;
+        border-right: 1px solid #27272a;
         user-select: none;
         z-index: 1;
         pointer-events: none;
@@ -65,301 +65,724 @@
 
       .cm-gutter span {
         display: block;
-        padding-right: 0.75rem;
-      }
-
-      .hljs {
-        background: transparent !important;
-      }
-
-      .hljs-keyword {
-        color: #ff79c6 !important
-      }
-
-      .hljs-string {
-        color: #f1fa8c !important
-      }
-
-      .hljs-comment {
-        color: #6272a4 !important
-      }
-
-      .hljs-type {
-        color: #8be9fd !important
-      }
-
-      .hljs-title {
-        color: #50fa7b !important
-      }
-
-      .hljs-number {
-        color: #bd93f9 !important
-      }
-
-      .hljs-tag {
-        color: #f8f8f2 !important
-      }
-
-      .hljs-name {
-        color: #ff79c6 !important
-      }
-
-      .hljs-attr {
-        color: #50fa7b !important
-      }
-
-      .hljs-attribute {
-        color: #50fa7b !important
-      }
-
-      .hljs-meta {
-        color: #ff79c6 !important
-      }
-
-      .hljs-meta-string {
-        color: #f1fa8c !important
-      }
-
-      .hljs-value {
-        color: #f1fa8c !important
-      }
-
-      .hljs-function .hljs-title {
-        color: #50fa7b !important
-      }
-
-      .hljs-params {
-        color: #f8f8f2 !important
-      }
-
-      .hljs-built_in {
-        color: #8be9fd !important
+        padding-right: 0.6rem;
       }
     </style>
   </head>
 
-  <body class="bg-[#f8f9fb] text-zinc-800 antialiased">
-    <header class="sticky top-0 z-50 bg-white/90 backdrop-blur border-b border-zinc-200">
-      <div class="max-w-[1440px] mx-auto px-4 sm:px-6 py-2 flex items-center justify-between">
-        <div class="flex items-center gap-3"><button id="menuBtn" class="lg:hidden p-2 rounded-xl border border-zinc-200 bg-white"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"
-              stroke="currentColor" stroke-width="2">
+  <body class="min-h-full flex flex-col bg-white">
+
+    <!-- Header Superior shadcn -->
+    <header class="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-zinc-200">
+      <div class="max-w-[1440px] mx-auto px-4 sm:px-6 h-14 flex items-center justify-between gap-4">
+        <div class="flex items-center gap-3">
+          <button id="menuBtn" class="lg:hidden p-1.5 rounded-md text-zinc-600 hover:bg-zinc-100 transition-colors" aria-label="Abrir navegación">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <path d="M4 6h16M4 12h16M4 18h16" />
-            </svg></button>
-          <div class="w-8 h-8 rounded-xl text-sm bg-violet-600 flex items-center justify-center text-white font-bold">1</div>
-          <div class="hidden sm:block">
-            <p class="font-semibold leading-none">Lab 1 · TextInputs</p>
-            <p class="text-[10px] text-zinc-500">actinp_ · TextView + 6 EditText</p>
+            </svg>
+          </button>
+          <div class="flex items-center gap-2">
+            <div class="w-6 h-6 rounded-md bg-zinc-900 text-white flex items-center justify-center font-bold text-xs shadow-xs">1</div>
+            <span class="font-semibold text-sm tracking-tight text-zinc-900">Lab 1</span>
+            <span class="text-zinc-300">/</span>
+            <span class="text-xs text-zinc-500 font-medium">TextInputs & Validación</span>
           </div>
         </div>
-        <div class="hidden md:flex items-center gap-2 text-xs"><span class="px-2 py-1 rounded-full bg-zinc-900 text-white">activity_text_inputs.xml</span><span
-            class="px-2 py-1 rounded-full border border-zinc-200">TextInputsActivity.java:11</span></div>
-        <a href="labs.html" class="px-4 py-2 bg-white border border-zinc-200 rounded-full text-sm">← Labs</a>
+
+        <div class="flex items-center gap-2">
+          <div class="hidden sm:flex items-center gap-1 text-xs font-mono text-zinc-500">
+            <span class="px-2 py-0.5 rounded-md bg-zinc-100 text-zinc-800 border border-zinc-200">activity_text_inputs.xml</span>
+            <span class="px-2 py-0.5 rounded-md bg-zinc-100 text-zinc-800 border border-zinc-200">TextInputsActivity.java</span>
+          </div>
+          <a href="labs.html" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-md text-xs font-medium border border-zinc-200 hover:bg-zinc-50 transition-colors">
+            <span>← Labs</span>
+          </a>
+        </div>
       </div>
     </header>
-    <div id="overlay" class="fixed inset-0 bg-black/30 z-40 hidden lg:hidden"></div>
-    <div class="max-w-[1440px] mx-auto px-4 sm:px-6 py-4 lg:py-6 grid grid-cols-1 lg:grid-cols-[240px_minmax(0,1fr)] gap-4 lg:gap-6">
+
+    <!-- Contenedor Principal Layout -->
+    <div id="overlay" class="fixed inset-0 bg-black/40 z-40 hidden lg:hidden"></div>
+    <div class="max-w-[1440px] mx-auto px-4 sm:px-6 py-6 grid grid-cols-1 lg:grid-cols-[240px_minmax(0,1fr)] gap-8 w-full">
+
+      <!-- Sidebar -->
       <aside id="sidebar"
-        class="fixed lg:sticky top-0 lg:top-[53px] left-0 z-40 w-[240px] h-[100dvh] lg:h-[calc(100vh-53px)] bg-white lg:bg-transparent border-r lg:border-0 border-zinc-200 overflow-auto p-4 lg:p-0 -translate-x-full lg:translate-x-0 transition-transform duration-200">
+        class="fixed lg:sticky top-0 lg:top-20 left-0 z-40 w-[240px] h-[100dvh] lg:h-[calc(100vh-5rem)] bg-white lg:bg-transparent border-r lg:border-0 border-zinc-200 overflow-y-auto p-4 lg:p-0 -translate-x-full lg:translate-x-0 transition-transform duration-200">
       </aside>
-      <main class="min-w-0 space-y-6">
-        <section class="bg-white rounded-[24px] border border-zinc-200 p-6 sm:p-8">
-          <h1 class="text-3xl font-semibold tracking-tight">Lab 1 — TextView + 6 EditText</h1>
-          <p class="mt-2 text-sm text-zinc-500">Objetivo: dominar <code>inputType</code>, <code>TextInputLayout</code>, <code>setError</code>, <code>TextWatcher</code> y <code>TextView</code> como
-            preview. Carpeta: <code>sandbox/TextInputsActivity.java</code></p>
-          <div class="mt-6 grid lg:grid-cols-1 gap-6">
-            <div class="rounded-2xl border border-zinc-200 p-5">
-              <p class="font-semibold text-sm">6 EditText — qué teclado abre cada inputType</p>
-              <div class="mt-3 overflow-x-auto -mx-2 px-2">
-                <table class="min-w-[520px] w-full text-xs border-collapse">
-                  <thead class="text-zinc-500">
-                    <tr>
-                      <th class="text-left py-2 border-b">Campo (hint actinp_)</th>
-                      <th class="text-left border-b">inputType</th>
-                      <th class="text-left border-b">Teclado</th>
-                      <th class="text-left border-b">Validador</th>
-                    </tr>
-                  </thead>
-                  <tbody class="divide-y divide-zinc-100">
-                    <tr>
-                      <td class="py-2 font-mono">actinp_hint_plain → Nombre</td>
-                      <td class="font-mono">text</td>
-                      <td>Texto + autocorrect</td>
-                      <td>isRequired</td>
-                    </tr>
-                    <tr>
-                      <td class="py-2">Email</td>
-                      <td class="font-mono">textEmailAddress</td>
-                      <td>Email (@, .com)</td>
-                      <td>isEmail → Patterns</td>
-                    </tr>
-                    <tr>
-                      <td class="py-2">Teléfono</td>
-                      <td class="font-mono">phone</td>
-                      <td>Marcación</td>
-                      <td>isPhone ^\+?[0-9 ]{9,15}$</td>
-                    </tr>
-                    <tr>
-                      <td class="py-2">Código Postal</td>
-                      <td class="font-mono">number</td>
-                      <td>Numérico</td>
-                      <td>isPostal ^\d{5}$</td>
-                    </tr>
-                    <tr>
-                      <td class="py-2">Password</td>
-                      <td class="font-mono">textPassword</td>
-                      <td>Texto oculto + ojito</td>
-                      <td>isPassword len≥6</td>
-                    </tr>
-                    <tr>
-                      <td class="py-2">PIN</td>
-                      <td class="font-mono">numberPassword</td>
-                      <td>Numérico oculto</td>
-                      <td>isNumericPassword ^\d{4,6}$</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-              <p class="mt-3 text-xs text-zinc-600"><code>TextInputLayout</code> envuelve y pinta <code>android:hint</code> flotante + <code>app:helperText</code> (ej.
-                <code>actinp_helper_textEmail</code>) + <code>app:passwordToggleEnabled</code> para ojito.
-              </p>
-            </div>
-            <div class="rounded-2xl bg-zinc-50 border border-zinc-200 p-5">
-              <p class="font-semibold text-sm">TextView preview</p>
-              <pre class="mt-3 bg-white rounded-xl p-4 text-xs border overflow-auto"><code>&lt;TextView android:id="@+id/tvPreview"
-  android:text="@string/actinp_preview" // "Preview TextView: se actualiza al validar"
-  android:background="#FFEDE7F6"/&gt;</code></pre>
-              <p class="mt-2 text-xs text-zinc-600">Solo muestra texto: <code>tvPreview.setText(getString(actinp_preview_ok, plain,email,phone))</code> o <code>actinp_preview_error</code>. Demuestra
-                <code>TextView.setText</code> vs <code>EditText.getText</code>.
-              </p>
-            </div>
+
+      <!-- Contenido Principal -->
+      <main class="min-w-0 space-y-8">
+
+        <!-- Encabezado del Lab -->
+        <section class="space-y-3 border-b border-zinc-200 pb-6">
+          <div class="inline-flex items-center gap-2 px-2.5 py-1 rounded-full text-xs font-medium bg-zinc-100 text-zinc-800 border border-zinc-200">
+            <span class="w-1.5 h-1.5 rounded-full bg-indigo-500"></span>
+            Laboratorio 1 · Formularios & Entrada de Texto
           </div>
-          <!-- BLOQUES DE CAPTURA EN ROJO (GUÍA TEMPORAL PARA BORRAR TRAS AGREGAR FOTOS) -->
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
-            <!-- Foto 1 -->
-            <div class="rounded-2xl border-2 border-red-500 bg-red-50/90 p-5 text-red-950 flex flex-col justify-between">
-              <div>
-                <div class="flex items-center justify-between gap-1 pb-2 border-b border-red-200">
-                  <span class="px-2 py-0.5 rounded bg-red-600 text-white font-bold text-[10px] uppercase tracking-wider">🔴 Foto 1: Design</span>
-                  <span class="text-[9px] font-bold text-red-600 uppercase bg-red-100 px-1.5 py-0.5 rounded border border-red-300">Borrar al poner foto</span>
+          <h1 class="text-3xl font-extrabold tracking-tight text-zinc-950">
+            TextView + 6 Tipos de EditText & Validación en Vivo
+          </h1>
+          <p class="text-sm text-zinc-600 leading-relaxed max-w-3xl">
+            Aprende el uso avanzado de <code class="font-mono text-zinc-800 bg-zinc-100 px-1 py-0.5 rounded">inputType</code> en teclados virtuales, maquetación del layout en <code
+              class="font-mono text-zinc-800 bg-zinc-100 px-1 py-0.5 rounded">XML</code> con <code class="font-mono text-zinc-800 bg-zinc-100 px-1 py-0.5 rounded">TextInputLayout</code>, feedback
+            visual con <code class="font-mono text-zinc-800 bg-zinc-100 px-1 py-0.5 rounded">setError</code> y reactividad con <code
+              class="font-mono text-zinc-800 bg-zinc-100 px-1 py-0.5 rounded">TextWatcher</code>.
+          </p>
+        </section>
+
+        <!-- Tabla de Teclados & Validadores -->
+        <section class="space-y-4">
+          <h2 class="text-lg font-bold text-zinc-950">1. Configuración de los 6 Campos de Entrada</h2>
+
+          <div class="overflow-x-auto rounded-xl border border-zinc-200 bg-white shadow-2xs">
+            <table class="w-full text-left text-xs text-zinc-700">
+              <thead class="bg-zinc-50 text-[11px] font-semibold text-zinc-500 uppercase tracking-wider border-b border-zinc-200">
+                <tr>
+                  <th class="py-3 px-4">Campo (ID / Hint)</th>
+                  <th class="py-3 px-4">inputType</th>
+                  <th class="py-3 px-4">Comportamiento Teclado</th>
+                  <th class="py-3 px-4">Regla de Validación</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-zinc-200">
+                <tr>
+                  <td class="py-2.5 px-4 font-mono font-bold text-zinc-900">tilPlain · Nombre</td>
+                  <td class="font-mono text-zinc-600">text</td>
+                  <td>Texto con autocorrección y mayúscula inicial</td>
+                  <td><code class="font-mono text-zinc-800">isRequired</code> (No vacío)</td>
+                </tr>
+                <tr>
+                  <td class="py-2.5 px-4 font-mono font-bold text-zinc-900">tilEmail · Correo</td>
+                  <td class="font-mono text-zinc-600">textEmailAddress</td>
+                  <td>Teclado con teclas @ y .com directas</td>
+                  <td><code class="font-mono text-zinc-800">isEmail</code> (Patterns.EMAIL_ADDRESS)</td>
+                </tr>
+                <tr>
+                  <td class="py-2.5 px-4 font-mono font-bold text-zinc-900">tilPhone · Teléfono</td>
+                  <td class="font-mono text-zinc-600">phone</td>
+                  <td>Teclado numérico de marcación telefónica</td>
+                  <td><code class="font-mono text-zinc-800">isPhone</code> (9 a 15 dígitos)</td>
+                </tr>
+                <tr>
+                  <td class="py-2.5 px-4 font-mono font-bold text-zinc-900">tilPostal · Código Postal</td>
+                  <td class="font-mono text-zinc-600">number</td>
+                  <td>Teclado numérico puro (0-9)</td>
+                  <td><code class="font-mono text-zinc-800">isPostalCode</code> (5 dígitos)</td>
+                </tr>
+                <tr>
+                  <td class="py-2.5 px-4 font-mono font-bold text-zinc-900">tilPass · Contraseña</td>
+                  <td class="font-mono text-zinc-600">textPassword</td>
+                  <td>Oculta caracteres + botón de toggle de ojo</td>
+                  <td><code class="font-mono text-zinc-800">isPassword</code> (Longitud ≥ 6)</td>
+                </tr>
+                <tr>
+                  <td class="py-2.5 px-4 font-mono font-bold text-zinc-900">tilPin · PIN Numérico</td>
+                  <td class="font-mono text-zinc-600">numberPassword</td>
+                  <td>Numérico con caracteres protegidos</td>
+                  <td><code class="font-mono text-zinc-800">isNumericPassword</code> (4 a 6 dígitos)</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- Capturas del Laboratorio (Completas y Separadas) -->
+        <section class="space-y-4">
+          <div class="flex items-center justify-between">
+            <div>
+              <h2 class="text-base font-bold text-zinc-950">2. Estados de la Interfaz</h2>
+              <p class="text-xs text-zinc-500">Haz clic sobre cualquier captura para abrirla en zoom interactivo a pantalla completa</p>
+            </div>
+            <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-zinc-100 text-[11px] text-zinc-600 font-mono border border-zinc-200">
+              🔍 Clic para ampliar
+            </span>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+
+            <figure class="group rounded-xl border border-zinc-200 bg-white overflow-hidden shadow-xs hover:shadow-md hover:border-zinc-300 transition-all flex flex-col cursor-zoom-in">
+              <div class="h-64 sm:h-72 w-full bg-zinc-50/80 flex items-center justify-center p-3 relative">
+                <div class="img-placeholder flex flex-col items-center justify-center p-4 text-center">
+                  <div class="w-8 h-8 rounded-lg bg-white border border-zinc-200 flex items-center justify-center text-sm text-zinc-600 shadow-xs">📷</div>
+                  <p class="mt-2 font-medium text-xs text-zinc-700">Diseño XML Split</p>
+                  <p class="text-[11px] text-zinc-400 font-mono">lab-textinputs-preview.png</p>
                 </div>
-                <div class="mt-3 space-y-1.5 text-xs">
-                  <p><strong class="text-red-900">📄 Vista XML:</strong> <code
-                      class="text-red-700 bg-white px-1 py-0.5 rounded border border-red-200 font-mono font-bold">activity_text_inputs.xml</code></p>
-                  <p><strong class="text-red-900">☕ Clase:</strong> <code class="text-red-700 bg-white px-1 py-0.5 rounded border border-red-200 font-mono font-bold">TextInputsActivity.java</code></p>
-                  <p><strong class="text-red-900">🎯 Qué capturar:</strong> Android Studio en modo Split mostrando los 6 <code>TextInputLayout</code> con sus hints y estilos.</p>
-                  <p><strong class="text-red-900">💾 Guardar:</strong> <code
-                      class="text-red-800 bg-white px-1 py-0.5 rounded border border-red-200 font-mono font-bold">assets/images/lab-textinputs-preview.png</code></p>
-                </div>
+                <img src="assets/images/lab-textinputs-preview.png" alt="Design Split View" class="hidden max-h-full max-w-full object-contain rounded drop-shadow-xs"
+                  onerror="this.src='assets/images/lab-textinputs-preview.jpg'" />
               </div>
-              <figure class="group rounded-xl border-2 border-dashed border-red-400 bg-white overflow-hidden mt-4">
-                <div class="aspect-[16/10] flex flex-col items-center justify-center p-3 text-center">
-                  <div class="w-7 h-7 rounded-lg bg-red-100 border border-red-300 flex items-center justify-center text-red-600 text-sm">📷</div>
-                  <p class="mt-1 font-bold text-[11px] text-red-800">lab-textinputs-preview.png</p>
+              <figcaption class="px-3.5 py-2.5 bg-white border-t border-zinc-100 text-xs font-medium text-zinc-700 flex items-center justify-between">
+                <span>Fig. 1 — Vista de diseño en Android Studio</span>
+                <span class="text-[11px] text-zinc-400 font-mono">Split XML</span>
+              </figcaption>
+            </figure>
+
+            <figure class="group rounded-xl border border-zinc-200 bg-white overflow-hidden shadow-xs hover:shadow-md hover:border-zinc-300 transition-all flex flex-col cursor-zoom-in">
+              <div class="h-64 sm:h-72 w-full bg-zinc-50/80 flex items-center justify-center p-3 relative">
+                <div class="img-placeholder flex flex-col items-center justify-center p-4 text-center">
+                  <div class="w-8 h-8 rounded-lg bg-white border border-zinc-200 flex items-center justify-center text-sm text-zinc-600 shadow-xs">📷</div>
+                  <p class="mt-2 font-medium text-xs text-zinc-700">Formulario Validado</p>
+                  <p class="text-[11px] text-zinc-400 font-mono">lab-textinputs-emulator.gif</p>
                 </div>
-                <img src="assets/images/lab-textinputs-preview.png" alt="Design" class="hidden w-full object-cover"
-                  onload="this.parentElement.classList.add('loaded'); this.previousElementSibling.style.display='none'" />
-                <figcaption class="px-2.5 py-1 bg-red-100/60 border-t border-red-200 text-[10px] text-red-800 font-medium">Fig. 1 — Vista previa de diseño</figcaption>
-              </figure>
+                <img src="assets/images/lab-textinputs-emulator.gif" alt="Emulador Éxito" class="hidden mobile-gif max-h-full max-w-full object-contain rounded drop-shadow-xs"
+                  onerror="this.src='assets/images/lab-textinputs-emulator.gif'" />
+              </div>
+              <figcaption class="px-3.5 py-2.5 bg-white border-t border-zinc-100 text-xs font-medium text-zinc-700 flex items-center justify-between">
+                <span>Fig. 2 — Estado de éxito (Formulario OK)</span>
+                <span class="text-[11px] text-emerald-600 font-mono">Validado</span>
+              </figcaption>
+            </figure>
+
+            <figure class="group rounded-xl border border-zinc-200 bg-white overflow-hidden shadow-xs hover:shadow-md hover:border-zinc-300 transition-all flex flex-col cursor-zoom-in">
+              <div class="h-64 sm:h-72 w-full bg-zinc-50/80 flex items-center justify-center p-3 relative">
+                <div class="img-placeholder flex flex-col items-center justify-center p-4 text-center">
+                  <div class="w-8 h-8 rounded-lg bg-white border border-zinc-200 flex items-center justify-center text-sm text-zinc-600 shadow-xs">📷</div>
+                  <p class="mt-2 font-medium text-xs text-zinc-700">Error con setError</p>
+                  <p class="text-[11px] text-zinc-400 font-mono">lab-textinputs-error.gif</p>
+                </div>
+                <img src="assets/images/lab-textinputs-error.gif" alt="Validación con Errores" class="hidden mobile-gif max-h-full max-w-full object-contain rounded drop-shadow-xs"
+                  onerror="this.src='assets/images/lab-textinputs-error.png'" />
+              </div>
+              <figcaption class="px-3.5 py-2.5 bg-white border-t border-zinc-100 text-xs font-medium text-zinc-700 flex items-center justify-between">
+                <span>Fig. 3 — Campos con error visual</span>
+                <span class="text-[11px] text-rose-600 font-mono">setError</span>
+              </figcaption>
+            </figure>
+
+          </div>
+        </section>
+
+        <!-- Selector de Código (Layout XML, Java 11 y Kotlin + ViewBinding) -->
+        <section class="space-y-4">
+          <h2 class="text-lg font-bold text-zinc-950">3. Código Fuente del Layout XML y Controladores</h2>
+
+          <div id="codeTabContainer" class="space-y-3">
+            <div class="flex items-center justify-between flex-wrap gap-2">
+              <!-- Segmented Control de 3 Pestañas -->
+              <div class="inline-flex p-1 bg-zinc-100 rounded-lg border border-zinc-200 text-xs">
+                <button type="button" class="tab-btn px-3 py-1.5 rounded-md bg-white text-zinc-900 font-semibold shadow-xs transition-all" data-tab="xml"
+                  onclick="switchTab('codeTabContainer', 'xml')">
+                  📐 Layout XML (activity_text_inputs.xml)
+                </button>
+                <button type="button" class="tab-btn px-3 py-1.5 rounded-md text-zinc-500 hover:text-zinc-900 transition-all" data-tab="java" onclick="switchTab('codeTabContainer', 'java')">
+                  ☕ Java 11
+                </button>
+                <button type="button" class="tab-btn px-3 py-1.5 rounded-md text-zinc-500 hover:text-zinc-900 transition-all" data-tab="kotlin" onclick="switchTab('codeTabContainer', 'kotlin')">
+                  ⚡ Kotlin + ViewBinding
+                </button>
+              </div>
+              <span class="text-[11px] text-zinc-400 font-mono">res/layout & src/main/java</span>
             </div>
 
-            <!-- Foto 2 -->
-            <div class="rounded-2xl border-2 border-red-500 bg-red-50/90 p-5 text-red-950 flex flex-col justify-between">
-              <div>
-                <div class="flex items-center justify-between gap-1 pb-2 border-b border-red-200">
-                  <span class="px-2 py-0.5 rounded bg-red-600 text-white font-bold text-[10px] uppercase tracking-wider">🔴 Foto 2: Válido</span>
-                  <span class="text-[9px] font-bold text-red-600 uppercase bg-red-100 px-1.5 py-0.5 rounded border border-red-300">Borrar al poner foto</span>
-                </div>
-                <div class="mt-3 space-y-1.5 text-xs">
-                  <p><strong class="text-red-900">📄 Vista XML:</strong> <code
-                      class="text-red-700 bg-white px-1 py-0.5 rounded border border-red-200 font-mono font-bold">activity_text_inputs.xml</code></p>
-                  <p><strong class="text-red-900">☕ Clase:</strong> <code class="text-red-700 bg-white px-1 py-0.5 rounded border border-red-200 font-mono font-bold">TextInputsActivity.java</code></p>
-                  <p><strong class="text-red-900">🎯 Qué capturar:</strong> Emulador con todos los campos llenados válidamente y el <code>tvPreview</code> morado mostrando "✓ Todo válido".</p>
-                  <p><strong class="text-red-900">💾 Guardar:</strong> <code
-                      class="text-red-800 bg-white px-1 py-0.5 rounded border border-red-200 font-mono font-bold">assets/images/lab-textinputs-emulator.png</code></p>
-                </div>
-              </div>
-              <figure class="group rounded-xl border-2 border-dashed border-red-400 bg-white overflow-hidden mt-4">
-                <div class="aspect-[16/10] flex flex-col items-center justify-center p-3 text-center">
-                  <div class="w-7 h-7 rounded-lg bg-red-100 border border-red-300 flex items-center justify-center text-red-600 text-sm">📷</div>
-                  <p class="mt-1 font-bold text-[11px] text-red-800">lab-textinputs-emulator.png</p>
-                </div>
-                <img src="assets/images/lab-textinputs-emulator.png" alt="Emulador" class="hidden w-full object-cover"
-                  onload="this.parentElement.classList.add('loaded'); this.previousElementSibling.style.display='none'" />
-                <figcaption class="px-2.5 py-1 bg-red-100/60 border-t border-red-200 text-[10px] text-red-800 font-medium">Fig. 2 — Formulario validado con éxito</figcaption>
-              </figure>
+            <!-- Panel 1: Layout XML Completo -->
+            <div class="tab-pane" data-tab="xml">
+              <pre><code class="language-xml">&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"&gt;
+
+    &lt;LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp"&gt;
+
+        &lt;!-- Título Principal del Lab --&gt;
+        &lt;TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/actinp_title"
+            android:textSize="20sp"
+            android:textStyle="bold" /&gt;
+
+        &lt;!-- Tarjeta de Operación / Contexto --&gt;
+        &lt;com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            app:cardElevation="0dp"
+            app:strokeColor="@color/cardStroke"
+            app:strokeWidth="1dp"&gt;
+
+            &lt;LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="12dp"&gt;
+
+                &lt;TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/common_label_operation"
+                    android:textStyle="bold"
+                    android:textSize="12sp" /&gt;
+
+                &lt;TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="@string/actinp_info_desc"
+                    android:textSize="11sp" /&gt;
+            &lt;/LinearLayout&gt;
+        &lt;/com.google.android.material.card.MaterialCardView&gt;
+
+        &lt;!-- Preview de Estado --&gt;
+        &lt;TextView
+            android:id="@+id/tvPreview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:background="#FFEDE7F6"
+            android:padding="12dp"
+            android:text="@string/actinp_preview"
+            android:textStyle="italic" /&gt;
+
+        &lt;!-- 1. Campo Nombre (Plain Text) --&gt;
+        &lt;com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tilPlain"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:hint="@string/actinp_hint_plain"
+            app:helperText="@string/actinp_helper_text"&gt;
+
+            &lt;com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etPlain"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text" /&gt;
+        &lt;/com.google.android.material.textfield.TextInputLayout&gt;
+
+        &lt;!-- 2. Campo Correo Electrónico (textEmailAddress) --&gt;
+        &lt;com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tilEmail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/actinp_hint_email"
+            app:helperText="@string/actinp_helper_textEmail"&gt;
+
+            &lt;com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etEmail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textEmailAddress" /&gt;
+        &lt;/com.google.android.material.textfield.TextInputLayout&gt;
+
+        &lt;!-- 3. Campo Teléfono (phone) --&gt;
+        &lt;com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tilPhone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/actinp_hint_phone"
+            app:helperText="@string/actinp_helper_phone"&gt;
+
+            &lt;com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etPhone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="phone" /&gt;
+        &lt;/com.google.android.material.textfield.TextInputLayout&gt;
+
+        &lt;!-- 4. Campo Código Postal (number) --&gt;
+        &lt;com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tilPostal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/actinp_hint_postal"
+            app:helperText="@string/actinp_helper_number"&gt;
+
+            &lt;com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etPostal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number" /&gt;
+        &lt;/com.google.android.material.textfield.TextInputLayout&gt;
+
+        &lt;!-- 5. Campo Contraseña (textPassword + passwordToggleEnabled) --&gt;
+        &lt;com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tilPass"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/actinp_hint_pass"
+            app:passwordToggleEnabled="true"
+            app:helperText="@string/actinp_helper_textPassword"&gt;
+
+            &lt;com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etPass"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPassword" /&gt;
+        &lt;/com.google.android.material.textfield.TextInputLayout&gt;
+
+        &lt;!-- 6. Campo PIN Numérico (numberPassword) --&gt;
+        &lt;com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tilPin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/actinp_hint_pin"
+            app:helperText="@string/actinp_helper_numberPassword"&gt;
+
+            &lt;com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etPin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="numberPassword" /&gt;
+        &lt;/com.google.android.material.textfield.TextInputLayout&gt;
+
+        &lt;!-- Fila de Botones: Validar &amp; Limpiar --&gt;
+        &lt;LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:orientation="horizontal"&gt;
+
+            &lt;com.google.android.material.button.MaterialButton
+                android:id="@+id/btnValidate"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/common_btn_validate" /&gt;
+
+            &lt;Space
+                android:layout_width="8dp"
+                android:layout_height="wrap_content" /&gt;
+
+            &lt;com.google.android.material.button.MaterialButton
+                android:id="@+id/btnClear"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/common_btn_clear"
+                style="@style/Widget.Material3.Button.OutlinedButton" /&gt;
+        &lt;/LinearLayout&gt;
+    &lt;/LinearLayout&gt;
+&lt;/ScrollView&gt;</code></pre>
             </div>
 
-            <!-- Foto 3 -->
-            <div class="rounded-2xl border-2 border-red-500 bg-red-50/90 p-5 text-red-950 flex flex-col justify-between">
-              <div>
-                <div class="flex items-center justify-between gap-1 pb-2 border-b border-red-200">
-                  <span class="px-2 py-0.5 rounded bg-red-600 text-white font-bold text-[10px] uppercase tracking-wider">🔴 Foto 3: Error</span>
-                  <span class="text-[9px] font-bold text-red-600 uppercase bg-red-100 px-1.5 py-0.5 rounded border border-red-300">Borrar al poner foto</span>
-                </div>
-                <div class="mt-3 space-y-1.5 text-xs">
-                  <p><strong class="text-red-900">📄 Vista XML:</strong> <code
-                      class="text-red-700 bg-white px-1 py-0.5 rounded border border-red-200 font-mono font-bold">activity_text_inputs.xml</code></p>
-                  <p><strong class="text-red-900">☕ Clase:</strong> <code class="text-red-700 bg-white px-1 py-0.5 rounded border border-red-200 font-mono font-bold">TextInputsActivity.java</code></p>
-                  <p><strong class="text-red-900">🎯 Qué capturar:</strong> Dejar campos vacíos o email inválido, pulsar Validar para ver <code>setError</code> en rojo y Toast.</p>
-                  <p><strong class="text-red-900">💾 Guardar:</strong> <code
-                      class="text-red-800 bg-white px-1 py-0.5 rounded border border-red-200 font-mono font-bold">assets/images/lab-textinputs-error.png</code></p>
-                </div>
-              </div>
-              <figure class="group rounded-xl border-2 border-dashed border-red-400 bg-white overflow-hidden mt-4">
-                <div class="aspect-[16/10] flex flex-col items-center justify-center p-3 text-center">
-                  <div class="w-7 h-7 rounded-lg bg-red-100 border border-red-300 flex items-center justify-center text-red-600 text-sm">📷</div>
-                  <p class="mt-1 font-bold text-[11px] text-red-800">lab-textinputs-error.png</p>
-                </div>
-                <img src="assets/images/lab-textinputs-error.png" alt="Error" class="hidden w-full object-cover"
-                  onload="this.parentElement.classList.add('loaded'); this.previousElementSibling.style.display='none'" />
-                <figcaption class="px-2.5 py-1 bg-red-100/60 border-t border-red-200 text-[10px] text-red-800 font-medium">Fig. 3 — Estado de error con setError</figcaption>
-              </figure>
+            <!-- Panel 2: Java 11 Completo -->
+            <div class="tab-pane hidden" data-tab="java">
+              <pre><code class="language-java">package com.example.sandbox.sandbox;
+
+import android.os.Bundle;
+import android.widget.TextView;
+import android.widget.Toast;
+import androidx.appcompat.app.AppCompatActivity;
+import com.example.sandbox.R;
+import com.example.sandbox.utils.LoggerUtils;
+import com.example.sandbox.utils.ValidationUtils;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
+
+/**
+ * TextInputsActivity — Controlador completo para el laboratorio de TextInputs.
+ * Demuestra:
+ *  1. Captura de 6 tipos de inputs (texto, email, teléfono, numérico, password, PIN).
+ *  2. Patrón de validación acumulativa por campo con TextInputLayout.setError().
+ *  3. Limpieza de estado y feedback reactivo con TextView y Toast.
+ */
+public class TextInputsActivity extends AppCompatActivity {
+
+    private static final String TAG = "SANDBOX_INPUTS";
+
+    // Contenedores TextInputLayout para manejo de errores visuales y hints
+    private TextInputLayout tilPlain, tilEmail, tilPhone, tilPostal, tilPass, tilPin;
+
+    // Campos de edición de texto
+    private TextInputEditText etPlain, etEmail, etPhone, etPostal, etPass, etPin;
+
+    // Vista de preview del estado de validación
+    private TextView tvPreview;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_text_inputs);
+
+        // 1. Vinculación de vistas del layout
+        bindViews();
+
+        // 2. Configuración de eventos de los botones
+        findViewById(R.id.btnValidate).setOnClickListener(v -> validateForm());
+        findViewById(R.id.btnClear).setOnClickListener(v -> clearForm());
+
+        LoggerUtils.d(TAG, "TextInputsActivity inicializada correctamente");
+    }
+
+    /**
+     * Vincula todos los componentes gráficos definidos en activity_text_inputs.xml
+     */
+    private void bindViews() {
+        tilPlain  = findViewById(R.id.tilPlain);
+        tilEmail  = findViewById(R.id.tilEmail);
+        tilPhone  = findViewById(R.id.tilPhone);
+        tilPostal = findViewById(R.id.tilPostal);
+        tilPass   = findViewById(R.id.tilPass);
+        tilPin    = findViewById(R.id.tilPin);
+
+        etPlain   = findViewById(R.id.etPlain);
+        etEmail   = findViewById(R.id.etEmail);
+        etPhone   = findViewById(R.id.etPhone);
+        etPostal  = findViewById(R.id.etPostal);
+        etPass    = findViewById(R.id.etPass);
+        etPin     = findViewById(R.id.etPin);
+
+        tvPreview = findViewById(R.id.tvPreview);
+    }
+
+    /**
+     * Ejecuta la validación acumulativa de todos los campos.
+     * Si algún campo es inválido, muestra su mensaje de error específico.
+     */
+    private void validateForm() {
+        String plain  = getTrimmedText(etPlain);
+        String email  = getTrimmedText(etEmail);
+        String phone  = getTrimmedText(etPhone);
+        String postal = getTrimmedText(etPostal);
+        String pass   = getTrimmedText(etPass);
+        String pin    = getTrimmedText(etPin);
+
+        boolean isValid = true;
+
+        // 1. Validar Nombre (Campo requerido)
+        if (!ValidationUtils.isRequired(plain)) {
+            tilPlain.setError(getString(R.string.common_err_required));
+            isValid = false;
+        } else {
+            tilPlain.setError(null);
+        }
+
+        // 2. Validar Correo Electrónico (Requerido + Formato Email)
+        if (!ValidationUtils.isRequired(email)) {
+            tilEmail.setError(getString(R.string.common_err_required));
+            isValid = false;
+        } else if (!ValidationUtils.isEmail(email)) {
+            tilEmail.setError(getString(R.string.common_err_email));
+            isValid = false;
+        } else {
+            tilEmail.setError(null);
+        }
+
+        // 3. Validar Teléfono (Requerido + Formato Telefónico)
+        if (!ValidationUtils.isRequired(phone)) {
+            tilPhone.setError(getString(R.string.common_err_required));
+            isValid = false;
+        } else if (!ValidationUtils.isPhone(phone)) {
+            tilPhone.setError(getString(R.string.common_err_phone));
+            isValid = false;
+        } else {
+            tilPhone.setError(null);
+        }
+
+        // 4. Validar Código Postal (Requerido + Numérico 5 dígitos)
+        if (!ValidationUtils.isRequired(postal)) {
+            tilPostal.setError(getString(R.string.common_err_required));
+            isValid = false;
+        } else if (!ValidationUtils.isPostalCode(postal)) {
+            tilPostal.setError(getString(R.string.common_err_postal));
+            isValid = false;
+        } else {
+            tilPostal.setError(null);
+        }
+
+        // 5. Validar Contraseña (Requerido + Mínimo 6 caracteres)
+        if (!ValidationUtils.isRequired(pass)) {
+            tilPass.setError(getString(R.string.common_err_required));
+            isValid = false;
+        } else if (!ValidationUtils.isPassword(pass)) {
+            tilPass.setError(getString(R.string.common_err_pass_short));
+            isValid = false;
+        } else {
+            tilPass.setError(null);
+        }
+
+        // 6. Validar PIN (Requerido + 4 a 6 dígitos numéricos)
+        if (!ValidationUtils.isRequired(pin)) {
+            tilPin.setError(getString(R.string.common_err_required));
+            isValid = false;
+        } else if (!ValidationUtils.isNumericPassword(pin)) {
+            tilPin.setError(getString(R.string.common_err_pass_numeric));
+            isValid = false;
+        } else {
+            tilPin.setError(null);
+        }
+
+        // Si existen errores, se muestra notificación y se cancela el flujo
+        if (!isValid) {
+            Toast.makeText(this, getString(R.string.common_msg_correct_errors), Toast.LENGTH_SHORT).show();
+            LoggerUtils.e(TAG, "Validación fallida: uno o más campos contienen errores");
+            tvPreview.setText(getString(R.string.actinp_preview_error));
+            return;
+        }
+
+        // Formulario completamente válido
+        String successMsg = getString(R.string.actinp_preview_ok, plain, email, phone);
+        tvPreview.setText(successMsg);
+        Toast.makeText(this, getString(R.string.common_toast_validation_ok), Toast.LENGTH_SHORT).show();
+        LoggerUtils.i(TAG, "Formulario válido: " + successMsg);
+    }
+
+    /**
+     * Resetea todos los campos de entrada, limpia los errores y restaura el preview.
+     */
+    private void clearForm() {
+        etPlain.setText("");
+        etEmail.setText("");
+        etPhone.setText("");
+        etPostal.setText("");
+        etPass.setText("");
+        etPin.setText("");
+
+        tilPlain.setError(null);
+        tilEmail.setError(null);
+        tilPhone.setError(null);
+        tilPostal.setError(null);
+        tilPass.setError(null);
+        tilPin.setError(null);
+
+        tvPreview.setText(getString(R.string.actinp_preview));
+        LoggerUtils.d(TAG, "Formulario reseteado exitosamente");
+    }
+
+    /**
+     * Helper para extraer y recortar el texto de un TextInputEditText de forma segura.
+     */
+    private String getTrimmedText(TextInputEditText editText) {
+        return (editText != null && editText.getText() != null)
+                ? editText.getText().toString().trim()
+                : "";
+    }
+}</code></pre>
             </div>
-          </div>
-          <div class="mt-6 grid lg:grid-cols-1 gap-6">
-            <pre class="bg-zinc-900 text-zinc-100 rounded-2xl p-5 text-xs overflow-auto"><code class="language-java">// Validación en bloque — patrón fail acumulativo
-boolean ok = true;
-if(!ValidationUtils.isRequired(plain)){ tilPlain.setError(common_err_required); ok=false; } else tilPlain.setError(null);
-if(!isEmail(email)){ tilEmail.setError(common_err_email); ok=false; } else tilEmail.setError(null);
-// ... phone, postal, pass, pin
-if(!ok){
-  Toast.makeText(this, getString(common_msg_correct_errors), SHORT).show();
-  tvPreview.setText(getString(R.string.actinp_preview_error));
-  Log.e(TAG, "Validación Inputs fallida");
-  return;
-}
-tvPreview.setText(getString(R.string.actinp_preview_ok, plain, email, phone));
-Toast.makeText(this, getString(common_toast_validation_ok), SHORT).show();</code></pre>
-            <div class="rounded-2xl border border-zinc-200 p-5">
-              <p class="font-semibold text-sm">Por qué dos botones Validar/Limpiar</p>
-              <p class="mt-2 text-sm text-zinc-600">Validar = ejecuta bloque anterior. Limpiar = <code>setText("")</code> + <code>setError(null)</code> + <code>tvPreview=actinp_preview</code> +
-                <code>Log.d</code>. Así practicas reset sin re-crear Activity.
-              </p>
-              <div class="mt-4 rounded-xl bg-amber-50 border border-amber-200 p-3 text-xs">
-                <p class="font-medium">Responsive</p>
-                <p>ScrollView + LinearLayout: todos <code>match_parent</code>, 12dp horizontal padding. No Card anidada, scroll natural. MaterialButton Validar peso 1 + Space 8dp + Limpiar outlined
-                  peso 1.</p>
-              </div>
+
+            <!-- Panel 3: Kotlin + ViewBinding Completo -->
+            <div class="tab-pane hidden" data-tab="kotlin">
+              <pre><code class="language-kotlin">package com.example.sandbox.sandbox
+
+import android.os.Bundle
+import android.util.Patterns
+import android.widget.Toast
+import androidx.annotation.StringRes
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.widget.doAfterTextChanged
+import com.example.sandbox.R
+import com.example.sandbox.databinding.ActivityTextInputsBinding
+import com.example.sandbox.utils.LoggerUtils
+import com.google.android.material.textfield.TextInputLayout
+
+/**
+ * TextInputsActivity — Implementación idiomática completa en Kotlin + ViewBinding.
+ * Incluye gestión de ciclo de vida, validación reactiva en tiempo real y helpers de extensión.
+ */
+class TextInputsActivity : AppCompatActivity() {
+
+    private val binding by lazy { ActivityTextInputsBinding.inflate(layoutInflater) }
+    private val TAG = "SANDBOX_INPUTS"
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(binding.root)
+
+        setupListeners()
+        LoggerUtils.d(TAG, "TextInputsActivity (Kotlin) inicializada")
+    }
+
+    private fun setupListeners() = with(binding) {
+        btnValidate.setOnClickListener { validateForm() }
+        btnClear.setOnClickListener { clearForm() }
+
+        // Validación reactiva opcional al escribir
+        etEmail.doAfterTextChanged { text ->
+            if (text?.toString().isValidEmail()) tilEmail.error = null
+        }
+    }
+
+    private fun validateForm() = with(binding) {
+        val plain  = etPlain.text?.toString().orEmpty().trim()
+        val email  = etEmail.text?.toString().orEmpty().trim()
+        val phone  = etPhone.text?.toString().orEmpty().trim()
+        val postal = etPostal.text?.toString().orEmpty().trim()
+        val pass   = etPass.text?.toString().orEmpty().trim()
+        val pin    = etPin.text?.toString().orEmpty().trim()
+
+        // Validación fluida por campo utilizando la función de extensión validate()
+        val isPlainValid  = tilPlain.validate(plain.isNotBlank(), R.string.common_err_required)
+        val isEmailValid  = tilEmail.validate(email.isValidEmail(), R.string.common_err_email)
+        val isPhoneValid  = tilPhone.validate(phone.isValidPhone(), R.string.common_err_phone)
+        val isPostalValid = tilPostal.validate(postal.isValidPostalCode(), R.string.common_err_postal)
+        val isPassValid   = tilPass.validate(pass.length >= 6, R.string.common_err_pass_short)
+        val isPinValid    = tilPin.validate(pin.isValidPin(), R.string.common_err_pass_numeric)
+
+        val isFormValid = isPlainValid && isEmailValid && isPhoneValid && 
+                          isPostalValid && isPassValid && isPinValid
+
+        if (!isFormValid) {
+            Toast.makeText(this@TextInputsActivity, getString(R.string.common_msg_correct_errors), Toast.LENGTH_SHORT).show()
+            tvPreview.setText(R.string.actinp_preview_error)
+            LoggerUtils.e(TAG, "Validación fallida: campos con errores")
+            return@with
+        }
+
+        // Formulario válido: actualizar vista previa y notificar al usuario
+        tvPreview.text = getString(R.string.actinp_preview_ok, plain, email, phone)
+        Toast.makeText(this@TextInputsActivity, getString(R.string.common_toast_validation_ok), Toast.LENGTH_SHORT).show()
+        LoggerUtils.i(TAG, "Validación exitosa")
+    }
+
+    private fun clearForm() = with(binding) {
+        listOf(tilPlain, tilEmail, tilPhone, tilPostal, tilPass, tilPin).forEach { til ->
+            til.editText?.text?.clear()
+            til.error = null
+        }
+        tvPreview.setText(R.string.actinp_preview)
+        LoggerUtils.d(TAG, "Formulario reseteado exitosamente")
+    }
+
+    // Helper de extensión para validar TextInputLayout de forma concisa y declarativa
+    private fun TextInputLayout.validate(condition: Boolean, @StringRes errorResId: Int): Boolean {
+        return if (condition) {
+            error = null
+            true
+        } else {
+            error = getString(errorResId)
+            false
+        }
+    }
+
+    // Helpers de extensión para validación de Strings
+    private fun String?.isValidEmail(): Boolean = !this.isNullOrBlank() && Patterns.EMAIL_ADDRESS.matcher(this).matches()
+    private fun String?.isValidPhone(): Boolean = !this.isNullOrBlank() && this.matches(Regex("^[+]?[0-9]{9,15}$"))
+    private fun String?.isValidPostalCode(): Boolean = !this.isNullOrBlank() && this.matches(Regex("^[0-9]{5}$"))
+    private fun String?.isValidPin(): Boolean = !this.isNullOrBlank() && this.matches(Regex("^[0-9]{4,6}$"))
+}</code></pre>
             </div>
           </div>
         </section>
-        <section class="bg-white rounded-[24px] border border-zinc-200 p-6 sm:p-8">
-          <h2 class="text-xl font-semibold tracking-tight">Cómo se desarrolló paso a paso (mano a mano)</h2>
-          <ol class="mt-4 list-decimal pl-5 text-sm text-zinc-700 space-y-2">
-            <li>Crea <code>activity_text_inputs.xml</code> con <code>ScrollView</code> + título <code>actinp_title</code> + Card <code>common_label_operation / actinp_info_desc</code>.</li>
-            <li>Añade 6 <code>TextInputLayout</code> con ids <code>tilPlain…tilPin</code> y 6 <code>TextInputEditText</code> <code>etPlain…etPin</code> + <code>app:helperText</code>
-              <code>actinp_helper_*</code>.
+
+        <!-- Paso a Paso -->
+        <section class="p-6 rounded-xl border border-zinc-200 bg-zinc-50 space-y-4">
+          <h2 class="text-base font-semibold text-zinc-900">4. Guía de Desarrollo Paso a Paso</h2>
+          <ol class="list-decimal pl-5 text-xs text-zinc-700 space-y-2 leading-relaxed">
+            <li>Crear el layout <code class="font-mono bg-white px-1.5 py-0.5 rounded border border-zinc-200 text-zinc-900">res/layout/activity_text_inputs.xml</code> con <code
+                class="font-mono text-zinc-800">ScrollView &gt; LinearLayout</code> para scroll fluido.</li>
+            <li>Añadir los 6 <code class="font-mono text-zinc-800">TextInputLayout</code> (<code class="font-mono text-zinc-700">tilPlain…tilPin</code>) con sus respectivos <code
+                class="font-mono text-zinc-800">TextInputEditText</code> y textos de ayuda.</li>
+            <li>Declarar <code class="font-mono text-zinc-800">TextView id=tvPreview</code> con fondo estilizado para previsualizar el estado del formulario.</li>
+            <li>En <code class="font-mono text-zinc-800">TextInputsActivity.java</code> vincular vistas y listeners para Validar y Limpiar.</li>
+            <li>Implementar el método <code class="font-mono text-zinc-800">validate()</code> con el patrón fail acumulativo llamando a <code class="font-mono text-zinc-800">ValidationUtils</code>.
             </li>
-            <li>Añade <code>TextView id=tvPreview</code> con <code>actinp_preview</code>.</li>
-            <li>En <code>TextInputsActivity.onCreate</code>: <code>setContentView</code> → <code>bind()</code> (findViewById x 13) → listeners de 2 botones.</li>
-            <li>Implementa <code>validate()</code> con bloque acumulativo <code>boolean ok</code> + <code>Toast common_msg_correct_errors</code> + <code>actinp_preview_error</code>.</li>
-            <li>Implementa <code>clear()</code> con reset + <code>Log.d</code>. Valida strings con <code>ValidationUtils</code>.</li>
           </ol>
-          <div class="mt-4 flex flex-wrap gap-2 text-xs"><a href="lab-datetime.html" class="px-4 py-2 bg-violet-600 text-white rounded-full">Siguiente Lab 2 →</a><a href="validacion.html"
-              class="px-4 py-2 bg-white border border-zinc-200 rounded-full">Ver estrategia validación →</a></div>
+
+          <div class="pt-2 flex items-center justify-between border-t border-zinc-200/80">
+            <a href="validacion.html" class="text-xs font-medium text-zinc-600 hover:text-zinc-950 transition-colors">← Ver estrategia de validación</a>
+            <a href="lab-datetime.html" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-md text-xs font-medium bg-zinc-900 text-white hover:bg-zinc-800 transition-colors shadow-xs">
+              <span>Siguiente: Lab 2 (Date/Time) →</span>
+            </a>
+          </div>
         </section>
+
       </main>
     </div>
+
     <script src="assets/nav.js"></script>
   </body>
 

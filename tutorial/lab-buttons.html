@@ -1,176 +1,157 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" class="h-full bg-white text-zinc-950 antialiased">
 <head>
-<meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Lab 3 · Buttons / Chip — Sandbox</title>
-<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-<style type="text/tailwindcss">@theme{--font-sans:Inter,system-ui,sans-serif;--font-mono:JetBrains Mono,monospace;}</style>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/codemirror.min.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/theme/dracula.min.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
-<style>
-  pre {
-    background:#282a36 !important;
-    border:1px solid #44475a !important;
-    border-radius:12px !important;
-    padding:0 !important;
-    overflow:hidden !important;
-    position:relative !important;
-    margin:0 !important;
-  }
-  pre code {
-    display:block !important;
-    padding:1rem 1rem 1rem 3.8rem !important;
-    font-family:'JetBrains Mono', Consolas, monospace !important;
-    font-size:12.5px !important;
-    line-height:1.65 !important;
-    color:#f8f8f2 !important;
-    background:transparent !important;
-    overflow-x:auto !important;
-  }
-  pre::before {
-    content:"";
-    position:absolute;
-    left:0; top:0; bottom:0;
-    width:3.2rem;
-    background:#21222c;
-    border-right:1px solid #44475a;
-    z-index:0;
-  }
-  .cm-gutter {
-    position:absolute;
-    left:0; top:0; bottom:0;
-    width:3.2rem;
-    padding:1rem 0;
-    text-align:right;
-    font-family:'JetBrains Mono', monospace;
-    font-size:11.5px;
-    line-height:1.65;
-    color:#6272a4;
-    user-select:none;
-    z-index:1;
-    pointer-events:none;
-  }
-  .cm-gutter span { display:block; padding-right:0.75rem; }
-  .hljs { background:transparent !important; }
-  .hljs-keyword{color:#ff79c6 !important}
-  .hljs-string{color:#f1fa8c !important}
-  .hljs-comment{color:#6272a4 !important}
-  .hljs-type{color:#8be9fd !important}
-  .hljs-title{color:#50fa7b !important}
-  .hljs-number{color:#bd93f9 !important}
-  .hljs-tag{color:#f8f8f2 !important}
-  .hljs-name{color:#ff79c6 !important}
-  .hljs-attr{color:#50fa7b !important}
-  .hljs-attribute{color:#50fa7b !important}
-  .hljs-meta{color:#ff79c6 !important}
-  .hljs-meta-string{color:#f1fa8c !important}
-  .hljs-value{color:#f1fa8c !important}
-  .hljs-function .hljs-title{color:#50fa7b !important}
-  .hljs-params{color:#f8f8f2 !important}
-  .hljs-built_in{color:#8be9fd !important}
-</style>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
+  <title>Lab 3 · Buttons & Chip — Sandbox Android</title>
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <style type="text/tailwindcss">
+    @theme {
+      --font-sans: 'Plus Jakarta Sans', Inter, system-ui, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+  </style>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/kotlin.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/java.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/xml.min.js"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+    body { font-family: 'Plus Jakarta Sans', sans-serif; }
+    code, pre { font-family: 'JetBrains Mono', monospace; }
+
+    pre {
+      background: #09090b !important;
+      border: 1px solid #27272a !important;
+      border-radius: 0.75rem !important;
+      padding: 0 !important;
+      overflow: hidden !important;
+      position: relative !important;
+      margin: 0 !important;
+    }
+    pre code {
+      display: block !important;
+      padding: 1rem 1rem 1rem 3.6rem !important;
+      font-size: 12.5px !important;
+      line-height: 1.65 !important;
+      color: #f4f4f5 !important;
+      background: transparent !important;
+      overflow-x: auto !important;
+    }
+    .cm-gutter {
+      position: absolute;
+      left: 0; top: 0; bottom: 0;
+      width: 3rem;
+      padding: 1rem 0;
+      text-align: right;
+      font-size: 11px;
+      line-height: 1.65;
+      color: #71717a;
+      background: #18181b;
+      border-right: 1px solid #27272a;
+      user-select: none;
+      z-index: 1;
+      pointer-events: none;
+    }
+    .cm-gutter span { display: block; padding-right: 0.6rem; }
+  </style>
 </head>
-<body class="bg-[#f8f9fb] text-zinc-800 antialiased">
-<header class="sticky top-0 z-50 bg-white/90 backdrop-blur border-b border-zinc-200">
-<div class="max-w-[1440px] mx-auto px-4 sm:px-6 py-2 flex items-center justify-between">
-<div class="flex items-center gap-3"><button id="menuBtn" class="lg:hidden p-2 rounded-xl border border-zinc-200 bg-white"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h16"/></svg></button><div class="w-8 h-8 rounded-xl text-sm bg-violet-600 flex items-center justify-center text-white font-bold">3</div><div class="hidden sm:block"><p class="font-semibold leading-none">Lab 3 · Buttons / Chip</p><p class="text-[10px] text-zinc-500">acbutt_ · Click + debounce + ChipGroup</p></div></div>
-<a href="labs.html" class="px-4 py-2 bg-white border border-zinc-200 rounded-full text-sm font-medium hover:bg-zinc-50">← Labs</a>
-</div></header>
-<div id="overlay" class="fixed inset-0 bg-black/30 z-40 hidden lg:hidden"></div>
-<div class="max-w-[1440px] mx-auto px-4 sm:px-6 py-4 lg:py-6 grid grid-cols-1 lg:grid-cols-[240px_minmax(0,1fr)] gap-4 lg:gap-6">
-<aside id="sidebar" class="fixed lg:sticky top-0 lg:top-[53px] left-0 z-40 w-[240px] h-[100dvh] lg:h-[calc(100vh-53px)] bg-white lg:bg-transparent border-r lg:border-0 border-zinc-200 overflow-auto p-4 lg:p-0 -translate-x-full lg:translate-x-0 transition-transform duration-200"></aside>
-<main class="min-w-0 space-y-6">
+<body class="min-h-full flex flex-col bg-white">
 
-<!-- Resumen del Laboratorio -->
-<section class="bg-white rounded-[24px] border border-zinc-200 p-6 sm:p-8">
-  <div class="inline-flex items-center gap-2 text-xs font-semibold tracking-wider text-violet-700 bg-violet-50 border border-violet-200 px-3 py-1 rounded-full uppercase">Laboratorio 3 · Widgets de Acción</div>
-  <h1 class="mt-3 text-3xl font-semibold tracking-tight">MaterialButton, ImageButton y ChipGroup</h1>
-  <p class="mt-2 text-sm text-zinc-500 max-w-3xl leading-relaxed">
-    En este laboratorio se profundiza en los tres mecanismos fundamentales de acción del sistema Android: control de pulsación rápida (<strong class="text-zinc-900">Debounce</strong>), botones de icono accesibles (<strong class="text-zinc-900">ImageButton con contentDescription</strong>) y filtros exclusivos (<strong class="text-zinc-900">ChipGroup singleSelection</strong>).
-  </p>
-  <div class="mt-4 flex flex-wrap gap-2 text-xs">
-    <span class="px-3 py-1 rounded-full bg-zinc-900 text-white font-mono">activity_buttons.xml</span>
-    <span class="px-3 py-1 rounded-full border border-zinc-200 font-mono">ButtonsActivity.java</span>
-    <span class="px-3 py-1 rounded-full border border-violet-200 text-violet-700 bg-violet-50">prefijo: acbutt_*</span>
-  </div>
-
-  <!-- BLOQUES DE CAPTURA EN ROJO (GUÍA TEMPORAL PARA BORRAR TRAS AGREGAR FOTOS) -->
-  <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
-    <!-- Foto 1 -->
-    <div class="rounded-2xl border-2 border-red-500 bg-red-50/90 p-5 text-red-950 flex flex-col justify-between">
-      <div>
-        <div class="flex items-center justify-between gap-2 pb-2 border-b border-red-200">
-          <span class="px-2 py-0.5 rounded bg-red-600 text-white font-bold text-[11px] uppercase tracking-wider">🔴 Foto 1 Requerida</span>
-          <span class="text-[10px] font-bold text-red-600 uppercase bg-red-100 px-2 py-0.5 rounded border border-red-300">Borrar al poner foto</span>
-        </div>
-        <div class="mt-3 space-y-1.5 text-xs">
-          <p><strong class="text-red-900">📄 Vista XML:</strong> <code class="text-red-700 bg-white px-1.5 py-0.5 rounded border border-red-200 font-mono font-bold">res/layout/activity_buttons.xml</code></p>
-          <p><strong class="text-red-900">☕ Clase Java:</strong> <code class="text-red-700 bg-white px-1.5 py-0.5 rounded border border-red-200 font-mono font-bold">ButtonsActivity.java</code></p>
-          <p><strong class="text-red-900">🎯 Qué capturar:</strong> Abrir la pantalla en el Emulador, pulsar "Botón Normal" para que el TextView inferior muestre "Botón presionado".</p>
-          <p><strong class="text-red-900">💾 Guardar en:</strong> <code class="text-red-800 bg-white px-1.5 py-0.5 rounded border border-red-200 font-mono font-bold">tutorial/assets/images/lab-buttons-preview.png</code></p>
+  <!-- Header Superior shadcn -->
+  <header class="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-zinc-200">
+    <div class="max-w-[1440px] mx-auto px-4 sm:px-6 h-14 flex items-center justify-between gap-4">
+      <div class="flex items-center gap-3">
+        <button id="menuBtn" class="lg:hidden p-1.5 rounded-md text-zinc-600 hover:bg-zinc-100 transition-colors" aria-label="Abrir navegación">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+        </button>
+        <div class="flex items-center gap-2">
+          <div class="w-6 h-6 rounded-md bg-zinc-900 text-white flex items-center justify-center font-bold text-xs shadow-xs">3</div>
+          <span class="font-semibold text-sm tracking-tight text-zinc-900">Lab 3</span>
+          <span class="text-zinc-300">/</span>
+          <span class="text-xs text-zinc-500 font-medium">Buttons, ImageButton & ChipGroup</span>
         </div>
       </div>
-      <figure class="group rounded-xl border-2 border-dashed border-red-400 bg-white overflow-hidden mt-4">
-        <div class="aspect-[16/10] flex flex-col items-center justify-center p-4 text-center">
-          <div class="w-8 h-8 rounded-lg bg-red-100 border border-red-300 flex items-center justify-center text-red-600">📷</div>
-          <p class="mt-1 font-bold text-xs text-red-800">lab-buttons-preview.png</p>
-          <p class="text-[10px] text-red-600">Al guardar el archivo aparecerá aquí automáticamente</p>
-        </div>
-        <img src="assets/images/lab-buttons-preview.png" alt="Buttons" class="hidden w-full object-cover" onload="this.parentElement.classList.add('loaded'); this.previousElementSibling.style.display='none'" />
-        <figcaption class="px-3 py-1.5 bg-red-100/60 border-t border-red-200 text-[11px] text-red-800 font-medium">Fig. 1 — Buttons + ImageButton en emulador</figcaption>
-      </figure>
-    </div>
 
-    <!-- Foto 2 -->
-    <div class="rounded-2xl border-2 border-red-500 bg-red-50/90 p-5 text-red-950 flex flex-col justify-between">
-      <div>
-        <div class="flex items-center justify-between gap-2 pb-2 border-b border-red-200">
-          <span class="px-2 py-0.5 rounded bg-red-600 text-white font-bold text-[11px] uppercase tracking-wider">🔴 Foto 2 Requerida</span>
-          <span class="text-[10px] font-bold text-red-600 uppercase bg-red-100 px-2 py-0.5 rounded border border-red-300">Borrar al poner foto</span>
+      <div class="flex items-center gap-2">
+        <div class="hidden sm:flex items-center gap-1 text-xs font-mono text-zinc-500">
+          <span class="px-2 py-0.5 rounded-md bg-zinc-100 text-zinc-800 border border-zinc-200">activity_buttons.xml</span>
+          <span class="px-2 py-0.5 rounded-md bg-zinc-100 text-zinc-800 border border-zinc-200">ButtonsActivity.java</span>
         </div>
-        <div class="mt-3 space-y-1.5 text-xs">
-          <p><strong class="text-red-900">📄 Vista XML:</strong> <code class="text-red-700 bg-white px-1.5 py-0.5 rounded border border-red-200 font-mono font-bold">res/layout/activity_buttons.xml</code></p>
-          <p><strong class="text-red-900">☕ Clase Java:</strong> <code class="text-red-700 bg-white px-1.5 py-0.5 rounded border border-red-200 font-mono font-bold">ButtonsActivity.java</code></p>
-          <p><strong class="text-red-900">🎯 Qué capturar:</strong> Seleccionar el chip "Android" dentro del ChipGroup para que el TextView inferior refleje "Chip seleccionado: Android".</p>
-          <p><strong class="text-red-900">💾 Guardar en:</strong> <code class="text-red-800 bg-white px-1.5 py-0.5 rounded border border-red-200 font-mono font-bold">tutorial/assets/images/lab-buttons-chip.png</code></p>
-        </div>
+        <a href="labs.html" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-md text-xs font-medium border border-zinc-200 hover:bg-zinc-50 transition-colors">
+          <span>← Labs</span>
+        </a>
       </div>
-      <figure class="group rounded-xl border-2 border-dashed border-red-400 bg-white overflow-hidden mt-4">
-        <div class="aspect-[16/10] flex flex-col items-center justify-center p-4 text-center">
-          <div class="w-8 h-8 rounded-lg bg-red-100 border border-red-300 flex items-center justify-center text-red-600">📷</div>
-          <p class="mt-1 font-bold text-xs text-red-800">lab-buttons-chip.png</p>
-          <p class="text-[10px] text-red-600">Al guardar el archivo aparecerá aquí automáticamente</p>
+    </div>
+  </header>
+
+  <!-- Contenedor Principal Layout -->
+  <div id="overlay" class="fixed inset-0 bg-black/40 z-40 hidden lg:hidden"></div>
+  <div class="max-w-[1440px] mx-auto px-4 sm:px-6 py-6 grid grid-cols-1 lg:grid-cols-[240px_minmax(0,1fr)] gap-8 w-full">
+    
+    <!-- Sidebar -->
+    <aside id="sidebar" class="fixed lg:sticky top-0 lg:top-20 left-0 z-40 w-[240px] h-[100dvh] lg:h-[calc(100vh-5rem)] bg-white lg:bg-transparent border-r lg:border-0 border-zinc-200 overflow-y-auto p-4 lg:p-0 -translate-x-full lg:translate-x-0 transition-transform duration-200"></aside>
+
+    <!-- Contenido Principal -->
+    <main class="min-w-0 space-y-8">
+      
+      <!-- Encabezado del Lab -->
+      <section class="space-y-3">
+        <div class="inline-flex items-center gap-2 px-2.5 py-1 rounded-full text-xs font-medium bg-zinc-100 text-zinc-800 border border-zinc-200">
+          <span class="w-1.5 h-1.5 rounded-full bg-violet-600"></span>
+          Laboratorio 3 · Componentes de Acción & Filtro
         </div>
-        <img src="assets/images/lab-buttons-chip.png" alt="Chip" class="hidden w-full object-cover" onload="this.parentElement.classList.add('loaded'); this.previousElementSibling.style.display='none'" />
-        <figcaption class="px-3 py-1.5 bg-red-100/60 border-t border-red-200 text-[11px] text-red-800 font-medium">Fig. 2 — ChipGroup con singleSelection activo</figcaption>
-      </figure>
-    </div>
-  </div>
-</section>
+        <h1 class="text-3xl font-extrabold tracking-tight text-zinc-950">
+          MaterialButton, ImageButton y ChipGroup
+        </h1>
+        <p class="text-sm text-zinc-600 leading-relaxed max-w-3xl">
+          Explora los tres controles de acción esenciales: control de pulsaciones rápidas (<strong class="text-zinc-900 font-semibold">Debounce</strong>), botones de imagen con accesibilidad (<strong class="text-zinc-900 font-semibold">contentDescription</strong> para TalkBack) y selección única con <strong class="text-zinc-900 font-semibold">ChipGroup</strong>.
+        </p>
+      </section>
 
-<!-- COMPONENTE 1: MaterialButton y Debounce -->
-<section class="bg-white rounded-[24px] border border-zinc-200 p-6 sm:p-8 space-y-4">
-  <div class="flex items-center justify-between flex-wrap gap-2 pb-2 border-b border-zinc-100">
-    <div class="flex items-center gap-2">
-      <span class="w-6 h-6 rounded-full bg-violet-600 text-white font-bold text-xs flex items-center justify-center">1</span>
-      <h2 class="text-xl font-semibold tracking-tight">MaterialButton · Debounce & Toggle de Estado</h2>
-    </div>
-    <span class="text-xs px-2.5 py-1 rounded-full bg-zinc-100 text-zinc-600 font-medium">Control de Clics</span>
-  </div>
-  <p class="text-sm text-zinc-600">
-    El debounce de 500 ms evita envíos dobles o llamadas redundantes a APIs cuando el usuario pulsa repetidamente. El botón toggle alterna el estado <code class="bg-zinc-100 px-1.5 py-0.5 rounded text-xs">setEnabled(boolean)</code>, modificando automáticamente el ripple y el alpha visual.
-  </p>
+      <!-- Capturas del Laboratorio -->
+      <section class="space-y-4">
+        <h2 class="text-lg font-bold text-zinc-950">1. Capturas del Emulador</h2>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <figure class="group rounded-xl border border-zinc-200 bg-zinc-50 overflow-hidden shadow-2xs">
+            <div class="aspect-[16/9] flex flex-col items-center justify-center p-4 text-center">
+              <div class="w-8 h-8 rounded-lg bg-white border border-zinc-200 flex items-center justify-center text-zinc-600 shadow-xs">📷</div>
+              <p class="mt-2 font-medium text-xs text-zinc-700">Buttons & Toggle</p>
+              <p class="text-[11px] text-zinc-400 font-mono">lab-buttons-preview.png</p>
+            </div>
+            <img src="assets/images/lab-buttons-preview.png" alt="Buttons" class="hidden w-full object-cover" onload="this.classList.remove('hidden'); this.style.display='block'; this.parentElement.classList.add('loaded'); if(this.previousElementSibling) this.previousElementSibling.style.display='none'" />
+            <figcaption class="px-3 py-2 bg-white border-t border-zinc-200 text-xs text-zinc-500">Fig. 1 — Button normal con debounce y toggle de activación</figcaption>
+          </figure>
 
-  <div class="space-y-4">
-    <!-- Bloque XML -->
-    <div class="rounded-xl border border-zinc-200 overflow-hidden">
-      <div class="bg-zinc-100 px-4 py-2 border-b border-zinc-200 flex items-center justify-between text-xs font-semibold text-zinc-700">
-        <span>XML Layout · activity_buttons.xml</span>
-        <span class="bg-blue-100 text-blue-700 px-2 py-0.5 rounded">XML</span>
-      </div>
-      <pre><code class="language-xml">&lt;com.google.android.material.button.MaterialButton
+          <figure class="group rounded-xl border border-zinc-200 bg-zinc-50 overflow-hidden shadow-2xs">
+            <div class="aspect-[16/9] flex flex-col items-center justify-center p-4 text-center">
+              <div class="w-8 h-8 rounded-lg bg-white border border-zinc-200 flex items-center justify-center text-zinc-600 shadow-xs">📷</div>
+              <p class="mt-2 font-medium text-xs text-zinc-700">ChipGroup Selección</p>
+              <p class="text-[11px] text-zinc-400 font-mono">lab-buttons-chip.png</p>
+            </div>
+            <img src="assets/images/lab-buttons-chip.png" alt="Chip" class="hidden w-full object-cover" onload="this.classList.remove('hidden'); this.style.display='block'; this.parentElement.classList.add('loaded'); if(this.previousElementSibling) this.previousElementSibling.style.display='none'" />
+            <figcaption class="px-3 py-2 bg-white border-t border-zinc-200 text-xs text-zinc-500">Fig. 2 — ChipGroup con singleSelection activo y actualización de estado</figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <!-- Componente 1: MaterialButton & Debounce -->
+      <section class="p-6 rounded-xl border border-zinc-200 bg-white space-y-4">
+        <div class="flex items-center justify-between flex-wrap gap-2 pb-2 border-b border-zinc-100">
+          <div class="flex items-center gap-2">
+            <span class="w-6 h-6 rounded-md bg-zinc-900 text-white font-bold text-xs flex items-center justify-center">1</span>
+            <h3 class="text-base font-bold text-zinc-950">MaterialButton · Debounce & Toggle de Estado</h3>
+          </div>
+          <span class="text-[11px] px-2 py-0.5 rounded-md bg-zinc-100 text-zinc-700 font-mono">Control de Clics</span>
+        </div>
+        <p class="text-xs text-zinc-600 leading-relaxed">
+          El debounce de 500 ms previene envíos duplicados en llamadas a backend. El botón toggle alterna el estado <code class="font-mono text-zinc-800 bg-zinc-100 px-1 py-0.5 rounded">setEnabled(boolean)</code>, modificando automáticamente el ripple y el alpha visual.
+        </p>
+
+        <!-- Bloque XML -->
+        <pre><code class="language-xml">&lt;com.google.android.material.button.MaterialButton
     android:id="@+id/btnNormal"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -182,110 +163,64 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:text="@string/acbutt_btn_toggle" /&gt;</code></pre>
-    </div>
 
-    <!-- Bloque Java Controller -->
-    <div class="rounded-xl border border-zinc-200 overflow-hidden">
-      <div class="bg-zinc-100 px-4 py-2 border-b border-zinc-200 flex items-center justify-between text-xs font-semibold text-zinc-700">
-        <span>Java Controller · ButtonsActivity.java (Listeners y Debounce)</span>
-        <span class="bg-orange-100 text-orange-700 px-2 py-0.5 rounded">Java</span>
-      </div>
-      <pre><code class="language-java">private long lastClickTime = 0;
+        <!-- Bloque Java Controller -->
+        <pre><code class="language-java">long lastClick = 0;
 
-private void setupButtonListeners() {
-    MaterialButton btnNormal = findViewById(R.id.btnNormal);
-    MaterialButton btnToggle = findViewById(R.id.btnToggle);
-    TextView tvStatus = findViewById(R.id.tvStatus);
+btnNormal.setOnClickListener(v -> {
+    long now = System.currentTimeMillis();
+    if (now - lastClick < 500) {
+        Log.w(TAG, "Debounce: click ignorado para evitar doble envío");
+        return;
+    }
+    lastClick = now;
+    tvStatus.setText(getString(R.string.acbutt_status_button, "1"));
+    Toast.makeText(this, getString(R.string.acbutt_toast_button), Toast.LENGTH_SHORT).show();
+});
 
-    btnNormal.setOnClickListener(v -> {
-        long currentTime = System.currentTimeMillis();
-        // Umbral de debounce: 500 milisegundos
-        if (currentTime - lastClickTime < 500) {
-            Log.w("SANDBOX_BUTTONS", "Clic ignorado por debounce (<500ms)");
-            return;
-        }
-        lastClickTime = currentTime;
+btnToggle.setOnClickListener(v -> {
+    boolean isCurrentlyEnabled = btnNormal.isEnabled();
+    btnNormal.setEnabled(!isCurrentlyEnabled);
+    tvStatus.setText(getString(!isCurrentlyEnabled ? R.string.acbutt_status_enabled : R.string.acbutt_status_disabled));
+});</code></pre>
+      </section>
 
-        tvStatus.setText(getString(R.string.acbutt_status_button, String.valueOf(currentTime)));
-        Toast.makeText(this, getString(R.string.acbutt_toast_button), Toast.LENGTH_SHORT).show();
-    });
+      <!-- Componente 2: ImageButton & Accesibilidad -->
+      <section class="p-6 rounded-xl border border-zinc-200 bg-white space-y-4">
+        <div class="flex items-center justify-between flex-wrap gap-2 pb-2 border-b border-zinc-100">
+          <div class="flex items-center gap-2">
+            <span class="w-6 h-6 rounded-md bg-zinc-900 text-white font-bold text-xs flex items-center justify-center">2</span>
+            <h3 class="text-base font-bold text-zinc-950">ImageButton · Ripple Circular & Accesibilidad TalkBack</h3>
+          </div>
+          <span class="text-[11px] px-2 py-0.5 rounded-md bg-zinc-100 text-zinc-700 font-mono">A11y + Ripple</span>
+        </div>
+        <p class="text-xs text-zinc-600 leading-relaxed">
+          Un <code class="font-mono text-zinc-800">ImageButton</code> sin <code class="font-mono text-zinc-800">contentDescription</code> genera advertencias de accesibilidad severas en Android Lint. El fondo <code class="font-mono text-zinc-800">?attr/selectableItemBackgroundBorderless</code> proporciona el efecto de onda circular (ripple) característico de Material 3.
+        </p>
 
-    btnToggle.setOnClickListener(v -> {
-        boolean isCurrentlyEnabled = btnNormal.isEnabled();
-        btnNormal.setEnabled(!isCurrentlyEnabled); // Alterna estado lógico y visual
-        tvStatus.setText(getString(isCurrentlyEnabled ? R.string.acbutt_status_disabled : R.string.acbutt_status_enabled));
-    });
-}</code></pre>
-    </div>
-  </div>
-</section>
-
-<!-- COMPONENTE 2: ImageButton y Accesibilidad -->
-<section class="bg-white rounded-[24px] border border-zinc-200 p-6 sm:p-8 space-y-4">
-  <div class="flex items-center justify-between flex-wrap gap-2 pb-2 border-b border-zinc-100">
-    <div class="flex items-center gap-2">
-      <span class="w-6 h-6 rounded-full bg-violet-600 text-white font-bold text-xs flex items-center justify-center">2</span>
-      <h2 class="text-xl font-semibold tracking-tight">ImageButton · Ripple y Accesibilidad TalkBack</h2>
-    </div>
-    <span class="text-xs px-2.5 py-1 rounded-full bg-zinc-100 text-zinc-600 font-medium">Icon Buttons</span>
-  </div>
-  <p class="text-sm text-zinc-600">
-    Un <code class="bg-zinc-100 px-1.5 py-0.5 rounded text-xs">ImageButton</code> es un ImageView clickeable. Requiere obligatoriamente <code class="bg-zinc-100 px-1.5 py-0.5 rounded text-xs">android:contentDescription</code> para que los lectores de pantalla (TalkBack) verbalicen su acción a usuarios con discapacidad visual.
-  </p>
-
-  <div class="space-y-4">
-    <!-- Bloque XML -->
-    <div class="rounded-xl border border-zinc-200 overflow-hidden">
-      <div class="bg-zinc-100 px-4 py-2 border-b border-zinc-200 flex items-center justify-between text-xs font-semibold text-zinc-700">
-        <span>XML Layout · activity_buttons.xml (ImageButton)</span>
-        <span class="bg-blue-100 text-blue-700 px-2 py-0.5 rounded">XML</span>
-      </div>
-      <pre><code class="language-xml">&lt;ImageButton
+        <pre><code class="language-xml">&lt;ImageButton
     android:id="@+id/imgBtn"
-    android:layout_width="56dp"
-    android:layout_height="56dp"
+    android:layout_width="48dp"
+    android:layout_height="48dp"
     android:contentDescription="@string/acbutt_image_desc"
     android:src="@mipmap/ic_launcher_round"
     android:background="?attr/selectableItemBackgroundBorderless" /&gt;</code></pre>
-    </div>
+      </section>
 
-    <!-- Bloque Java Controller -->
-    <div class="rounded-xl border border-zinc-200 overflow-hidden">
-      <div class="bg-zinc-100 px-4 py-2 border-b border-zinc-200 flex items-center justify-between text-xs font-semibold text-zinc-700">
-        <span>Java Controller · ButtonsActivity.java (ImageButton Listener)</span>
-        <span class="bg-orange-100 text-orange-700 px-2 py-0.5 rounded">Java</span>
-      </div>
-      <pre><code class="language-java">ImageButton imgBtn = findViewById(R.id.imgBtn);
-imgBtn.setOnClickListener(v -> {
-    Log.i("SANDBOX_BUTTONS", "ImageButton pulsado");
-    tvStatus.setText(getString(R.string.acbutt_status_image_clicked));
-    Toast.makeText(this, getString(R.string.acbutt_toast_image), Toast.LENGTH_SHORT).show();
-});</code></pre>
-    </div>
-  </div>
-</section>
+      <!-- Componente 3: ChipGroup SingleSelection -->
+      <section class="p-6 rounded-xl border border-zinc-200 bg-white space-y-4">
+        <div class="flex items-center justify-between flex-wrap gap-2 pb-2 border-b border-zinc-100">
+          <div class="flex items-center gap-2">
+            <span class="w-6 h-6 rounded-md bg-zinc-900 text-white font-bold text-xs flex items-center justify-center">3</span>
+            <h3 class="text-base font-bold text-zinc-950">ChipGroup · Filtro Exclusivo (singleSelection="true")</h3>
+          </div>
+          <span class="text-[11px] px-2 py-0.5 rounded-md bg-zinc-100 text-zinc-700 font-mono">Filtros de Datos</span>
+        </div>
+        <p class="text-xs text-zinc-600 leading-relaxed">
+          <code class="font-mono text-zinc-800">app:singleSelection="true"</code> garantiza que solo un chip permanezca activo a la vez (comportamiento idéntico a un <code class="font-mono text-zinc-800">RadioGroup</code> horizontal con estética moderna).
+        </p>
 
-<!-- COMPONENTE 3: ChipGroup y Selección Única -->
-<section class="bg-white rounded-[24px] border border-zinc-200 p-6 sm:p-8 space-y-4">
-  <div class="flex items-center justify-between flex-wrap gap-2 pb-2 border-b border-zinc-100">
-    <div class="flex items-center gap-2">
-      <span class="w-6 h-6 rounded-full bg-violet-600 text-white font-bold text-xs flex items-center justify-center">3</span>
-      <h2 class="text-xl font-semibold tracking-tight">ChipGroup · Filtro Exclusivo (Single Selection)</h2>
-    </div>
-    <span class="text-xs px-2.5 py-1 rounded-full bg-zinc-100 text-zinc-600 font-medium">Material 3 Chips</span>
-  </div>
-  <p class="text-sm text-zinc-600">
-    Con <code class="bg-zinc-100 px-1.5 py-0.5 rounded text-xs">app:singleSelection="true"</code>, el ChipGroup se comporta como un grupo radial estilizado en pastillas (chips). El listener <code class="bg-zinc-100 px-1.5 py-0.5 rounded text-xs">setOnCheckedStateChangeListener</code> entrega la lista de IDs seleccionados de forma reactiva.
-  </p>
-
-  <div class="space-y-4">
-    <!-- Bloque XML -->
-    <div class="rounded-xl border border-zinc-200 overflow-hidden">
-      <div class="bg-zinc-100 px-4 py-2 border-b border-zinc-200 flex items-center justify-between text-xs font-semibold text-zinc-700">
-        <span>XML Layout · activity_buttons.xml (ChipGroup con 4 chips)</span>
-        <span class="bg-blue-100 text-blue-700 px-2 py-0.5 rounded">XML</span>
-      </div>
-      <pre><code class="language-xml">&lt;com.google.android.material.chip.ChipGroup
+        <pre><code class="language-xml">&lt;com.google.android.material.chip.ChipGroup
     android:id="@+id/chipGroup"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -311,58 +246,34 @@ imgBtn.setOnClickListener(v -> {
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/acbutt_chip_kotlin" /&gt;
-
-    &lt;com.google.android.material.chip.Chip
-        android:id="@+id/chip4"
-        style="@style/Widget.Material3.Chip.Filter"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/acbutt_chip_compose" /&gt;
 &lt;/com.google.android.material.chip.ChipGroup&gt;</code></pre>
-    </div>
 
-    <!-- Bloque Java Controller -->
-    <div class="rounded-xl border border-zinc-200 overflow-hidden">
-      <div class="bg-zinc-100 px-4 py-2 border-b border-zinc-200 flex items-center justify-between text-xs font-semibold text-zinc-700">
-        <span>Java Controller · ButtonsActivity.java (ChipGroup Listener)</span>
-        <span class="bg-orange-100 text-orange-700 px-2 py-0.5 rounded">Java</span>
-      </div>
-      <pre><code class="language-java">ChipGroup chipGroup = findViewById(R.id.chipGroup);
-chipGroup.setOnCheckedStateChangeListener((group, checkedIds) -> {
+        <pre><code class="language-java">chipGroup.setOnCheckedStateChangeListener((group, checkedIds) -> {
     if (checkedIds.isEmpty()) {
-        tvStatus.setText(getString(R.string.acbutt_status_chip_none));
-        Log.d("SANDBOX_BUTTONS", "ChipGroup deseleccionado");
+        tvStatus.setText(getString(R.string.acbutt_status_chip, getString(R.string.common_none)));
         return;
     }
-
     int selectedId = checkedIds.get(0);
     String label = "";
     if (selectedId == R.id.chip1) label = getString(R.string.acbutt_chip_android);
     else if (selectedId == R.id.chip2) label = getString(R.string.acbutt_chip_java);
     else if (selectedId == R.id.chip3) label = getString(R.string.acbutt_chip_kotlin);
-    else if (selectedId == R.id.chip4) label = getString(R.string.acbutt_chip_compose);
 
     tvStatus.setText(getString(R.string.acbutt_status_chip, label));
-    Log.i("SANDBOX_BUTTONS", "Chip seleccionado: " + label);
 });</code></pre>
-    </div>
-  </div>
-</section>
+      </section>
 
-<!-- Navegación entre Labs -->
-<section class="bg-white rounded-[24px] border border-zinc-200 p-6 sm:p-8 flex items-center justify-between flex-wrap gap-4">
-  <div>
-    <h3 class="font-semibold text-base">Continuar el recorrido de Labs</h3>
-    <p class="text-xs text-zinc-500 mt-1">Avanza al siguiente laboratorio para dominar CheckBoxes, RadioGroups y Switches.</p>
-  </div>
-  <div class="flex items-center gap-2 text-xs">
-    <a href="lab-datetime.html" class="px-4 py-2 bg-white border border-zinc-200 hover:bg-zinc-50 rounded-full">← Lab 2 · Date/Time</a>
-    <a href="lab-selection.html" class="px-4 py-2 bg-violet-600 text-white hover:bg-violet-700 rounded-full font-medium">Lab 4 · Selection →</a>
-  </div>
-</section>
+      <!-- Navegación -->
+      <div class="pt-2 flex items-center justify-between border-t border-zinc-200/80">
+        <a href="lab-datetime.html" class="text-xs font-medium text-zinc-600 hover:text-zinc-950 transition-colors">← Lab 2 (Date & Time)</a>
+        <a href="lab-selection.html" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-md text-xs font-medium bg-zinc-900 text-white hover:bg-zinc-800 transition-colors shadow-xs">
+          <span>Siguiente: Lab 4 (Selection) →</span>
+        </a>
+      </div>
 
-</main>
-</div>
-<script src="assets/nav.js"></script>
+    </main>
+  </div>
+
+  <script src="assets/nav.js"></script>
 </body>
 </html>

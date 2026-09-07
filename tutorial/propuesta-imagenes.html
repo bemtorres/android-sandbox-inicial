@@ -1,464 +1,192 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" class="h-full bg-white text-zinc-950 antialiased">
 <head>
-<meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
-<title>Guía de Capturas & Vistas — Sandbox</title>
-<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-<style type="text/tailwindcss">@theme{--font-sans:Inter,system-ui,sans-serif;--font-mono:JetBrains Mono,monospace;}</style>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Guía de Capturas & Vistas Requeridas — Sandbox Docs</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <style type="text/tailwindcss">
+    @theme {
+      --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+  </style>
 </head>
-<body class="bg-[#f8f9fb] text-zinc-800 antialiased">
-<header class="sticky top-0 z-50 bg-white/90 backdrop-blur border-b border-zinc-200">
-<div class="max-w-[1440px] mx-auto px-4 sm:px-6 py-2 flex items-center justify-between">
-<div class="flex items-center gap-3"><button id="menuBtn" class="lg:hidden p-2 rounded-xl border border-zinc-200 bg-white"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h16"/></svg></button><div class="w-8 h-8 rounded-xl text-sm bg-red-600 flex items-center justify-center text-white font-bold">🔴</div><div class="hidden sm:block"><p class="font-semibold leading-none">Guía de Capturas & Vistas Requeridas</p><p class="text-[10px] text-red-600 font-medium">Marcadores en Rojo · Qué vista abrir, qué capturar y dónde guardar</p></div></div>
-<a href="index.html" class="px-4 py-2 bg-white border border-zinc-200 rounded-full text-sm hover:bg-zinc-50">← Dashboard</a>
-</div></header>
-<div id="overlay" class="fixed inset-0 bg-black/30 z-40 hidden lg:hidden"></div>
-<div class="max-w-[1440px] mx-auto px-4 sm:px-6 py-4 lg:py-6 grid grid-cols-1 lg:grid-cols-[240px_minmax(0,1fr)] gap-4 lg:gap-6">
-<aside id="sidebar" class="fixed lg:sticky top-0 lg:top-[53px] left-0 z-40 w-[240px] h-[100dvh] lg:h-[calc(100vh-53px)] bg-white lg:bg-transparent border-r lg:border-0 border-zinc-200 overflow-auto p-4 lg:p-0 -translate-x-full lg:translate-x-0 transition-transform duration-200"></aside>
-<main class="min-w-0 space-y-6">
+<body class="min-h-full flex flex-col font-sans bg-white text-zinc-950">
 
-<!-- Banner de Instrucciones en Rojo -->
-<section class="bg-red-500 text-white rounded-[24px] p-6 sm:p-8 shadow-md">
-  <div class="inline-flex items-center gap-2 text-xs font-bold tracking-wider bg-white/20 text-white px-3 py-1 rounded-full uppercase">Guía Maestra en Rojo</div>
-  <h1 class="mt-3 text-3xl font-bold tracking-tight">Instrucciones Detalladas de Vistas y Capturas</h1>
-  <p class="mt-2 text-sm text-red-100 max-w-3xl leading-relaxed">
-    Cada tarjeta en color <strong class="text-white underline">ROJO</strong> describe con precisión: qué archivo XML abrir, qué clase Java/Kotlin corresponde, qué acción realizar en el emulador para obtener la imagen, y el nombre exacto de archivo. Al guardar la imagen en <code class="bg-red-700 px-2 py-0.5 rounded font-mono text-white">tutorial/assets/images/</code> aparecerá automáticamente y podrás borrar el bloque rojo.
-  </p>
-  <div class="mt-4 flex flex-wrap gap-2 text-xs">
-    <span class="px-3 py-1 rounded-full bg-red-900 text-white font-mono">Carpeta: tutorial/assets/images/</span>
-    <span class="px-3 py-1 rounded-full bg-white text-red-700 font-semibold">Formato: PNG · Fondo Claro</span>
+  <!-- Header / Topbar (shadcn style) -->
+  <header class="sticky top-0 z-50 w-full border-b border-zinc-200 bg-white/80 backdrop-blur-md">
+    <div class="max-w-[1440px] mx-auto px-4 sm:px-6 h-14 flex items-center justify-between gap-4">
+      <div class="flex items-center gap-3">
+        <button id="menuBtn" class="lg:hidden p-2 rounded-md border border-zinc-200 text-zinc-700 hover:bg-zinc-100 transition-colors">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+        </button>
+        <a href="index.html" class="flex items-center gap-2 font-bold text-sm tracking-tight text-zinc-900">
+          <div class="w-6 h-6 rounded-md bg-zinc-900 text-white flex items-center justify-center text-xs">Sb</div>
+          <span>Sandbox <span class="text-zinc-400 font-normal">Docs</span></span>
+        </a>
+        <span class="text-zinc-300">/</span>
+        <span class="text-xs font-medium text-rose-600 bg-rose-50 px-2 py-0.5 rounded-full border border-rose-200">Guía de Capturas</span>
+      </div>
+
+      <div class="flex items-center gap-2">
+        <a href="index.html" class="inline-flex items-center justify-center text-xs font-medium h-8 px-3 rounded-md border border-zinc-200 bg-white text-zinc-900 hover:bg-zinc-100 transition-colors">
+          ← Dashboard
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <div id="overlay" class="fixed inset-0 bg-black/40 backdrop-blur-xs z-40 hidden lg:hidden"></div>
+
+  <!-- Layout Container -->
+  <div class="max-w-[1440px] mx-auto px-4 sm:px-6 py-6 grid grid-cols-1 lg:grid-cols-[240px_minmax(0,1fr)] gap-8 w-full flex-1">
+    <aside id="sidebar" class="fixed lg:sticky top-0 lg:top-20 left-0 z-40 w-[240px] h-[100dvh] lg:h-[calc(100vh-5rem)] bg-white lg:bg-transparent border-r lg:border-0 border-zinc-200 overflow-y-auto p-4 lg:p-0 -translate-x-full lg:translate-x-0 transition-transform duration-200"></aside>
+
+    <!-- Main Content -->
+    <main class="min-w-0 space-y-8 pb-16">
+      
+      <!-- Instructions Banner -->
+      <div class="rounded-xl border border-rose-200 bg-rose-50/70 p-6 space-y-3">
+        <div class="flex items-center gap-2">
+          <span class="px-2 py-0.5 rounded-md text-[11px] font-bold bg-rose-600 text-white uppercase">Guía de Capturas</span>
+          <span class="text-xs text-rose-700 font-medium">Marcadores en Rojo · Vistas y Nombres de Archivo</span>
+        </div>
+        <h1 class="text-2xl font-bold tracking-tight text-rose-950">Guía Maestra de Capturas de Pantalla</h1>
+        <p class="text-xs text-rose-900 leading-relaxed max-w-3xl">
+          Cada tarjeta detalla con precisión: <strong>archivo XML</strong>, <strong>clase Java/Kotlin</strong> asociada, <strong>acción en emulador</strong> y <strong>ruta de destino</strong>. Al guardar el archivo en <code class="text-rose-950 font-mono font-semibold">tutorial/assets/images/</code> la imagen se renderizará automáticamente.
+        </p>
+      </div>
+
+      <!-- Capture Cards Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        
+        <!-- Item 1: Auth Login -->
+        <div class="rounded-xl border border-rose-300 bg-white p-5 space-y-3 flex flex-col justify-between">
+          <div class="space-y-2">
+            <div class="flex items-center justify-between pb-2 border-b border-rose-100">
+              <span class="px-2 py-0.5 rounded text-[11px] font-semibold bg-rose-100 text-rose-800 border border-rose-200">1. Auth · Login</span>
+              <span class="text-[10px] text-zinc-400 font-mono">auth-login.png</span>
+            </div>
+            <div class="space-y-1 text-xs text-zinc-700">
+              <p><strong class="text-zinc-900">Vista XML:</strong> <code class="text-zinc-800 bg-zinc-100 px-1 py-0.5 rounded">res/layout/activity_main.xml</code></p>
+              <p><strong class="text-zinc-900">Clase:</strong> <code class="text-zinc-800 bg-zinc-100 px-1 py-0.5 rounded">MainActivity.java</code></p>
+              <p><strong class="text-zinc-900">Captura:</strong> Pantalla de login con teclado y campos completados.</p>
+            </div>
+          </div>
+          <figure class="rounded-lg border border-zinc-200 overflow-hidden bg-zinc-900 min-h-[160px] flex items-center justify-center">
+            <img src="assets/images/auth-login.png" alt="Login" class="w-full h-auto object-contain max-h-[220px]" onerror="this.src='assets/images/auth-login.jpg'">
+          </figure>
+        </div>
+
+        <!-- Item 2: Auth Register -->
+        <div class="rounded-xl border border-rose-300 bg-white p-5 space-y-3 flex flex-col justify-between">
+          <div class="space-y-2">
+            <div class="flex items-center justify-between pb-2 border-b border-rose-100">
+              <span class="px-2 py-0.5 rounded text-[11px] font-semibold bg-rose-100 text-rose-800 border border-rose-200">2. Auth · Registro</span>
+              <span class="text-[10px] text-zinc-400 font-mono">auth-register.png</span>
+            </div>
+            <div class="space-y-1 text-xs text-zinc-700">
+              <p><strong class="text-zinc-900">Vista XML:</strong> <code class="text-zinc-800 bg-zinc-100 px-1 py-0.5 rounded">res/layout/activity_register.xml</code></p>
+              <p><strong class="text-zinc-900">Clase:</strong> <code class="text-zinc-800 bg-zinc-100 px-1 py-0.5 rounded">RegisterActivity.java</code></p>
+              <p><strong class="text-zinc-900">Captura:</strong> Formulario de registro con 6 campos especializados.</p>
+            </div>
+          </div>
+          <figure class="rounded-lg border border-zinc-200 overflow-hidden bg-zinc-900 min-h-[160px] flex items-center justify-center">
+            <img src="assets/images/auth-register.png" alt="Register" class="w-full h-auto object-contain max-h-[220px]" onerror="this.src='assets/images/auth-register.jpg'">
+          </figure>
+        </div>
+
+        <!-- Item 3: Home Hub -->
+        <div class="rounded-xl border border-rose-300 bg-white p-5 space-y-3 flex flex-col justify-between">
+          <div class="space-y-2">
+            <div class="flex items-center justify-between pb-2 border-b border-rose-100">
+              <span class="px-2 py-0.5 rounded text-[11px] font-semibold bg-rose-100 text-rose-800 border border-rose-200">3. Home Hub</span>
+              <span class="text-[10px] text-zinc-400 font-mono">home-hub.png</span>
+            </div>
+            <div class="space-y-1 text-xs text-zinc-700">
+              <p><strong class="text-zinc-900">Vista XML:</strong> <code class="text-zinc-800 bg-zinc-100 px-1 py-0.5 rounded">res/layout/activity_home.xml</code></p>
+              <p><strong class="text-zinc-900">Clase:</strong> <code class="text-zinc-800 bg-zinc-100 px-1 py-0.5 rounded">HomeActivity.java</code></p>
+              <p><strong class="text-zinc-900">Captura:</strong> Malla de tarjetas MaterialCardView de los 10 laboratorios.</p>
+            </div>
+          </div>
+          <figure class="rounded-lg border border-zinc-200 overflow-hidden bg-zinc-900 min-h-[160px] flex items-center justify-center">
+            <img src="assets/images/home-hub.png" alt="Home Hub" class="w-full h-auto object-contain max-h-[220px]" onerror="this.src='assets/images/home-hub.jpg'">
+          </figure>
+        </div>
+
+        <!-- Item 4: Lab 1 TextInputs Preview -->
+        <div class="rounded-xl border border-rose-300 bg-white p-5 space-y-3 flex flex-col justify-between">
+          <div class="space-y-2">
+            <div class="flex items-center justify-between pb-2 border-b border-rose-100">
+              <span class="px-2 py-0.5 rounded text-[11px] font-semibold bg-rose-100 text-rose-800 border border-rose-200">4. Lab 1 · TextInputs</span>
+              <span class="text-[10px] text-zinc-400 font-mono">lab-textinputs-preview.png</span>
+            </div>
+            <div class="space-y-1 text-xs text-zinc-700">
+              <p><strong class="text-zinc-900">Vista XML:</strong> <code class="text-zinc-800 bg-zinc-100 px-1 py-0.5 rounded">activity_text_inputs.xml</code></p>
+              <p><strong class="text-zinc-900">Clase:</strong> <code class="text-zinc-800 bg-zinc-100 px-1 py-0.5 rounded">TextInputsActivity.java</code></p>
+              <p><strong class="text-zinc-900">Captura:</strong> Vista general en Android Studio o emulador de los 6 inputs.</p>
+            </div>
+          </div>
+          <figure class="rounded-lg border border-zinc-200 overflow-hidden bg-zinc-900 min-h-[160px] flex items-center justify-center">
+            <img src="assets/images/lab-textinputs-preview.png" alt="TextInputs Preview" class="w-full h-auto object-contain max-h-[220px]" onerror="this.src='assets/images/lab-textinputs-preview.jpg'">
+          </figure>
+        </div>
+
+        <!-- Item 5: Lab 2 DateTime -->
+        <div class="rounded-xl border border-rose-300 bg-white p-5 space-y-3 flex flex-col justify-between">
+          <div class="space-y-2">
+            <div class="flex items-center justify-between pb-2 border-b border-rose-100">
+              <span class="px-2 py-0.5 rounded text-[11px] font-semibold bg-rose-100 text-rose-800 border border-rose-200">5. Lab 2 · Date & Time Dialog</span>
+              <span class="text-[10px] text-zinc-400 font-mono">lab-datetime-dialog.png</span>
+            </div>
+            <div class="space-y-1 text-xs text-zinc-700">
+              <p><strong class="text-zinc-900">Vista XML:</strong> <code class="text-zinc-800 bg-zinc-100 px-1 py-0.5 rounded">activity_date_time.xml</code></p>
+              <p><strong class="text-zinc-900">Clase:</strong> <code class="text-zinc-800 bg-zinc-100 px-1 py-0.5 rounded">DateTimeActivity.java</code></p>
+              <p><strong class="text-zinc-900">Captura:</strong> DatePickerDialog modal abierto en el emulador.</p>
+            </div>
+          </div>
+          <figure class="rounded-lg border border-zinc-200 overflow-hidden bg-zinc-900 min-h-[160px] flex items-center justify-center">
+            <img src="assets/images/lab-datetime-dialog.png" alt="DateTime Dialog" class="w-full h-auto object-contain max-h-[220px]" onerror="this.src='assets/images/lab-datetime-dialog.jpg'">
+          </figure>
+        </div>
+
+        <!-- Item 6: Lab 7 Dialog Toast -->
+        <div class="rounded-xl border border-rose-300 bg-white p-5 space-y-3 flex flex-col justify-between">
+          <div class="space-y-2">
+            <div class="flex items-center justify-between pb-2 border-b border-rose-100">
+              <span class="px-2 py-0.5 rounded text-[11px] font-semibold bg-rose-100 text-rose-800 border border-rose-200">6. Lab 7 · Dialog & Toast</span>
+              <span class="text-[10px] text-zinc-400 font-mono">lab-dialog-toast.png</span>
+            </div>
+            <div class="space-y-1 text-xs text-zinc-700">
+              <p><strong class="text-zinc-900">Vista XML:</strong> <code class="text-zinc-800 bg-zinc-100 px-1 py-0.5 rounded">activity_dialog.xml</code></p>
+              <p><strong class="text-zinc-900">Clase:</strong> <code class="text-zinc-800 bg-zinc-100 px-1 py-0.5 rounded">DialogToastActivity.java</code></p>
+              <p><strong class="text-zinc-900">Captura:</strong> AlertDialog modal de confirmación con respuesta Toast.</p>
+            </div>
+          </div>
+          <figure class="rounded-lg border border-zinc-200 overflow-hidden bg-zinc-900 min-h-[160px] flex items-center justify-center">
+            <img src="assets/images/lab-dialog-toast.png" alt="Dialog Toast" class="w-full h-auto object-contain max-h-[220px]" onerror="this.src='assets/images/lab-dialog-toast.jpg'">
+          </figure>
+        </div>
+
+      </div>
+
+      <!-- Navigation Footer -->
+      <div class="flex items-center justify-between pt-6 border-t border-zinc-200">
+        <a href="debug.html" class="inline-flex items-center gap-2 text-xs font-medium text-zinc-600 hover:text-zinc-900 transition-colors">
+          ← Debug & Logcat
+        </a>
+        <a href="index.html" class="inline-flex items-center gap-2 text-xs font-medium text-zinc-900 hover:text-zinc-700 transition-colors">
+          Dashboard Principal →
+        </a>
+      </div>
+
+    </main>
   </div>
-</section>
 
-<!-- Catálogo Completo de Capturas Requeridas -->
-<section class="space-y-4">
-  <h2 class="text-xl font-bold text-zinc-900 flex items-center gap-2">
-    <span class="w-3 h-3 rounded-full bg-red-600"></span> Catálogo Detallado por Módulo & Laboratorio
-  </h2>
-
-  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-
-    <!-- 1. Auth Login -->
-    <div class="rounded-2xl border-2 border-red-500 bg-red-50/90 p-5 text-red-950 flex flex-col justify-between">
-      <div>
-        <div class="flex items-center justify-between pb-2 border-b border-red-200">
-          <span class="px-2 py-0.5 rounded bg-red-600 text-white font-bold text-[10px] uppercase">🔴 1. Auth · Login</span>
-          <span class="text-[9px] font-bold text-red-600 uppercase bg-red-100 px-1.5 py-0.5 rounded border border-red-300">Borrar al poner foto</span>
-        </div>
-        <div class="mt-3 space-y-1 text-xs">
-          <p><strong class="text-red-900">📄 Vista XML:</strong> <code class="text-red-700 bg-white px-1 py-0.5 rounded border border-red-200 font-mono">res/layout/activity_main.xml</code></p>
-          <p><strong class="text-red-900">☕ Clase:</strong> <code class="text-red-700 bg-white px-1 py-0.5 rounded border border-red-200 font-mono">MainActivity.java</code></p>
-          <p><strong class="text-red-900">🎯 Capturar:</strong> Emulador con pantalla de Login, teclado de email desplegado y campos de usuario/password visibles.</p>
-          <p><strong class="text-red-900">💾 Archivo:</strong> <code class="text-red-800 bg-white px-1 py-0.5 rounded border border-red-200 font-mono font-bold">assets/images/auth-login.png</code></p>
-        </div>
-      </div>
-      <figure class="group rounded-xl border-2 border-dashed border-red-400 bg-white overflow-hidden mt-3">
-        <div class="aspect-[16/10] flex flex-col items-center justify-center p-3 text-center">
-          <div class="w-6 h-6 rounded bg-red-100 border border-red-300 flex items-center justify-center text-red-600 text-xs">📷</div>
-          <p class="mt-1 font-bold text-[10px] text-red-800">auth-login.png</p>
-        </div>
-        <img src="assets/images/auth-login.png" alt="Login" class="hidden w-full object-cover" onload="this.parentElement.classList.add('loaded'); this.previousElementSibling.style.display='none'" />
-      </figure>
-    </div>
-
-    <!-- 2. Auth Register -->
-    <div class="rounded-2xl border-2 border-red-500 bg-red-50/90 p-5 text-red-950 flex flex-col justify-between">
-      <div>
-        <div class="flex items-center justify-between pb-2 border-b border-red-200">
-          <span class="px-2 py-0.5 rounded bg-red-600 text-white font-bold text-[10px] uppercase">🔴 2. Auth · Registro</span>
-          <span class="text-[9px] font-bold text-red-600 uppercase bg-red-100 px-1.5 py-0.5 rounded border border-red-300">Borrar al poner foto</span>
-        </div>
-        <div class="mt-3 space-y-1 text-xs">
-          <p><strong class="text-red-900">📄 Vista XML:</strong> <code class="text-red-700 bg-white px-1 py-0.5 rounded border border-red-200 font-mono">res/layout/activity_register.xml</code></p>
-          <p><strong class="text-red-900">☕ Clase:</strong> <code class="text-red-700 bg-white px-1 py-0.5 rounded border border-red-200 font-mono">RegisterActivity.java</code></p>
-          <p><strong class="text-red-900">🎯 Capturar:</strong> Emulador en formulario de registro mostrando los campos de nombre, email, password y confirmación.</p>
-          <p><strong class="text-red-900">💾 Archivo:</strong> <code class="text-red-800 bg-white px-1 py-0.5 rounded border border-red-200 font-mono font-bold">assets/images/auth-register.png</code></p>
-        </div>
-      </div>
-      <figure class="group rounded-xl border-2 border-dashed border-red-400 bg-white overflow-hidden mt-3">
-        <div class="aspect-[16/10] flex flex-col items-center justify-center p-3 text-center">
-          <div class="w-6 h-6 rounded bg-red-100 border border-red-300 flex items-center justify-center text-red-600 text-xs">📷</div>
-          <p class="mt-1 font-bold text-[10px] text-red-800">auth-register.png</p>
-        </div>
-        <img src="assets/images/auth-register.png" alt="Register" class="hidden w-full object-cover" onload="this.parentElement.classList.add('loaded'); this.previousElementSibling.style.display='none'" />
-      </figure>
-    </div>
-
-    <!-- 3. Home Hub -->
-    <div class="rounded-2xl border-2 border-red-500 bg-red-50/90 p-5 text-red-950 flex flex-col justify-between">
-      <div>
-        <div class="flex items-center justify-between pb-2 border-b border-red-200">
-          <span class="px-2 py-0.5 rounded bg-red-600 text-white font-bold text-[10px] uppercase">🔴 3. Home Hub</span>
-          <span class="text-[9px] font-bold text-red-600 uppercase bg-red-100 px-1.5 py-0.5 rounded border border-red-300">Borrar al poner foto</span>
-        </div>
-        <div class="mt-3 space-y-1 text-xs">
-          <p><strong class="text-red-900">📄 Vista XML:</strong> <code class="text-red-700 bg-white px-1 py-0.5 rounded border border-red-200 font-mono">res/layout/activity_home.xml</code></p>
-          <p><strong class="text-red-900">☕ Clase:</strong> <code class="text-red-700 bg-white px-1 py-0.5 rounded border border-red-200 font-mono">HomeActivity.java</code></p>
-          <p><strong class="text-red-900">🎯 Capturar:</strong> Pantalla HomeActivity con la cuadrícula de tarjetas de laboratorios y header de bienvenida.</p>
-          <p><strong class="text-red-900">💾 Archivo:</strong> <code class="text-red-800 bg-white px-1 py-0.5 rounded border border-red-200 font-mono font-bold">assets/images/home-hub.png</code></p>
-        </div>
-      </div>
-      <figure class="group rounded-xl border-2 border-dashed border-red-400 bg-white overflow-hidden mt-3">
-        <div class="aspect-[16/10] flex flex-col items-center justify-center p-3 text-center">
-          <div class="w-6 h-6 rounded bg-red-100 border border-red-300 flex items-center justify-center text-red-600 text-xs">📷</div>
-          <p class="mt-1 font-bold text-[10px] text-red-800">home-hub.png</p>
-        </div>
-        <img src="assets/images/home-hub.png" alt="Home Hub" class="hidden w-full object-cover" onload="this.parentElement.classList.add('loaded'); this.previousElementSibling.style.display='none'" />
-      </figure>
-    </div>
-
-    <!-- 4. Lab 1 TextInputs Preview -->
-    <div class="rounded-2xl border-2 border-red-500 bg-red-50/90 p-5 text-red-950 flex flex-col justify-between">
-      <div>
-        <div class="flex items-center justify-between pb-2 border-b border-red-200">
-          <span class="px-2 py-0.5 rounded bg-red-600 text-white font-bold text-[10px] uppercase">🔴 4. Lab 1 · TextInputs Preview</span>
-          <span class="text-[9px] font-bold text-red-600 uppercase bg-red-100 px-1.5 py-0.5 rounded border border-red-300">Borrar al poner foto</span>
-        </div>
-        <div class="mt-3 space-y-1 text-xs">
-          <p><strong class="text-red-900">📄 Vista XML:</strong> <code class="text-red-700 bg-white px-1 py-0.5 rounded border border-red-200 font-mono">res/layout/activity_text_inputs.xml</code></p>
-          <p><strong class="text-red-900">☕ Clase:</strong> <code class="text-red-700 bg-white px-1 py-0.5 rounded border border-red-200 font-mono">TextInputsActivity.java</code></p>
-          <p><strong class="text-red-900">🎯 Capturar:</strong> Android Studio pestaña Split mostrando el diseño con los 6 campos TextInputLayout.</p>
-          <p><strong class="text-red-900">💾 Archivo:</strong> <code class="text-red-800 bg-white px-1 py-0.5 rounded border border-red-200 font-mono font-bold">assets/images/lab-textinputs-preview.png</code></p>
-        </div>
-      </div>
-      <figure class="group rounded-xl border-2 border-dashed border-red-400 bg-white overflow-hidden mt-3">
-        <div class="aspect-[16/10] flex flex-col items-center justify-center p-3 text-center">
-          <div class="w-6 h-6 rounded bg-red-100 border border-red-300 flex items-center justify-center text-red-600 text-xs">📷</div>
-          <p class="mt-1 font-bold text-[10px] text-red-800">lab-textinputs-preview.png</p>
-        </div>
-        <img src="assets/images/lab-textinputs-preview.png" alt="TextInputs Preview" class="hidden w-full object-cover" onload="this.parentElement.classList.add('loaded'); this.previousElementSibling.style.display='none'" />
-      </figure>
-    </div>
-
-    <!-- 5. Lab 1 TextInputs Emulator Valid -->
-    <div class="rounded-2xl border-2 border-red-500 bg-red-50/90 p-5 text-red-950 flex flex-col justify-between">
-      <div>
-        <div class="flex items-center justify-between pb-2 border-b border-red-200">
-          <span class="px-2 py-0.5 rounded bg-red-600 text-white font-bold text-[10px] uppercase">🔴 5. Lab 1 · Validación OK</span>
-          <span class="text-[9px] font-bold text-red-600 uppercase bg-red-100 px-1.5 py-0.5 rounded border border-red-300">Borrar al poner foto</span>
-        </div>
-        <div class="mt-3 space-y-1 text-xs">
-          <p><strong class="text-red-900">📄 Vista XML:</strong> <code class="text-red-700 bg-white px-1 py-0.5 rounded border border-red-200 font-mono">res/layout/activity_text_inputs.xml</code></p>
-          <p><strong class="text-red-900">☕ Clase:</strong> <code class="text-red-700 bg-white px-1 py-0.5 rounded border border-red-200 font-mono">TextInputsActivity.java</code></p>
-          <p><strong class="text-red-900">🎯 Capturar:</strong> Emulador con todos los campos completados correctamente y el TextView morado mostrando "✓ Todo válido".</p>
-          <p><strong class="text-red-900">💾 Archivo:</strong> <code class="text-red-800 bg-white px-1 py-0.5 rounded border border-red-200 font-mono font-bold">assets/images/lab-textinputs-emulator.png</code></p>
-        </div>
-      </div>
-      <figure class="group rounded-xl border-2 border-dashed border-red-400 bg-white overflow-hidden mt-3">
-        <div class="aspect-[16/10] flex flex-col items-center justify-center p-3 text-center">
-          <div class="w-6 h-6 rounded bg-red-100 border border-red-300 flex items-center justify-center text-red-600 text-xs">📷</div>
-          <p class="mt-1 font-bold text-[10px] text-red-800">lab-textinputs-emulator.png</p>
-        </div>
-        <img src="assets/images/lab-textinputs-emulator.png" alt="TextInputs Valid" class="hidden w-full object-cover" onload="this.parentElement.classList.add('loaded'); this.previousElementSibling.style.display='none'" />
-      </figure>
-    </div>
-
-    <!-- 6. Lab 1 TextInputs Error -->
-    <div class="rounded-2xl border-2 border-red-500 bg-red-50/90 p-5 text-red-950 flex flex-col justify-between">
-      <div>
-        <div class="flex items-center justify-between pb-2 border-b border-red-200">
-          <span class="px-2 py-0.5 rounded bg-red-600 text-white font-bold text-[10px] uppercase">🔴 6. Lab 1 · setError Rojo</span>
-          <span class="text-[9px] font-bold text-red-600 uppercase bg-red-100 px-1.5 py-0.5 rounded border border-red-300">Borrar al poner foto</span>
-        </div>
-        <div class="mt-3 space-y-1 text-xs">
-          <p><strong class="text-red-900">📄 Vista XML:</strong> <code class="text-red-700 bg-white px-1 py-0.5 rounded border border-red-200 font-mono">activity_text_inputs.xml</code></p>
-          <p><strong class="text-red-900">☕ Clase:</strong> <code class="text-red-700 bg-white px-1 py-0.5 rounded border border-red-200 font-mono">TextInputsActivity.java</code></p>
-          <p><strong class="text-red-900">🎯 Capturar:</strong> Dejar un campo vacío o email incorrecto y presionar Validar para que se marque el campo en rojo con el error de validación.</p>
-          <p><strong class="text-red-900">💾 Archivo:</strong> <code class="text-red-800 bg-white px-1 py-0.5 rounded border border-red-200 font-mono font-bold">assets/images/lab-textinputs-error.png</code></p>
-        </div>
-      </div>
-      <figure class="group rounded-xl border-2 border-dashed border-red-400 bg-white overflow-hidden mt-3">
-        <div class="aspect-[16/10] flex flex-col items-center justify-center p-3 text-center">
-          <div class="w-6 h-6 rounded bg-red-100 border border-red-300 flex items-center justify-center text-red-600 text-xs">📷</div>
-          <p class="mt-1 font-bold text-[10px] text-red-800">lab-textinputs-error.png</p>
-        </div>
-        <img src="assets/images/lab-textinputs-error.png" alt="TextInputs Error" class="hidden w-full object-cover" onload="this.parentElement.classList.add('loaded'); this.previousElementSibling.style.display='none'" />
-      </figure>
-    </div>
-
-    <!-- 7. Lab 2 Date & Time Preview -->
-    <div class="rounded-2xl border-2 border-red-500 bg-red-50/90 p-5 text-red-950 flex flex-col justify-between">
-      <div>
-        <div class="flex items-center justify-between pb-2 border-b border-red-200">
-          <span class="px-2 py-0.5 rounded bg-red-600 text-white font-bold text-[10px] uppercase">🔴 7. Lab 2 · Date & Time Base</span>
-          <span class="text-[9px] font-bold text-red-600 uppercase bg-red-100 px-1.5 py-0.5 rounded border border-red-300">Borrar al poner foto</span>
-        </div>
-        <div class="mt-3 space-y-1 text-xs">
-          <p><strong class="text-red-900">📄 Vista XML:</strong> <code class="text-red-700 bg-white px-1 py-0.5 rounded border border-red-200 font-mono">res/layout/activity_date_time.xml</code></p>
-          <p><strong class="text-red-900">☕ Clase:</strong> <code class="text-red-700 bg-white px-1 py-0.5 rounded border border-red-200 font-mono">DateTimeActivity.java</code></p>
-          <p><strong class="text-red-900">🎯 Capturar:</strong> Pantalla inicial de DateTimeActivity con los dos TextViews de estado en verde y azul claro.</p>
-          <p><strong class="text-red-900">💾 Archivo:</strong> <code class="text-red-800 bg-white px-1 py-0.5 rounded border border-red-200 font-mono font-bold">assets/images/lab-datetime-preview.png</code></p>
-        </div>
-      </div>
-      <figure class="group rounded-xl border-2 border-dashed border-red-400 bg-white overflow-hidden mt-3">
-        <div class="aspect-[16/10] flex flex-col items-center justify-center p-3 text-center">
-          <div class="w-6 h-6 rounded bg-red-100 border border-red-300 flex items-center justify-center text-red-600 text-xs">📷</div>
-          <p class="mt-1 font-bold text-[10px] text-red-800">lab-datetime-preview.png</p>
-        </div>
-        <img src="assets/images/lab-datetime-preview.png" alt="DateTime Preview" class="hidden w-full object-cover" onload="this.parentElement.classList.add('loaded'); this.previousElementSibling.style.display='none'" />
-      </figure>
-    </div>
-
-    <!-- 8. Lab 2 DatePickerDialog -->
-    <div class="rounded-2xl border-2 border-red-500 bg-red-50/90 p-5 text-red-950 flex flex-col justify-between">
-      <div>
-        <div class="flex items-center justify-between pb-2 border-b border-red-200">
-          <span class="px-2 py-0.5 rounded bg-red-600 text-white font-bold text-[10px] uppercase">🔴 8. Lab 2 · DatePickerDialog</span>
-          <span class="text-[9px] font-bold text-red-600 uppercase bg-red-100 px-1.5 py-0.5 rounded border border-red-300">Borrar al poner foto</span>
-        </div>
-        <div class="mt-3 space-y-1 text-xs">
-          <p><strong class="text-red-900">📄 Vista XML:</strong> <code class="text-red-700 bg-white px-1 py-0.5 rounded border border-red-200 font-mono">res/layout/activity_date_time.xml</code></p>
-          <p><strong class="text-red-900">☕ Clase:</strong> <code class="text-red-700 bg-white px-1 py-0.5 rounded border border-red-200 font-mono">DateTimeActivity.java</code></p>
-          <p><strong class="text-red-900">🎯 Capturar:</strong> Presionar "Seleccionar fecha" en el emulador y capturar con el calendario modal desplegado.</p>
-          <p><strong class="text-red-900">💾 Archivo:</strong> <code class="text-red-800 bg-white px-1 py-0.5 rounded border border-red-200 font-mono font-bold">assets/images/lab-datetime-dialog.png</code></p>
-        </div>
-      </div>
-      <figure class="group rounded-xl border-2 border-dashed border-red-400 bg-white overflow-hidden mt-3">
-        <div class="aspect-[16/10] flex flex-col items-center justify-center p-3 text-center">
-          <div class="w-6 h-6 rounded bg-red-100 border border-red-300 flex items-center justify-center text-red-600 text-xs">📷</div>
-          <p class="mt-1 font-bold text-[10px] text-red-800">lab-datetime-dialog.png</p>
-        </div>
-        <img src="assets/images/lab-datetime-dialog.png" alt="Date Dialog" class="hidden w-full object-cover" onload="this.parentElement.classList.add('loaded'); this.previousElementSibling.style.display='none'" />
-      </figure>
-    </div>
-
-    <!-- 9. Lab 3 Buttons -->
-    <div class="rounded-2xl border-2 border-red-500 bg-red-50/90 p-5 text-red-950 flex flex-col justify-between">
-      <div>
-        <div class="flex items-center justify-between pb-2 border-b border-red-200">
-          <span class="px-2 py-0.5 rounded bg-red-600 text-white font-bold text-[10px] uppercase">🔴 9. Lab 3 · Buttons & Debounce</span>
-          <span class="text-[9px] font-bold text-red-600 uppercase bg-red-100 px-1.5 py-0.5 rounded border border-red-300">Borrar al poner foto</span>
-        </div>
-        <div class="mt-3 space-y-1 text-xs">
-          <p><strong class="text-red-900">📄 Vista XML:</strong> <code class="text-red-700 bg-white px-1 py-0.5 rounded border border-red-200 font-mono">res/layout/activity_buttons.xml</code></p>
-          <p><strong class="text-red-900">☕ Clase:</strong> <code class="text-red-700 bg-white px-1 py-0.5 rounded border border-red-200 font-mono">ButtonsActivity.java</code></p>
-          <p><strong class="text-red-900">🎯 Capturar:</strong> Emulador con el botón normal presionado y el TextView reflejando "Botón presionado".</p>
-          <p><strong class="text-red-900">💾 Archivo:</strong> <code class="text-red-800 bg-white px-1 py-0.5 rounded border border-red-200 font-mono font-bold">assets/images/lab-buttons-preview.png</code></p>
-        </div>
-      </div>
-      <figure class="group rounded-xl border-2 border-dashed border-red-400 bg-white overflow-hidden mt-3">
-        <div class="aspect-[16/10] flex flex-col items-center justify-center p-3 text-center">
-          <div class="w-6 h-6 rounded bg-red-100 border border-red-300 flex items-center justify-center text-red-600 text-xs">📷</div>
-          <p class="mt-1 font-bold text-[10px] text-red-800">lab-buttons-preview.png</p>
-        </div>
-        <img src="assets/images/lab-buttons-preview.png" alt="Buttons" class="hidden w-full object-cover" onload="this.parentElement.classList.add('loaded'); this.previousElementSibling.style.display='none'" />
-      </figure>
-    </div>
-
-    <!-- 10. Lab 3 ChipGroup -->
-    <div class="rounded-2xl border-2 border-red-500 bg-red-50/90 p-5 text-red-950 flex flex-col justify-between">
-      <div>
-        <div class="flex items-center justify-between pb-2 border-b border-red-200">
-          <span class="px-2 py-0.5 rounded bg-red-600 text-white font-bold text-[10px] uppercase">🔴 10. Lab 3 · ChipGroup Single</span>
-          <span class="text-[9px] font-bold text-red-600 uppercase bg-red-100 px-1.5 py-0.5 rounded border border-red-300">Borrar al poner foto</span>
-        </div>
-        <div class="mt-3 space-y-1 text-xs">
-          <p><strong class="text-red-900">📄 Vista XML:</strong> <code class="text-red-700 bg-white px-1 py-0.5 rounded border border-red-200 font-mono">res/layout/activity_buttons.xml</code></p>
-          <p><strong class="text-red-900">☕ Clase:</strong> <code class="text-red-700 bg-white px-1 py-0.5 rounded border border-red-200 font-mono">ButtonsActivity.java</code></p>
-          <p><strong class="text-red-900">🎯 Capturar:</strong> Marcar el Chip "Kotlin" o "Android" y verificar que el texto inferior se actualiza.</p>
-          <p><strong class="text-red-900">💾 Archivo:</strong> <code class="text-red-800 bg-white px-1 py-0.5 rounded border border-red-200 font-mono font-bold">assets/images/lab-buttons-chip.png</code></p>
-        </div>
-      </div>
-      <figure class="group rounded-xl border-2 border-dashed border-red-400 bg-white overflow-hidden mt-3">
-        <div class="aspect-[16/10] flex flex-col items-center justify-center p-3 text-center">
-          <div class="w-6 h-6 rounded bg-red-100 border border-red-300 flex items-center justify-center text-red-600 text-xs">📷</div>
-          <p class="mt-1 font-bold text-[10px] text-red-800">lab-buttons-chip.png</p>
-        </div>
-        <img src="assets/images/lab-buttons-chip.png" alt="Chip" class="hidden w-full object-cover" onload="this.parentElement.classList.add('loaded'); this.previousElementSibling.style.display='none'" />
-      </figure>
-    </div>
-
-    <!-- 11. Lab 4 Selection -->
-    <div class="rounded-2xl border-2 border-red-500 bg-red-50/90 p-5 text-red-950 flex flex-col justify-between">
-      <div>
-        <div class="flex items-center justify-between pb-2 border-b border-red-200">
-          <span class="px-2 py-0.5 rounded bg-red-600 text-white font-bold text-[10px] uppercase">🔴 11. Lab 4 · Selection Controls</span>
-          <span class="text-[9px] font-bold text-red-600 uppercase bg-red-100 px-1.5 py-0.5 rounded border border-red-300">Borrar al poner foto</span>
-        </div>
-        <div class="mt-3 space-y-1 text-xs">
-          <p><strong class="text-red-900">📄 Vista XML:</strong> <code class="text-red-700 bg-white px-1 py-0.5 rounded border border-red-200 font-mono">res/layout/activity_selection.xml</code></p>
-          <p><strong class="text-red-900">☕ Clase:</strong> <code class="text-red-700 bg-white px-1 py-0.5 rounded border border-red-200 font-mono">SelectionActivity.java</code></p>
-          <p><strong class="text-red-900">🎯 Capturar:</strong> CheckBox marcado, RadioButton seleccionado y Switches activados con el TextView de resumen abajo.</p>
-          <p><strong class="text-red-900">💾 Archivo:</strong> <code class="text-red-800 bg-white px-1 py-0.5 rounded border border-red-200 font-mono font-bold">assets/images/lab-selection-result.png</code></p>
-        </div>
-      </div>
-      <figure class="group rounded-xl border-2 border-dashed border-red-400 bg-white overflow-hidden mt-3">
-        <div class="aspect-[16/10] flex flex-col items-center justify-center p-3 text-center">
-          <div class="w-6 h-6 rounded bg-red-100 border border-red-300 flex items-center justify-center text-red-600 text-xs">📷</div>
-          <p class="mt-1 font-bold text-[10px] text-red-800">lab-selection-result.png</p>
-        </div>
-        <img src="assets/images/lab-selection-result.png" alt="Selection" class="hidden w-full object-cover" onload="this.parentElement.classList.add('loaded'); this.previousElementSibling.style.display='none'" />
-      </figure>
-    </div>
-
-    <!-- 12. Lab 5 Feedback & Progress -->
-    <div class="rounded-2xl border-2 border-red-500 bg-red-50/90 p-5 text-red-950 flex flex-col justify-between">
-      <div>
-        <div class="flex items-center justify-between pb-2 border-b border-red-200">
-          <span class="px-2 py-0.5 rounded bg-red-600 text-white font-bold text-[10px] uppercase">🔴 12. Lab 5 · Feedback & Rating</span>
-          <span class="text-[9px] font-bold text-red-600 uppercase bg-red-100 px-1.5 py-0.5 rounded border border-red-300">Borrar al poner foto</span>
-        </div>
-        <div class="mt-3 space-y-1 text-xs">
-          <p><strong class="text-red-900">📄 Vista XML:</strong> <code class="text-red-700 bg-white px-1 py-0.5 rounded border border-red-200 font-mono">res/layout/activity_feedback.xml</code></p>
-          <p><strong class="text-red-900">☕ Clase:</strong> <code class="text-red-700 bg-white px-1 py-0.5 rounded border border-red-200 font-mono">FeedbackActivity.java</code></p>
-          <p><strong class="text-red-900">🎯 Capturar:</strong> ProgressBar horizontal al 70%, spinner circular visible y RatingBar con 4 estrellas seleccionadas.</p>
-          <p><strong class="text-red-900">💾 Archivo:</strong> <code class="text-red-800 bg-white px-1 py-0.5 rounded border border-red-200 font-mono font-bold">assets/images/lab-feedback-progress.png</code></p>
-        </div>
-      </div>
-      <figure class="group rounded-xl border-2 border-dashed border-red-400 bg-white overflow-hidden mt-3">
-        <div class="aspect-[16/10] flex flex-col items-center justify-center p-3 text-center">
-          <div class="w-6 h-6 rounded bg-red-100 border border-red-300 flex items-center justify-center text-red-600 text-xs">📷</div>
-          <p class="mt-1 font-bold text-[10px] text-red-800">lab-feedback-progress.png</p>
-        </div>
-        <img src="assets/images/lab-feedback-progress.png" alt="Feedback" class="hidden w-full object-cover" onload="this.parentElement.classList.add('loaded'); this.previousElementSibling.style.display='none'" />
-      </figure>
-    </div>
-
-    <!-- 13. Lab 6 WebView -->
-    <div class="rounded-2xl border-2 border-red-500 bg-red-50/90 p-5 text-red-950 flex flex-col justify-between">
-      <div>
-        <div class="flex items-center justify-between pb-2 border-b border-red-200">
-          <span class="px-2 py-0.5 rounded bg-red-600 text-white font-bold text-[10px] uppercase">🔴 13. Lab 6 · WebView Cargado</span>
-          <span class="text-[9px] font-bold text-red-600 uppercase bg-red-100 px-1.5 py-0.5 rounded border border-red-300">Borrar al poner foto</span>
-        </div>
-        <div class="mt-3 space-y-1 text-xs">
-          <p><strong class="text-red-900">📄 Vista XML:</strong> <code class="text-red-700 bg-white px-1 py-0.5 rounded border border-red-200 font-mono">res/layout/activity_web_view.xml</code></p>
-          <p><strong class="text-red-900">☕ Clase:</strong> <code class="text-red-700 bg-white px-1 py-0.5 rounded border border-red-200 font-mono">WebViewActivity.java</code></p>
-          <p><strong class="text-red-900">🎯 Capturar:</strong> WebView con <code>developer.android.com</code> o página web renderizada con barra de progreso completa.</p>
-          <p><strong class="text-red-900">💾 Archivo:</strong> <code class="text-red-800 bg-white px-1 py-0.5 rounded border border-red-200 font-mono font-bold">assets/images/lab-webview-loaded.png</code></p>
-        </div>
-      </div>
-      <figure class="group rounded-xl border-2 border-dashed border-red-400 bg-white overflow-hidden mt-3">
-        <div class="aspect-[16/10] flex flex-col items-center justify-center p-3 text-center">
-          <div class="w-6 h-6 rounded bg-red-100 border border-red-300 flex items-center justify-center text-red-600 text-xs">📷</div>
-          <p class="mt-1 font-bold text-[10px] text-red-800">lab-webview-loaded.png</p>
-        </div>
-        <img src="assets/images/lab-webview-loaded.png" alt="WebView" class="hidden w-full object-cover" onload="this.parentElement.classList.add('loaded'); this.previousElementSibling.style.display='none'" />
-      </figure>
-    </div>
-
-    <!-- 14. Lab 7 Dialogs & Toasts -->
-    <div class="rounded-2xl border-2 border-red-500 bg-red-50/90 p-5 text-red-950 flex flex-col justify-between">
-      <div>
-        <div class="flex items-center justify-between pb-2 border-b border-red-200">
-          <span class="px-2 py-0.5 rounded bg-red-600 text-white font-bold text-[10px] uppercase">🔴 14. Lab 7 · AlertDialog + Toast</span>
-          <span class="text-[9px] font-bold text-red-600 uppercase bg-red-100 px-1.5 py-0.5 rounded border border-red-300">Borrar al poner foto</span>
-        </div>
-        <div class="mt-3 space-y-1 text-xs">
-          <p><strong class="text-red-900">📄 Vista XML:</strong> <code class="text-red-700 bg-white px-1 py-0.5 rounded border border-red-200 font-mono">res/layout/activity_dialog.xml</code></p>
-          <p><strong class="text-red-900">☕ Clase:</strong> <code class="text-red-700 bg-white px-1 py-0.5 rounded border border-red-200 font-mono">DialogActivity.java</code></p>
-          <p><strong class="text-red-900">🎯 Capturar:</strong> Presionar "Mostrar Alerta" para abrir el <code>MaterialAlertDialog</code> modal de confirmación con botones Aceptar/Cancelar.</p>
-          <p><strong class="text-red-900">💾 Archivo:</strong> <code class="text-red-800 bg-white px-1 py-0.5 rounded border border-red-200 font-mono font-bold">assets/images/lab-dialog-toast.png</code></p>
-        </div>
-      </div>
-      <figure class="group rounded-xl border-2 border-dashed border-red-400 bg-white overflow-hidden mt-3">
-        <div class="aspect-[16/10] flex flex-col items-center justify-center p-3 text-center">
-          <div class="w-6 h-6 rounded bg-red-100 border border-red-300 flex items-center justify-center text-red-600 text-xs">📷</div>
-          <p class="mt-1 font-bold text-[10px] text-red-800">lab-dialog-toast.png</p>
-        </div>
-        <img src="assets/images/lab-dialog-toast.png" alt="Dialog" class="hidden w-full object-cover" onload="this.parentElement.classList.add('loaded'); this.previousElementSibling.style.display='none'" />
-      </figure>
-    </div>
-
-    <!-- 15. Lab 8 Layouts -->
-    <div class="rounded-2xl border-2 border-red-500 bg-red-50/90 p-5 text-red-950 flex flex-col justify-between">
-      <div>
-        <div class="flex items-center justify-between pb-2 border-b border-red-200">
-          <span class="px-2 py-0.5 rounded bg-red-600 text-white font-bold text-[10px] uppercase">🔴 15. Lab 8 · Layouts & Containers</span>
-          <span class="text-[9px] font-bold text-red-600 uppercase bg-red-100 px-1.5 py-0.5 rounded border border-red-300">Borrar al poner foto</span>
-        </div>
-        <div class="mt-3 space-y-1 text-xs">
-          <p><strong class="text-red-900">📄 Vista XML:</strong> <code class="text-red-700 bg-white px-1 py-0.5 rounded border border-red-200 font-mono">res/layout/activity_layouts.xml</code></p>
-          <p><strong class="text-red-900">☕ Clase:</strong> <code class="text-red-700 bg-white px-1 py-0.5 rounded border border-red-200 font-mono">LayoutsActivity.java</code></p>
-          <p><strong class="text-red-900">🎯 Capturar:</strong> Comparativa visual de LinearLayout, FrameLayout y ConstraintLayout organizados en bloques de colores.</p>
-          <p><strong class="text-red-900">💾 Archivo:</strong> <code class="text-red-800 bg-white px-1 py-0.5 rounded border border-red-200 font-mono font-bold">assets/images/lab-layouts-preview.png</code></p>
-        </div>
-      </div>
-      <figure class="group rounded-xl border-2 border-dashed border-red-400 bg-white overflow-hidden mt-3">
-        <div class="aspect-[16/10] flex flex-col items-center justify-center p-3 text-center">
-          <div class="w-6 h-6 rounded bg-red-100 border border-red-300 flex items-center justify-center text-red-600 text-xs">📷</div>
-          <p class="mt-1 font-bold text-[10px] text-red-800">lab-layouts-preview.png</p>
-        </div>
-        <img src="assets/images/lab-layouts-preview.png" alt="Layouts" class="hidden w-full object-cover" onload="this.parentElement.classList.add('loaded'); this.previousElementSibling.style.display='none'" />
-      </figure>
-    </div>
-
-    <!-- 16. Lab 9 ScrollView -->
-    <div class="rounded-2xl border-2 border-red-500 bg-red-50/90 p-5 text-red-950 flex flex-col justify-between">
-      <div>
-        <div class="flex items-center justify-between pb-2 border-b border-red-200">
-          <span class="px-2 py-0.5 rounded bg-red-600 text-white font-bold text-[10px] uppercase">🔴 16. Lab 9 · ScrollView Vertical</span>
-          <span class="text-[9px] font-bold text-red-600 uppercase bg-red-100 px-1.5 py-0.5 rounded border border-red-300">Borrar al poner foto</span>
-        </div>
-        <div class="mt-3 space-y-1 text-xs">
-          <p><strong class="text-red-900">📄 Vista XML:</strong> <code class="text-red-700 bg-white px-1 py-0.5 rounded border border-red-200 font-mono">res/layout/activity_scroll.xml</code></p>
-          <p><strong class="text-red-900">☕ Clase:</strong> <code class="text-red-700 bg-white px-1 py-0.5 rounded border border-red-200 font-mono">ScrollActivity.java</code></p>
-          <p><strong class="text-red-900">🎯 Capturar:</strong> Vista con desplazamiento vertical mostrando scrollbar activo y contenido extenso.</p>
-          <p><strong class="text-red-900">💾 Archivo:</strong> <code class="text-red-800 bg-white px-1 py-0.5 rounded border border-red-200 font-mono font-bold">assets/images/lab-scroll-preview.png</code></p>
-        </div>
-      </div>
-      <figure class="group rounded-xl border-2 border-dashed border-red-400 bg-white overflow-hidden mt-3">
-        <div class="aspect-[16/10] flex flex-col items-center justify-center p-3 text-center">
-          <div class="w-6 h-6 rounded bg-red-100 border border-red-300 flex items-center justify-center text-red-600 text-xs">📷</div>
-          <p class="mt-1 font-bold text-[10px] text-red-800">lab-scroll-preview.png</p>
-        </div>
-        <img src="assets/images/lab-scroll-preview.png" alt="Scroll" class="hidden w-full object-cover" onload="this.parentElement.classList.add('loaded'); this.previousElementSibling.style.display='none'" />
-      </figure>
-    </div>
-
-    <!-- 17. Lab 10 RecyclerView -->
-    <div class="rounded-2xl border-2 border-red-500 bg-red-50/90 p-5 text-red-950 flex flex-col justify-between">
-      <div>
-        <div class="flex items-center justify-between pb-2 border-b border-red-200">
-          <span class="px-2 py-0.5 rounded bg-red-600 text-white font-bold text-[10px] uppercase">🔴 17. Lab 10 · RecyclerView Contactos</span>
-          <span class="text-[9px] font-bold text-red-600 uppercase bg-red-100 px-1.5 py-0.5 rounded border border-red-300">Borrar al poner foto</span>
-        </div>
-        <div class="mt-3 space-y-1 text-xs">
-          <p><strong class="text-red-900">📄 Vista XML:</strong> <code class="text-red-700 bg-white px-1 py-0.5 rounded border border-red-200 font-mono">res/layout/activity_recycler.xml</code> + <code class="text-red-700 bg-white px-1 py-0.5 rounded border border-red-200 font-mono">item_contact.xml</code></p>
-          <p><strong class="text-red-900">☕ Clase:</strong> <code class="text-red-700 bg-white px-1 py-0.5 rounded border border-red-200 font-mono">RecyclerActivity.java</code> + <code class="text-red-700 bg-white px-1 py-0.5 rounded border border-red-200 font-mono">ContactAdapter.java</code></p>
-          <p><strong class="text-red-900">🎯 Capturar:</strong> Lista dinámica de tarjetas de contactos con botón de favorito y filtro de chips.</p>
-          <p><strong class="text-red-900">💾 Archivo:</strong> <code class="text-red-800 bg-white px-1 py-0.5 rounded border border-red-200 font-mono font-bold">assets/images/lab-recycler-preview.png</code></p>
-        </div>
-      </div>
-      <figure class="group rounded-xl border-2 border-dashed border-red-400 bg-white overflow-hidden mt-3">
-        <div class="aspect-[16/10] flex flex-col items-center justify-center p-3 text-center">
-          <div class="w-6 h-6 rounded bg-red-100 border border-red-300 flex items-center justify-center text-red-600 text-xs">📷</div>
-          <p class="mt-1 font-bold text-[10px] text-red-800">lab-recycler-preview.png</p>
-        </div>
-        <img src="assets/images/lab-recycler-preview.png" alt="Recycler" class="hidden w-full object-cover" onload="this.parentElement.classList.add('loaded'); this.previousElementSibling.style.display='none'" />
-      </figure>
-    </div>
-
-    <!-- 18. Debug Logcat -->
-    <div class="rounded-2xl border-2 border-red-500 bg-red-50/90 p-5 text-red-950 flex flex-col justify-between">
-      <div>
-        <div class="flex items-center justify-between pb-2 border-b border-red-200">
-          <span class="px-2 py-0.5 rounded bg-red-600 text-white font-bold text-[10px] uppercase">🔴 18. Android Studio · Logcat</span>
-          <span class="text-[9px] font-bold text-red-600 uppercase bg-red-100 px-1.5 py-0.5 rounded border border-red-300">Borrar al poner foto</span>
-        </div>
-        <div class="mt-3 space-y-1 text-xs">
-          <p><strong class="text-red-900">📄 Herramienta:</strong> <code class="text-red-700 bg-white px-1 py-0.5 rounded border border-red-200 font-mono">Android Studio Logcat Tab</code></p>
-          <p><strong class="text-red-900">🔍 Filtro:</strong> <code class="text-red-700 bg-white px-1 py-0.5 rounded border border-red-200 font-mono">tag:SANDBOX_*</code> o <code class="text-red-700 bg-white px-1 py-0.5 rounded border border-red-200 font-mono">package:mine</code></p>
-          <p><strong class="text-red-900">🎯 Capturar:</strong> Pestaña de Logcat mostrando logs coloreados (Verbose, Debug, Info, Warn, Error).</p>
-          <p><strong class="text-red-900">💾 Archivo:</strong> <code class="text-red-800 bg-white px-1 py-0.5 rounded border border-red-200 font-mono font-bold">assets/images/debug-logcat.png</code></p>
-        </div>
-      </div>
-      <figure class="group rounded-xl border-2 border-dashed border-red-400 bg-white overflow-hidden mt-3">
-        <div class="aspect-[16/10] flex flex-col items-center justify-center p-3 text-center">
-          <div class="w-6 h-6 rounded bg-red-100 border border-red-300 flex items-center justify-center text-red-600 text-xs">📷</div>
-          <p class="mt-1 font-bold text-[10px] text-red-800">debug-logcat.png</p>
-        </div>
-        <img src="assets/images/debug-logcat.png" alt="Logcat" class="hidden w-full object-cover" onload="this.parentElement.classList.add('loaded'); this.previousElementSibling.style.display='none'" />
-      </figure>
-    </div>
-
-  </div>
-</section>
-
-</main>
-</div>
-<script src="assets/nav.js"></script>
+  <script src="assets/nav.js"></script>
 </body>
 </html>

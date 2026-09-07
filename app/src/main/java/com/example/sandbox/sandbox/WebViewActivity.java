@@ -43,13 +43,13 @@ public class WebViewActivity extends AppCompatActivity {
         });
         findViewById(R.id.btnBack).setOnClickListener(v->{
             if(webView.canGoBack()){ webView.goBack(); LoggerUtils.d(TAG,"WebView goBack"); }
-            else Toast.makeText(this,getString(R.string.common_msg_no_history),Toast.LENGTH_SHORT).show();
+            else { Toast.makeText(this,getString(R.string.common_msg_no_history),Toast.LENGTH_SHORT).show(); }
         });
         LoggerUtils.d(TAG,"WebView lab listo");
     }
 
     @Override public void onBackPressed(){
-        if(webView.canGoBack()) webView.goBack();
-        else super.onBackPressed();
+        if (webView.canGoBack()) { webView.goBack(); }
+        else { super.onBackPressed(); }
     }
 }

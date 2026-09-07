@@ -1,253 +1,344 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" class="h-full bg-white text-zinc-950 antialiased">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lab 7 · Dialog / Toast / Logger — Sandbox Docs</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <style type="text/tailwindcss">
+    @theme {
+      --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+  </style>
+  <style>
+    pre {
+      background: #09090b !important;
+      border: 1px solid #27272a !important;
+      border-radius: 8px !important;
+      padding: 0 !important;
+      overflow: hidden !important;
+      position: relative !important;
+      margin: 0 !important;
+    }
+    pre code {
+      display: block !important;
+      padding: 1rem 1rem 1rem 3.8rem !important;
+      font-family: var(--font-mono) !important;
+      font-size: 13px !important;
+      line-height: 1.6 !important;
+      color: #fafafa !important;
+      background: transparent !important;
+      overflow-x: auto !important;
+    }
+    .cm-gutter {
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 3rem;
+      padding: 1rem 0;
+      text-align: right;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      line-height: 1.6;
+      color: #71717a;
+      background: #18181b;
+      border-right: 1px solid #27272a;
+      user-select: none;
+      z-index: 1;
+      pointer-events: none;
+    }
+    .cm-gutter span { display: block; padding-right: 0.6rem; }
+  </style>
+</head>
+<body class="min-h-full flex flex-col font-sans bg-white text-zinc-950">
 
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Lab 7 · Dialog/Toast/Logger — Sandbox</title>
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-    <style type="text/tailwindcss">@theme{--font-sans:Inter,system-ui,sans-serif;--font-mono:JetBrains Mono,monospace;}</style>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/codemirror.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/theme/dracula.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
-    <style>
-      /* CodeMirror-like code blocks — Dracula, Java + XML */
-      pre {
-        background: #282a36 !important;
-        border: 1px solid #44475a !important;
-        border-radius: 12px !important;
-        padding: 0 !important;
-        overflow: hidden !important;
-        position: relative !important;
-        margin: 0 !important;
-      }
+  <!-- Header / Topbar (shadcn style) -->
+  <header class="sticky top-0 z-50 w-full border-b border-zinc-200 bg-white/80 backdrop-blur-md">
+    <div class="max-w-[1440px] mx-auto px-4 sm:px-6 h-14 flex items-center justify-between gap-4">
+      <div class="flex items-center gap-3">
+        <button id="menuBtn" class="lg:hidden p-2 rounded-md border border-zinc-200 text-zinc-700 hover:bg-zinc-100 transition-colors">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+        </button>
+        <a href="index.html" class="flex items-center gap-2 font-bold text-sm tracking-tight text-zinc-900">
+          <div class="w-6 h-6 rounded-md bg-zinc-900 text-white flex items-center justify-center text-xs">Sb</div>
+          <span>Sandbox <span class="text-zinc-400 font-normal">Docs</span></span>
+        </a>
+        <span class="text-zinc-300">/</span>
+        <span class="text-xs font-medium text-zinc-600 bg-zinc-100 px-2 py-0.5 rounded-full border border-zinc-200">Lab 07</span>
+      </div>
 
-      pre code {
-        display: block !important;
-        padding: 1rem 1rem 1rem 3.8rem !important;
-        font-family: 'JetBrains Mono', Consolas, monospace !important;
-        font-size: 12.5px !important;
-        line-height: 1.65 !important;
-        color: #f8f8f2 !important;
-        background: transparent !important;
-        overflow-x: auto !important;
-      }
+      <div class="flex items-center gap-2">
+        <span class="hidden sm:inline-flex text-xs text-zinc-500 font-mono bg-zinc-100 px-2.5 py-1 rounded-md border border-zinc-200">DialogActivity.java</span>
+        <a href="labs.html" class="inline-flex items-center justify-center text-xs font-medium h-8 px-3 rounded-md border border-zinc-200 bg-white text-zinc-900 hover:bg-zinc-100 transition-colors">
+          ← Índice Labs
+        </a>
+      </div>
+    </div>
+  </header>
 
-      pre::before {
-        content: "";
-        position: absolute;
-        left: 0;
-        top: 0;
-        bottom: 0;
-        width: 3.2rem;
-        background: #21222c;
-        border-right: 1px solid #44475a;
-        z-index: 0;
-      }
+  <div id="overlay" class="fixed inset-0 bg-black/40 backdrop-blur-xs z-40 hidden lg:hidden"></div>
 
-      .cm-gutter {
-        position: absolute;
-        left: 0;
-        top: 0;
-        bottom: 0;
-        width: 3.2rem;
-        padding: 1rem 0;
-        text-align: right;
-        font-family: 'JetBrains Mono', monospace;
-        font-size: 11.5px;
-        line-height: 1.65;
-        color: #6272a4;
-        user-select: none;
-        z-index: 1;
-        pointer-events: none;
-      }
+  <!-- Layout Container -->
+  <div class="max-w-[1440px] mx-auto px-4 sm:px-6 py-6 grid grid-cols-1 lg:grid-cols-[240px_minmax(0,1fr)] gap-8 w-full flex-1">
+    <aside id="sidebar" class="fixed lg:sticky top-0 lg:top-20 left-0 z-40 w-[240px] h-[100dvh] lg:h-[calc(100vh-5rem)] bg-white lg:bg-transparent border-r lg:border-0 border-zinc-200 overflow-y-auto p-4 lg:p-0 -translate-x-full lg:translate-x-0 transition-transform duration-200"></aside>
 
-      .cm-gutter span {
-        display: block;
-        padding-right: 0.75rem;
-      }
+    <!-- Main Content -->
+    <main class="min-w-0 space-y-8 pb-16">
+      
+      <!-- Page Header -->
+      <div class="space-y-2 border-b border-zinc-200 pb-6">
+        <div class="flex items-center gap-2">
+          <span class="px-2 py-0.5 rounded-md text-[11px] font-semibold bg-violet-50 text-violet-700 border border-violet-200">Feedback & Logs</span>
+          <span class="text-xs text-zinc-400 font-mono">acdito_ · AlertDialog / Toast / LoggerUtils</span>
+        </div>
+        <h1 class="text-3xl font-bold tracking-tight text-zinc-950">Lab 7 · Dialog / Toast / Logger</h1>
+        <p class="text-sm text-zinc-600 leading-relaxed max-w-3xl">
+          Implementación integral de los 3 canales de comunicación con el usuario y desarrollo: <strong>Toast</strong> (retroalimentación instantánea no bloqueante), <strong>AlertDialog</strong> (modal bloqueante de confirmación o selección) y <strong>LoggerUtils</strong> (trazabilidad y diagnóstico en Logcat con consola en pantalla).
+        </p>
+      </div>
 
-      .hljs {
-        background: transparent !important;
-      }
+      <!-- Preview Image Cards -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <figure class="rounded-xl border border-zinc-200 bg-zinc-50/50 p-3 space-y-2">
+          <div class="flex items-center justify-between text-xs text-zinc-500">
+            <span class="font-medium text-zinc-700">Modal AlertDialog & Toast</span>
+            <span class="font-mono text-[11px]">lab-dialog-toast.png</span>
+          </div>
+          <div class="relative rounded-lg border border-zinc-200 overflow-hidden bg-zinc-900 min-h-[220px] flex items-center justify-center">
+            <img src="assets/images/lab-dialog-toast.png" alt="Lab Dialog Toast" class="w-full h-auto object-contain max-h-[300px]" onerror="this.src='assets/images/lab-dialog-toast.jpg'">
+          </div>
+          <figcaption class="text-[11px] text-zinc-500">Dialog modal con botones Positive/Negative y respuesta Toast emergente.</figcaption>
+        </figure>
 
-      .hljs-keyword {
-        color: #ff79c6 !important
-      }
+        <figure class="rounded-xl border border-zinc-200 bg-zinc-50/50 p-3 space-y-2">
+          <div class="flex items-center justify-between text-xs text-zinc-500">
+            <span class="font-medium text-zinc-700">Consola Logcat & TextView UI</span>
+            <span class="font-mono text-[11px]">debug-logcat.png</span>
+          </div>
+          <div class="relative rounded-lg border border-zinc-200 overflow-hidden bg-zinc-900 min-h-[220px] flex items-center justify-center">
+            <img src="assets/images/debug-logcat.png" alt="Lab Debug Logcat" class="w-full h-auto object-contain max-h-[300px]" onerror="this.src='assets/images/debug-logcat.jpg'">
+          </div>
+          <figcaption class="text-[11px] text-zinc-500">Filtro Logcat por tag <code class="text-zinc-700">SANDBOX_DIALOG</code> y registro en consola visual.</figcaption>
+        </figure>
+      </div>
 
-      .hljs-string {
-        color: #f1fa8c !important
-      }
-
-      .hljs-comment {
-        color: #6272a4 !important
-      }
-
-      .hljs-type {
-        color: #8be9fd !important
-      }
-
-      .hljs-title {
-        color: #50fa7b !important
-      }
-
-      .hljs-number {
-        color: #bd93f9 !important
-      }
-
-      .hljs-tag {
-        color: #f8f8f2 !important
-      }
-
-      .hljs-name {
-        color: #ff79c6 !important
-      }
-
-      .hljs-attr {
-        color: #50fa7b !important
-      }
-
-      .hljs-attribute {
-        color: #50fa7b !important
-      }
-
-      .hljs-meta {
-        color: #ff79c6 !important
-      }
-
-      .hljs-meta-string {
-        color: #f1fa8c !important
-      }
-
-      .hljs-value {
-        color: #f1fa8c !important
-      }
-
-      .hljs-function .hljs-title {
-        color: #50fa7b !important
-      }
-
-      .hljs-params {
-        color: #f8f8f2 !important
-      }
-
-      .hljs-built_in {
-        color: #8be9fd !important
-      }
-    </style>
-  </head>
-
-  <body class="bg-[#f8f9fb] text-zinc-800 antialiased">
-    <header class="sticky top-0 z-50 bg-white/90 backdrop-blur border-b border-zinc-200">
-      <div class="max-w-[1440px] mx-auto px-4 sm:px-6 py-2 flex items-center justify-between">
-        <div class="flex items-center gap-3"><button id="menuBtn" class="lg:hidden p-2 rounded-xl border border-zinc-200 bg-white"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"
-              stroke="currentColor" stroke-width="2">
-              <path d="M4 6h16M4 12h16M4 18h16" />
-            </svg></button>
-          <div class="w-8 h-8 rounded-xl text-sm bg-violet-600 flex items-center justify-center text-white font-bold">7</div>
-          <div class="hidden sm:block">
-            <p class="font-semibold leading-none">Lab 7 · Dialog / Toast / Logger</p>
-            <p class="text-[10px] text-zinc-500">acdito_ · Mensajería</p>
+      <!-- Segmented Tabs: Java vs Kotlin -->
+      <div class="space-y-4">
+        <div class="flex items-center justify-between">
+          <h2 class="text-lg font-semibold tracking-tight text-zinc-900">Implementación de Código</h2>
+          <div class="inline-flex p-1 rounded-lg bg-zinc-100 border border-zinc-200 text-xs">
+            <button onclick="switchTab('java-code', 'kotlin-code', this)" class="px-3 py-1 rounded-md font-medium transition-all bg-white text-zinc-900 shadow-xs">Java 11</button>
+            <button onclick="switchTab('kotlin-code', 'java-code', this)" class="px-3 py-1 rounded-md font-medium transition-all text-zinc-600 hover:text-zinc-900">Kotlin + ViewBinding</button>
           </div>
         </div>
-        <a href="labs.html" class="px-4 py-2 bg-white border border-zinc-200 rounded-full text-sm">← Labs</a>
-      </div>
-    </header>
-    <div id="overlay" class="fixed inset-0 bg-black/30 z-40 hidden lg:hidden"></div>
-    <div class="max-w-[1440px] mx-auto px-4 sm:px-6 py-4 lg:py-6 grid grid-cols-1 lg:grid-cols-[240px_minmax(0,1fr)] gap-4 lg:gap-6">
-      <aside id="sidebar"
-        class="fixed lg:sticky top-0 lg:top-[53px] left-0 z-40 w-[240px] h-[100dvh] lg:h-[calc(100vh-53px)] bg-white lg:bg-transparent border-r lg:border-0 border-zinc-200 overflow-auto p-4 lg:p-0 -translate-x-full lg:translate-x-0 transition-transform duration-200">
-      </aside>
-      <main class="min-w-0 space-y-6">
-        <section class="bg-white rounded-[24px] border border-zinc-200 p-6 sm:p-8">
-          <h1 class="text-3xl font-semibold tracking-tight">Lab 7 — Dialog · Toast · Logger</h1>
-          <p class="mt-2 text-sm text-zinc-500">Tres canales: Toast efímero no bloqueante, AlertDialog modal bloqueante y Logcat persistente.</p>
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-            <figure class="group rounded-2xl border-2 border-dashed border-zinc-300 bg-zinc-50 overflow-hidden">
-              <div class="aspect-[16/10] flex flex-col items-center justify-center p-6 text-center">
-                <div class="w-10 h-10 rounded-xl bg-white border flex items-center justify-center">📷</div>
-                <p class="mt-2 font-medium text-xs">Dialog confirmación</p>
-                <p class="text-[10px] text-zinc-500">assets/images/lab-dialog-toast.png</p>
-              </div>
-              <img src="assets/images/lab-dialog-toast.png" alt="Dialog" class="hidden w-full object-cover"
-                onload="this.parentElement.classList.add('loaded'); this.previousElementSibling.style.display='none'" />
-              <figcaption class="px-3 py-2 bg-white border-t text-[10px] text-zinc-500">Fig. — AlertDialog "Confirmación" + positive/negative + detrás Toast</figcaption>
-            </figure>
-            <figure class="group rounded-2xl border-2 border-dashed border-zinc-300 bg-zinc-50 overflow-hidden">
-              <div class="aspect-[16/10] flex flex-col items-center justify-center p-6 text-center">
-                <div class="w-10 h-10 rounded-xl bg-white border flex items-center justify-center">📷</div>
-                <p class="mt-2 font-medium text-xs">Logcat</p>
-                <p class="text-[10px] text-zinc-500">assets/images/debug-logcat.png</p>
-              </div>
-              <img src="assets/images/debug-logcat.png" alt="Logcat" class="hidden w-full object-cover"
-                onload="this.parentElement.classList.add('loaded'); this.previousElementSibling.style.display='none'" />
-              <figcaption class="px-3 py-2 bg-white border-t text-[10px] text-zinc-500">Fig. — Logcat filtrado SANDBOX_DIALOG con v/d/i/w/e colores + tvLog acumulado</figcaption>
-            </figure>
-          </div>
-          <div class="mt-6 grid lg:grid-cols-1 gap-6">
-            <div class="rounded-2xl border border-zinc-200 p-5">
-              <p class="font-semibold text-sm">Toast — dos duraciones</p>
-              <pre class="mt-3 bg-zinc-900 text-zinc-100 rounded-xl p-4 text-xs"><code>Toast.makeText(this, getString(R.string.acdito_toast_short), LENGTH_SHORT).show(); // ~2s
-Toast.makeText(this, getString(R.string.acdito_toast_long), LENGTH_LONG).show();  // ~3.5s</code></pre>
-              <p class="mt-2 text-xs text-zinc-600">No necesita permiso. Se encola: si lanzas 2 seguidos, el segundo espera. <code>makeText</code> requiere <code>Context</code> activity para theming.
-              </p>
-              <p class="font-semibold text-sm mt-4">AlertDialog.Builder — confirmación</p>
-              <pre class="mt-2 bg-zinc-900 text-zinc-100 rounded-xl p-4 text-xs"><code>new AlertDialog.Builder(this)
-  .setTitle(getString(R.string.acdito_dialog_title)) // "Confirmación"
-  .setMessage(getString(R.string.acdito_dialog_msg))
-  .setPositiveButton(getString(R.string.acdito_dialog_yes), (d,w)-> {
-    appendLog(getString(R.string.acdito_log_yes));
-    Toast.makeText(this, getString(R.string.acdito_toast_yes), SHORT).show();
-  })
-  .setNegativeButton(getString(R.string.acdito_dialog_no), (d,w)-> appendLog(getString(acdito_log_no)))
-  .setNeutralButton(getString(R.string.acdito_dialog_cancel), null)
-  .show();</code></pre>
-              <p class="mt-2 text-xs text-zinc-600">Tres botones = positive/negative/neutral. Pasar <code>null</code> cierra sin acción.</p>
-            </div>
-            <div class="space-y-4">
-              <div class="rounded-2xl border border-zinc-200 p-5">
-                <p class="font-semibold text-sm">AlertDialog con lista</p>
-                <pre class="mt-3 bg-zinc-900 text-zinc-100 rounded-xl p-4 text-xs"><code>final String[] items = {"Java","Kotlin","Python"};
-new AlertDialog.Builder(this)
-  .setTitle(getString(R.string.acdito_dialog_list_title))
-  .setItems(items, (d,which)->{
-    String sel = items[which];
-    appendLog(getString(R.string.acdito_log_list, sel)); // "Lista: Java"
-    Toast.makeText(this, getString(R.string.acdito_toast_chosen, sel), SHORT).show();
-  }).show();</code></pre>
-                <p class="mt-2 text-xs text-zinc-600"><code>setItems</code> hace lista simple sin adapter. Para lista con check usa <code>setSingleChoiceItems</code>.</p>
-              </div>
-              <div class="rounded-2xl bg-zinc-900 text-zinc-100 p-5">
-                <p class="font-semibold text-sm">LoggerUtils — 5 niveles</p>
-                <pre class="mt-3 bg-black rounded-xl p-4 text-xs"><code>LoggerUtils.v(TAG,"VERBOSE"); Log.v
-LoggerUtils.d(TAG,"DEBUG");   Log.d // flujo
-LoggerUtils.i(TAG,"INFO");    Log.i // éxito
-LoggerUtils.w(TAG,"WARN");    Log.w // recuperable
-LoggerUtils.e(TAG,"ERROR");   Log.e // validación fallida
-LoggerUtils.demo(TAG); // dispara v/d/i/w/e a la vez</code></pre>
-                <div class="mt-3 flex flex-wrap gap-2 text-xs"><span class="px-2 py-1 rounded bg-violet-600">V</span><span class="px-2 py-1 rounded bg-blue-600">D</span><span
-                    class="px-2 py-1 rounded bg-emerald-600">I</span><span class="px-2 py-1 rounded bg-amber-600">W</span><span class="px-2 py-1 rounded bg-red-600">E</span></div>
-                <p class="mt-3 text-xs text-zinc-400"><code>tvLog.append(getString(acdito_log_append, msg))</code> acumula en UI + Logcat con tag <code>SANDBOX_DIALOG</code>.</p>
-              </div>
-            </div>
-          </div>
-        </section>
-        <section class="bg-white rounded-[24px] border border-zinc-200 p-6 sm:p-8">
-          <h2 class="text-xl font-semibold tracking-tight">Cómo se desarrolló</h2>
-          <ol class="mt-4 list-decimal pl-5 text-sm text-zinc-700 space-y-2">
-            <li>Layout <code>ScrollView</code> + Card <code>acdito_info_desc</code> + TextView <code>tvLog</code> con <code>acdito_log_default</code> + 5 MaterialButtons
-              (<code>acdit_btn_short/long/alert/list/logger</code>).</li>
-            <li><code>onCreate</code>: <code>findViewById</code> para 5 botones + <code>tvLog</code>.</li>
-            <li>Cada click: <code>Toast</code> o <code>AlertDialog.Builder</code> + <code>appendLog</code> + <code>LoggerUtils</code>.</li>
-            <li><code>appendLog(String msg){ tvLog.append(getString(acdito_log_append, msg)); }</code> → acumula con bullet.</li>
-          </ol>
-          <div class="mt-4 flex flex-wrap gap-2 text-xs"><a href="vistas.html" class="px-4 py-2 bg-violet-600 text-white rounded-full">Siguiente → Catálogo vistas</a><a href="lab-webview.html"
-              class="px-4 py-2 bg-white border border-zinc-200 rounded-full">← Anterior WebView</a></div>
-        </section>
-      </main>
-    </div>
-    <script src="assets/nav.js"></script>
-  </body>
 
+        <!-- Java Tab Content -->
+        <div id="java-code" class="tab-content space-y-6">
+          <div class="rounded-xl border border-zinc-200 bg-white p-5 space-y-4">
+            <div class="flex items-center justify-between">
+              <h3 class="text-sm font-semibold text-zinc-900">1. Toast Notifications (Short & Long)</h3>
+              <span class="text-[11px] font-mono text-zinc-500">Context + Length</span>
+            </div>
+            <p class="text-xs text-zinc-600">
+              Notificación liviana que desaparece automáticamente. Requiere un Context (como la Activity) para heredar el tema de la aplicación.
+            </p>
+            <pre><code>// Toast de duración corta (~2.0 segundos)
+Toast.makeText(this, getString(R.string.acdito_toast_short), Toast.LENGTH_SHORT).show();
+
+// Toast de duración larga (~3.5 segundos)
+Toast.makeText(this, getString(R.string.acdito_toast_long), Toast.LENGTH_LONG).show();</code></pre>
+          </div>
+
+          <div class="rounded-xl border border-zinc-200 bg-white p-5 space-y-4">
+            <div class="flex items-center justify-between">
+              <h3 class="text-sm font-semibold text-zinc-900">2. AlertDialog Modal de Confirmación</h3>
+              <span class="text-[11px] font-mono text-zinc-500">AlertDialog.Builder</span>
+            </div>
+            <p class="text-xs text-zinc-600">
+              Diálogo modal que captura la atención del usuario requiriendo una acción explícita mediante botones de acción.
+            </p>
+            <pre><code>new AlertDialog.Builder(this)
+    .setTitle(getString(R.string.acdito_dialog_title)) // "Confirmación"
+    .setMessage(getString(R.string.acdito_dialog_msg))
+    .setPositiveButton(getString(R.string.acdito_dialog_yes), (dialog, which) -> {
+        appendLog(getString(R.string.acdito_log_yes));
+        Toast.makeText(this, getString(R.string.acdito_toast_yes), Toast.LENGTH_SHORT).show();
+    })
+    .setNegativeButton(getString(R.string.acdito_dialog_no), (dialog, which) -> {
+        appendLog(getString(R.string.acdito_log_no));
+    })
+    .setNeutralButton(getString(R.string.acdito_dialog_cancel), null)
+    .show();</code></pre>
+          </div>
+
+          <div class="rounded-xl border border-zinc-200 bg-white p-5 space-y-4">
+            <div class="flex items-center justify-between">
+              <h3 class="text-sm font-semibold text-zinc-900">3. AlertDialog con Lista de Opciones</h3>
+              <span class="text-[11px] font-mono text-zinc-500">setItems Listener</span>
+            </div>
+            <p class="text-xs text-zinc-600">
+              Despliega un menú modal de opciones rápidas sin necesidad de configurar un RecyclerView personalizado.
+            </p>
+            <pre><code>final String[] items = {"Java", "Kotlin", "Python", "Rust"};
+new AlertDialog.Builder(this)
+    .setTitle(getString(R.string.acdito_dialog_list_title))
+    .setItems(items, (dialog, which) -> {
+        String selected = items[which];
+        appendLog(getString(R.string.acdito_log_list, selected));
+        Toast.makeText(this, getString(R.string.acdito_toast_chosen, selected), Toast.LENGTH_SHORT).show();
+    })
+    .show();</code></pre>
+          </div>
+
+          <div class="rounded-xl border border-zinc-200 bg-zinc-950 text-zinc-100 p-5 space-y-4">
+            <div class="flex items-center justify-between">
+              <h3 class="text-sm font-semibold text-white">4. LoggerUtils & Acumulador en Pantalla</h3>
+              <div class="flex gap-1 text-[10px]">
+                <span class="px-1.5 py-0.5 rounded bg-purple-500/20 text-purple-300 border border-purple-500/30">V</span>
+                <span class="px-1.5 py-0.5 rounded bg-blue-500/20 text-blue-300 border border-blue-500/30">D</span>
+                <span class="px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">I</span>
+                <span class="px-1.5 py-0.5 rounded bg-amber-500/20 text-amber-300 border border-amber-500/30">W</span>
+                <span class="px-1.5 py-0.5 rounded bg-rose-500/20 text-rose-300 border border-rose-500/30">E</span>
+              </div>
+            </div>
+            <p class="text-xs text-zinc-400">
+              Envía trazas de diagnóstico clasificadas por severidad a Logcat y registra la salida en el TextView de consola.
+            </p>
+            <pre><code>private void appendLog(String message) {
+    tvLog.append(getString(R.string.acdito_log_append, message));
+    LoggerUtils.d(TAG, message);
+}
+
+// Ejemplo de llamada completa con LoggerUtils
+LoggerUtils.v(TAG, "Mensaje Verbose");
+LoggerUtils.d(TAG, "Flujo de ejecución Debug");
+LoggerUtils.i(TAG, "Operación exitosa Info");
+LoggerUtils.w(TAG, "Advertencia recuperable Warn");
+LoggerUtils.e(TAG, "Error o validación fallida");
+LoggerUtils.demo(TAG); // Dispara ráfaga de todos los niveles</code></pre>
+          </div>
+        </div>
+
+        <!-- Kotlin Tab Content -->
+        <div id="kotlin-code" class="tab-content hidden space-y-6">
+          <div class="rounded-xl border border-zinc-200 bg-white p-5 space-y-4">
+            <div class="flex items-center justify-between">
+              <h3 class="text-sm font-semibold text-zinc-900">1. Toast Notifications en Kotlin</h3>
+              <span class="text-[11px] font-mono text-zinc-500">Extension Friendly</span>
+            </div>
+            <pre><code>// Toast directo conciso
+Toast.makeText(this, getString(R.string.acdito_toast_short), Toast.LENGTH_SHORT).show()
+Toast.makeText(this, getString(R.string.acdito_toast_long), Toast.LENGTH_LONG).show()
+
+// Idiomático con función de extensión (opcional):
+fun Context.toast(msg: String, length: Int = Toast.LENGTH_SHORT) {
+    Toast.makeText(this, msg, length).show()
+}</code></pre>
+          </div>
+
+          <div class="rounded-xl border border-zinc-200 bg-white p-5 space-y-4">
+            <div class="flex items-center justify-between">
+              <h3 class="text-sm font-semibold text-zinc-900">2. AlertDialog de Confirmación en Kotlin</h3>
+              <span class="text-[11px] font-mono text-zinc-500">MaterialAlertDialogBuilder</span>
+            </div>
+            <pre><code>MaterialAlertDialogBuilder(this)
+    .setTitle(getString(R.string.acdito_dialog_title))
+    .setMessage(getString(R.string.acdito_dialog_msg))
+    .setPositiveButton(getString(R.string.acdito_dialog_yes)) { _, _ ->
+        appendLog(getString(R.string.acdito_log_yes))
+        Toast.makeText(this, getString(R.string.acdito_toast_yes), Toast.LENGTH_SHORT).show()
+    }
+    .setNegativeButton(getString(R.string.acdito_dialog_no)) { _, _ ->
+        appendLog(getString(R.string.acdito_log_no))
+    }
+    .setNeutralButton(getString(R.string.acdito_dialog_cancel), null)
+    .show()</code></pre>
+          </div>
+
+          <div class="rounded-xl border border-zinc-200 bg-white p-5 space-y-4">
+            <div class="flex items-center justify-between">
+              <h3 class="text-sm font-semibold text-zinc-900">3. AlertDialog con Lista en Kotlin</h3>
+              <span class="text-[11px] font-mono text-zinc-500">Array Passing</span>
+            </div>
+            <pre><code>val items = arrayOf("Java", "Kotlin", "Python", "Rust")
+MaterialAlertDialogBuilder(this)
+    .setTitle(getString(R.string.acdito_dialog_list_title))
+    .setItems(items) { _, which ->
+        val selected = items[which]
+        appendLog(getString(R.string.acdito_log_list, selected))
+        Toast.makeText(this, getString(R.string.acdito_toast_chosen, selected), Toast.LENGTH_SHORT).show()
+    }
+    .show()</code></pre>
+          </div>
+
+          <div class="rounded-xl border border-zinc-200 bg-zinc-950 text-zinc-100 p-5 space-y-4">
+            <div class="flex items-center justify-between">
+              <h3 class="text-sm font-semibold text-white">4. ViewBinding & LoggerUtils</h3>
+              <span class="text-[11px] font-mono text-zinc-400">ActivityDialogBinding</span>
+            </div>
+            <pre><code>class DialogActivity : AppCompatActivity() {
+
+    private lateinit var binding: ActivityDialogBinding
+    private val TAG = "SANDBOX_DIALOG"
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        binding = ActivityDialogBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        setupListeners()
+    }
+
+    private fun appendLog(message: String) {
+        binding.tvLog.append(getString(R.string.acdito_log_append, message))
+        LoggerUtils.d(TAG, message)
+    }
+}</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <!-- Step-by-step Development Card -->
+      <div class="rounded-xl border border-zinc-200 bg-zinc-50/50 p-6 space-y-4">
+        <h2 class="text-sm font-semibold tracking-tight text-zinc-900">Flujo de Arquitectura y Configuración</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs text-zinc-600">
+          <div class="p-4 rounded-lg bg-white border border-zinc-200 space-y-1.5">
+            <span class="font-semibold text-zinc-900">1. Maquetación XML (activity_dialog.xml)</span>
+            <p>Contenedor <code class="text-zinc-800">ScrollView</code> con tarjeta descriptiva, botones MaterialButton organizados en grupos y TextView de consola <code class="text-zinc-800">tvLog</code>.</p>
+          </div>
+          <div class="p-4 rounded-lg bg-white border border-zinc-200 space-y-1.5">
+            <span class="font-semibold text-zinc-900">2. Strings i18n Centralizados</span>
+            <p>Todas las cadenas de títulos, mensajes modales y etiquetas de botones residen en <code class="text-zinc-800">res/values/strings.xml</code> bajo el prefijo <code class="text-zinc-800">acdito_</code>.</p>
+          </div>
+          <div class="p-4 rounded-lg bg-white border border-zinc-200 space-y-1.5">
+            <span class="font-semibold text-zinc-900">3. Controladores de Eventos</span>
+            <p>Lambdas independientes para confirmación positiva, cancelación negativa y selección de ítems en el diálogo modal.</p>
+          </div>
+          <div class="p-4 rounded-lg bg-white border border-zinc-200 space-y-1.5">
+            <span class="font-semibold text-zinc-900">4. Registro Dual (UI + Logcat)</span>
+            <p>El método auxiliar <code class="text-zinc-800">appendLog()</code> actualiza sincronizadamente el buffer del TextView y despacha a Logcat con formato.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Navigation Footer -->
+      <div class="flex items-center justify-between pt-6 border-t border-zinc-200">
+        <a href="lab-webview.html" class="inline-flex items-center gap-2 text-xs font-medium text-zinc-600 hover:text-zinc-900 transition-colors">
+          ← Lab 6: WebView
+        </a>
+        <a href="lab-layouts.html" class="inline-flex items-center gap-2 text-xs font-medium text-zinc-900 hover:text-zinc-700 transition-colors">
+          Lab 8: Layouts →
+        </a>
+      </div>
+
+    </main>
+  </div>
+
+  <script src="assets/nav.js"></script>
+</body>
 </html>

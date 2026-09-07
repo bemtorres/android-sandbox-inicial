@@ -20,7 +20,7 @@ auth-intro.png                    → IntroActivity ¡Hola, Javier!
 home-hub.png                      → HomeActivity con 7 cards
 arquitectura-project.png          → Project pane Android (app/src/main)
 arquitectura-manifest.png         → AndroidManifest.xml abierto
-strings-files.png                 → 4 archivos strings.xml (values, -en, -pt, -es)
+strings-files.jpg                → 4 archivos strings.xml (values, -en, -pt, -es)
 navegacion-flow.png               → Diagrama flechas Main → Register → Intro → Home
 validacion-error.png              → Campo con setError rojo + Toast
 debug-logcat.png                  → Logcat filtrado SANDBOX_* con v/d/i/w/e colores
@@ -56,4 +56,4 @@ Al colocar el PNG con el nombre correcto, el placeholder se oculta automáticame
 ## Checklist
 - [ ] auth-login.png, auth-register.png, auth-intro.png, home-hub.png
 - [ ] lab-textinputs-*.png (3), lab-datetime-*.png (2), lab-buttons-*.png (2), lab-selection-*.png (2), lab-feedback-*.png (2), lab-webview-*.png (2), lab-dialog-*.png (2)
-- [ ] arquitectura-project.png, strings-files.png, navegacion-flow.png, validacion-error.png, debug-logcat.png
+- [ ] arquitectura-project.png, strings-files.jpg, navegacion-flow.png, validacion-error.png, debug-logcat.png

@@ -1,257 +1,239 @@
 <!DOCTYPE html>
-<html lang="es">
-
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Lab 5 · Feedback — Sandbox</title>
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-    <style type="text/tailwindcss">@theme{--font-sans:Inter,system-ui,sans-serif;--font-mono:JetBrains Mono,monospace;}</style>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/codemirror.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/theme/dracula.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
-    <style>
-      /* CodeMirror-like code blocks — Dracula, Java + XML */
-      pre {
-        background: #282a36 !important;
-        border: 1px solid #44475a !important;
-        border-radius: 12px !important;
-        padding: 0 !important;
-        overflow: hidden !important;
-        position: relative !important;
-        margin: 0 !important;
-      }
-
-      pre code {
-        display: block !important;
-        padding: 1rem 1rem 1rem 3.8rem !important;
-        font-family: 'JetBrains Mono', Consolas, monospace !important;
-        font-size: 12.5px !important;
-        line-height: 1.65 !important;
-        color: #f8f8f2 !important;
-        background: transparent !important;
-        overflow-x: auto !important;
-      }
-
-      pre::before {
-        content: "";
-        position: absolute;
-        left: 0;
-        top: 0;
-        bottom: 0;
-        width: 3.2rem;
-        background: #21222c;
-        border-right: 1px solid #44475a;
-        z-index: 0;
-      }
-
-      .cm-gutter {
-        position: absolute;
-        left: 0;
-        top: 0;
-        bottom: 0;
-        width: 3.2rem;
-        padding: 1rem 0;
-        text-align: right;
-        font-family: 'JetBrains Mono', monospace;
-        font-size: 11.5px;
-        line-height: 1.65;
-        color: #6272a4;
-        user-select: none;
-        z-index: 1;
-        pointer-events: none;
-      }
-
-      .cm-gutter span {
-        display: block;
-        padding-right: 0.75rem;
-      }
-
-      .hljs {
-        background: transparent !important;
-      }
-
-      .hljs-keyword {
-        color: #ff79c6 !important
-      }
-
-      .hljs-string {
-        color: #f1fa8c !important
-      }
-
-      .hljs-comment {
-        color: #6272a4 !important
-      }
-
-      .hljs-type {
-        color: #8be9fd !important
-      }
-
-      .hljs-title {
-        color: #50fa7b !important
-      }
-
-      .hljs-number {
-        color: #bd93f9 !important
-      }
-
-      .hljs-tag {
-        color: #f8f8f2 !important
-      }
-
-      .hljs-name {
-        color: #ff79c6 !important
-      }
-
-      .hljs-attr {
-        color: #50fa7b !important
-      }
-
-      .hljs-attribute {
-        color: #50fa7b !important
-      }
-
-      .hljs-meta {
-        color: #ff79c6 !important
-      }
-
-      .hljs-meta-string {
-        color: #f1fa8c !important
-      }
-
-      .hljs-value {
-        color: #f1fa8c !important
-      }
-
-      .hljs-function .hljs-title {
-        color: #50fa7b !important
-      }
-
-      .hljs-params {
-        color: #f8f8f2 !important
-      }
-
-      .hljs-built_in {
-        color: #8be9fd !important
-      }
-    </style>
-  </head>
-
-  <body class="bg-[#f8f9fb] text-zinc-800 antialiased">
-    <header class="sticky top-0 z-50 bg-white/90 backdrop-blur border-b border-zinc-200">
-      <div class="max-w-[1440px] mx-auto px-4 sm:px-6 py-2 flex items-center justify-between">
-        <div class="flex items-center gap-3"><button id="menuBtn" class="lg:hidden p-2 rounded-xl border border-zinc-200 bg-white"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"
-              stroke="currentColor" stroke-width="2">
-              <path d="M4 6h16M4 12h16M4 18h16" />
-            </svg></button>
-          <div class="w-8 h-8 rounded-xl text-sm bg-violet-600 flex items-center justify-center text-white font-bold">5</div>
-          <div class="hidden sm:block">
-            <p class="font-semibold leading-none">Lab 5 · Feedback</p>
-            <p class="text-[10px] text-zinc-500">acfeed_ · Progress / Rating / Spinner</p>
-          </div>
-        </div>
-        <a href="labs.html" class="px-4 py-2 bg-white border border-zinc-200 rounded-full text-sm">← Labs</a>
-      </div>
-    </header>
-    <div id="overlay" class="fixed inset-0 bg-black/30 z-40 hidden lg:hidden"></div>
-    <div class="max-w-[1440px] mx-auto px-4 sm:px-6 py-4 lg:py-6 grid grid-cols-1 lg:grid-cols-[240px_minmax(0,1fr)] gap-4 lg:gap-6">
-      <aside id="sidebar"
-        class="fixed lg:sticky top-0 lg:top-[53px] left-0 z-40 w-[240px] h-[100dvh] lg:h-[calc(100vh-53px)] bg-white lg:bg-transparent border-r lg:border-0 border-zinc-200 overflow-auto p-4 lg:p-0 -translate-x-full lg:translate-x-0 transition-transform duration-200">
-      </aside>
-      <main class="min-w-0 space-y-6">
-        <section class="bg-white rounded-[24px] border border-zinc-200 p-6 sm:p-8">
-          <h1 class="text-3xl font-semibold tracking-tight">Lab 5 — ProgressBar · RatingBar · Spinner</h1>
-          <p class="mt-2 text-sm text-zinc-500">Tres formas de feedback: progreso determinista vs indeterminado, valoración y lista desplegable.</p>
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-            <figure class="group rounded-2xl border-2 border-dashed border-zinc-300 bg-zinc-50 overflow-hidden">
-              <div class="aspect-[16/10] flex flex-col items-center justify-center p-6 text-center">
-                <div class="w-10 h-10 rounded-xl bg-white border flex items-center justify-center">📷</div>
-                <p class="mt-2 font-medium text-xs">Progress 70%</p>
-                <p class="text-[10px] text-zinc-500">assets/images/lab-feedback-progress.png</p>
-              </div>
-              <img src="assets/images/lab-feedback-progress.png" alt="Progress" class="hidden w-full object-cover"
-                onload="this.parentElement.classList.add('loaded'); this.previousElementSibling.style.display='none'" />
-              <figcaption class="px-3 py-2 bg-white border-t text-[10px] text-zinc-500">Fig. — ProgressBar horizontal 70% + circular indeterminado + RatingBar 4.0</figcaption>
-            </figure>
-            <figure class="group rounded-2xl border-2 border-dashed border-zinc-300 bg-zinc-50 overflow-hidden">
-              <div class="aspect-[16/10] flex flex-col items-center justify-center p-6 text-center">
-                <div class="w-10 h-10 rounded-xl bg-white border flex items-center justify-center">📷</div>
-                <p class="mt-2 font-medium text-xs">Spinner abierto</p>
-                <p class="text-[10px] text-zinc-500">assets/images/lab-feedback-spinner.png</p>
-              </div>
-              <img src="assets/images/lab-feedback-spinner.png" alt="Spinner" class="hidden w-full object-cover"
-                onload="this.parentElement.classList.add('loaded'); this.previousElementSibling.style.display='none'" />
-              <figcaption class="px-3 py-2 bg-white border-t text-[10px] text-zinc-500">Fig. — Spinner dropdown con Java/Kotlin/Python + tvSpinnerResult</figcaption>
-            </figure>
-          </div>
-          <div class="mt-6 grid lg:grid-cols-1 gap-4">
-            <div class="rounded-2xl border border-zinc-200 p-5">
-              <p class="font-semibold text-sm">ProgressBar — determinista + indeterminado</p>
-              <pre class="mt-3 bg-zinc-50 rounded-xl p-3 text-xs border overflow-auto"><code>&lt;ProgressBar style="?android:attr/progressBarStyleHorizontal"
-  android:max="100" android:progress="30"/&gt;
-&lt;ProgressBar android:visibility="gone" // circular indeterminado
-  android:layout_gravity="center"/&gt;</code></pre>
-              <pre class="mt-3 bg-zinc-900 text-zinc-100 rounded-xl p-3 text-xs"><code>Handler h = new Handler(Looper.getMainLooper());
-Runnable r = new Runnable(){
-  void run(){
-    if(progress>=100){ progressIndeterminate.setVisibility(GONE);
-      Toast.makeText(ctx, acfeed_toast_complete, SHORT).show(); return;
+<html lang="es" class="h-full bg-white text-zinc-950 antialiased">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
+  <title>Lab 5 · Feedback & Rating — Sandbox Android</title>
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <style type="text/tailwindcss">
+    @theme {
+      --font-sans: 'Plus Jakarta Sans', Inter, system-ui, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
     }
-    progress+=10; progressHorizontal.setProgress(progress);
-    h.postDelayed(this,400);
-  }
-};
-h.post(r); // Iniciar
-h.removeCallbacks(r); // Reset / onDestroy</code></pre>
-              <p class="mt-2 text-xs text-zinc-600">400ms simula carga real. <code>onDestroy removeCallbacks</code> evita leak si sales de Activity. <code>setProgress</code> en main thread.</p>
-            </div>
-            <div class="rounded-2xl border border-zinc-200 p-5">
-              <p class="font-semibold text-sm">RatingBar</p>
-              <pre class="mt-3 bg-zinc-50 rounded-xl p-3 text-xs border"><code>&lt;RatingBar android:numStars="5"
-  android:stepSize="0.5"
-  android:rating="3.5"/&gt;</code></pre>
-              <pre class="mt-3 bg-zinc-900 text-zinc-100 rounded-xl p-3 text-xs"><code>ratingBar.setOnRatingBarChangeListener((bar, rating, fromUser)->{
-  tvRating.setText(getString(R.string.acfeed_rating, String.valueOf(rating)));
-  if(fromUser) Toast.makeText(this, getString(acfeed_toast_rating, rating), SHORT).show();
-});</code></pre>
-              <p class="mt-2 text-xs text-zinc-600"><code>fromUser</code> evita Toast al set inicial. <code>acfeed_rating_default</code> = "Valoración: 3.5 / 5".</p>
-            </div>
-            <div class="rounded-2xl border border-zinc-200 p-5">
-              <p class="font-semibold text-sm">Spinner + ArrayAdapter</p>
-              <pre class="mt-3 bg-zinc-900 text-zinc-100 rounded-xl p-3 text-xs"><code>String[] items = {getString(acfeed_spinner_hint),"Java","Kotlin","Python","Dart"};
-ArrayAdapter&lt;String&gt; a = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, items);
-a.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-spinner.setAdapter(a);
-spinner.setOnItemSelectedListener(new OnItemSelectedListener(){
-  void onItemSelected(p,v,pos,id){
-    String sel = items[pos];
-    tvSpinnerResult.setText(getString(acfeed_spinner_selected, sel));
-  }
-});</code></pre>
-              <p class="mt-2 text-xs text-zinc-600">Hint como primer item. <code>setDropDownViewResource</code> da look Material. <code>acfeed_spinner_default</code> hasta selección.</p>
-            </div>
-          </div>
-        </section>
-        <section class="bg-white rounded-[24px] border border-zinc-200 p-6 sm:p-8">
-          <h2 class="text-xl font-semibold tracking-tight">Detalles técnicos y responsive</h2>
-          <div class="mt-4 grid md:grid-cols-2 gap-4">
-            <div class="rounded-2xl border border-zinc-200 p-5 text-sm">
-              <p class="font-medium">Responsive</p>
-              <p class="mt-2 text-zinc-600">Los dos ProgressBar son <code>match_parent</code> y <code>wrap_content centered</code>. Los dos botones Iniciar/Reset usan <code>weight 1</code> + Space 8dp
-                → se parten 50% en móvil y desktop. Sin breakpoints extra.</p>
-            </div>
-            <div class="rounded-2xl border border-zinc-200 p-5 text-sm">
-              <p class="font-medium">Por qué Handler y no WorkManager</p>
-              <p class="mt-2 text-zinc-600">Para ver loop en main thread sin corrutinas. En prod usarías <code>LifecycleScope + delay</code> o <code>WorkManager</code> si es tarea en background.</p>
-            </div>
-          </div>
-          <div class="mt-4 flex flex-wrap gap-2 text-xs"><a href="lab-webview.html" class="px-4 py-2 bg-zinc-900 text-white rounded-full">Siguiente → WebView</a><a href="lab-selection.html"
-              class="px-4 py-2 bg-white border border-zinc-200 rounded-full">← Anterior Selection</a></div>
-        </section>
-      </main>
-    </div>
-    <script src="assets/nav.js"></script>
-  </body>
+  </style>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/kotlin.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/java.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/xml.min.js"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+    body { font-family: 'Plus Jakarta Sans', sans-serif; }
+    code, pre { font-family: 'JetBrains Mono', monospace; }
 
+    pre {
+      background: #09090b !important;
+      border: 1px solid #27272a !important;
+      border-radius: 0.75rem !important;
+      padding: 0 !important;
+      overflow: hidden !important;
+      position: relative !important;
+      margin: 0 !important;
+    }
+    pre code {
+      display: block !important;
+      padding: 1rem 1rem 1rem 3.6rem !important;
+      font-size: 12.5px !important;
+      line-height: 1.65 !important;
+      color: #f4f4f5 !important;
+      background: transparent !important;
+      overflow-x: auto !important;
+    }
+    .cm-gutter {
+      position: absolute;
+      left: 0; top: 0; bottom: 0;
+      width: 3rem;
+      padding: 1rem 0;
+      text-align: right;
+      font-size: 11px;
+      line-height: 1.65;
+      color: #71717a;
+      background: #18181b;
+      border-right: 1px solid #27272a;
+      user-select: none;
+      z-index: 1;
+      pointer-events: none;
+    }
+    .cm-gutter span { display: block; padding-right: 0.6rem; }
+  </style>
+</head>
+<body class="min-h-full flex flex-col bg-white">
+
+  <!-- Header Superior shadcn -->
+  <header class="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-zinc-200">
+    <div class="max-w-[1440px] mx-auto px-4 sm:px-6 h-14 flex items-center justify-between gap-4">
+      <div class="flex items-center gap-3">
+        <button id="menuBtn" class="lg:hidden p-1.5 rounded-md text-zinc-600 hover:bg-zinc-100 transition-colors" aria-label="Abrir navegación">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+        </button>
+        <div class="flex items-center gap-2">
+          <div class="w-6 h-6 rounded-md bg-zinc-900 text-white flex items-center justify-center font-bold text-xs shadow-xs">5</div>
+          <span class="font-semibold text-sm tracking-tight text-zinc-900">Lab 5</span>
+          <span class="text-zinc-300">/</span>
+          <span class="text-xs text-zinc-500 font-medium">Feedback & Rating</span>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-2">
+        <div class="hidden sm:flex items-center gap-1 text-xs font-mono text-zinc-500">
+          <span class="px-2 py-0.5 rounded-md bg-zinc-100 text-zinc-800 border border-zinc-200">activity_feedback.xml</span>
+          <span class="px-2 py-0.5 rounded-md bg-zinc-100 text-zinc-800 border border-zinc-200">FeedbackActivity.java</span>
+        </div>
+        <a href="labs.html" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-md text-xs font-medium border border-zinc-200 hover:bg-zinc-50 transition-colors">
+          <span>← Labs</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Contenedor Principal Layout -->
+  <div id="overlay" class="fixed inset-0 bg-black/40 z-40 hidden lg:hidden"></div>
+  <div class="max-w-[1440px] mx-auto px-4 sm:px-6 py-6 grid grid-cols-1 lg:grid-cols-[240px_minmax(0,1fr)] gap-8 w-full">
+    
+    <!-- Sidebar -->
+    <aside id="sidebar" class="fixed lg:sticky top-0 lg:top-20 left-0 z-40 w-[240px] h-[100dvh] lg:h-[calc(100vh-5rem)] bg-white lg:bg-transparent border-r lg:border-0 border-zinc-200 overflow-y-auto p-4 lg:p-0 -translate-x-full lg:translate-x-0 transition-transform duration-200"></aside>
+
+    <!-- Contenido Principal -->
+    <main class="min-w-0 space-y-8">
+      
+      <!-- Encabezado del Lab -->
+      <section class="space-y-3">
+        <div class="inline-flex items-center gap-2 px-2.5 py-1 rounded-full text-xs font-medium bg-zinc-100 text-zinc-800 border border-zinc-200">
+          <span class="w-1.5 h-1.5 rounded-full bg-violet-600"></span>
+          Laboratorio 5 · Indicadores de Estado & Calificación
+        </div>
+        <h1 class="text-3xl font-extrabold tracking-tight text-zinc-950">
+          ProgressBar, RatingBar & Spinner Dropdown
+        </h1>
+        <p class="text-sm text-zinc-600 leading-relaxed max-w-3xl">
+          Domina los tres mecanismos de feedback visual de Android: progreso determinista vs indeterminado con bucle en <code class="font-mono text-zinc-800 bg-zinc-100 px-1 py-0.5 rounded">Handler</code>, barra de valoración por estrellas con <code class="font-mono text-zinc-800 bg-zinc-100 px-1 py-0.5 rounded">fromUser</code> y menú desplegable <code class="font-mono text-zinc-800 bg-zinc-100 px-1 py-0.5 rounded">Spinner</code> con <code class="font-mono text-zinc-800 bg-zinc-100 px-1 py-0.5 rounded">ArrayAdapter</code>.
+        </p>
+      </section>
+
+      <!-- Capturas del Laboratorio -->
+      <section class="space-y-4">
+        <h2 class="text-lg font-bold text-zinc-950">1. Capturas del Emulador</h2>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <figure class="group rounded-xl border border-zinc-200 bg-zinc-50 overflow-hidden shadow-2xs">
+            <div class="aspect-[16/9] flex flex-col items-center justify-center p-4 text-center">
+              <div class="w-8 h-8 rounded-lg bg-white border border-zinc-200 flex items-center justify-center text-zinc-600 shadow-xs">📷</div>
+              <p class="mt-2 font-medium text-xs text-zinc-700">Progreso 70% & Rating</p>
+              <p class="text-[11px] text-zinc-400 font-mono">lab-feedback-progress.png</p>
+            </div>
+            <img src="assets/images/lab-feedback-progress.png" alt="Progress" class="hidden w-full object-cover" onload="this.classList.remove('hidden'); this.style.display='block'; this.parentElement.classList.add('loaded'); if(this.previousElementSibling) this.previousElementSibling.style.display='none'" />
+            <figcaption class="px-3 py-2 bg-white border-t border-zinc-200 text-xs text-zinc-500">Fig. 1 — ProgressBar horizontal al 70% + RatingBar 4.0 estrellas</figcaption>
+          </figure>
+
+          <figure class="group rounded-xl border border-zinc-200 bg-zinc-50 overflow-hidden shadow-2xs">
+            <div class="aspect-[16/9] flex flex-col items-center justify-center p-4 text-center">
+              <div class="w-8 h-8 rounded-lg bg-white border border-zinc-200 flex items-center justify-center text-zinc-600 shadow-xs">📷</div>
+              <p class="mt-2 font-medium text-xs text-zinc-700">Spinner Dropdown</p>
+              <p class="text-[11px] text-zinc-400 font-mono">lab-feedback-spinner.png</p>
+            </div>
+            <img src="assets/images/lab-feedback-spinner.png" alt="Spinner" class="hidden w-full object-cover" onload="this.classList.remove('hidden'); this.style.display='block'; this.parentElement.classList.add('loaded'); if(this.previousElementSibling) this.previousElementSibling.style.display='none'" />
+            <figcaption class="px-3 py-2 bg-white border-t border-zinc-200 text-xs text-zinc-500">Fig. 2 — Menú desplegable Spinner con ArrayAdapter y selección activa</figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <!-- Componente 1: ProgressBar & Loop con Handler -->
+      <section class="p-6 rounded-xl border border-zinc-200 bg-white space-y-4">
+        <div class="flex items-center justify-between pb-2 border-b border-zinc-100">
+          <h3 class="text-base font-bold text-zinc-950">1. ProgressBar (Determinista vs Indeterminado)</h3>
+          <span class="text-[11px] px-2 py-0.5 rounded-md bg-zinc-100 text-zinc-700 font-mono">Simulación de Tareas</span>
+        </div>
+        <p class="text-xs text-zinc-600 leading-relaxed">
+          El progreso se incrementa en el Main Thread mediante un <code class="font-mono text-zinc-800">Handler(Looper.getMainLooper())</code>. Se debe llamar a <code class="font-mono text-zinc-800">removeCallbacks()</code> en <code class="font-mono text-zinc-800">onDestroy()</code> para prevenir memory leaks.
+        </p>
+
+        <pre><code class="language-java">private final Handler handler = new Handler(Looper.getMainLooper());
+private int progressStatus = 0;
+
+private final Runnable progressRunnable = new Runnable() {
+    @Override
+    public void run() {
+        if (progressStatus >= 100) {
+            progressIndeterminate.setVisibility(View.GONE);
+            tvProgressResult.setText(getString(R.string.acfeed_progress_completed));
+            return;
+        }
+        progressStatus += 10;
+        progressBarHorizontal.setProgress(progressStatus);
+        tvProgressResult.setText(getString(R.string.acfeed_progress_current, progressStatus));
+        handler.postDelayed(this, 300); // Actualiza cada 300ms
+    }
+};
+
+@Override
+protected void onDestroy() {
+    super.onDestroy();
+    handler.removeCallbacks(progressRunnable); // Evita fugas de memoria
+}</code></pre>
+      </section>
+
+      <!-- Componente 2: RatingBar -->
+      <section class="p-6 rounded-xl border border-zinc-200 bg-white space-y-4">
+        <div class="flex items-center justify-between pb-2 border-b border-zinc-100">
+          <h3 class="text-base font-bold text-zinc-950">2. RatingBar con Detección fromUser</h3>
+          <span class="text-[11px] px-2 py-0.5 rounded-md bg-zinc-100 text-zinc-700 font-mono">Calificación de Usuario</span>
+        </div>
+        <p class="text-xs text-zinc-600 leading-relaxed">
+          El parámetro booleano <code class="font-mono text-zinc-800">fromUser</code> asegura que el Toast solo se dispare cuando el usuario toca las estrellas directamente, ignorando la inicialización programática.
+        </p>
+
+        <pre><code class="language-java">ratingBar.setOnRatingBarChangeListener((ratingBar, rating, fromUser) -> {
+    tvRatingValue.setText(getString(R.string.acfeed_rating_value, String.valueOf(rating)));
+    if (fromUser) {
+        Toast.makeText(this, getString(R.string.acfeed_toast_rating, String.valueOf(rating)), Toast.LENGTH_SHORT).show();
+    }
+});</code></pre>
+      </section>
+
+      <!-- Componente 3: Spinner Dropdown -->
+      <section class="p-6 rounded-xl border border-zinc-200 bg-white space-y-4">
+        <div class="flex items-center justify-between pb-2 border-b border-zinc-100">
+          <h3 class="text-base font-bold text-zinc-950">3. Spinner con ArrayAdapter & Dropdown Style</h3>
+          <span class="text-[11px] px-2 py-0.5 rounded-md bg-zinc-100 text-zinc-700 font-mono">Menú Desplegable</span>
+        </div>
+        <p class="text-xs text-zinc-600 leading-relaxed">
+          Uso de <code class="font-mono text-zinc-800">setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)</code> para asegurar espacio táctil adecuado y accesibilidad.
+        </p>
+
+        <pre><code class="language-java">String[] items = {
+    getString(R.string.acfeed_spinner_hint),
+    "Java", "Kotlin", "Dart", "TypeScript"
+};
+
+ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, items);
+adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+spinnerTech.setAdapter(adapter);
+
+spinnerTech.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        if (position > 0) { // Ignora el hint inicial
+            String selected = items[position];
+            tvSpinnerResult.setText(getString(R.string.acfeed_spinner_selected, selected));
+        }
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {}
+});</code></pre>
+      </section>
+
+      <!-- Navegación -->
+      <div class="pt-2 flex items-center justify-between border-t border-zinc-200/80">
+        <a href="lab-selection.html" class="text-xs font-medium text-zinc-600 hover:text-zinc-950 transition-colors">← Lab 4 (Selection)</a>
+        <a href="lab-webview.html" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-md text-xs font-medium bg-zinc-900 text-white hover:bg-zinc-800 transition-colors shadow-xs">
+          <span>Siguiente: Lab 6 (WebView) →</span>
+        </a>
+      </div>
+
+    </main>
+  </div>
+
+  <script src="assets/nav.js"></script>
+</body>
 </html>

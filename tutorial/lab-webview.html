@@ -1,245 +1,176 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" class="h-full bg-white text-zinc-950 antialiased">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
+  <title>Lab 6 · WebView — Sandbox Android</title>
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <style type="text/tailwindcss">
+    @theme {
+      --font-sans: 'Plus Jakarta Sans', Inter, system-ui, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+  </style>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/java.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/xml.min.js"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+    body { font-family: 'Plus Jakarta Sans', sans-serif; }
+    code, pre { font-family: 'JetBrains Mono', monospace; }
 
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Lab 6 · WebView — Sandbox</title>
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-    <style type="text/tailwindcss">@theme{--font-sans:Inter,system-ui,sans-serif;--font-mono:JetBrains Mono,monospace;}</style>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/codemirror.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/theme/dracula.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
-    <style>
-      /* CodeMirror-like code blocks — Dracula, Java + XML */
-      pre {
-        background: #282a36 !important;
-        border: 1px solid #44475a !important;
-        border-radius: 12px !important;
-        padding: 0 !important;
-        overflow: hidden !important;
-        position: relative !important;
-        margin: 0 !important;
-      }
+    pre {
+      background: #09090b !important;
+      border: 1px solid #27272a !important;
+      border-radius: 0.75rem !important;
+      padding: 0 !important;
+      overflow: hidden !important;
+      position: relative !important;
+      margin: 0 !important;
+    }
+    pre code {
+      display: block !important;
+      padding: 1rem 1rem 1rem 3.6rem !important;
+      font-size: 12.5px !important;
+      line-height: 1.65 !important;
+      color: #f4f4f5 !important;
+      background: transparent !important;
+      overflow-x: auto !important;
+    }
+    .cm-gutter {
+      position: absolute;
+      left: 0; top: 0; bottom: 0;
+      width: 3rem;
+      padding: 1rem 0;
+      text-align: right;
+      font-size: 11px;
+      line-height: 1.65;
+      color: #71717a;
+      background: #18181b;
+      border-right: 1px solid #27272a;
+      user-select: none;
+      z-index: 1;
+      pointer-events: none;
+    }
+    .cm-gutter span { display: block; padding-right: 0.6rem; }
+  </style>
+</head>
+<body class="min-h-full flex flex-col bg-white">
 
-      pre code {
-        display: block !important;
-        padding: 1rem 1rem 1rem 3.8rem !important;
-        font-family: 'JetBrains Mono', Consolas, monospace !important;
-        font-size: 12.5px !important;
-        line-height: 1.65 !important;
-        color: #f8f8f2 !important;
-        background: transparent !important;
-        overflow-x: auto !important;
-      }
-
-      pre::before {
-        content: "";
-        position: absolute;
-        left: 0;
-        top: 0;
-        bottom: 0;
-        width: 3.2rem;
-        background: #21222c;
-        border-right: 1px solid #44475a;
-        z-index: 0;
-      }
-
-      .cm-gutter {
-        position: absolute;
-        left: 0;
-        top: 0;
-        bottom: 0;
-        width: 3.2rem;
-        padding: 1rem 0;
-        text-align: right;
-        font-family: 'JetBrains Mono', monospace;
-        font-size: 11.5px;
-        line-height: 1.65;
-        color: #6272a4;
-        user-select: none;
-        z-index: 1;
-        pointer-events: none;
-      }
-
-      .cm-gutter span {
-        display: block;
-        padding-right: 0.75rem;
-      }
-
-      .hljs {
-        background: transparent !important;
-      }
-
-      .hljs-keyword {
-        color: #ff79c6 !important
-      }
-
-      .hljs-string {
-        color: #f1fa8c !important
-      }
-
-      .hljs-comment {
-        color: #6272a4 !important
-      }
-
-      .hljs-type {
-        color: #8be9fd !important
-      }
-
-      .hljs-title {
-        color: #50fa7b !important
-      }
-
-      .hljs-number {
-        color: #bd93f9 !important
-      }
-
-      .hljs-tag {
-        color: #f8f8f2 !important
-      }
-
-      .hljs-name {
-        color: #ff79c6 !important
-      }
-
-      .hljs-attr {
-        color: #50fa7b !important
-      }
-
-      .hljs-attribute {
-        color: #50fa7b !important
-      }
-
-      .hljs-meta {
-        color: #ff79c6 !important
-      }
-
-      .hljs-meta-string {
-        color: #f1fa8c !important
-      }
-
-      .hljs-value {
-        color: #f1fa8c !important
-      }
-
-      .hljs-function .hljs-title {
-        color: #50fa7b !important
-      }
-
-      .hljs-params {
-        color: #f8f8f2 !important
-      }
-
-      .hljs-built_in {
-        color: #8be9fd !important
-      }
-    </style>
-  </head>
-
-  <body class="bg-[#f8f9fb] text-zinc-800 antialiased">
-    <header class="sticky top-0 z-50 bg-white/90 backdrop-blur border-b border-zinc-200">
-      <div class="max-w-[1440px] mx-auto px-4 sm:px-6 py-2 flex items-center justify-between">
-        <div class="flex items-center gap-3"><button id="menuBtn" class="lg:hidden p-2 rounded-xl border border-zinc-200 bg-white"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"
-              stroke="currentColor" stroke-width="2">
-              <path d="M4 6h16M4 12h16M4 18h16" />
-            </svg></button>
-          <div class="w-8 h-8 rounded-xl text-sm bg-blue-600 flex items-center justify-center text-white font-bold">6</div>
-          <div class="hidden sm:block">
-            <p class="font-semibold leading-none">Lab 6 · WebView</p>
-            <p class="text-[10px] text-zinc-500">acwebv_ · WebViewClient</p>
-          </div>
+  <!-- Header Superior shadcn -->
+  <header class="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-zinc-200">
+    <div class="max-w-[1440px] mx-auto px-4 sm:px-6 h-14 flex items-center justify-between gap-4">
+      <div class="flex items-center gap-3">
+        <button id="menuBtn" class="lg:hidden p-1.5 rounded-md text-zinc-600 hover:bg-zinc-100 transition-colors" aria-label="Abrir navegación">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+        </button>
+        <div class="flex items-center gap-2">
+          <div class="w-6 h-6 rounded-md bg-zinc-900 text-white flex items-center justify-center font-bold text-xs shadow-xs">6</div>
+          <span class="font-semibold text-sm tracking-tight text-zinc-900">Lab 6</span>
+          <span class="text-zinc-300">/</span>
+          <span class="text-xs text-zinc-500 font-medium">WebView Integrado</span>
         </div>
-        <a href="labs.html" class="px-4 py-2 bg-white border border-zinc-200 rounded-full text-sm">← Labs</a>
       </div>
-    </header>
-    <div id="overlay" class="fixed inset-0 bg-black/30 z-40 hidden lg:hidden"></div>
-    <div class="max-w-[1440px] mx-auto px-4 sm:px-6 py-4 lg:py-6 grid grid-cols-1 lg:grid-cols-[240px_minmax(0,1fr)] gap-4 lg:gap-6">
-      <aside id="sidebar"
-        class="fixed lg:sticky top-0 lg:top-[53px] left-0 z-40 w-[240px] h-[100dvh] lg:h-[calc(100vh-53px)] bg-white lg:bg-transparent border-r lg:border-0 border-zinc-200 overflow-auto p-4 lg:p-0 -translate-x-full lg:translate-x-0 transition-transform duration-200">
-      </aside>
-      <main class="min-w-0 space-y-6">
-        <section class="bg-white rounded-[24px] border border-zinc-200 p-6 sm:p-8">
-          <h1 class="text-3xl font-semibold tracking-tight">Lab 6 — WebView</h1>
-          <p class="mt-2 text-sm text-zinc-500">Renderiza web dentro de la app. Muestra ciclo <code>onPageStarted → onPageFinished</code>, <code>WebSettings</code>, back handling y permiso INTERNET.
-          </p>
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-            <figure class="group rounded-2xl border-2 border-dashed border-zinc-300 bg-zinc-50 overflow-hidden">
-              <div class="aspect-[16/10] flex flex-col items-center justify-center p-6 text-center">
-                <div class="w-10 h-10 rounded-xl bg-white border flex items-center justify-center">📷</div>
-                <p class="mt-2 font-medium text-xs">Layout + WebView</p>
-                <p class="text-[10px] text-zinc-500">assets/images/lab-webview-preview.png</p>
-              </div>
-              <img src="assets/images/lab-webview-preview.png" alt="WebView layout" class="hidden w-full object-cover"
-                onload="this.parentElement.classList.add('loaded'); this.previousElementSibling.style.display='none'" />
-              <figcaption class="px-3 py-2 bg-white border-t text-[10px] text-zinc-500">Fig. — Design LinearLayout: Card header + WebView weight=1</figcaption>
-            </figure>
-            <figure class="group rounded-2xl border-2 border-dashed border-zinc-300 bg-zinc-50 overflow-hidden">
-              <div class="aspect-[16/10] flex flex-col items-center justify-center p-6 text-center">
-                <div class="w-10 h-10 rounded-xl bg-white border flex items-center justify-center">📷</div>
-                <p class="mt-2 font-medium text-xs">Cargado</p>
-                <p class="text-[10px] text-zinc-500">assets/images/lab-webview-loaded.png</p>
-              </div>
-              <img src="assets/images/lab-webview-loaded.png" alt="Loaded" class="hidden w-full object-cover"
-                onload="this.parentElement.classList.add('loaded'); this.previousElementSibling.style.display='none'" />
-              <figcaption class="px-3 py-2 bg-white border-t text-[10px] text-zinc-500">Fig. — Emulador con developer.android.com + progress invisible + Toast</figcaption>
-            </figure>
-          </div>
-          <div class="mt-6 grid lg:grid-cols-1 gap-6">
-            <pre class="bg-zinc-900 text-zinc-100 rounded-2xl p-5 text-xs overflow-auto"><code class="language-java">WebView webView = findViewById(R.id.webView);
-ProgressBar progress = findViewById(R.id.wvProgress);
-webView.getSettings().setJavaScriptEnabled(true);
-webView.getSettings().setDomStorageEnabled(true);
-webView.setWebViewClient(new WebViewClient(){
-  @Override void onPageStarted(WebView v, String url, Bitmap favicon){
-    progress.setVisibility(View.VISIBLE);
-    Log.d(TAG, "onPageStarted: "+url);
-  }
-  @Override void onPageFinished(WebView v, String url){
-    progress.setVisibility(View.GONE);
-    Log.i(TAG, "onPageFinished: "+url);
-  }
-});
-findViewById(R.id.btnLoad).setOnClickListener(v->{
-  String url="https://developer.android.com";
-  webView.loadUrl(url);
-  Toast.makeText(this, getString(R.string.acwebv_toast_loading, url), SHORT).show();
-});
-findViewById(R.id.btnBack).setOnClickListener(v->{
-  if(webView.canGoBack()) webView.goBack();
-  else Toast.makeText(this, getString(R.string.common_msg_no_history), SHORT).show();
-});
-@Override void onBackPressed(){
-  if(webView.canGoBack()) webView.goBack(); else super.onBackPressed();
-}</code></pre>
-            <div class="space-y-4">
-              <div class="rounded-2xl border border-zinc-200 p-5">
-                <p class="font-semibold text-sm">Layout técnico</p>
-                <pre class="mt-3 bg-zinc-50 rounded-xl p-4 text-xs border overflow-auto"><code>&lt;LinearLayout orientation="vertical" height="match_parent"&gt;
-  &lt;MaterialCardView&gt; // header acwebv_info_desc + 2 buttons + ProgressBar&lt;/MaterialCardView&gt;
-  &lt;WebView android:layout_weight="1" height="0dp"/&gt; // ocupa resto
-&lt;/LinearLayout&gt;</code></pre>
-                <p class="mt-2 text-xs text-zinc-600"><code>weight 1</code> hace que WebView llene hueco. Card superior fixed 120dp.</p>
-              </div>
-              <div class="rounded-2xl bg-amber-50 border border-amber-200 p-4 text-xs">
-                <p class="font-medium">Seguridad / permisos</p>
-                <p class="mt-1 text-zinc-700">Sin <code>&lt;uses-permission INTERNET&gt;</code> → <code>net::ERR_CACHE_MISS</code>. <code>setJavaScriptEnabled(true)</code> necesario para
-                  developer.android.com. Si añades <code>setAllowFileAccess(false)</code> endureces. En prod añade <code>shouldOverrideUrlLoading</code> para controlar navegación.</p>
-              </div>
-            </div>
-          </div>
-        </section>
-        <section class="bg-white rounded-[24px] border border-zinc-200 p-6 sm:p-8">
-          <h2 class="text-xl font-semibold tracking-tight">Responsive específico WebView</h2>
-          <p class="mt-2 text-sm text-zinc-600">WebView escala contenido con viewport. En móvil 360dp renderiza responsive de developer.android.com. Botones Cargar/Atrás en
-            <code>LinearLayout horizontal</code> con <code>weight 1</code> y <code>wrap_content</code> → en móvil pequeño Cargar ocupa 70% y Atrás 30%. ProgressBar 4dp fino.</p>
-          <div class="mt-4 flex flex-wrap gap-2 text-xs"><a href="lab-dialog.html" class="px-4 py-2 bg-zinc-900 text-white rounded-full">Siguiente → Dialog/Toast</a><a href="lab-feedback.html"
-              class="px-4 py-2 bg-white border border-zinc-200 rounded-full">← Anterior Feedback</a></div>
-        </section>
-      </main>
-    </div>
-    <script src="assets/nav.js"></script>
-  </body>
 
+      <div class="flex items-center gap-2">
+        <div class="hidden sm:flex items-center gap-1 text-xs font-mono text-zinc-500">
+          <span class="px-2 py-0.5 rounded-md bg-zinc-100 text-zinc-800 border border-zinc-200">activity_web_view.xml</span>
+          <span class="px-2 py-0.5 rounded-md bg-zinc-100 text-zinc-800 border border-zinc-200">WebViewActivity.java</span>
+        </div>
+        <a href="labs.html" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-md text-xs font-medium border border-zinc-200 hover:bg-zinc-50 transition-colors">
+          <span>← Labs</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Contenedor Principal Layout -->
+  <div id="overlay" class="fixed inset-0 bg-black/40 z-40 hidden lg:hidden"></div>
+  <div class="max-w-[1440px] mx-auto px-4 sm:px-6 py-6 grid grid-cols-1 lg:grid-cols-[240px_minmax(0,1fr)] gap-8 w-full">
+    
+    <!-- Sidebar -->
+    <aside id="sidebar" class="fixed lg:sticky top-0 lg:top-20 left-0 z-40 w-[240px] h-[100dvh] lg:h-[calc(100vh-5rem)] bg-white lg:bg-transparent border-r lg:border-0 border-zinc-200 overflow-y-auto p-4 lg:p-0 -translate-x-full lg:translate-x-0 transition-transform duration-200"></aside>
+
+    <!-- Contenido Principal -->
+    <main class="min-w-0 space-y-8">
+      
+      <!-- Encabezado del Lab -->
+      <section class="space-y-3">
+        <div class="inline-flex items-center gap-2 px-2.5 py-1 rounded-full text-xs font-medium bg-zinc-100 text-zinc-800 border border-zinc-200">
+          <span class="w-1.5 h-1.5 rounded-full bg-violet-600"></span>
+          Laboratorio 6 · Navegador Web Integrado
+        </div>
+        <h1 class="text-3xl font-extrabold tracking-tight text-zinc-950">
+          WebView, WebChromeClient & Manejo del Botón Atrás
+        </h1>
+        <p class="text-sm text-zinc-600 leading-relaxed max-w-3xl">
+          Implementa un navegador embebido seguro: control de enlaces internos con <code class="font-mono text-zinc-800 bg-zinc-100 px-1 py-0.5 rounded">WebViewClient</code>, monitoreo de progreso con <code class="font-mono text-zinc-800 bg-zinc-100 px-1 py-0.5 rounded">WebChromeClient</code> y navegación de historial con <code class="font-mono text-zinc-800 bg-zinc-100 px-1 py-0.5 rounded">webView.canGoBack()</code>.
+        </p>
+      </section>
+
+      <!-- Captura del Laboratorio -->
+      <section class="space-y-4">
+        <h2 class="text-lg font-bold text-zinc-950">1. Captura en Emulador</h2>
+        <figure class="group rounded-xl border border-zinc-200 bg-zinc-50 overflow-hidden shadow-2xs">
+          <div class="aspect-[16/9] flex flex-col items-center justify-center p-4 text-center">
+            <div class="w-8 h-8 rounded-lg bg-white border border-zinc-200 flex items-center justify-center text-zinc-600 shadow-xs">📷</div>
+            <p class="mt-2 font-medium text-xs text-zinc-700">Página Web Cargada</p>
+            <p class="text-[11px] text-zinc-400 font-mono">lab-webview-loaded.png</p>
+          </div>
+          <img src="assets/images/lab-webview-loaded.png" alt="WebView" class="hidden w-full object-cover" onload="this.classList.remove('hidden'); this.style.display='block'; this.parentElement.classList.add('loaded'); if(this.previousElementSibling) this.previousElementSibling.style.display='none'" />
+          <figcaption class="px-3 py-2 bg-white border-t border-zinc-200 text-xs text-zinc-500">Fig. 1 — WebView cargando documentación con indicador de progreso y JavaScript activado</figcaption>
+        </figure>
+      </section>
+
+      <!-- Implementación Técnica -->
+      <section class="p-6 rounded-xl border border-zinc-200 bg-white space-y-4">
+        <div class="flex items-center justify-between pb-2 border-b border-zinc-100">
+          <h3 class="text-base font-bold text-zinc-950">2. Configuración Esencial de WebView en Java</h3>
+          <span class="text-[11px] px-2 py-0.5 rounded-md bg-zinc-100 text-zinc-700 font-mono">WebViewActivity.java</span>
+        </div>
+
+        <pre><code class="language-java">WebSettings settings = webView.getSettings();
+settings.setJavaScriptEnabled(true);
+settings.setDomStorageEnabled(true);
+
+// 1. WebViewClient: evita abrir navegador externo (Chrome/Safari)
+webView.setWebViewClient(new WebViewClient() {
+    @Override
+    public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
+        view.loadUrl(request.getUrl().toString());
+        return true;
+    }
+});
+
+// 2. WebChromeClient: actualiza la barra de progreso
+webView.setWebChromeClient(new WebChromeClient() {
+    @Override
+    public void onProgressChanged(WebView view, int newProgress) {
+        if (newProgress < 100) {
+            progressBar.setVisibility(View.VISIBLE);
+            progressBar.setProgress(newProgress);
+        } else {
+            progressBar.setVisibility(View.GONE);
+        }
+    }
+});
+
+// 3. Cargar URL
+webView.loadUrl("https://developer.android.com");</code></pre>
+      </section>
+
+      <!-- Navegación -->
+      <div class="pt-2 flex items-center justify-between border-t border-zinc-200/80">
+        <a href="lab-feedback.html" class="text-xs font-medium text-zinc-600 hover:text-zinc-950 transition-colors">← Lab 5 (Feedback)</a>
+        <a href="lab-dialog.html" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-md text-xs font-medium bg-zinc-900 text-white hover:bg-zinc-800 transition-colors shadow-xs">
+          <span>Siguiente: Lab 7 (Dialog/Toast) →</span>
+        </a>
+      </div>
+
+    </main>
+  </div>
+
+  <script src="assets/nav.js"></script>
+</body>
 </html>
