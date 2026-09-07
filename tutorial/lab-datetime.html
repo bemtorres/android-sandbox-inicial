@@ -626,8 +626,149 @@ class DateTimeActivity : AppCompatActivity() {
             <li>Al pulsar validar, verificar que <code class="font-mono text-zinc-800">selectedDate.getTimeInMillis() &lt;= System.currentTimeMillis()</code> usando <code
                 class="font-mono text-zinc-800">ValidationUtils.isNotFuture</code>.</li>
           </ol>
+        </section>
 
-          <div class="pt-2 flex items-center justify-between border-t border-zinc-200/80">
+        <!-- 5. Cómo llamar, manipular, sobrescribir y dar error por cada picker -->
+        <section class="rounded-xl border border-zinc-200 bg-white overflow-hidden">
+          <div class="p-6 pb-0 space-y-2">
+            <div class="inline-flex items-center gap-2 px-2.5 py-1 rounded-full bg-emerald-600 text-white text-[11px] font-bold uppercase tracking-wider">
+              <span>Deep Dive</span> <span class="w-1 h-1 rounded-full bg-white/60"></span> <span>Manipulación por picker</span>
+            </div>
+            <h2 class="text-xl font-bold tracking-tight text-zinc-900">5. Cómo llamar, manipular, sobrescribir y dar error a cada picker</h2>
+            <p class="text-xs text-zinc-600 leading-relaxed">Fecha y hora no son <code class="font-mono text-zinc-900">EditText</code>: son <code class="font-mono text-zinc-900">TextView</code> que muestran estado + <code class="font-mono text-zinc-900">Calendar</code> que guarda dato + <code class="font-mono text-zinc-900">Dialog</code> que lo edita. Abajo, por cada componente, cómo <strong>llamar</strong>, <strong>manipular</strong>, <strong>sobrescribir</strong> y <strong>dar error</strong>.</p>
+          </div>
+
+          <div class="p-6 space-y-6">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+              <div class="p-4 rounded-lg border border-zinc-200 bg-zinc-50 space-y-2">
+                <p class="text-xs font-semibold text-zinc-900">API común (vale para Date y Time)</p>
+                <pre><code class="language-java">// Llamar
+TextView tvDate = findViewById(R.id.tvDate);
+Calendar selectedDate = Calendar.getInstance();
+boolean dateChosen = false;
+// Kotlin
+val tvDate = binding.tvDate
+
+// Manipular - leer
+long millis = selectedDate.getTimeInMillis();
+String s = tvDate.getText().toString();
+boolean chosen = dateChosen;
+
+// Sobrescribir
+selectedDate.set(2024, 5, 15); // 15 jun 2024 (mes 0-index)
+tvDate.setText(getString(R.string.acdati_date_prefix, "15/06/2024"));
+dateChosen = true;
+
+// Dar error y limpiar
+tvDate.setError(getString(R.string.common_err_date_future));
+tvDate.setError(null);
+Toast.makeText(this, getString(R.string.common_err_date_future), Toast.LENGTH_SHORT).show();</code></pre>
+              </div>
+              <div class="p-4 rounded-lg border border-amber-200 bg-amber-50 space-y-2">
+                <p class="text-xs font-semibold text-amber-900">Ciclo del Dialog</p>
+                <pre><code class="language-java">new DatePickerDialog(this,
+  (view, year, month, day) -> {
+    selectedDate.set(year, month, day);
+    dateChosen = true;
+    String f = String.format(Locale.getDefault(), "%02d/%02d/%04d", day, month+1, year);
+    tvDate.setText(getString(R.string.acdati_date_prefix, f));
+  },
+  c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH)
+).show();</code></pre>
+                <p class="text-xs text-amber-800">El Dialog no es una View del layout: es una ventana modal del sistema que llama a <code class="font-mono">onDateSet / onTimeSet</code>.</p>
+              </div>
+            </div>
+
+            <div class="space-y-4">
+              <h3 class="text-sm font-bold text-zinc-900">Por tipo de picker</h3>
+              <div class="overflow-x-auto rounded-lg border border-zinc-200">
+                <table class="w-full text-xs border-collapse">
+                  <thead class="bg-zinc-50 text-zinc-700 font-semibold"><tr><th class="py-2 px-3 text-left">Componente</th><th class="text-left">Llamar</th><th class="text-left">Manipular</th><th class="text-left">Sobrescribir</th><th class="text-left">Dar error</th></tr></thead>
+                  <tbody class="divide-y divide-zinc-200 bg-white text-zinc-600">
+                    <tr><td class="py-2 px-3 font-mono font-bold text-zinc-900">tvDate<br><span class="text-[11px] text-zinc-500">TextView</span></td><td class="font-mono">findViewById(R.id.tvDate)</td><td><code class="font-mono">getText()</code><br><code class="font-mono">getString(acdati_date_prefix)</code></td><td><code class="font-mono">setText(acdati_date_prefix, "01/01/2000")</code><br><code class="font-mono">selectedDate.set(...)</code></td><td><code class="font-mono">setError(common_err_date_future)</code><br>+ <code class="font-mono">Toast</code></td></tr>
+                    <tr><td class="py-2 px-3 font-mono font-bold text-zinc-900">tvTime<br><span class="text-[11px] text-zinc-500">TextView</span></td><td class="font-mono">findViewById(R.id.tvTime)</td><td><code class="font-mono">getText()</code></td><td><code class="font-mono">setText(acdati_time_prefix, "14:30")</code></td><td>Informativo, no bloquea (solo Log.w)</td></tr>
+                    <tr><td class="py-2 px-3 font-mono font-bold text-zinc-900">selectedDate<br><span class="text-[11px] text-zinc-500">Calendar</span></td><td class="font-mono">Calendar.getInstance()</td><td><code class="font-mono">getTimeInMillis()</code><br><code class="font-mono">get(Calendar.YEAR)</code></td><td><code class="font-mono">set(year, month, day)</code><br><code class="font-mono">set(Calendar.HOUR_OF_DAY, 14)</code></td><td><code class="font-mono">ValidationUtils.isNotFuture(millis)</code></td></tr>
+                    <tr><td class="py-2 px-3 font-mono font-bold text-zinc-900">DatePickerDialog</td><td class="font-mono">new DatePickerDialog(...)</td><td><code class="font-mono">onDateSet(year, month, day)</code><br>month 0-index</td><td>Reconstruir con <code class="font-mono">new DatePickerDialog(..., year, month, day).show()</code></td><td><code class="font-mono">if (!dateChosen) Toast acdati_msg_pick_date_first</code></td></tr>
+                    <tr><td class="py-2 px-3 font-mono font-bold text-zinc-900">TimePickerDialog</td><td class="font-mono">new TimePickerDialog(..., is24HourView=true)</td><td><code class="font-mono">onTimeSet(hour, minute)</code></td><td><code class="font-mono">new TimePickerDialog(..., hour, minute, true).show()</code></td><td>No bloquea validación</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <div class="space-y-3">
+              <h3 class="text-sm font-bold text-zinc-900">Snippets copiables — manipular / sobrescribir / error</h3>
+              <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                <pre><code class="language-java">// Java — por cada picker
+// Llamar y leer
+String dateStr = tvDate.getText().toString();
+long millis = selectedDate.getTimeInMillis();
+boolean chosen = dateChosen;
+
+// Manipular: formatear y mostrar
+String f = String.format(Locale.getDefault(), "%02d/%02d/%04d", day, month+1, year);
+tvDate.setText(getString(R.string.acdati_date_prefix, f));
+LoggerUtils.i(TAG, "Fecha elegida: " + f);
+
+// Sobrescribir: forzar fecha programáticamente
+selectedDate.set(2000, Calendar.JANUARY, 1);
+tvDate.setText(getString(R.string.acdati_date_prefix, "01/01/2000"));
+dateChosen = true;
+
+// Dar error
+if (!dateChosen) {
+    Toast.makeText(this, getString(R.string.acdati_msg_pick_date_first), Toast.LENGTH_SHORT).show();
+    return;
+}
+if (!ValidationUtils.isNotFuture(selectedDate.getTimeInMillis())) {
+    tvDate.setError(getString(R.string.common_err_date_future));
+    Toast.makeText(this, getString(R.string.common_err_date_future), Toast.LENGTH_SHORT).show();
+} else {
+    tvDate.setError(null);
+}</code></pre>
+                <pre><code class="language-kotlin">// Kotlin + ViewBinding — mismo, más corto
+with(binding) {
+    // Llamar / leer
+    val dateStr = tvDate.text.toString()
+    val millis = selectedDate.timeInMillis
+
+    // Manipular
+    val f = String.format(Locale.getDefault(), "%02d/%02d/%04d", day, month+1, year)
+    tvDate.text = getString(R.string.acdati_date_prefix, f)
+
+    // Sobrescribir
+    selectedDate.set(2000, Calendar.JANUARY, 1)
+    tvDate.text = getString(R.string.acdati_date_prefix, "01/01/2000")
+    dateChosen = true
+
+    // Error con extensión
+    fun TextView.setValidationError(msg: String?) {
+        error = msg
+        if (msg != null) Toast.makeText(this@DateTimeActivity, msg, Toast.LENGTH_SHORT).show()
+    }
+    if (!ValidationUtils.isNotFuture(selectedDate.timeInMillis)) {
+        tvDate.setValidationError(getString(R.string.common_err_date_future))
+    } else {
+        tvDate.error = null
+    }
+}</code></pre>
+              </div>
+              <div class="grid grid-cols-1 lg:grid-cols-3 gap-3">
+                <div class="p-3 rounded-lg border border-zinc-200 bg-zinc-50">
+                  <p class="text-xs font-semibold text-zinc-900">Sobrescribir sin Dialog</p>
+                  <p class="text-xs text-zinc-600 mt-1">Puedes <code class="font-mono">selectedDate.set(...)</code> + <code class="font-mono">tvDate.setText(...)</code> sin abrir Dialog — útil para precargar cumpleaños.</p>
+                </div>
+                <div class="p-3 rounded-lg border border-zinc-200 bg-zinc-50">
+                  <p class="text-xs font-semibold text-zinc-900">Dar error</p>
+                  <p class="text-xs text-zinc-600 mt-1"><code class="font-mono">TextView</code> sí tiene <code class="font-mono">setError()</code> (aunque sin helper como <code class="font-mono">TextInputLayout</code>). Se limpia con <code class="font-mono">null</code>.</p>
+                </div>
+                <div class="p-3 rounded-lg border border-violet-200 bg-violet-50">
+                  <p class="text-xs font-semibold text-violet-900">Mes 0-index</p>
+                  <p class="text-xs text-zinc-700 mt-1">Error clásico: <code class="font-mono">month + 1</code> al formatear. <code class="font-mono">Calendar.JANUARY = 0</code>, diciembre = 11.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="px-6 py-4 flex items-center justify-between border-t border-zinc-200 bg-zinc-50">
             <a href="lab-textinputs.html" class="text-xs font-medium text-zinc-600 hover:text-zinc-950 transition-colors">← Lab 1 (TextInputs)</a>
             <a href="lab-buttons.html" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-md text-xs font-medium bg-zinc-900 text-white hover:bg-zinc-800 transition-colors shadow-xs">
               <span>Siguiente: Lab 3 (Buttons/Chip) →</span>

@@ -1,109 +1,123 @@
 <!DOCTYPE html>
 <html lang="es" class="h-full bg-white text-zinc-950 antialiased">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Navegación & Paso de Datos — Sandbox Docs</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-  <style type="text/tailwindcss">
-    @theme {
+
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Navegación & Paso de Datos — Sandbox Docs</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <style type="text/tailwindcss">
+      @theme {
       --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
       --font-mono: 'JetBrains Mono', monospace;
     }
   </style>
-  <style>
-    pre {
-      background: #09090b !important;
-      border: 1px solid #27272a !important;
-      border-radius: 8px !important;
-      padding: 0 !important;
-      overflow: hidden !important;
-      position: relative !important;
-      margin: 0 !important;
-    }
-    pre code {
-      display: block !important;
-      padding: 1rem 1rem 1rem 3.8rem !important;
-      font-family: var(--font-mono) !important;
-      font-size: 13px !important;
-      line-height: 1.6 !important;
-      color: #fafafa !important;
-      background: transparent !important;
-      overflow-x: auto !important;
-    }
-    .cm-gutter {
-      position: absolute;
-      left: 0;
-      top: 0;
-      bottom: 0;
-      width: 3rem;
-      padding: 1rem 0;
-      text-align: right;
-      font-family: var(--font-mono);
-      font-size: 12px;
-      line-height: 1.6;
-      color: #71717a;
-      background: #18181b;
-      border-right: 1px solid #27272a;
-      user-select: none;
-      z-index: 1;
-      pointer-events: none;
-    }
-    .cm-gutter span { display: block; padding-right: 0.6rem; }
-  </style>
-</head>
-<body class="min-h-full flex flex-col font-sans bg-white text-zinc-950">
+    <style>
+      pre {
+        background: #09090b !important;
+        border: 1px solid #27272a !important;
+        border-radius: 8px !important;
+        padding: 0 !important;
+        overflow: hidden !important;
+        position: relative !important;
+        margin: 0 !important;
+      }
 
-  <!-- Header / Topbar (shadcn style) -->
-  <header class="sticky top-0 z-50 w-full border-b border-zinc-200 bg-white/80 backdrop-blur-md">
-    <div class="max-w-[1440px] mx-auto px-4 sm:px-6 h-14 flex items-center justify-between gap-4">
-      <div class="flex items-center gap-3">
-        <button id="menuBtn" class="lg:hidden p-2 rounded-md border border-zinc-200 text-zinc-700 hover:bg-zinc-100 transition-colors">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
-        </button>
-        <a href="index.html" class="flex items-center gap-2 font-bold text-sm tracking-tight text-zinc-900">
-          <div class="w-6 h-6 rounded-md bg-zinc-900 text-white flex items-center justify-center text-xs">Sb</div>
-          <span>Sandbox <span class="text-zinc-400 font-normal">Docs</span></span>
-        </a>
-        <span class="text-zinc-300">/</span>
-        <span class="text-xs font-medium text-zinc-600 bg-zinc-100 px-2 py-0.5 rounded-full border border-zinc-200">Guía de Arquitectura</span>
-      </div>
+      pre code {
+        display: block !important;
+        padding: 1rem 1rem 1rem 3.8rem !important;
+        font-family: var(--font-mono) !important;
+        font-size: 13px !important;
+        line-height: 1.6 !important;
+        color: #fafafa !important;
+        background: transparent !important;
+        overflow-x: auto !important;
+      }
 
-      <div class="flex items-center gap-2">
-        <span class="hidden sm:inline-flex text-xs text-zinc-500 font-mono bg-zinc-100 px-2.5 py-1 rounded-md border border-zinc-200">Intents & Extras</span>
-        <a href="validacion.html" class="inline-flex items-center justify-center text-xs font-medium h-8 px-3 rounded-md border border-zinc-200 bg-white text-zinc-900 hover:bg-zinc-100 transition-colors">
-          Validación →
-        </a>
-      </div>
-    </div>
-  </header>
+      .cm-gutter {
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: 3rem;
+        padding: 1rem 0;
+        text-align: right;
+        font-family: var(--font-mono);
+        font-size: 12px;
+        line-height: 1.6;
+        color: #71717a;
+        background: #18181b;
+        border-right: 1px solid #27272a;
+        user-select: none;
+        z-index: 1;
+        pointer-events: none;
+      }
 
-  <div id="overlay" class="fixed inset-0 bg-black/40 backdrop-blur-xs z-40 hidden lg:hidden"></div>
+      .cm-gutter span {
+        display: block;
+        padding-right: 0.6rem;
+      }
+    </style>
+  </head>
 
-  <!-- Layout Container -->
-  <div class="max-w-[1440px] mx-auto px-4 sm:px-6 py-6 grid grid-cols-1 lg:grid-cols-[240px_minmax(0,1fr)] gap-8 w-full flex-1">
-    <aside id="sidebar" class="fixed lg:sticky top-0 lg:top-20 left-0 z-40 w-[240px] h-[100dvh] lg:h-[calc(100vh-5rem)] bg-white lg:bg-transparent border-r lg:border-0 border-zinc-200 overflow-y-auto p-4 lg:p-0 -translate-x-full lg:translate-x-0 transition-transform duration-200"></aside>
+  <body class="min-h-full flex flex-col font-sans bg-white text-zinc-950">
 
-    <!-- Main Content -->
-    <main class="min-w-0 space-y-8 pb-16">
-      
-      <!-- Page Header -->
-      <div class="space-y-2 border-b border-zinc-200 pb-6">
-        <div class="flex items-center gap-2">
-          <span class="px-2 py-0.5 rounded-md text-[11px] font-semibold bg-violet-50 text-violet-700 border border-violet-200">Patrones Core</span>
-          <span class="text-xs text-zinc-400 font-mono">Intent / Bundle / Prefs / SharedPreferences</span>
+    <!-- Header / Topbar (shadcn style) -->
+    <header class="sticky top-0 z-50 w-full border-b border-zinc-200 bg-white/80 backdrop-blur-md">
+      <div class="max-w-[1440px] mx-auto px-4 sm:px-6 h-14 flex items-center justify-between gap-4">
+        <div class="flex items-center gap-3">
+          <button id="menuBtn" class="lg:hidden p-2 rounded-md border border-zinc-200 text-zinc-700 hover:bg-zinc-100 transition-colors">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+          </button>
+          <a href="index.html" class="flex items-center gap-2 font-bold text-sm tracking-tight text-zinc-900">
+            <div class="w-6 h-6 rounded-md bg-zinc-900 text-white flex items-center justify-center text-xs">Sb</div>
+            <span>Sandbox <span class="text-zinc-400 font-normal">Docs</span></span>
+          </a>
+          <span class="text-zinc-300">/</span>
+          <span class="text-xs font-medium text-zinc-600 bg-zinc-100 px-2 py-0.5 rounded-full border border-zinc-200">Guía de Arquitectura</span>
         </div>
-        <h1 class="text-3xl font-bold tracking-tight text-zinc-950">Navegación & Paso de Datos entre Vistas</h1>
-        <p class="text-sm text-zinc-600 leading-relaxed max-w-3xl">
-          Guía técnica exhaustiva sobre cómo estructurar la transición entre pantallas en Android mediante <code class="text-zinc-800">Intent Explícito</code>, transferencia atómica de parámetros mediante <code class="text-zinc-800">putExtra / Bundle</code> y persistencia de sesión con <code class="text-zinc-800">SharedPreferences</code>.
-        </p>
-      </div>
 
-      <!-- Preview Image -->
-      <figure class="rounded-xl border border-zinc-200 bg-zinc-50/50 p-3 space-y-2">
+        <div class="flex items-center gap-2">
+          <span class="hidden sm:inline-flex text-xs text-zinc-500 font-mono bg-zinc-100 px-2.5 py-1 rounded-md border border-zinc-200">Intents & Extras</span>
+          <a href="validacion.html"
+            class="inline-flex items-center justify-center text-xs font-medium h-8 px-3 rounded-md border border-zinc-200 bg-white text-zinc-900 hover:bg-zinc-100 transition-colors">
+            Validación →
+          </a>
+        </div>
+      </div>
+    </header>
+
+    <div id="overlay" class="fixed inset-0 bg-black/40 backdrop-blur-xs z-40 hidden lg:hidden"></div>
+
+    <!-- Layout Container -->
+    <div class="max-w-[1440px] mx-auto px-4 sm:px-6 py-6 grid grid-cols-1 lg:grid-cols-[240px_minmax(0,1fr)] gap-8 w-full flex-1">
+      <aside id="sidebar"
+        class="fixed lg:sticky top-0 lg:top-20 left-0 z-40 w-[240px] h-[100dvh] lg:h-[calc(100vh-5rem)] bg-white lg:bg-transparent border-r lg:border-0 border-zinc-200 overflow-y-auto p-4 lg:p-0 -translate-x-full lg:translate-x-0 transition-transform duration-200">
+      </aside>
+
+      <!-- Main Content -->
+      <main class="min-w-0 space-y-8 pb-16">
+
+        <!-- Page Header -->
+        <div class="space-y-2 border-b border-zinc-200 pb-6">
+          <div class="flex items-center gap-2">
+            <span class="px-2 py-0.5 rounded-md text-[11px] font-semibold bg-violet-50 text-violet-700 border border-violet-200">Patrones Core</span>
+            <span class="text-xs text-zinc-400 font-mono">Intent / Bundle / Prefs / SharedPreferences</span>
+          </div>
+          <h1 class="text-3xl font-bold tracking-tight text-zinc-950">Navegación & Paso de Datos entre Vistas</h1>
+          <p class="text-sm text-zinc-600 leading-relaxed max-w-3xl">
+            Guía técnica exhaustiva sobre cómo estructurar la transición entre pantallas en Android mediante <code class="text-zinc-800">Intent Explícito</code>, transferencia atómica de parámetros
+            mediante <code class="text-zinc-800">putExtra / Bundle</code> y persistencia de sesión con <code class="text-zinc-800">SharedPreferences</code>.
+          </p>
+        </div>
+
+        <!-- Preview Image -->
+        <!-- <figure class="rounded-xl border border-zinc-200 bg-zinc-50/50 p-3 space-y-2">
         <div class="flex items-center justify-between text-xs text-zinc-500">
           <span class="font-medium text-zinc-700">Diagrama de Flujo de Navegación</span>
           <span class="font-mono text-[11px]">navegacion-flow.png</span>
@@ -112,48 +126,56 @@
           <img src="assets/images/navegacion-flow.png" alt="Navegación Flow" class="w-full h-auto object-contain max-h-[300px]" onerror="this.src='assets/images/navegacion-flow.jpg'">
         </div>
         <figcaption class="text-[11px] text-zinc-500">Esquema del flujo: MainActivity (Login) → RegisterActivity → IntroActivity → HomeActivity.</figcaption>
-      </figure>
+      </figure> -->
 
-      <!-- 3 Navigation Layers -->
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <div class="p-5 rounded-xl border border-zinc-200 bg-white space-y-2">
-          <div class="flex items-center gap-2 text-xs font-semibold text-zinc-900">
-            <span class="w-2 h-2 rounded-full bg-violet-600"></span>
-            <span>1. Intent Explícito</span>
+        <!-- 3 Navigation Layers -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div class="p-5 rounded-xl border border-zinc-200 bg-white space-y-2">
+            <div class="flex items-center gap-2 text-xs font-semibold text-zinc-900">
+              <span class="w-2 h-2 rounded-full bg-violet-600"></span>
+              <span>1. Intent Explícito</span>
+            </div>
+            <p class="text-xs text-zinc-600">
+              Transición directa donde el origen conoce exactamente la clase destino (<code class="text-zinc-800">Destino.class</code>). Registrada en el Manifest.
+            </p>
           </div>
-          <p class="text-xs text-zinc-600">
-            Transición directa donde el origen conoce exactamente la clase destino (<code class="text-zinc-800">Destino.class</code>). Registrada en el Manifest.
-          </p>
+
+          <div class="p-5 rounded-xl border border-zinc-200 bg-white space-y-2">
+            <div class="flex items-center gap-2 text-xs font-semibold text-zinc-900">
+              <span class="w-2 h-2 rounded-full bg-blue-600"></span>
+              <span>2. Extras & Bundle</span>
+            </div>
+            <p class="text-xs text-zinc-600">
+              Transferencia en memoria de tipos primitivos, Strings y objetos <code class="text-zinc-800">Parcelable</code> mediante el contenedor clave-valor.
+            </p>
+          </div>
+
+          <div class="p-5 rounded-xl border border-zinc-200 bg-white space-y-2">
+            <div class="flex items-center gap-2 text-xs font-semibold text-zinc-900">
+              <span class="w-2 h-2 rounded-full bg-emerald-600"></span>
+              <span>3. SharedPreferences</span>
+            </div>
+            <p class="text-xs text-zinc-600">
+              Persistencia en disco para datos que deben sobrevivir al ciclo de vida de la Activity (como sesión o último email usado).
+            </p>
+          </div>
         </div>
 
-        <div class="p-5 rounded-xl border border-zinc-200 bg-white space-y-2">
-          <div class="flex items-center gap-2 text-xs font-semibold text-zinc-900">
-            <span class="w-2 h-2 rounded-full bg-blue-600"></span>
-            <span>2. Extras & Bundle</span>
+        <!-- Section 1: Intent Creation & Back Stack -->
+        <div class="rounded-xl border border-zinc-200 bg-white p-6 space-y-4">
+          <div class="flex items-center justify-between gap-4">
+            <h2 class="text-base font-semibold tracking-tight text-zinc-900">1. Disparo de Navegación & Gestión de Back Stack</h2>
+            <div class="inline-flex p-1 rounded-lg bg-zinc-100 border border-zinc-200 text-xs">
+              <button onclick="switchTab('java-back','kotlin-back',this)" class="px-3 py-1 rounded-md font-medium transition-all bg-white text-zinc-900 shadow-xs">Java 11</button>
+              <button onclick="switchTab('kotlin-back','java-back',this)" class="px-3 py-1 rounded-md font-medium transition-all text-zinc-600 hover:text-zinc-900">Kotlin</button>
+            </div>
           </div>
           <p class="text-xs text-zinc-600">
-            Transferencia en memoria de tipos primitivos, Strings y objetos <code class="text-zinc-800">Parcelable</code> mediante el contenedor clave-valor.
+            Cada llamada a <code class="text-zinc-800">startActivity()</code> crea una nueva instancia y la apila en el Back Stack. El botón atrás del sistema desapila (<code
+              class="text-zinc-800">pop</code>) automáticamente.
           </p>
-        </div>
-
-        <div class="p-5 rounded-xl border border-zinc-200 bg-white space-y-2">
-          <div class="flex items-center gap-2 text-xs font-semibold text-zinc-900">
-            <span class="w-2 h-2 rounded-full bg-emerald-600"></span>
-            <span>3. SharedPreferences</span>
-          </div>
-          <p class="text-xs text-zinc-600">
-            Persistencia en disco para datos que deben sobrevivir al ciclo de vida de la Activity (como sesión o último email usado).
-          </p>
-        </div>
-      </div>
-
-      <!-- Section 1: Intent Creation & Back Stack -->
-      <div class="rounded-xl border border-zinc-200 bg-white p-6 space-y-4">
-        <h2 class="text-base font-semibold tracking-tight text-zinc-900">1. Disparo de Navegación & Gestión de Back Stack</h2>
-        <p class="text-xs text-zinc-600">
-          Cada llamada a <code class="text-zinc-800">startActivity()</code> crea una nueva instancia y la apila en el Back Stack. El botón atrás del sistema desapila (<code class="text-zinc-800">pop</code>) automáticamente.
-        </p>
-        <pre><code>// Navegación básica hacia otra Activity
+          <div id="java-back" class="tab-content">
+            <pre><code class="language-java">// Navegación básica hacia otra Activity
 Intent intent = new Intent(MainActivity.this, RegisterActivity.class);
 startActivity(intent);
 
@@ -164,22 +186,37 @@ finish();
 Intent logoutIntent = new Intent(this, MainActivity.class);
 logoutIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 startActivity(logoutIntent);</code></pre>
-      </div>
+          </div>
+          <div id="kotlin-back" class="tab-content hidden">
+            <pre><code class="language-kotlin">// Navegación básica hacia otra Activity
+val intent = Intent(this, RegisterActivity::class.java)
+startActivity(intent)
 
-      <!-- Section 2: Code Examples (Java vs Kotlin) -->
-      <div class="space-y-4">
-        <div class="flex items-center justify-between">
-          <h2 class="text-lg font-semibold tracking-tight text-zinc-900">2. Paso y Recuperación de Extras</h2>
-          <div class="inline-flex p-1 rounded-lg bg-zinc-100 border border-zinc-200 text-xs">
-            <button onclick="switchTab('java-nav', 'kotlin-nav', this)" class="px-3 py-1 rounded-md font-medium transition-all bg-white text-zinc-900 shadow-xs">Java 11</button>
-            <button onclick="switchTab('kotlin-nav', 'java-nav', this)" class="px-3 py-1 rounded-md font-medium transition-all text-zinc-600 hover:text-zinc-900">Kotlin</button>
+// Cerrar la Activity actual sin apilarla
+finish()
+
+// Limpiar todo el stack al cerrar sesión (Logout)
+val logoutIntent = Intent(this, MainActivity::class.java).apply {
+    addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+}
+startActivity(logoutIntent)</code></pre>
           </div>
         </div>
 
-        <div id="java-nav" class="tab-content space-y-4">
-          <div class="rounded-xl border border-zinc-200 bg-white p-5 space-y-3">
-            <h3 class="text-sm font-semibold text-zinc-900">Envío y Recepción en Java</h3>
-            <pre><code>// --- ENVIAR DATOS (MainActivity.java) ---
+        <!-- Section 2: Code Examples (Java vs Kotlin) -->
+        <div class="space-y-4">
+          <div class="flex items-center justify-between">
+            <h2 class="text-lg font-semibold tracking-tight text-zinc-900">2. Paso y Recuperación de Extras</h2>
+            <div class="inline-flex p-1 rounded-lg bg-zinc-100 border border-zinc-200 text-xs">
+              <button onclick="switchTab('java-nav', 'kotlin-nav', this)" class="px-3 py-1 rounded-md font-medium transition-all bg-white text-zinc-900 shadow-xs">Java 11</button>
+              <button onclick="switchTab('kotlin-nav', 'java-nav', this)" class="px-3 py-1 rounded-md font-medium transition-all text-zinc-600 hover:text-zinc-900">Kotlin</button>
+            </div>
+          </div>
+
+          <div id="java-nav" class="tab-content space-y-4">
+            <div class="rounded-xl border border-zinc-200 bg-white p-5 space-y-3">
+              <h3 class="text-sm font-semibold text-zinc-900">Envío y Recepción en Java</h3>
+              <pre><code>// --- ENVIAR DATOS (MainActivity.java) ---
 Intent intent = new Intent(this, IntroActivity.class);
 intent.putExtra("user_name", "Benjamín");
 intent.putExtra("user_email", "benjamin@ejemplo.com");
@@ -195,13 +232,13 @@ int level    = getIntent().getIntExtra("user_level", 1); // 1 es el valor por de
 if (email == null || email.isEmpty()) {
     email = Prefs.getUser(this);
 }</code></pre>
+            </div>
           </div>
-        </div>
 
-        <div id="kotlin-nav" class="tab-content hidden space-y-4">
-          <div class="rounded-xl border border-zinc-200 bg-white p-5 space-y-3">
-            <h3 class="text-sm font-semibold text-zinc-900">Envío y Recepción en Kotlin</h3>
-            <pre><code>// --- ENVIAR DATOS (MainActivity.kt) ---
+          <div id="kotlin-nav" class="tab-content hidden space-y-4">
+            <div class="rounded-xl border border-zinc-200 bg-white p-5 space-y-3">
+              <h3 class="text-sm font-semibold text-zinc-900">Envío y Recepción en Kotlin</h3>
+              <pre><code>// --- ENVIAR DATOS (MainActivity.kt) ---
 val intent = Intent(this, IntroActivity::class.java).apply {
     putExtra("user_name", "Benjamín")
     putExtra("user_email", "benjamin@ejemplo.com")
@@ -213,17 +250,21 @@ startActivity(intent)
 val name  = intent.getStringExtra("user_name").orEmpty()
 val email = intent.getStringExtra("user_email") ?: Prefs.getUser(this)
 val level = intent.getIntExtra("user_level", 1)</code></pre>
+            </div>
           </div>
         </div>
-      </div>
 
-      <!-- Section 3: SharedPreferences Helper -->
-      <div class="rounded-xl border border-zinc-200 bg-white p-6 space-y-4">
-        <div class="flex items-center justify-between">
-          <h2 class="text-sm font-semibold tracking-tight text-zinc-900">3. Persistencia Ligera: Prefs.java</h2>
-          <span class="text-[11px] font-mono text-zinc-500">MODE_PRIVATE</span>
-        </div>
-        <pre><code>public class Prefs {
+        <!-- Section 3: SharedPreferences Helper -->
+        <div class="rounded-xl border border-zinc-200 bg-white p-6 space-y-4">
+          <div class="flex items-center justify-between gap-4">
+            <h2 class="text-sm font-semibold tracking-tight text-zinc-900">3. Persistencia Ligera: Prefs</h2>
+            <div class="inline-flex p-1 rounded-lg bg-zinc-100 border border-zinc-200 text-xs">
+              <button onclick="switchTab('java-prefs','kotlin-prefs',this)" class="px-3 py-1 rounded-md font-medium transition-all bg-white text-zinc-900 shadow-xs">Java 11</button>
+              <button onclick="switchTab('kotlin-prefs','java-prefs',this)" class="px-3 py-1 rounded-md font-medium transition-all text-zinc-600 hover:text-zinc-900">Kotlin</button>
+            </div>
+          </div>
+          <div id="java-prefs" class="tab-content">
+            <pre><code class="language-java">public class Prefs {
     private static final String PREF_FILE = "sandbox_prefs";
     private static final String KEY_USER  = "user_email";
 
@@ -239,48 +280,73 @@ val level = intent.getIntExtra("user_level", 1)</code></pre>
                       .getString(KEY_USER, "");
     }
 }</code></pre>
-      </div>
+          </div>
+          <div id="kotlin-prefs" class="tab-content hidden">
+            <pre><code class="language-kotlin">object Prefs {
+    private const val PREF_FILE = "sandbox_prefs"
+    private const val KEY_USER = "user_email"
 
-      <!-- Navigation Checklist -->
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div class="p-5 rounded-xl border border-rose-200 bg-rose-50/50 space-y-2">
-          <h3 class="text-xs font-semibold text-rose-900 flex items-center gap-1.5">
-            <span>✕</span> Errores Frecuentes
-          </h3>
-          <ul class="text-xs text-rose-800 space-y-1 list-disc pl-4">
-            <li>Olvidar declarar la Activity en <code class="text-rose-950">AndroidManifest.xml</code>.</li>
-            <li>Typo en las claves de los extras (<code class="text-rose-950">"emial"</code> vs <code class="text-rose-950">"email"</code>).</li>
-            <li>Pasar objetos pesados (&gt;1MB) por Intent causando <code class="text-rose-950">TransactionTooLargeException</code>.</li>
-            <li>No proporcionar valor por defecto al leer primitivos con <code class="text-rose-950">getIntExtra()</code>.</li>
-          </ul>
+    fun saveUser(context: Context, email: String) {
+        context.getSharedPreferences(PREF_FILE, Context.MODE_PRIVATE)
+            .edit()
+            .putString(KEY_USER, email)
+            .apply() // apply() es asíncrono, no bloquea UI
+    }
+
+    fun getUser(context: Context): String {
+        return context.getSharedPreferences(PREF_FILE, Context.MODE_PRIVATE)
+            .getString(KEY_USER, "") ?: ""
+    }
+}
+
+// Uso más idiomático con extensión:
+val String.isValidEmail: Boolean get() = ValidationUtils.isEmail(this)
+Prefs.saveUser(this, email)
+val saved = Prefs.getUser(this)</code></pre>
+          </div>
         </div>
 
-        <div class="p-5 rounded-xl border border-emerald-200 bg-emerald-50/50 space-y-2">
-          <h3 class="text-xs font-semibold text-emerald-900 flex items-center gap-1.5">
-            <span>✓</span> Buenas Prácticas
-          </h3>
-          <ul class="text-xs text-emerald-800 space-y-1 list-disc pl-4">
-            <li>Declarar <code class="text-emerald-950">android:exported="false"</code> en Activities internas.</li>
-            <li>Usar constantes para las claves de los extras (<code class="text-emerald-950">EXTRA_EMAIL</code>).</li>
-            <li>Aplicar siempre <code class="text-emerald-950">trim()</code> a los textos antes de empaquetarlos en el Intent.</li>
-            <li>Configurar <code class="text-emerald-950">windowSoftInputMode="adjustResize"</code> para no tapar los botones de acción.</li>
-          </ul>
+        <!-- Navigation Checklist -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="p-5 rounded-xl border border-rose-200 bg-rose-50/50 space-y-2">
+            <h3 class="text-xs font-semibold text-rose-900 flex items-center gap-1.5">
+              <span>✕</span> Errores Frecuentes
+            </h3>
+            <ul class="text-xs text-rose-800 space-y-1 list-disc pl-4">
+              <li>Olvidar declarar la Activity en <code class="text-rose-950">AndroidManifest.xml</code>.</li>
+              <li>Typo en las claves de los extras (<code class="text-rose-950">"emial"</code> vs <code class="text-rose-950">"email"</code>).</li>
+              <li>Pasar objetos pesados (&gt;1MB) por Intent causando <code class="text-rose-950">TransactionTooLargeException</code>.</li>
+              <li>No proporcionar valor por defecto al leer primitivos con <code class="text-rose-950">getIntExtra()</code>.</li>
+            </ul>
+          </div>
+
+          <div class="p-5 rounded-xl border border-emerald-200 bg-emerald-50/50 space-y-2">
+            <h3 class="text-xs font-semibold text-emerald-900 flex items-center gap-1.5">
+              <span>✓</span> Buenas Prácticas
+            </h3>
+            <ul class="text-xs text-emerald-800 space-y-1 list-disc pl-4">
+              <li>Declarar <code class="text-emerald-950">android:exported="false"</code> en Activities internas.</li>
+              <li>Usar constantes para las claves de los extras (<code class="text-emerald-950">EXTRA_EMAIL</code>).</li>
+              <li>Aplicar siempre <code class="text-emerald-950">trim()</code> a los textos antes de empaquetarlos en el Intent.</li>
+              <li>Configurar <code class="text-emerald-950">windowSoftInputMode="adjustResize"</code> para no tapar los botones de acción.</li>
+            </ul>
+          </div>
         </div>
-      </div>
 
-      <!-- Navigation Footer -->
-      <div class="flex items-center justify-between pt-6 border-t border-zinc-200">
-        <a href="labs.html" class="inline-flex items-center gap-2 text-xs font-medium text-zinc-600 hover:text-zinc-900 transition-colors">
-          ← Índice de Laboratorios
-        </a>
-        <a href="validacion.html" class="inline-flex items-center gap-2 text-xs font-medium text-zinc-900 hover:text-zinc-700 transition-colors">
-          Estrategia de Validación →
-        </a>
-      </div>
+        <!-- Navigation Footer -->
+        <div class="flex items-center justify-between pt-6 border-t border-zinc-200">
+          <a href="labs.html" class="inline-flex items-center gap-2 text-xs font-medium text-zinc-600 hover:text-zinc-900 transition-colors">
+            ← Índice de Laboratorios
+          </a>
+          <a href="validacion.html" class="inline-flex items-center gap-2 text-xs font-medium text-zinc-900 hover:text-zinc-700 transition-colors">
+            Estrategia de Validación →
+          </a>
+        </div>
 
-    </main>
-  </div>
+      </main>
+    </div>
 
-  <script src="assets/nav.js"></script>
-</body>
+    <script src="assets/nav.js"></script>
+  </body>
+
 </html>

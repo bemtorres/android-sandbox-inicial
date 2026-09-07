@@ -1,222 +1,301 @@
 <!DOCTYPE html>
 <html lang="es" class="h-full bg-white text-zinc-950 antialiased">
-<head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
-  <title>Strings & i18n — Sandbox Android</title>
-  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-  <style type="text/tailwindcss">
-    @theme {
+
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <title>Strings & i18n — Sandbox Android</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <style type="text/tailwindcss">
+      @theme {
       --font-sans: 'Plus Jakarta Sans', Inter, system-ui, sans-serif;
       --font-mono: 'JetBrains Mono', monospace;
     }
   </style>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
-    body { font-family: 'Plus Jakarta Sans', sans-serif; }
-    code, pre { font-family: 'JetBrains Mono', monospace; }
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
 
-    pre {
-      background: #09090b !important;
-      border: 1px solid #27272a !important;
-      border-radius: 0.75rem !important;
-      padding: 0 !important;
-      overflow: hidden !important;
-      position: relative !important;
-      margin: 0 !important;
-    }
-    pre code {
-      display: block !important;
-      padding: 1rem 1rem 1rem 3.6rem !important;
-      font-size: 12.5px !important;
-      line-height: 1.65 !important;
-      color: #f4f4f5 !important;
-      background: transparent !important;
-      overflow-x: auto !important;
-    }
-    .cm-gutter {
-      position: absolute;
-      left: 0; top: 0; bottom: 0;
-      width: 3rem;
-      padding: 1rem 0;
-      text-align: right;
-      font-size: 11px;
-      line-height: 1.65;
-      color: #71717a;
-      background: #18181b;
-      border-right: 1px solid #27272a;
-      user-select: none;
-      z-index: 1;
-      pointer-events: none;
-    }
-    .cm-gutter span { display: block; padding-right: 0.6rem; }
-  </style>
-</head>
-<body class="min-h-full flex flex-col bg-white">
+      body {
+        font-family: 'Plus Jakarta Sans', sans-serif;
+      }
 
-  <!-- Header Superior shadcn -->
-  <header class="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-zinc-200">
-    <div class="max-w-[1440px] mx-auto px-4 sm:px-6 h-14 flex items-center justify-between gap-4">
-      <div class="flex items-center gap-3">
-        <button id="menuBtn" class="lg:hidden p-1.5 rounded-md text-zinc-600 hover:bg-zinc-100 transition-colors" aria-label="Abrir navegación">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
-        </button>
-        <div class="flex items-center gap-2">
-          <div class="w-6 h-6 rounded-md bg-zinc-900 text-white flex items-center justify-center font-bold text-xs shadow-xs">Sb</div>
-          <span class="font-semibold text-sm tracking-tight text-zinc-900">Sandbox</span>
-          <span class="text-zinc-300">/</span>
-          <span class="text-xs text-zinc-500 font-medium">Strings & i18n</span>
-        </div>
-      </div>
+      code,
+      pre {
+        font-family: 'JetBrains Mono', monospace;
+      }
 
-      <a href="index.html" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-md text-xs font-medium border border-zinc-200 hover:bg-zinc-50 transition-colors">
-        <span>← Dashboard</span>
-      </a>
-    </div>
-  </header>
+      pre {
+        background: #09090b !important;
+        border: 1px solid #27272a !important;
+        border-radius: 0.75rem !important;
+        padding: 0 !important;
+        overflow: hidden !important;
+        position: relative !important;
+        margin: 0 !important;
+      }
 
-  <!-- Contenedor Principal Layout -->
-  <div id="overlay" class="fixed inset-0 bg-black/40 z-40 hidden lg:hidden"></div>
-  <div class="max-w-[1440px] mx-auto px-4 sm:px-6 py-6 grid grid-cols-1 lg:grid-cols-[240px_minmax(0,1fr)] gap-8 w-full">
-    
-    <!-- Sidebar -->
-    <aside id="sidebar" class="fixed lg:sticky top-0 lg:top-20 left-0 z-40 w-[240px] h-[100dvh] lg:h-[calc(100vh-5rem)] bg-white lg:bg-transparent border-r lg:border-0 border-zinc-200 overflow-y-auto p-4 lg:p-0 -translate-x-full lg:translate-x-0 transition-transform duration-200"></aside>
+      pre code {
+        display: block !important;
+        padding: 1rem 1rem 1rem 3.6rem !important;
+        font-size: 12.5px !important;
+        line-height: 1.65 !important;
+        color: #f4f4f5 !important;
+        background: transparent !important;
+        overflow-x: auto !important;
+      }
 
-    <!-- Contenido Principal -->
-    <main class="min-w-0 space-y-8">
-      
-      <!-- Encabezado -->
-      <section class="space-y-3">
-        <div class="inline-flex items-center gap-2 px-2.5 py-1 rounded-full text-xs font-medium bg-zinc-100 text-zinc-800 border border-zinc-200">
-          <span>🌐 Internacionalización & Convención de Nombres</span>
-        </div>
-        <h1 class="text-3xl font-extrabold tracking-tight text-zinc-950">
-          Strings, Naming & Localización (es / en / pt)
-        </h1>
-        <p class="text-sm text-zinc-600 leading-relaxed max-w-3xl">
-          El Sandbox cuenta con <strong class="text-zinc-900 font-semibold">187 strings externalizadas</strong> en 3 idiomas sin textos quemados (hardcoded). La convención divide los identificadores en reutilizables (<code class="font-mono text-zinc-800 bg-zinc-100 px-1 py-0.5 rounded">common_*</code>) y específicos de pantalla (<code class="font-mono text-zinc-800 bg-zinc-100 px-1 py-0.5 rounded">acXXXX_*</code>).
-        </p>
-      </section>
+      .cm-gutter {
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: 3rem;
+        padding: 1rem 0;
+        text-align: right;
+        font-size: 11px;
+        line-height: 1.65;
+        color: #71717a;
+        background: #18181b;
+        border-right: 1px solid #27272a;
+        user-select: none;
+        z-index: 1;
+        pointer-events: none;
+      }
 
-      <!-- Previews de Archivos e Idioma -->
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <figure class="group rounded-xl border border-zinc-200 bg-zinc-50 overflow-hidden shadow-2xs">
-          <div class="aspect-[16/9] flex flex-col items-center justify-center p-4 text-center">
-            <div class="w-10 h-10 rounded-lg bg-white border border-zinc-200 flex items-center justify-center text-zinc-600 shadow-xs">📷</div>
-            <p class="mt-2 font-medium text-xs text-zinc-700">4 archivos strings.xml</p>
-            <p class="text-[11px] text-zinc-400 font-mono">assets/images/strings-files.png</p>
+      .cm-gutter span {
+        display: block;
+        padding-right: 0.6rem;
+      }
+    </style>
+  </head>
+
+  <body class="min-h-full flex flex-col bg-white">
+
+    <!-- Header Superior shadcn -->
+    <header class="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-zinc-200">
+      <div class="max-w-[1440px] mx-auto px-4 sm:px-6 h-14 flex items-center justify-between gap-4">
+        <div class="flex items-center gap-3">
+          <button id="menuBtn" class="lg:hidden p-1.5 rounded-md text-zinc-600 hover:bg-zinc-100 transition-colors" aria-label="Abrir navegación">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+          </button>
+          <div class="flex items-center gap-2">
+            <div class="w-6 h-6 rounded-md bg-zinc-900 text-white flex items-center justify-center font-bold text-xs shadow-xs">Sb</div>
+            <span class="font-semibold text-sm tracking-tight text-zinc-900">Sandbox</span>
+            <span class="text-zinc-300">/</span>
+            <span class="text-xs text-zinc-500 font-medium">Strings & i18n</span>
           </div>
-          <img src="assets/images/strings-files.png" alt="Strings files" class="hidden w-full object-cover" onload="this.classList.remove('hidden'); this.style.display='block'; this.parentElement.classList.add('loaded'); if(this.previousElementSibling) this.previousElementSibling.style.display='none'" />
-          <figcaption class="px-3 py-2 bg-white border-t border-zinc-200 text-xs text-zinc-500">Fig. 1 — Estructura de carpetas: values, values-es, values-en, values-pt</figcaption>
-        </figure>
+        </div>
 
-        <figure class="group rounded-xl border border-zinc-200 bg-zinc-50 overflow-hidden shadow-2xs">
-          <div class="aspect-[16/9] flex flex-col items-center justify-center p-4 text-center">
-            <div class="w-10 h-10 rounded-lg bg-white border border-zinc-200 flex items-center justify-center text-zinc-600 shadow-xs">📷</div>
-            <p class="mt-2 font-medium text-xs text-zinc-700">Home Hub Preview</p>
-            <p class="text-[11px] text-zinc-400 font-mono">assets/images/home-hub.jpg</p>
-          </div>
-          <img src="assets/images/home-hub.jpg" alt="Home Hub" class="hidden w-full object-cover" onload="this.classList.remove('hidden'); this.style.display='block'; this.parentElement.classList.add('loaded'); if(this.previousElementSibling) this.previousElementSibling.style.display='none'" />
-          <figcaption class="px-3 py-2 bg-white border-t border-zinc-200 text-xs text-zinc-500">Fig. 2 — Home Hub renderizando los textos desde recursos localizados</figcaption>
-        </figure>
+        <a href="index.html" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-md text-xs font-medium border border-zinc-200 hover:bg-zinc-50 transition-colors">
+          <span>← Dashboard</span>
+        </a>
       </div>
+    </header>
 
-      <!-- Convención de Nomenclatura -->
-      <section class="space-y-4">
-        <h2 class="text-xl font-bold text-zinc-950">1. Convención de Prefijos</h2>
-        
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div class="p-5 rounded-xl border border-zinc-200 bg-white space-y-2">
-            <div class="flex items-center justify-between">
-              <span class="text-xs font-mono font-bold px-2 py-0.5 rounded-md bg-zinc-100 text-zinc-800 border border-zinc-200">common_*</span>
-              <span class="text-xs text-zinc-500">39 strings globales</span>
+    <!-- Contenedor Principal Layout -->
+    <div id="overlay" class="fixed inset-0 bg-black/40 z-40 hidden lg:hidden"></div>
+    <div class="max-w-[1440px] mx-auto px-4 sm:px-6 py-6 grid grid-cols-1 lg:grid-cols-[240px_minmax(0,1fr)] gap-8 w-full">
+
+      <!-- Sidebar -->
+      <aside id="sidebar"
+        class="fixed lg:sticky top-0 lg:top-20 left-0 z-40 w-[240px] h-[100dvh] lg:h-[calc(100vh-5rem)] bg-white lg:bg-transparent border-r lg:border-0 border-zinc-200 overflow-y-auto p-4 lg:p-0 -translate-x-full lg:translate-x-0 transition-transform duration-200">
+      </aside>
+
+      <!-- Contenido Principal -->
+      <main class="min-w-0 space-y-8">
+
+        <!-- Encabezado -->
+        <section class="space-y-3">
+          <div class="inline-flex items-center gap-2 px-2.5 py-1 rounded-full text-xs font-medium bg-zinc-100 text-zinc-800 border border-zinc-200">
+            <span>🌐 Internacionalización & Convención de Nombres</span>
+          </div>
+          <h1 class="text-3xl font-extrabold tracking-tight text-zinc-950">
+            Strings, Naming & Localización (es / en / pt)
+          </h1>
+          <p class="text-sm text-zinc-600 leading-relaxed max-w-3xl">
+            El Sandbox cuenta con <strong class="text-zinc-900 font-semibold">187 strings externalizadas</strong> en 3 idiomas sin textos quemados (hardcoded). La convención divide los identificadores
+            en reutilizables (<code class="font-mono text-zinc-800 bg-zinc-100 px-1 py-0.5 rounded">common_*</code>) y específicos de pantalla (<code
+              class="font-mono text-zinc-800 bg-zinc-100 px-1 py-0.5 rounded">acXXXX_*</code>).
+          </p>
+        </section>
+
+        <!-- Previews de Archivos e Idioma -->
+        <div class="grid grid-cols-1 gap-4">
+          <figure class="group rounded-xl border border-zinc-200 bg-zinc-50 overflow-hidden shadow-2xs">
+            <div class="aspect-[16/9] flex flex-col items-center justify-center p-4 text-center">
+              <div class="w-10 h-10 rounded-lg bg-white border border-zinc-200 flex items-center justify-center text-zinc-600 shadow-xs">📷</div>
+              <p class="mt-2 font-medium text-xs text-zinc-700">4 archivos strings.xml</p>
+              <p class="text-[11px] text-zinc-400 font-mono">assets/images/strings-files.gif</p>
             </div>
-            <p class="text-xs text-zinc-600 leading-relaxed">
-              Textos compartidos usados en ≥ 2 pantallas: botones de acción (<code class="font-mono text-zinc-800">common_btn_validate</code>), mensajes de validación (<code class="font-mono text-zinc-800">common_err_required</code>, <code class="font-mono text-zinc-800">common_err_email</code>) y etiquetas genéricas.
-            </p>
-            <pre class="bg-zinc-900 text-zinc-100 rounded-lg p-3 text-xs overflow-auto"><code class="language-xml">&lt;string name="common_err_email"&gt;Email no válido&lt;/string&gt;
+            <img src="assets/images/strings-files.gif" alt="Strings files" class="hidden w-full object-cover"
+              onload="this.classList.remove('hidden'); this.style.display='block'; this.parentElement.classList.add('loaded'); if(this.previousElementSibling) this.previousElementSibling.style.display='none'" />
+            <figcaption class="px-3 py-2 bg-white border-t border-zinc-200 text-xs text-zinc-500">Fig. 1 — Estructura de carpetas: values, values-es, values-en, values-pt</figcaption>
+          </figure>
+
+        </div>
+
+        <!-- Convención de Nomenclatura -->
+        <section class="space-y-4">
+          <h2 class="text-xl font-bold text-zinc-950">1. Convención de Prefijos</h2>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="p-5 rounded-xl border border-zinc-200 bg-white space-y-2">
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-mono font-bold px-2 py-0.5 rounded-md bg-zinc-100 text-zinc-800 border border-zinc-200">common_*</span>
+                <span class="text-xs text-zinc-500">39 strings globales</span>
+              </div>
+              <p class="text-xs text-zinc-600 leading-relaxed">
+                Textos compartidos usados en ≥ 2 pantallas: botones de acción (<code class="font-mono text-zinc-800">common_btn_validate</code>), mensajes de validación (<code
+                  class="font-mono text-zinc-800">common_err_required</code>, <code class="font-mono text-zinc-800">common_err_email</code>) y etiquetas genéricas.
+              </p>
+              <pre class="bg-zinc-900 text-zinc-100 rounded-lg p-3 text-xs overflow-auto"><code class="language-xml">&lt;string name="common_err_email"&gt;Email no válido&lt;/string&gt;
 &lt;string name="common_btn_validate"&gt;Validar&lt;/string&gt;</code></pre>
-          </div>
-
-          <div class="p-5 rounded-xl border border-zinc-200 bg-white space-y-2">
-            <div class="flex items-center justify-between">
-              <span class="text-xs font-mono font-bold px-2 py-0.5 rounded-md bg-zinc-100 text-zinc-800 border border-zinc-200">acXXXX_*</span>
-              <span class="text-xs text-zinc-500">148 strings por pantalla</span>
             </div>
-            <p class="text-xs text-zinc-600 leading-relaxed">
-              Prefijo <code class="font-mono text-zinc-800">ac</code> + 4 letras del layout: <code class="font-mono text-zinc-800">acmain_</code> (Login), <code class="font-mono text-zinc-800">acregi_</code> (Registro), <code class="font-mono text-zinc-800">actinp_</code> (Lab 1), <code class="font-mono text-zinc-800">acbutt_</code> (Lab 3), etc.
-            </p>
-            <pre class="bg-zinc-900 text-zinc-100 rounded-lg p-3 text-xs overflow-auto"><code class="language-xml">&lt;string name="actinp_hint_plain"&gt;Nombre y apellido&lt;/string&gt;
+
+            <div class="p-5 rounded-xl border border-zinc-200 bg-white space-y-2">
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-mono font-bold px-2 py-0.5 rounded-md bg-zinc-100 text-zinc-800 border border-zinc-200">acXXXX_*</span>
+                <span class="text-xs text-zinc-500">148 strings por pantalla</span>
+              </div>
+              <p class="text-xs text-zinc-600 leading-relaxed">
+                Prefijo <code class="font-mono text-zinc-800">ac</code> + 4 letras del layout: <code class="font-mono text-zinc-800">acmain_</code> (Login), <code
+                  class="font-mono text-zinc-800">acregi_</code> (Registro), <code class="font-mono text-zinc-800">actinp_</code> (Lab 1), <code class="font-mono text-zinc-800">acbutt_</code> (Lab 3),
+                etc.
+              </p>
+              <pre class="bg-zinc-900 text-zinc-100 rounded-lg p-3 text-xs overflow-auto"><code class="language-xml">&lt;string name="actinp_hint_plain"&gt;Nombre y apellido&lt;/string&gt;
 &lt;string name="acbutt_chip_android"&gt;Android&lt;/string&gt;</code></pre>
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      <!-- Resolución de Idioma en Android -->
-      <section class="p-6 rounded-xl border border-zinc-200 bg-zinc-50 space-y-4">
-        <h2 class="text-lg font-bold text-zinc-950">2. Resolución de Idioma (Resource Qualifier Engine)</h2>
-        <p class="text-xs text-zinc-600 leading-relaxed">
-          Android selecciona automáticamente la carpeta de recursos según el idioma configurado en el sistema del dispositivo:
-        </p>
+        <!-- Resolución de Idioma en Android -->
+        <section class="p-6 rounded-xl border border-zinc-200 bg-zinc-50 space-y-4">
+          <h2 class="text-lg font-bold text-zinc-950">2. Resolución de Idioma (Resource Qualifier Engine)</h2>
+          <p class="text-xs text-zinc-600 leading-relaxed">
+            Android selecciona automáticamente la carpeta de recursos según el idioma configurado en el sistema del dispositivo:
+          </p>
 
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs">
-          <div class="p-4 rounded-lg bg-white border border-zinc-200 space-y-1.5">
-            <span class="font-mono font-semibold text-zinc-900 block">values-es/</span>
-            <span class="text-zinc-500 block">Español</span>
-            <code class="text-[11px] block bg-zinc-100 p-1.5 rounded font-mono text-zinc-800">&lt;string name="common_btn_login"&gt;Iniciar Sesión&lt;/string&gt;</code>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs">
+            <div class="p-4 rounded-lg bg-white border border-zinc-200 space-y-1.5">
+              <span class="font-mono font-semibold text-zinc-900 block">values-es/</span>
+              <span class="text-zinc-500 block">Español</span>
+              <code class="text-[11px] block bg-zinc-100 p-1.5 rounded font-mono text-zinc-800">&lt;string name="common_btn_login"&gt;Iniciar Sesión&lt;/string&gt;</code>
+            </div>
+
+            <div class="p-4 rounded-lg bg-white border border-zinc-200 space-y-1.5">
+              <span class="font-mono font-semibold text-zinc-900 block">values-en/</span>
+              <span class="text-zinc-500 block">Inglés</span>
+              <code class="text-[11px] block bg-zinc-100 p-1.5 rounded font-mono text-zinc-800">&lt;string name="common_btn_login"&gt;Log In&lt;/string&gt;</code>
+            </div>
+
+            <div class="p-4 rounded-lg bg-white border border-zinc-200 space-y-1.5">
+              <span class="font-mono font-semibold text-zinc-900 block">values-pt/</span>
+              <span class="text-zinc-500 block">Portugués</span>
+              <code class="text-[11px] block bg-zinc-100 p-1.5 rounded font-mono text-zinc-800">&lt;string name="common_btn_login"&gt;Entrar&lt;/string&gt;</code>
+            </div>
           </div>
+        </section>
 
-          <div class="p-4 rounded-lg bg-white border border-zinc-200 space-y-1.5">
-            <span class="font-mono font-semibold text-zinc-900 block">values-en/</span>
-            <span class="text-zinc-500 block">Inglés</span>
-            <code class="text-[11px] block bg-zinc-100 p-1.5 rounded font-mono text-zinc-800">&lt;string name="common_btn_login"&gt;Log In&lt;/string&gt;</code>
+        <!-- Tabla Completa de Prefijos -->
+        <section class="space-y-4">
+          <h2 class="text-xl font-bold text-zinc-950">3. Catálogo de Prefijos por Módulo</h2>
+
+          <div class="overflow-x-auto rounded-xl border border-zinc-200 bg-white">
+            <table class="w-full text-left text-xs text-zinc-700">
+              <thead class="bg-zinc-50 text-[11px] font-semibold text-zinc-500 uppercase tracking-wider border-b border-zinc-200">
+                <tr>
+                  <th class="py-3 px-4">Prefijo</th>
+                  <th class="py-3 px-4">Layout / Módulo</th>
+                  <th class="py-3 px-4">Ejemplo</th>
+                  <th class="py-3 px-4 text-right">Nº Strings</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-zinc-200">
+                <tr>
+                  <td class="py-2.5 px-4 font-mono font-bold text-zinc-900">common_</td>
+                  <td>Reutilizable Global</td>
+                  <td class="font-mono">common_err_phone</td>
+                  <td class="text-right font-medium">39</td>
+                </tr>
+                <tr>
+                  <td class="py-2.5 px-4 font-mono font-bold text-zinc-900">acmain_</td>
+                  <td>activity_main (Login)</td>
+                  <td class="font-mono">acmain_title</td>
+                  <td class="text-right font-medium">5</td>
+                </tr>
+                <tr>
+                  <td class="py-2.5 px-4 font-mono font-bold text-zinc-900">acregi_</td>
+                  <td>activity_register (Registro)</td>
+                  <td class="font-mono">acregi_go_login</td>
+                  <td class="text-right font-medium">4</td>
+                </tr>
+                <tr>
+                  <td class="py-2.5 px-4 font-mono font-bold text-zinc-900">acintr_</td>
+                  <td>activity_intro (Bienvenida)</td>
+                  <td class="font-mono">acintr_welcome</td>
+                  <td class="text-right font-medium">5</td>
+                </tr>
+                <tr>
+                  <td class="py-2.5 px-4 font-mono font-bold text-zinc-900">achome_</td>
+                  <td>activity_home (Hub Cards)</td>
+                  <td class="font-mono">achome_card_inputs</td>
+                  <td class="text-right font-medium">17</td>
+                </tr>
+                <tr>
+                  <td class="py-2.5 px-4 font-mono font-bold text-zinc-900">actinp_</td>
+                  <td>activity_text_inputs (Lab 1)</td>
+                  <td class="font-mono">actinp_hint_email</td>
+                  <td class="text-right font-medium">17</td>
+                </tr>
+                <tr>
+                  <td class="py-2.5 px-4 font-mono font-bold text-zinc-900">acdati_</td>
+                  <td>activity_date_time (Lab 2)</td>
+                  <td class="font-mono">acdati_btn_date</td>
+                  <td class="text-right font-medium">11</td>
+                </tr>
+                <tr>
+                  <td class="py-2.5 px-4 font-mono font-bold text-zinc-900">acbutt_</td>
+                  <td>activity_buttons (Lab 3)</td>
+                  <td class="font-mono">acbutt_chip_java</td>
+                  <td class="text-right font-medium">18</td>
+                </tr>
+                <tr>
+                  <td class="py-2.5 px-4 font-mono font-bold text-zinc-900">acsele_</td>
+                  <td>activity_selection (Lab 4)</td>
+                  <td class="font-mono">acsele_cb_terms</td>
+                  <td class="text-right font-medium">17</td>
+                </tr>
+                <tr>
+                  <td class="py-2.5 px-4 font-mono font-bold text-zinc-900">acfeed_</td>
+                  <td>activity_feedback (Lab 5)</td>
+                  <td class="font-mono">acfeed_btn_start</td>
+                  <td class="text-right font-medium">13</td>
+                </tr>
+                <tr>
+                  <td class="py-2.5 px-4 font-mono font-bold text-zinc-900">acwebv_</td>
+                  <td>activity_webview (Lab 6)</td>
+                  <td class="font-mono">acwebv_btn_load</td>
+                  <td class="text-right font-medium">5</td>
+                </tr>
+                <tr>
+                  <td class="py-2.5 px-4 font-mono font-bold text-zinc-900">acdito_</td>
+                  <td>activity_dialog_toast (Lab 7)</td>
+                  <td class="font-mono">acdito_log_default</td>
+                  <td class="text-right font-medium">22</td>
+                </tr>
+              </tbody>
+            </table>
           </div>
+        </section>
 
-          <div class="p-4 rounded-lg bg-white border border-zinc-200 space-y-1.5">
-            <span class="font-mono font-semibold text-zinc-900 block">values-pt/</span>
-            <span class="text-zinc-500 block">Portugués</span>
-            <code class="text-[11px] block bg-zinc-100 p-1.5 rounded font-mono text-zinc-800">&lt;string name="common_btn_login"&gt;Entrar&lt;/string&gt;</code>
-          </div>
-        </div>
-      </section>
+      </main>
+    </div>
 
-      <!-- Tabla Completa de Prefijos -->
-      <section class="space-y-4">
-        <h2 class="text-xl font-bold text-zinc-950">3. Catálogo de Prefijos por Módulo</h2>
-        
-        <div class="overflow-x-auto rounded-xl border border-zinc-200 bg-white">
-          <table class="w-full text-left text-xs text-zinc-700">
-            <thead class="bg-zinc-50 text-[11px] font-semibold text-zinc-500 uppercase tracking-wider border-b border-zinc-200">
-              <tr>
-                <th class="py-3 px-4">Prefijo</th>
-                <th class="py-3 px-4">Layout / Módulo</th>
-                <th class="py-3 px-4">Ejemplo</th>
-                <th class="py-3 px-4 text-right">Nº Strings</th>
-              </tr>
-            </thead>
-            <tbody class="divide-y divide-zinc-200">
-              <tr><td class="py-2.5 px-4 font-mono font-bold text-zinc-900">common_</td><td>Reutilizable Global</td><td class="font-mono">common_err_phone</td><td class="text-right font-medium">39</td></tr>
-              <tr><td class="py-2.5 px-4 font-mono font-bold text-zinc-900">acmain_</td><td>activity_main (Login)</td><td class="font-mono">acmain_title</td><td class="text-right font-medium">5</td></tr>
-              <tr><td class="py-2.5 px-4 font-mono font-bold text-zinc-900">acregi_</td><td>activity_register (Registro)</td><td class="font-mono">acregi_go_login</td><td class="text-right font-medium">4</td></tr>
-              <tr><td class="py-2.5 px-4 font-mono font-bold text-zinc-900">acintr_</td><td>activity_intro (Bienvenida)</td><td class="font-mono">acintr_welcome</td><td class="text-right font-medium">5</td></tr>
-              <tr><td class="py-2.5 px-4 font-mono font-bold text-zinc-900">achome_</td><td>activity_home (Hub Cards)</td><td class="font-mono">achome_card_inputs</td><td class="text-right font-medium">17</td></tr>
-              <tr><td class="py-2.5 px-4 font-mono font-bold text-zinc-900">actinp_</td><td>activity_text_inputs (Lab 1)</td><td class="font-mono">actinp_hint_email</td><td class="text-right font-medium">17</td></tr>
-              <tr><td class="py-2.5 px-4 font-mono font-bold text-zinc-900">acdati_</td><td>activity_date_time (Lab 2)</td><td class="font-mono">acdati_btn_date</td><td class="text-right font-medium">11</td></tr>
-              <tr><td class="py-2.5 px-4 font-mono font-bold text-zinc-900">acbutt_</td><td>activity_buttons (Lab 3)</td><td class="font-mono">acbutt_chip_java</td><td class="text-right font-medium">18</td></tr>
-              <tr><td class="py-2.5 px-4 font-mono font-bold text-zinc-900">acsele_</td><td>activity_selection (Lab 4)</td><td class="font-mono">acsele_cb_terms</td><td class="text-right font-medium">17</td></tr>
-              <tr><td class="py-2.5 px-4 font-mono font-bold text-zinc-900">acfeed_</td><td>activity_feedback (Lab 5)</td><td class="font-mono">acfeed_btn_start</td><td class="text-right font-medium">13</td></tr>
-              <tr><td class="py-2.5 px-4 font-mono font-bold text-zinc-900">acwebv_</td><td>activity_webview (Lab 6)</td><td class="font-mono">acwebv_btn_load</td><td class="text-right font-medium">5</td></tr>
-              <tr><td class="py-2.5 px-4 font-mono font-bold text-zinc-900">acdito_</td><td>activity_dialog_toast (Lab 7)</td><td class="font-mono">acdito_log_default</td><td class="text-right font-medium">22</td></tr>
-            </tbody>
-          </table>
-        </div>
-      </section>
+    <script src="assets/nav.js"></script>
+  </body>
 
-    </main>
-  </div>
-
-  <script src="assets/nav.js"></script>
-</body>
 </html>

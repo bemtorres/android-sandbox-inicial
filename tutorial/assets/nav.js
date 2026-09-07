@@ -14,6 +14,7 @@
       title: "Inicio & Base",
       items: [
         { href: "index.html", label: "Dashboard", badge: "Core" },
+        { href: "ciclo-vida.html", label: "Ciclo de vida", badge: "New" },
         { href: "strings-i18n.html", label: "Strings & i18n", badge: "187 keys" },
         { href: "navegacion.html", label: "Navegación & datos", badge: "Intents" },
       ],
@@ -135,7 +136,12 @@
       `;
     });
 
-    navHtml += `</nav>`;
+    navHtml += `</nav>
+      <div class="mt-8 pt-4 border-t border-zinc-200 text-[11px] text-zinc-500">
+        <p class="px-2">Desarrollado por <a href="https://github.com/bemtorres" target="_blank" class="font-medium text-zinc-900 hover:text-violet-600">bemtorres</a> en GitHub</p>
+        <p class="px-2 text-[10px] text-zinc-400">Sandbox Android · Tutorial</p>
+      </div>`;
+
     sidebar.innerHTML = navHtml;
   }
 
@@ -602,8 +608,8 @@
     images.forEach((img) => {
       img.classList.add("cursor-zoom-in", "transition-transform", "duration-150", "hover:scale-[1.015]");
 
-      const src = img.getAttribute("src") || "";
-      const isMobileGif = img.classList.contains("mobile-gif") || src.toLowerCase().endsWith(".gif");
+      const parentFigure = img.closest("figure");
+      const isMobileGif = img.classList.contains("mobile-gif") || (parentFigure && parentFigure.classList.contains("mobile-gif"));
 
       if (isMobileGif && !img.closest(".mobile-frame")) {
         img.classList.add("mobile-gif");
@@ -691,11 +697,33 @@
     });
   }
 
-  document.addEventListener("DOMContentLoaded", () => {
+  function injectBanner() {
+    if (document.getElementById("academic-banner")) return;
+    const banner = document.createElement("div");
+    banner.id = "academic-banner";
+    banner.className = "sticky top-0 z-[60] w-full bg-amber-50 border-b border-amber-200 text-amber-900 text-xs font-medium text-center py-2 px-4";
+    banner.innerHTML = `Proyecto con fines académicos — Desarrollado por <a href="https://github.com/bemtorres" target="_blank" class="font-bold underline hover:text-amber-950">bemtorres</a> <span class="hidden sm:inline">· Sandbox Android</span> <span class="ml-2 px-2 py-0.5 rounded-full bg-amber-100 border border-amber-200 text-[10px]">GitHub: bemtorres</span>`;
+    document.body.insertBefore(banner, document.body.firstChild);
+    if (!document.getElementById("banner-offset-style")) {
+      const style = document.createElement("style");
+      style.id = "banner-offset-style";
+      style.textContent = `header.sticky{top:32px !important} #sidebar{top:88px !important} @media(max-width:1024px){#sidebar{top:32px !important}}`;
+      document.head.appendChild(style);
+    }
+  }
+
+  function init() {
+    injectBanner();
     renderSidebar();
     setupDrawer();
     initCodeEnhancements();
     initImages();
     createLightbox();
-  });
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", init);
+  } else {
+    init();
+  }
 })();

@@ -2,6 +2,8 @@
 
 > **Proyecto educativo en Java** para dominar Android sin acoplar módulos. `Login → Registro → Intro → Home Hub → 7 labs aislados` con validación real, `Toast`/`Dialog`/`Logcat` y todo el texto externalizado `common_` / `acXXXX_` en 3 idiomas (`es` / `en` / `pt`).
 
+> Desarrollado por **bemtorres** en GitHub — [@bemtorres](https://github.com/bemtorres)
+
 [![Android](https://img.shields.io/badge/Android-API%2027--37-3DDC84?logo=android)](https://developer.android.com)
 [![Java](https://img.shields.io/badge/Java-11-007396?logo=java)](https://openjdk.java.net/)
 [![Material3](https://img.shields.io/badge/Material-3-6750A4)](https://m3.material.io/)
@@ -174,6 +176,10 @@ Despliegue a Pages: push a `main` dispara [`.github/workflows/static.yml`](.gith
 ## Validación
 
 `ValidationUtils` sin `Context` (testeable): `isRequired`, `isEmail` (`Patterns.EMAIL_ADDRESS`), `isPassword` (≥6), `isNumericPassword` (`^\d{4,6}$`), `isPhone` (`^\+?[0-9 ]{9,15}$`), `isPostalCode` (`^\d{5}$`), `isNotFuture`. UI: orden `required → formato → setError(null)` + `Toast` + `Log`.
+
+## Autor
+
+Desarrollado por **bemtorres** en GitHub — [@bemtorres](https://github.com/bemtorres) — Proyecto sandbox pedagógico para aprender Android widget a widget.
 
 ## Licencia
 

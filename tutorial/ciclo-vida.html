@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="es" class="h-full bg-white text-zinc-950 antialiased">
+
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <title>Ciclo de Vida — Sandbox Docs</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <style type="text/tailwindcss">@theme{--font-sans:'Plus Jakarta Sans',Inter,system-ui,sans-serif;--font-mono:'JetBrains Mono',monospace;}</style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+
+      body {
+        font-family: 'Plus Jakarta Sans', sans-serif
+      }
+
+      code,
+      pre {
+        font-family: 'JetBrains Mono', monospace
+      }
+
+      pre {
+        background: #09090b !important;
+        border: 1px solid #27272a !important;
+        border-radius: 0.75rem !important;
+        padding: 0 !important;
+        overflow: hidden !important;
+        position: relative !important;
+        margin: 0 !important
+      }
+
+      pre code {
+        display: block !important;
+        padding: 1rem 1rem 1rem 3.6rem !important;
+        font-size: 12.5px !important;
+        line-height: 1.65 !important;
+        color: #f4f4f5 !important;
+        background: transparent !important;
+        overflow-x: auto !important
+      }
+
+      .cm-gutter {
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: 3rem;
+        padding: 1rem 0;
+        text-align: right;
+        font-size: 11px;
+        line-height: 1.65;
+        color: #71717a;
+        background: #18181b;
+        border-right: 1px solid #27272a;
+        user-select: none;
+        z-index: 1;
+        pointer-events: none
+      }
+
+      .cm-gutter span {
+        display: block;
+        padding-right: 0.6rem
+      }
+    </style>
+  </head>
+
+  <body class="min-h-full flex flex-col bg-white">
+    <header class="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-zinc-200">
+      <div class="max-w-[1440px] mx-auto px-4 sm:px-6 h-14 flex items-center justify-between gap-4">
+        <div class="flex items-center gap-3">
+          <button id="menuBtn" class="lg:hidden p-1.5 rounded-md text-zinc-600 hover:bg-zinc-100" aria-label="Abrir navegación"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2">
+              <path d="M4 6h16M4 12h16M4 18h16" />
+            </svg></button>
+          <a href="index.html" class="flex items-center gap-2 font-bold text-sm tracking-tight text-zinc-900">
+            <div class="w-6 h-6 rounded-md bg-zinc-900 text-white flex items-center justify-center text-xs">Sb</div><span>Sandbox <span class="text-zinc-400 font-normal">Docs</span></span>
+          </a>
+          <span class="text-zinc-300">/</span><span class="text-xs font-medium text-zinc-600 bg-zinc-100 px-2 py-0.5 rounded-full border border-zinc-200">Ciclo de vida</span>
+        </div>
+        <a href="index.html" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-md text-xs font-medium border border-zinc-200 hover:bg-zinc-50"><span>← Dashboard</span></a>
+      </div>
+    </header>
+
+    <div id="overlay" class="fixed inset-0 bg-black/40 z-40 hidden lg:hidden"></div>
+    <div class="max-w-[1440px] mx-auto px-4 sm:px-6 py-6 grid grid-cols-1 lg:grid-cols-[240px_minmax(0,1fr)] gap-8 w-full flex-1">
+      <aside id="sidebar"
+        class="fixed lg:sticky top-0 lg:top-20 left-0 z-40 w-[240px] h-[100dvh] lg:h-[calc(100vh-5rem)] bg-white lg:bg-transparent border-r lg:border-0 border-zinc-200 overflow-y-auto p-4 lg:p-0 -translate-x-full lg:translate-x-0 transition-transform duration-200">
+      </aside>
+
+      <main class="min-w-0 space-y-8 pb-16">
+        <div class="space-y-2 border-b border-zinc-200 pb-6">
+          <div class="inline-flex items-center gap-2 px-2.5 py-1 rounded-full bg-zinc-900 text-white text-[11px] font-bold uppercase tracking-wider">
+            <span>Fundamentos</span> <span class="w-1 h-1 rounded-full bg-white/60"></span> <span>Ciclo de vida</span>
+          </div>
+          <h1 class="text-3xl font-bold tracking-tight text-zinc-950">🔄 Ciclo de vida de <code class="font-mono text-violet-600">Activity</code></h1>
+          <p class="text-sm text-zinc-600 leading-relaxed max-w-3xl">Si estás estudiando <strong>Android Activity</strong>, <code class="font-mono text-zinc-900">onCreate()</code> es solo una parte
+            del ciclo. Estos son los métodos principales que debes conocer — el orden normal es <code class="font-mono">onCreate → onStart → onResume → [usable] → onPause → onStop → onDestroy</code>.
+          </p>
+        </div>
+
+        <!-- Tabs Java / Kotlin -->
+        <section class="rounded-xl border border-zinc-200 bg-white overflow-hidden">
+          <div class="p-6 pb-0 space-y-3">
+            <h2 class="text-base font-bold text-zinc-900">Métodos principales — Java y Kotlin</h2>
+            <div id="codeTabLifecycleFull" class="space-y-3">
+              <div class="inline-flex p-1 bg-zinc-100 rounded-lg border border-zinc-200 text-xs">
+                <button type="button" class="tab-btn px-3 py-1.5 rounded-md bg-white text-zinc-900 font-semibold shadow-xs" data-tab="java" onclick="switchTab('codeTabLifecycleFull','java')">☕
+                  Java</button>
+                <button type="button" class="tab-btn px-3 py-1.5 rounded-md text-zinc-500 hover:text-zinc-900" data-tab="kotlin" onclick="switchTab('codeTabLifecycleFull','kotlin')">⚡ Kotlin</button>
+              </div>
+              <div class="tab-pane" data-tab="java">
+                <pre><code class="language-java">@Override
+protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+}
+
+@Override
+protected void onStart() {
+    super.onStart();
+}
+
+@Override
+protected void onResume() {
+    super.onResume();
+}
+
+@Override
+protected void onPause() {
+    super.onPause();
+}
+
+@Override
+protected void onStop() {
+    super.onStop();
+}
+
+@Override
+protected void onDestroy() {
+    super.onDestroy();
+}</code></pre>
+              </div>
+              <div class="tab-pane hidden" data-tab="kotlin">
+                <pre><code class="language-kotlin">override fun onCreate(savedInstanceState: Bundle?) {
+    super.onCreate(savedInstanceState)
+}
+
+override fun onStart() {
+    super.onStart()
+}
+
+override fun onResume() {
+    super.onResume()
+}
+
+override fun onPause() {
+    super.onPause()
+}
+
+override fun onStop() {
+    super.onStop()
+}
+
+override fun onDestroy() {
+    super.onDestroy()
+}</code></pre>
+              </div>
+            </div>
+          </div>
+
+          <div class="p-6 grid grid-cols-1 lg:grid-cols-2 gap-4">
+            <div class="p-4 rounded-lg border border-zinc-200 bg-zinc-50">
+              <p class="text-xs font-semibold text-zinc-900">Orden normal</p>
+              <pre class="mt-2 bg-white rounded-lg p-3 text-xs border"><code>onCreate()
+    ↓
+onStart()
+    ↓
+onResume()
+    ↓
+  [ACTIVITY USABLE]
+    ↓
+onPause()
+    ↓
+onStop()
+    ↓
+onDestroy()</code></pre>
+            </div>
+            <div class="overflow-x-auto rounded-lg border border-zinc-200">
+              <table class="w-full text-xs border-collapse">
+                <thead class="bg-zinc-50 text-zinc-700 font-semibold">
+                  <tr>
+                    <th class="py-2 px-3 text-left">Método</th>
+                    <th class="text-left">¿Cuándo ocurre?</th>
+                    <th class="text-left">Uso típico</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-zinc-200 bg-white text-zinc-600">
+                  <tr>
+                    <td class="py-1.5 px-3 font-mono text-zinc-900">onCreate()</td>
+                    <td>Se crea la Activity</td>
+                    <td>Inicializar UI, variables, listeners</td>
+                  </tr>
+                  <tr>
+                    <td class="py-1.5 px-3 font-mono">onStart()</td>
+                    <td>Empieza a ser visible</td>
+                    <td>Preparar recursos visuales</td>
+                  </tr>
+                  <tr>
+                    <td class="py-1.5 px-3 font-mono">onResume()</td>
+                    <td>Usuario puede interactuar</td>
+                    <td>Cámara, sensores, iniciar procesos</td>
+                  </tr>
+                  <tr>
+                    <td class="py-1.5 px-3 font-mono">onPause()</td>
+                    <td>Pierde el foco</td>
+                    <td>Pausar, guardar cambios rápidos</td>
+                  </tr>
+                  <tr>
+                    <td class="py-1.5 px-3 font-mono">onStop()</td>
+                    <td>Ya no es visible</td>
+                    <td>Liberar recursos</td>
+                  </tr>
+                  <tr>
+                    <td class="py-1.5 px-3 font-mono">onDestroy()</td>
+                    <td>Se destruye</td>
+                    <td>Limpieza final</td>
+                  </tr>
+                  <tr>
+                    <td class="py-1.5 px-3 font-mono">onRestart()</td>
+                    <td>Vuelve tras onStop()</td>
+                    <td>Preparar nuevamente</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <section class="rounded-xl border border-zinc-200 bg-white overflow-hidden">
+          <div class="p-6 space-y-3">
+            <h2 class="text-base font-bold text-zinc-900">Ejemplo completo con logs — Java y Kotlin</h2>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+              <pre><code class="language-java">public class MainActivity extends AppCompatActivity {
+    @Override protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        Log.d("CICLO", "onCreate");
+    }
+    @Override protected void onStart() { super.onStart(); Log.d("CICLO", "onStart"); }
+    @Override protected void onResume() { super.onResume(); Log.d("CICLO", "onResume"); }
+    @Override protected void onPause() { super.onPause(); Log.d("CICLO", "onPause"); }
+    @Override protected void onStop() { super.onStop(); Log.d("CICLO", "onStop"); }
+    @Override protected void onRestart() { super.onRestart(); Log.d("CICLO", "onRestart"); }
+    @Override protected void onDestroy() { super.onDestroy(); Log.d("CICLO", "onDestroy"); }
+}</code></pre>
+              <pre><code class="language-kotlin">class MainActivity : AppCompatActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+        Log.d("CICLO", "onCreate")
+    }
+    override fun onStart() { super.onStart(); Log.d("CICLO", "onStart") }
+    override fun onResume() { super.onResume(); Log.d("CICLO", "onResume") }
+    override fun onPause() { super.onPause(); Log.d("CICLO", "onPause") }
+    override fun onStop() { super.onStop(); Log.d("CICLO", "onStop") }
+    override fun onRestart() { super.onRestart(); Log.d("CICLO", "onRestart") }
+    override fun onDestroy() { super.onDestroy(); Log.d("CICLO", "onDestroy") }
+}</code></pre>
+            </div>
+            <div class="p-4 rounded-lg border border-amber-200 bg-amber-50">
+              <p class="text-xs font-semibold text-amber-900">⭐ Los más importantes para aprender primero</p>
+              <p class="text-xs text-zinc-700 mt-1"><strong>1.</strong> onCreate → construir · <strong>2.</strong> onStart → visible · <strong>3.</strong> onResume → interactuando ·
+                <strong>4.</strong> onPause → pierde foco · <strong>5.</strong> onStop → no visible · <strong>6.</strong> onDestroy → destruida · <strong>7.</strong> onRestart → vuelve desde onStop().
+              </p>
+              <p class="text-xs text-zinc-600 mt-2">Otros: <code class="font-mono">onBackPressed / OnBackInvokedDispatcher</code>, <code class="font-mono">onSaveInstanceState()</code>, <code
+                  class="font-mono">onRestoreInstanceState()</code>, <code class="font-mono">onNewIntent()</code>.</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- Casos reales -->
+        <section class="rounded-xl border border-zinc-200 bg-white overflow-hidden">
+          <div class="p-6 pb-0 space-y-2">
+            <div class="inline-flex items-center gap-2 px-2.5 py-1 rounded-full bg-emerald-600 text-white text-[11px] font-bold uppercase tracking-wider">
+              <span>Casos reales</span> <span class="w-1 h-1 rounded-full bg-white/60"></span> <span>Qué puede pasar</span>
+            </div>
+            <h2 class="text-xl font-bold tracking-tight text-zinc-900">Qué puede pasar en el ciclo — 7 casos con logs</h2>
+            <p class="text-xs text-zinc-600 leading-relaxed">No basta con saber el orden. Abre Logcat filtrado por <code class="font-mono text-zinc-900">CICLO</code> y reproduce cada caso. Si no
+              liberas en el método correcto, tendrás leaks, cámara bloqueada o datos perdidos al rotar.</p>
+          </div>
+
+          <div class="p-6 space-y-4">
+            <div class="grid grid-cols-1 gap-4">
+              <!-- Caso 1 -->
+              <div class="p-4 rounded-xl border border-zinc-200 bg-zinc-50">
+                <p class="text-xs font-bold text-zinc-900">Caso 1 — Lanzar app por primera vez</p>
+                <p class="text-xs text-zinc-500">Tap en icono</p>
+                <pre class="mt-2 bg-white rounded-lg p-2 text-[11px] border"><code>onCreate() → onStart() → onResume()
+[ACTIVITY USABLE]</code></pre>
+                <p class="text-xs text-zinc-600 mt-2"><strong>Qué hacer:</strong> `setContentView`, `findViewById`, `init listeners` solo en `onCreate`. Log: <code
+                    class="font-mono">onCreate / onStart / onResume</code></p>
+              </div>
+              <!-- Caso 2 -->
+              <div class="p-4 rounded-xl border border-zinc-200 bg-zinc-50">
+                <p class="text-xs font-bold text-zinc-900">Caso 2 — Pulsar Home (app a segundo plano)</p>
+                <p class="text-xs text-zinc-500">Home → launcher</p>
+                <pre class="mt-2 bg-white rounded-lg p-2 text-[11px] border"><code>onPause() → onStop()
+[NO VISIBLE]</code></pre>
+                <p class="text-xs text-zinc-600 mt-2"><strong>Qué hacer:</strong> pausar video/cámara en `onPause`, liberar sensores en `onStop`. Si no, la cámara queda bloqueada para otras apps.</p>
+              </div>
+              <!-- Caso 3 -->
+              <div class="p-4 rounded-xl border border-zinc-200 bg-zinc-50">
+                <p class="text-xs font-bold text-zinc-900">Caso 3 — Volver desde Recientes</p>
+                <p class="text-xs text-zinc-500">Tap en tarjeta de recientes</p>
+                <pre class="mt-2 bg-white rounded-lg p-2 text-[11px] border"><code>onRestart() → onStart() → onResume()
+[USABLE DE NUEVO]</code></pre>
+                <p class="text-xs text-zinc-600 mt-2"><strong>Qué pasa si no manejas:</strong> Si liberaste en `onStop`, debes re-crear en `onRestart/onStart`. Log: `onRestart` solo aparece aquí.</p>
+              </div>
+              <!-- Caso 4 -->
+              <div class="p-4 rounded-xl border border-amber-200 bg-amber-50">
+                <p class="text-xs font-bold text-amber-900">Caso 4 — Rotar pantalla (¡crítico!)</p>
+                <p class="text-xs text-amber-700">Girar dispositivo</p>
+                <pre class="mt-2 bg-white rounded-lg p-2 text-[11px] border border-amber-200"><code>onPause() → onStop() → onSaveInstanceState() → onDestroy()
+→ onCreate(savedInstanceState) → onStart() → onResume()</code></pre>
+                <p class="text-xs text-zinc-700 mt-2"><strong>Qué pasa:</strong> Activity se destruye y recrea. Sin `onSaveInstanceState` pierdes datos del formulario. <code
+                    class="font-mono">ViewModel</code> sobrevive, Activity no.</p>
+                <pre class="mt-2"><code class="language-java">@Override protected void onSaveInstanceState(Bundle outState){
+    super.onSaveInstanceState(outState);
+    outState.putString("email", etEmail.getText().toString());
+}
+@Override protected void onCreate(Bundle savedInstanceState){
+    super.onCreate(savedInstanceState);
+    if(savedInstanceState != null){
+        String email = savedInstanceState.getString("email");
+    }
+}</code></pre>
+              </div>
+              <!-- Caso 5 -->
+              <div class="p-4 rounded-xl border border-zinc-200 bg-zinc-50">
+                <p class="text-xs font-bold text-zinc-900">Caso 5 — Pulsar Back</p>
+                <p class="text-xs text-zinc-500">Back del sistema</p>
+                <pre class="mt-2 bg-white rounded-lg p-2 text-[11px] border"><code>onPause() → onStop() → onDestroy()
+[DESTRUIDA, sale del stack]</code></pre>
+                <p class="text-xs text-zinc-600 mt-2">Si era la única Activity, app a background. `finish()` provoca el mismo flujo.</p>
+              </div>
+              <!-- Caso 6 -->
+              <div class="p-4 rounded-xl border border-zinc-200 bg-zinc-50">
+                <p class="text-xs font-bold text-zinc-900">Caso 6 — Llamada / Diálogo de permiso</p>
+                <p class="text-xs text-zinc-500">Otra app roba foco pero no tapa del todo</p>
+                <pre class="mt-2 bg-white rounded-lg p-2 text-[11px] border"><code>onPause() → [semi-visible] → onResume()</code></pre>
+                <p class="text-xs text-zinc-600 mt-2">Solo `onPause/onResume`, sin `onStop`. Pausa audio/cámara aquí, no en `onStop`.</p>
+              </div>
+              <!-- Caso 7 -->
+              <div class="p-4 rounded-xl border border-zinc-200 bg-zinc-50">
+                <p class="text-xs font-bold text-zinc-900">Caso 7 — Sistema mata app en 2º plano</p>
+                <p class="text-xs text-zinc-500">Falta de memoria</p>
+                <pre class="mt-2 bg-white rounded-lg p-2 text-[11px] border"><code>onStop() → onDestroy() // sin onSaveInstanceState si no lo implementas
+Al volver: onCreate(null) → pierdes todo</code></pre>
+                <p class="text-xs text-zinc-600 mt-2">Solución: persiste en `Prefs/DataStore` o `ViewModel + SavedStateHandle` para datos críticos.</p>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+              <div class="p-4 rounded-lg border border-violet-200 bg-violet-50">
+                <p class="text-xs font-semibold text-violet-900">Qué puede fallar si ignoras el ciclo</p>
+                <ul class="mt-2 text-xs text-violet-800 list-disc pl-4 space-y-1">
+                  <li>Cámara/sensor no liberado en `onPause` → otras apps no pueden usarlo, batería drenada.</li>
+                  <li>`Handler.postDelayed` sin `removeCallbacks` en `onStop/onDestroy` → leak y crash al volver.</li>
+                  <li>Formulario sin `onSaveInstanceState` → al rotar se borra el email escrito.</li>
+                  <li>Registrar `BroadcastReceiver` en `onStart` y no desregistrar en `onStop` → leak.</li>
+                </ul>
+              </div>
+              <div class="p-4 rounded-lg border border-emerald-200 bg-emerald-50">
+                <p class="text-xs font-semibold text-emerald-900">Regla de oro Sandbox</p>
+                <p class="text-xs text-emerald-800 mt-2">En este proyecto: `onCreate` = `setContentView + findViewById + listeners`, `onDestroy` = `handler.removeCallbacks` (Lab 5),
+                  `onSaveInstanceState` = guardar email si quieres. El resto solo `Log.d` para ver el flujo en Logcat.</p>
+                <pre class="mt-2 bg-white rounded-lg p-2 text-xs border border-emerald-200"><code class="language-java">@Override protected void onDestroy(){
+    super.onDestroy();
+    handler.removeCallbacks(progressRunnable);
+    Log.d("CICLO","onDestroy + limpieza");
+}</code></pre>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <div class="flex items-center justify-between pt-6 border-t border-zinc-200">
+          <a href="index.html" class="text-xs font-medium text-zinc-600 hover:text-zinc-950">← Dashboard</a>
+          <a href="arquitectura.html" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-md text-xs font-medium bg-zinc-900 text-white hover:bg-zinc-800">Siguiente: Arquitectura →</a>
+        </div>
+      </main>
+    </div>
+    <script src="assets/nav.js"></script>
+  </body>
+
+</html>

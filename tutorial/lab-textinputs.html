@@ -771,8 +771,152 @@ class TextInputsActivity : AppCompatActivity() {
             <li>Implementar el método <code class="font-mono text-zinc-800">validate()</code> con el patrón fail acumulativo llamando a <code class="font-mono text-zinc-800">ValidationUtils</code>.
             </li>
           </ol>
+        </section>
 
-          <div class="pt-2 flex items-center justify-between border-t border-zinc-200/80">
+        <!-- 5. Cómo llamar, manipular, sobrescribir y dar error por cada input -->
+        <section class="rounded-xl border border-zinc-200 bg-white overflow-hidden">
+          <div class="p-6 pb-0 space-y-2">
+            <div class="inline-flex items-center gap-2 px-2.5 py-1 rounded-full bg-indigo-600 text-white text-[11px] font-bold uppercase tracking-wider">
+              <span>Deep Dive</span> <span class="w-1 h-1 rounded-full bg-white/60"></span> <span>Manipulación por tipo</span>
+            </div>
+            <h2 class="text-xl font-bold tracking-tight text-zinc-900">5. Cómo llamar, manipular, sobrescribir y dar error a cada input</h2>
+            <p class="text-xs text-zinc-600 leading-relaxed">Todos son <code class="font-mono text-zinc-900">TextInputEditText</code> dentro de <code class="font-mono text-zinc-900">TextInputLayout</code>. Cambia solo <code class="font-mono text-zinc-900">inputType</code> y la validación. Abajo, por cada tipo, cómo <strong>llamar</strong> (findViewById / ViewBinding), <strong>manipular</strong> (get/set), <strong>sobrescribir</strong> y <strong>dar error</strong>.</p>
+          </div>
+
+          <div class="p-6 space-y-6">
+            <!-- API común -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+              <div class="p-4 rounded-lg border border-zinc-200 bg-zinc-50 space-y-2">
+                <p class="text-xs font-semibold text-zinc-900">API común (vale para los 6)</p>
+                <pre><code class="language-java">// Llamar (Java)
+TextInputLayout tilEmail = findViewById(R.id.tilEmail);
+TextInputEditText etEmail = findViewById(R.id.etEmail);
+// Kotlin + ViewBinding
+val tilEmail = binding.tilEmail
+val etEmail = binding.etEmail
+
+// Manipular - leer
+String email = etEmail.getText() != null ? etEmail.getText().toString().trim() : "";
+// Kotlin
+val email = etEmail.text?.toString().orEmpty().trim()
+
+// Sobrescribir
+etEmail.setText("nuevo@ejemplo.com");
+etEmail.getText().clear();
+etEmail.append("@ejemplo.com");
+etEmail.setSelection(etEmail.getText().length()); // cursor al final
+
+// Dar error (rojo) y limpiar
+tilEmail.setError("Email no válido"); // muestra error
+tilEmail.setError(null); // limpia
+tilEmail.setHelperText("inputType=textEmailAddress");
+etEmail.requestFocus(); // lleva foco
+tilEmail.setEnabled(false); // deshabilita</code></pre>
+              </div>
+              <div class="p-4 rounded-lg border border-amber-200 bg-amber-50 space-y-2">
+                <p class="text-xs font-semibold text-amber-900">Ciclo de vida del error</p>
+                <ol class="text-xs text-zinc-700 list-decimal pl-4 space-y-1">
+                  <li><code class="font-mono">til.setError("msg")</code> → pinta helper en rojo + icono</li>
+                  <li>Usuario corrige → <code class="font-mono">TextWatcher</code> limpia con <code class="font-mono">til.setError(null)</code></li>
+                  <li>Validar de nuevo → si ok, se queda limpio</li>
+                  <li><code class="font-mono">til.setErrorEnabled(false)</code> oculta espacio reservado</li>
+                </ol>
+                <pre class="mt-2"><code class="language-java">// Patrón usado en Lab 1
+if (!ValidationUtils.isRequired(email)) {
+    tilEmail.setError(getString(R.string.common_err_required));
+} else if (!ValidationUtils.isEmail(email)) {
+    tilEmail.setError(getString(R.string.common_err_email));
+} else {
+    tilEmail.setError(null); // limpia
+}</code></pre>
+              </div>
+            </div>
+
+            <!-- Por tipo -->
+            <div class="space-y-4">
+              <h3 class="text-sm font-bold text-zinc-900">Por tipo de inputType</h3>
+              <div class="overflow-x-auto rounded-lg border border-zinc-200">
+                <table class="w-full text-xs border-collapse">
+                  <thead class="bg-zinc-50 text-zinc-700 font-semibold"><tr><th class="py-2 px-3 text-left">Tipo</th><th class="text-left">inputType</th><th class="text-left">Llamar / Manipular</th><th class="text-left">Sobrescribir</th><th class="text-left">Dar error</th></tr></thead>
+                  <tbody class="divide-y divide-zinc-200 bg-white text-zinc-600">
+                    <tr><td class="py-2 px-3 font-mono font-bold text-zinc-900">Nombre<br><span class="text-[11px] text-zinc-500">tilPlain</span></td><td class="font-mono">text</td><td><code class="font-mono">etPlain.getText()</code><br><code class="font-mono">etPlain.setText("Ana")</code></td><td><code class="font-mono">etPlain.setText("Ana García")</code><br>o <code class="font-mono">append(" García")</code></td><td><code class="font-mono">tilPlain.setError(common_err_required)</code></td></tr>
+                    <tr><td class="py-2 px-3 font-mono font-bold text-zinc-900">Email<br><span class="text-[11px] text-zinc-500">tilEmail</span></td><td class="font-mono">textEmailAddress</td><td>Teclado con @ .com<br><code class="font-mono">getText().toString().trim()</code></td><td><code class="font-mono">etEmail.setText("a@b.com")</code></td><td><code class="font-mono">tilEmail.setError(common_err_email)</code></td></tr>
+                    <tr><td class="py-2 px-3 font-mono font-bold text-zinc-900">Teléfono<br><span class="text-[11px] text-zinc-500">tilPhone</span></td><td class="font-mono">phone</td><td><code class="font-mono">etPhone.getText()</code> → 9-15 dígitos</td><td><code class="font-mono">etPhone.setText("+34 600 111 222")</code></td><td><code class="font-mono">tilPhone.setError(common_err_phone)</code></td></tr>
+                    <tr><td class="py-2 px-3 font-mono font-bold text-zinc-900">Postal<br><span class="text-[11px] text-zinc-500">tilPostal</span></td><td class="font-mono">number</td><td>Solo dígitos<br><code class="font-mono">etPostal.getText()</code></td><td><code class="font-mono">etPostal.setText("28001")</code></td><td><code class="font-mono">tilPostal.setError(common_err_postal)</code></td></tr>
+                    <tr><td class="py-2 px-3 font-mono font-bold text-zinc-900">Password<br><span class="text-[11px] text-zinc-500">tilPass</span></td><td class="font-mono">textPassword</td><td><code class="font-mono">passwordToggleEnabled</code> ojito<br><code class="font-mono">etPass.getText()</code></td><td><code class="font-mono">etPass.setText("123e456")</code></td><td><code class="font-mono">tilPass.setError(common_err_pass_short)</code></td></tr>
+                    <tr><td class="py-2 px-3 font-mono font-bold text-zinc-900">PIN<br><span class="text-[11px] text-zinc-500">tilPin</span></td><td class="font-mono">numberPassword</td><td>Numérico oculto<br><code class="font-mono">etPin.getText()</code></td><td><code class="font-mono">etPin.setText("1234")</code></td><td><code class="font-mono">tilPin.setError(common_err_pass_numeric)</code></td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <!-- Ejemplos copiables por tipo -->
+            <div class="space-y-3">
+              <h3 class="text-sm font-bold text-zinc-900">Snippets copiables — manipular / sobrescribir / error</h3>
+              <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                <pre><code class="language-java">// Java — por cada campo
+// Llamar y leer
+String email = etEmail.getText() != null ? etEmail.getText().toString().trim() : "";
+
+// Manipular: habilitar/deshabilitar, foco, hint
+tilEmail.setEnabled(true);
+tilEmail.setHint("Nuevo hint");
+etEmail.requestFocus();
+etEmail.setSelection(0, email.length()); // selecciona todo
+
+// Sobrescribir: reemplaza todo
+etEmail.setText("otro@ejemplo.com");
+// Añadir al final
+etEmail.append(".es");
+
+// Error
+tilEmail.setError("Formato no válido");
+tilEmail.setError(null); // limpiar
+tilEmail.setErrorIconDrawable(R.drawable.ic_error);
+tilEmail.setHelperText("Teclado email");
+tilEmail.setHelperTextEnabled(true);</code></pre>
+                <pre><code class="language-kotlin">// Kotlin + ViewBinding — mismo, más corto
+with(binding) {
+    // Llamar / leer
+    val email = etEmail.text?.toString().orEmpty().trim()
+
+    // Manipular
+    tilEmail.isEnabled = true
+    tilEmail.hint = "Nuevo hint"
+    etEmail.requestFocus()
+    etEmail.selectAll()
+
+    // Sobrescribir
+    etEmail.setText("otro@ejemplo.com")
+    etEmail.append(".es")
+    etEmail.text?.clear()
+
+    // Error
+    tilEmail.error = "Formato no válido"
+    tilEmail.error = null
+    tilEmail.helperText = "Teclado email"
+    tilEmail.isHelperTextEnabled = true
+    // Extensión del Lab 1 para limpiar en tiempo real
+    etEmail.doAfterTextChanged { if(it.toString().isValidEmail()) tilEmail.error = null }
+}</code></pre>
+              </div>
+              <div class="grid grid-cols-1 lg:grid-cols-3 gap-3">
+                <div class="p-3 rounded-lg border border-zinc-200 bg-zinc-50">
+                  <p class="text-xs font-semibold text-zinc-900">Sobrescribir vs Append</p>
+                  <p class="text-xs text-zinc-600 mt-1"><code class="font-mono">setText("A")</code> borra y pone "A". <code class="font-mono">append(" B")</code> añade " B" al final. <code class="font-mono">getText().clear()</code> vacía sin tocar hint.</p>
+                </div>
+                <div class="p-3 rounded-lg border border-zinc-200 bg-zinc-50">
+                  <p class="text-xs font-semibold text-zinc-900">Dar error correcto</p>
+                  <p class="text-xs text-zinc-600 mt-1">Siempre <code class="font-mono">til.setError(string)</code>, nunca <code class="font-mono">et.setError()</code> (pierde animación Material). Limpia con <code class="font-mono">null</code>, no con <code class="font-mono">""</code>.</p>
+                </div>
+                <div class="p-3 rounded-lg border border-violet-200 bg-violet-50">
+                  <p class="text-xs font-semibold text-violet-900">TextView preview (no Edit)</p>
+                  <p class="text-xs text-zinc-700 mt-1"><code class="font-mono">tvPreview.setText(...) / getText()</code> sin <code class="font-mono">inputType</code>. Solo <code class="font-mono">setText</code> + <code class="font-mono">append</code>. No valida, no tiene <code class="font-mono">setError</code>.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="pt-4 flex items-center justify-between border-t border-zinc-200">
             <a href="validacion.html" class="text-xs font-medium text-zinc-600 hover:text-zinc-950 transition-colors">← Ver estrategia de validación</a>
             <a href="lab-datetime.html" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-md text-xs font-medium bg-zinc-900 text-white hover:bg-zinc-800 transition-colors shadow-xs">
               <span>Siguiente: Lab 2 (Date/Time) →</span>

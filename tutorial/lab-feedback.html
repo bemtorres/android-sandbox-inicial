@@ -1,153 +1,217 @@
 <!DOCTYPE html>
 <html lang="es" class="h-full bg-white text-zinc-950 antialiased">
-<head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
-  <title>Lab 5 · Feedback & Rating — Sandbox Android</title>
-  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-  <style type="text/tailwindcss">
-    @theme {
+
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <title>Lab 5 · Feedback & Rating — Sandbox Android</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <style type="text/tailwindcss">
+      @theme {
       --font-sans: 'Plus Jakarta Sans', Inter, system-ui, sans-serif;
       --font-mono: 'JetBrains Mono', monospace;
     }
   </style>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/kotlin.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/java.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/xml.min.js"></script>
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
-    body { font-family: 'Plus Jakarta Sans', sans-serif; }
-    code, pre { font-family: 'JetBrains Mono', monospace; }
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/kotlin.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/java.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/xml.min.js"></script>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
 
-    pre {
-      background: #09090b !important;
-      border: 1px solid #27272a !important;
-      border-radius: 0.75rem !important;
-      padding: 0 !important;
-      overflow: hidden !important;
-      position: relative !important;
-      margin: 0 !important;
-    }
-    pre code {
-      display: block !important;
-      padding: 1rem 1rem 1rem 3.6rem !important;
-      font-size: 12.5px !important;
-      line-height: 1.65 !important;
-      color: #f4f4f5 !important;
-      background: transparent !important;
-      overflow-x: auto !important;
-    }
-    .cm-gutter {
-      position: absolute;
-      left: 0; top: 0; bottom: 0;
-      width: 3rem;
-      padding: 1rem 0;
-      text-align: right;
-      font-size: 11px;
-      line-height: 1.65;
-      color: #71717a;
-      background: #18181b;
-      border-right: 1px solid #27272a;
-      user-select: none;
-      z-index: 1;
-      pointer-events: none;
-    }
-    .cm-gutter span { display: block; padding-right: 0.6rem; }
-  </style>
-</head>
-<body class="min-h-full flex flex-col bg-white">
+      body {
+        font-family: 'Plus Jakarta Sans', sans-serif;
+      }
 
-  <!-- Header Superior shadcn -->
-  <header class="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-zinc-200">
-    <div class="max-w-[1440px] mx-auto px-4 sm:px-6 h-14 flex items-center justify-between gap-4">
-      <div class="flex items-center gap-3">
-        <button id="menuBtn" class="lg:hidden p-1.5 rounded-md text-zinc-600 hover:bg-zinc-100 transition-colors" aria-label="Abrir navegación">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
-        </button>
+      code,
+      pre {
+        font-family: 'JetBrains Mono', monospace;
+      }
+
+      pre {
+        background: #09090b !important;
+        border: 1px solid #27272a !important;
+        border-radius: 0.75rem !important;
+        padding: 0 !important;
+        overflow: hidden !important;
+        position: relative !important;
+        margin: 0 !important;
+      }
+
+      pre code {
+        display: block !important;
+        padding: 1rem 1rem 1rem 3.6rem !important;
+        font-size: 12.5px !important;
+        line-height: 1.65 !important;
+        color: #f4f4f5 !important;
+        background: transparent !important;
+        overflow-x: auto !important;
+      }
+
+      .cm-gutter {
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: 3rem;
+        padding: 1rem 0;
+        text-align: right;
+        font-size: 11px;
+        line-height: 1.65;
+        color: #71717a;
+        background: #18181b;
+        border-right: 1px solid #27272a;
+        user-select: none;
+        z-index: 1;
+        pointer-events: none;
+      }
+
+      .cm-gutter span {
+        display: block;
+        padding-right: 0.6rem;
+      }
+    </style>
+  </head>
+
+  <body class="min-h-full flex flex-col bg-white">
+
+    <!-- Header Superior shadcn -->
+    <header class="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-zinc-200">
+      <div class="max-w-[1440px] mx-auto px-4 sm:px-6 h-14 flex items-center justify-between gap-4">
+        <div class="flex items-center gap-3">
+          <button id="menuBtn" class="lg:hidden p-1.5 rounded-md text-zinc-600 hover:bg-zinc-100 transition-colors" aria-label="Abrir navegación">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+          </button>
+          <div class="flex items-center gap-2">
+            <div class="w-6 h-6 rounded-md bg-zinc-900 text-white flex items-center justify-center font-bold text-xs shadow-xs">5</div>
+            <span class="font-semibold text-sm tracking-tight text-zinc-900">Lab 5</span>
+            <span class="text-zinc-300">/</span>
+            <span class="text-xs text-zinc-500 font-medium">Feedback & Rating</span>
+          </div>
+        </div>
+
         <div class="flex items-center gap-2">
-          <div class="w-6 h-6 rounded-md bg-zinc-900 text-white flex items-center justify-center font-bold text-xs shadow-xs">5</div>
-          <span class="font-semibold text-sm tracking-tight text-zinc-900">Lab 5</span>
-          <span class="text-zinc-300">/</span>
-          <span class="text-xs text-zinc-500 font-medium">Feedback & Rating</span>
+          <div class="hidden sm:flex items-center gap-1 text-xs font-mono text-zinc-500">
+            <span class="px-2 py-0.5 rounded-md bg-zinc-100 text-zinc-800 border border-zinc-200">activity_feedback.xml</span>
+            <span class="px-2 py-0.5 rounded-md bg-zinc-100 text-zinc-800 border border-zinc-200">FeedbackActivity.java</span>
+          </div>
+          <a href="labs.html" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-md text-xs font-medium border border-zinc-200 hover:bg-zinc-50 transition-colors">
+            <span>← Labs</span>
+          </a>
         </div>
       </div>
+    </header>
 
-      <div class="flex items-center gap-2">
-        <div class="hidden sm:flex items-center gap-1 text-xs font-mono text-zinc-500">
-          <span class="px-2 py-0.5 rounded-md bg-zinc-100 text-zinc-800 border border-zinc-200">activity_feedback.xml</span>
-          <span class="px-2 py-0.5 rounded-md bg-zinc-100 text-zinc-800 border border-zinc-200">FeedbackActivity.java</span>
-        </div>
-        <a href="labs.html" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-md text-xs font-medium border border-zinc-200 hover:bg-zinc-50 transition-colors">
-          <span>← Labs</span>
-        </a>
-      </div>
-    </div>
-  </header>
+    <!-- Contenedor Principal Layout -->
+    <div id="overlay" class="fixed inset-0 bg-black/40 z-40 hidden lg:hidden"></div>
+    <div class="max-w-[1440px] mx-auto px-4 sm:px-6 py-6 grid grid-cols-1 lg:grid-cols-[240px_minmax(0,1fr)] gap-8 w-full">
 
-  <!-- Contenedor Principal Layout -->
-  <div id="overlay" class="fixed inset-0 bg-black/40 z-40 hidden lg:hidden"></div>
-  <div class="max-w-[1440px] mx-auto px-4 sm:px-6 py-6 grid grid-cols-1 lg:grid-cols-[240px_minmax(0,1fr)] gap-8 w-full">
-    
-    <!-- Sidebar -->
-    <aside id="sidebar" class="fixed lg:sticky top-0 lg:top-20 left-0 z-40 w-[240px] h-[100dvh] lg:h-[calc(100vh-5rem)] bg-white lg:bg-transparent border-r lg:border-0 border-zinc-200 overflow-y-auto p-4 lg:p-0 -translate-x-full lg:translate-x-0 transition-transform duration-200"></aside>
+      <!-- Sidebar -->
+      <aside id="sidebar"
+        class="fixed lg:sticky top-0 lg:top-20 left-0 z-40 w-[240px] h-[100dvh] lg:h-[calc(100vh-5rem)] bg-white lg:bg-transparent border-r lg:border-0 border-zinc-200 overflow-y-auto p-4 lg:p-0 -translate-x-full lg:translate-x-0 transition-transform duration-200">
+      </aside>
 
-    <!-- Contenido Principal -->
-    <main class="min-w-0 space-y-8">
-      
-      <!-- Encabezado del Lab -->
-      <section class="space-y-3">
-        <div class="inline-flex items-center gap-2 px-2.5 py-1 rounded-full text-xs font-medium bg-zinc-100 text-zinc-800 border border-zinc-200">
-          <span class="w-1.5 h-1.5 rounded-full bg-violet-600"></span>
-          Laboratorio 5 · Indicadores de Estado & Calificación
-        </div>
-        <h1 class="text-3xl font-extrabold tracking-tight text-zinc-950">
-          ProgressBar, RatingBar & Spinner Dropdown
-        </h1>
-        <p class="text-sm text-zinc-600 leading-relaxed max-w-3xl">
-          Domina los tres mecanismos de feedback visual de Android: progreso determinista vs indeterminado con bucle en <code class="font-mono text-zinc-800 bg-zinc-100 px-1 py-0.5 rounded">Handler</code>, barra de valoración por estrellas con <code class="font-mono text-zinc-800 bg-zinc-100 px-1 py-0.5 rounded">fromUser</code> y menú desplegable <code class="font-mono text-zinc-800 bg-zinc-100 px-1 py-0.5 rounded">Spinner</code> con <code class="font-mono text-zinc-800 bg-zinc-100 px-1 py-0.5 rounded">ArrayAdapter</code>.
-        </p>
-      </section>
+      <!-- Contenido Principal -->
+      <main class="min-w-0 space-y-8">
 
-      <!-- Capturas del Laboratorio -->
-      <section class="space-y-4">
-        <h2 class="text-lg font-bold text-zinc-950">1. Capturas del Emulador</h2>
-        
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <figure class="group rounded-xl border border-zinc-200 bg-zinc-50 overflow-hidden shadow-2xs">
-            <div class="aspect-[16/9] flex flex-col items-center justify-center p-4 text-center">
-              <div class="w-8 h-8 rounded-lg bg-white border border-zinc-200 flex items-center justify-center text-zinc-600 shadow-xs">📷</div>
-              <p class="mt-2 font-medium text-xs text-zinc-700">Progreso 70% & Rating</p>
-              <p class="text-[11px] text-zinc-400 font-mono">lab-feedback-progress.png</p>
+        <!-- Encabezado del Lab -->
+        <section class="space-y-3">
+          <div class="inline-flex items-center gap-2 px-2.5 py-1 rounded-full text-xs font-medium bg-zinc-100 text-zinc-800 border border-zinc-200">
+            <span class="w-1.5 h-1.5 rounded-full bg-violet-600"></span>
+            Laboratorio 5 · Indicadores de Estado & Calificación
+          </div>
+          <h1 class="text-3xl font-extrabold tracking-tight text-zinc-950">
+            ProgressBar, RatingBar & Spinner Dropdown
+          </h1>
+          <p class="text-sm text-zinc-600 leading-relaxed max-w-3xl">
+            Domina los tres mecanismos de feedback visual de Android: progreso determinista vs indeterminado con bucle en <code
+              class="font-mono text-zinc-800 bg-zinc-100 px-1 py-0.5 rounded">Handler</code>, barra de valoración por estrellas con <code
+              class="font-mono text-zinc-800 bg-zinc-100 px-1 py-0.5 rounded">fromUser</code> y menú desplegable <code class="font-mono text-zinc-800 bg-zinc-100 px-1 py-0.5 rounded">Spinner</code>
+            con <code class="font-mono text-zinc-800 bg-zinc-100 px-1 py-0.5 rounded">ArrayAdapter</code>.
+          </p>
+        </section>
+
+
+        <section class="space-y-4">
+          <div class="flex items-center justify-between">
+            <div>
+              <h2 class="text-base font-bold text-zinc-950">2. Estados de la Interfaz</h2>
+              <p class="text-xs text-zinc-500">Haz clic sobre cualquier captura para abrirla en zoom interactivo a pantalla completa</p>
             </div>
-            <img src="assets/images/lab-feedback-progress.png" alt="Progress" class="hidden w-full object-cover" onload="this.classList.remove('hidden'); this.style.display='block'; this.parentElement.classList.add('loaded'); if(this.previousElementSibling) this.previousElementSibling.style.display='none'" />
-            <figcaption class="px-3 py-2 bg-white border-t border-zinc-200 text-xs text-zinc-500">Fig. 1 — ProgressBar horizontal al 70% + RatingBar 4.0 estrellas</figcaption>
-          </figure>
+            <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-zinc-100 text-[11px] text-zinc-600 font-mono border border-zinc-200">
+              🔍 Clic para ampliar
+            </span>
+          </div>
 
-          <figure class="group rounded-xl border border-zinc-200 bg-zinc-50 overflow-hidden shadow-2xs">
-            <div class="aspect-[16/9] flex flex-col items-center justify-center p-4 text-center">
-              <div class="w-8 h-8 rounded-lg bg-white border border-zinc-200 flex items-center justify-center text-zinc-600 shadow-xs">📷</div>
-              <p class="mt-2 font-medium text-xs text-zinc-700">Spinner Dropdown</p>
-              <p class="text-[11px] text-zinc-400 font-mono">lab-feedback-spinner.png</p>
-            </div>
-            <img src="assets/images/lab-feedback-spinner.png" alt="Spinner" class="hidden w-full object-cover" onload="this.classList.remove('hidden'); this.style.display='block'; this.parentElement.classList.add('loaded'); if(this.previousElementSibling) this.previousElementSibling.style.display='none'" />
-            <figcaption class="px-3 py-2 bg-white border-t border-zinc-200 text-xs text-zinc-500">Fig. 2 — Menú desplegable Spinner con ArrayAdapter y selección activa</figcaption>
-          </figure>
-        </div>
-      </section>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
 
-      <!-- Componente 1: ProgressBar & Loop con Handler -->
-      <section class="p-6 rounded-xl border border-zinc-200 bg-white space-y-4">
-        <div class="flex items-center justify-between pb-2 border-b border-zinc-100">
-          <h3 class="text-base font-bold text-zinc-950">1. ProgressBar (Determinista vs Indeterminado)</h3>
-          <span class="text-[11px] px-2 py-0.5 rounded-md bg-zinc-100 text-zinc-700 font-mono">Simulación de Tareas</span>
-        </div>
-        <p class="text-xs text-zinc-600 leading-relaxed">
-          El progreso se incrementa en el Main Thread mediante un <code class="font-mono text-zinc-800">Handler(Looper.getMainLooper())</code>. Se debe llamar a <code class="font-mono text-zinc-800">removeCallbacks()</code> en <code class="font-mono text-zinc-800">onDestroy()</code> para prevenir memory leaks.
-        </p>
+            <figure class="group rounded-xl border border-zinc-200 bg-white overflow-hidden shadow-xs hover:shadow-md hover:border-zinc-300 transition-all flex flex-col cursor-zoom-in">
+              <div class="h-64 sm:h-72 w-full bg-zinc-50/80 flex items-center justify-center p-3 relative">
+                <div class="img-placeholder flex flex-col items-center justify-center p-4 text-center">
+                  <div class="w-8 h-8 rounded-lg bg-white border border-zinc-200 flex items-center justify-center text-sm text-zinc-600 shadow-xs">📷</div>
+                  <p class="mt-2 font-medium text-xs text-zinc-700">ProgressBar horizontal</p>
+                  <p class="text-[11px] text-zinc-400 font-mono">lab-feedback-progress.gif</p>
+                </div>
+                <img src="assets/images/lab-feedback-progress.gif" alt="Design Split View" class="hidden mobile-gif max-h-full max-w-full object-contain rounded drop-shadow-xs"
+                  onerror="this.src='assets/images/lab-feedback-progress.jpg'" />
+              </div>
+              <figcaption class="px-3.5 py-2.5 bg-white border-t border-zinc-100 text-xs font-medium text-zinc-700 flex items-center justify-between">
+                <span>Fig. 1 — ProgressBar horizontal</span>
+                <span class="text-[11px] text-zinc-400 font-mono">APP</span>
+              </figcaption>
+            </figure>
 
-        <pre><code class="language-java">private final Handler handler = new Handler(Looper.getMainLooper());
+            <figure class="group rounded-xl border border-zinc-200 bg-white overflow-hidden shadow-xs hover:shadow-md hover:border-zinc-300 transition-all flex flex-col cursor-zoom-in">
+              <div class="h-64 sm:h-72 w-full bg-zinc-50/80 flex items-center justify-center p-3 relative">
+                <div class="img-placeholder flex flex-col items-center justify-center p-4 text-center">
+                  <div class="w-8 h-8 rounded-lg bg-white border border-zinc-200 flex items-center justify-center text-sm text-zinc-600 shadow-xs">📷</div>
+                  <p class="mt-2 font-medium text-xs text-zinc-700">RatingBar</p>
+                  <p class="text-[11px] text-zinc-400 font-mono">lab-feedback-ranking.gif</p>
+                </div>
+                <img src="assets/images/lab-feedback-ranking.gif" alt="Emulador Éxito" class="hidden mobile-gif max-h-full max-w-full object-contain rounded drop-shadow-xs"
+                  onerror="this.src='assets/images/lab-feedback-ranking.gif'" />
+              </div>
+              <figcaption class="px-3.5 py-2.5 bg-white border-t border-zinc-100 text-xs font-medium text-zinc-700 flex items-center justify-between">
+                <span>Fig. 2 — RatingBar</span>
+                <span class="text-[11px] text-emerald-600 font-mono">APP</span>
+              </figcaption>
+            </figure>
+
+            <figure class="group rounded-xl border border-zinc-200 bg-white overflow-hidden shadow-xs hover:shadow-md hover:border-zinc-300 transition-all flex flex-col cursor-zoom-in">
+              <div class="h-64 sm:h-72 w-full bg-zinc-50/80 flex items-center justify-center p-3 relative">
+                <div class="img-placeholder flex flex-col items-center justify-center p-4 text-center">
+                  <div class="w-8 h-8 rounded-lg bg-white border border-zinc-200 flex items-center justify-center text-sm text-zinc-600 shadow-xs">📷</div>
+                  <p class="mt-2 font-medium text-xs text-zinc-700">Spinner dropdown</p>
+                  <p class="text-[11px] text-zinc-400 font-mono">lab-feedback-spinner.gif</p>
+                </div>
+                <img src="assets/images/lab-feedback-spinner.gif" alt="Validación con Errores" class="hidden mobile-gif max-h-full max-w-full object-contain rounded drop-shadow-xs"
+                  onerror="this.src='assets/images/lab-feedback-spinner.png'" />
+              </div>
+              <figcaption class="px-3.5 py-2.5 bg-white border-t border-zinc-100 text-xs font-medium text-zinc-700 flex items-center justify-between">
+                <span>Fig. 3 — Spinner dropdown</span>
+                <span class="text-[11px] text-rose-600 font-mono">APP</span>
+              </figcaption>
+            </figure>
+
+          </div>
+        </section>
+
+
+        <!-- Componente 1: ProgressBar & Loop con Handler -->
+        <section class="p-6 rounded-xl border border-zinc-200 bg-white space-y-4">
+          <div class="flex items-center justify-between pb-2 border-b border-zinc-100">
+            <h3 class="text-base font-bold text-zinc-950">1. ProgressBar (Determinista vs Indeterminado)</h3>
+            <span class="text-[11px] px-2 py-0.5 rounded-md bg-zinc-100 text-zinc-700 font-mono">Simulación de Tareas</span>
+          </div>
+          <p class="text-xs text-zinc-600 leading-relaxed">
+            El progreso se incrementa en el Main Thread mediante un <code class="font-mono text-zinc-800">Handler(Looper.getMainLooper())</code>. Se debe llamar a <code
+              class="font-mono text-zinc-800">removeCallbacks()</code> en <code class="font-mono text-zinc-800">onDestroy()</code> para prevenir memory leaks.
+          </p>
+
+          <pre><code class="language-java">private final Handler handler = new Handler(Looper.getMainLooper());
 private int progressStatus = 0;
 
 private final Runnable progressRunnable = new Runnable() {
@@ -170,37 +234,38 @@ protected void onDestroy() {
     super.onDestroy();
     handler.removeCallbacks(progressRunnable); // Evita fugas de memoria
 }</code></pre>
-      </section>
+        </section>
 
-      <!-- Componente 2: RatingBar -->
-      <section class="p-6 rounded-xl border border-zinc-200 bg-white space-y-4">
-        <div class="flex items-center justify-between pb-2 border-b border-zinc-100">
-          <h3 class="text-base font-bold text-zinc-950">2. RatingBar con Detección fromUser</h3>
-          <span class="text-[11px] px-2 py-0.5 rounded-md bg-zinc-100 text-zinc-700 font-mono">Calificación de Usuario</span>
-        </div>
-        <p class="text-xs text-zinc-600 leading-relaxed">
-          El parámetro booleano <code class="font-mono text-zinc-800">fromUser</code> asegura que el Toast solo se dispare cuando el usuario toca las estrellas directamente, ignorando la inicialización programática.
-        </p>
+        <!-- Componente 2: RatingBar -->
+        <section class="p-6 rounded-xl border border-zinc-200 bg-white space-y-4">
+          <div class="flex items-center justify-between pb-2 border-b border-zinc-100">
+            <h3 class="text-base font-bold text-zinc-950">2. RatingBar con Detección fromUser</h3>
+            <span class="text-[11px] px-2 py-0.5 rounded-md bg-zinc-100 text-zinc-700 font-mono">Calificación de Usuario</span>
+          </div>
+          <p class="text-xs text-zinc-600 leading-relaxed">
+            El parámetro booleano <code class="font-mono text-zinc-800">fromUser</code> asegura que el Toast solo se dispare cuando el usuario toca las estrellas directamente, ignorando la
+            inicialización programática.
+          </p>
 
-        <pre><code class="language-java">ratingBar.setOnRatingBarChangeListener((ratingBar, rating, fromUser) -> {
+          <pre><code class="language-java">ratingBar.setOnRatingBarChangeListener((ratingBar, rating, fromUser) -> {
     tvRatingValue.setText(getString(R.string.acfeed_rating_value, String.valueOf(rating)));
     if (fromUser) {
         Toast.makeText(this, getString(R.string.acfeed_toast_rating, String.valueOf(rating)), Toast.LENGTH_SHORT).show();
     }
 });</code></pre>
-      </section>
+        </section>
 
-      <!-- Componente 3: Spinner Dropdown -->
-      <section class="p-6 rounded-xl border border-zinc-200 bg-white space-y-4">
-        <div class="flex items-center justify-between pb-2 border-b border-zinc-100">
-          <h3 class="text-base font-bold text-zinc-950">3. Spinner con ArrayAdapter & Dropdown Style</h3>
-          <span class="text-[11px] px-2 py-0.5 rounded-md bg-zinc-100 text-zinc-700 font-mono">Menú Desplegable</span>
-        </div>
-        <p class="text-xs text-zinc-600 leading-relaxed">
-          Uso de <code class="font-mono text-zinc-800">setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)</code> para asegurar espacio táctil adecuado y accesibilidad.
-        </p>
+        <!-- Componente 3: Spinner Dropdown -->
+        <section class="p-6 rounded-xl border border-zinc-200 bg-white space-y-4">
+          <div class="flex items-center justify-between pb-2 border-b border-zinc-100">
+            <h3 class="text-base font-bold text-zinc-950">3. Spinner con ArrayAdapter & Dropdown Style</h3>
+            <span class="text-[11px] px-2 py-0.5 rounded-md bg-zinc-100 text-zinc-700 font-mono">Menú Desplegable</span>
+          </div>
+          <p class="text-xs text-zinc-600 leading-relaxed">
+            Uso de <code class="font-mono text-zinc-800">setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)</code> para asegurar espacio táctil adecuado y accesibilidad.
+          </p>
 
-        <pre><code class="language-java">String[] items = {
+          <pre><code class="language-java">String[] items = {
     getString(R.string.acfeed_spinner_hint),
     "Java", "Kotlin", "Dart", "TypeScript"
 };
@@ -221,19 +286,211 @@ spinnerTech.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
     @Override
     public void onNothingSelected(AdapterView<?> parent) {}
 });</code></pre>
-      </section>
+        </section>
 
-      <!-- Navegación -->
-      <div class="pt-2 flex items-center justify-between border-t border-zinc-200/80">
-        <a href="lab-selection.html" class="text-xs font-medium text-zinc-600 hover:text-zinc-950 transition-colors">← Lab 4 (Selection)</a>
-        <a href="lab-webview.html" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-md text-xs font-medium bg-zinc-900 text-white hover:bg-zinc-800 transition-colors shadow-xs">
-          <span>Siguiente: Lab 6 (WebView) →</span>
-        </a>
-      </div>
+        <!-- 4. Cómo llamar, manipular, sobrescribir y dar error/validar -->
+        <section class="rounded-xl border border-zinc-200 bg-white overflow-hidden">
+          <div class="p-6 pb-0 space-y-2">
+            <div class="inline-flex items-center gap-2 px-2.5 py-1 rounded-full bg-violet-600 text-white text-[11px] font-bold uppercase tracking-wider">
+              <span>Deep Dive</span> <span class="w-1 h-1 rounded-full bg-white/60"></span> <span>Manipulación por feedback</span>
+            </div>
+            <h2 class="text-xl font-bold tracking-tight text-zinc-900">4. Cómo llamar, manipular, sobrescribir y validar cada feedback</h2>
+            <p class="text-xs text-zinc-600 leading-relaxed">Feedback no es input de texto: es <code class="font-mono text-zinc-900">ProgressBar</code> para progreso, <code
+                class="font-mono text-zinc-900">RatingBar</code> para valoración y <code class="font-mono text-zinc-900">Spinner</code> para elección. Abajo, por cada uno, cómo
+              <strong>llamar</strong>, <strong>manipular</strong>, <strong>sobrescribir</strong> y <strong>validar/dar error</strong>.
+            </p>
+          </div>
+          <div class="p-6 space-y-6">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+              <div class="p-4 rounded-lg border border-zinc-200 bg-zinc-50 space-y-2">
+                <p class="text-xs font-semibold text-zinc-900">API común (vale para los 3)</p>
+                <pre><code class="language-java">// Llamar (Java)
+ProgressBar pb = findViewById(R.id.progressHorizontal);
+RatingBar rb = findViewById(R.id.ratingBar);
+Spinner sp = findViewById(R.id.spinner);
+// Kotlin
+val pb = binding.progressHorizontal
+
+// Manipular - leer
+int p = pb.getProgress(); // 0..max
+float r = rb.getRating(); // 0..numStars
+int pos = sp.getSelectedItemPosition(); // 0 = hint
+Object sel = sp.getSelectedItem();
+
+// Sobrescribir
+pb.setProgress(70);
+rb.setRating(4.5f);
+sp.setSelection(2); // Kotlin
+
+// Validar / dar error (no tienen setError, se usa Toast + TextView)
+if (sp.getSelectedItemPosition() == 0) {
+    Toast.makeText(this, "Elige una opción", Toast.LENGTH_SHORT).show();
+}
+if (rb.getRating() == 0f) { /* pide valorar */ }</code></pre>
+              </div>
+              <div class="p-4 rounded-lg border border-amber-200 bg-amber-50 space-y-2">
+                <p class="text-xs font-semibold text-amber-900">Ciclo Handler (evitar leak)</p>
+                <pre><code class="language-java">Handler h = new Handler(Looper.getMainLooper());
+Runnable r = () -> {
+    if (progress >= 100) {
+        h.removeCallbacks(this);
+        progressIndeterminate.setVisibility(View.GONE);
+        return;
+    }
+    progress += 10;
+    pb.setProgress(progress);
+    h.postDelayed(r, 300);
+};
+h.post(r);
+@Override protected void onDestroy() {
+    super.onDestroy();
+    h.removeCallbacks(r); // obligatorio
+}</code></pre>
+                <p class="text-xs text-amber-800">Sin <code class="font-mono">removeCallbacks</code> en <code class="font-mono">onDestroy</code> → leak si sales antes de 100%.</p>
+              </div>
+            </div>
+
+            <div class="space-y-4">
+              <h3 class="text-sm font-bold text-zinc-900">Por tipo de feedback</h3>
+              <div class="overflow-x-auto rounded-lg border border-zinc-200">
+                <table class="w-full text-xs border-collapse">
+                  <thead class="bg-zinc-50 text-zinc-700 font-semibold">
+                    <tr>
+                      <th class="py-2 px-3 text-left">Feedback</th>
+                      <th class="text-left">Llamar</th>
+                      <th class="text-left">Manipular</th>
+                      <th class="text-left">Sobrescribir</th>
+                      <th class="text-left">Validar / Error</th>
+                    </tr>
+                  </thead>
+                  <tbody class="divide-y divide-zinc-200 bg-white text-zinc-600">
+                    <tr>
+                      <td class="py-2 px-3 font-mono font-bold text-zinc-900">ProgressBar<br><span class="text-[11px] text-zinc-500">horizontal / indeterminado</span></td>
+                      <td class="font-mono">findViewById(R.id.progressHorizontal)</td>
+                      <td><code class="font-mono">getProgress()</code><br><code class="font-mono">getMax()</code><br><code class="font-mono">isIndeterminate()</code></td>
+                      <td><code class="font-mono">setProgress(70)</code><br><code class="font-mono">setMax(100)</code><br><code class="font-mono">setVisibility(VISIBLE/GONE)</code><br><code
+                          class="font-mono">incrementProgressBy(10)</code></td>
+                      <td><code class="font-mono">if (progress==0) Toast</code><br>no tiene <code class="font-mono">setError()</code></td>
+                    </tr>
+                    <tr>
+                      <td class="py-2 px-3 font-mono font-bold text-zinc-900">RatingBar<br><span class="text-[11px] text-zinc-500">ratingBar</span></td>
+                      <td class="font-mono">findViewById(R.id.ratingBar)</td>
+                      <td><code class="font-mono">getRating()</code><br><code class="font-mono">getNumStars()</code><br><code class="font-mono">isIndicator()</code></td>
+                      <td><code class="font-mono">setRating(4.5f)</code><br><code class="font-mono">setNumStars(5)</code><br><code class="font-mono">setStepSize(0.5f)</code><br><code
+                          class="font-mono">setIsIndicator(true/false)</code></td>
+                      <td><code class="font-mono">if (fromUser && rating==0) Toast</code><br><code class="font-mono">if (rating &lt; 3) tv.setError</code></td>
+                    </tr>
+                    <tr>
+                      <td class="py-2 px-3 font-mono font-bold text-zinc-900">Spinner<br><span class="text-[11px] text-zinc-500">spinner</span></td>
+                      <td class="font-mono">findViewById(R.id.spinner)</td>
+                      <td><code class="font-mono">getSelectedItem()</code><br><code class="font-mono">getSelectedItemPosition()</code><br><code class="font-mono">getAdapter()</code></td>
+                      <td><code class="font-mono">setSelection(2)</code><br><code class="font-mono">setAdapter(new ArrayAdapter)</code><br><code class="font-mono">setEnabled(false)</code></td>
+                      <td><code class="font-mono">if (pos==0) Toast "Elige opción"</code><br><code class="font-mono">tvSpinnerResult.setText(...)</code></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <div class="space-y-3">
+              <h3 class="text-sm font-bold text-zinc-900">Snippets copiables — manipular / sobrescribir / validar</h3>
+              <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                <pre><code class="language-java">// Java — por cada feedback
+// ProgressBar
+int p = progressBar.getProgress();
+progressBar.setProgress(0);
+progressBar.setMax(100);
+progressBar.incrementProgressBy(10);
+progressBar.setVisibility(View.VISIBLE); // indeterminado
+progressBar.setVisibility(View.GONE);
+
+// RatingBar
+float r = ratingBar.getRating();
+ratingBar.setRating(4.5f);
+ratingBar.setIsIndicator(true); // solo lectura
+ratingBar.setOnRatingBarChangeListener((bar, rating, fromUser) -> {
+    if (fromUser) {
+        tvRating.setText(getString(R.string.acfeed_rating, String.valueOf(rating)));
+        if (rating == 0f) {
+            Toast.makeText(this, "Valora al menos 1 estrella", Toast.LENGTH_SHORT).show();
+        }
+    }
+});
+
+// Spinner
+int pos = spinner.getSelectedItemPosition();
+String sel = (String) spinner.getSelectedItem();
+spinner.setSelection(0); // vuelve a hint
+spinner.setEnabled(false);
+if (pos == 0) {
+    Toast.makeText(this, "Selecciona una tecnología", Toast.LENGTH_SHORT).show();
+    return;
+}</code></pre>
+                <pre><code class="language-kotlin">// Kotlin + ViewBinding — mismo, más corto
+with(binding) {
+    // ProgressBar
+    val p = progressHorizontal.progress
+    progressHorizontal.progress = 0
+    progressHorizontal.max = 100
+    progressHorizontal.incrementProgressBy(10)
+    progressIndeterminate.isVisible = true
+
+    // RatingBar
+    val r = ratingBar.rating
+    ratingBar.rating = 4.5f
+    ratingBar.isIndicator = true
+    ratingBar.setOnRatingBarChangeListener { _, rating, fromUser ->
+        if (fromUser) {
+            tvRating.text = getString(R.string.acfeed_rating, rating.toString())
+            if (rating == 0f) Toast.makeText(this@FeedbackActivity, "Valora", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    // Spinner
+    val pos = spinner.selectedItemPosition
+    val sel = spinner.selectedItem as String
+    spinner.setSelection(0)
+    spinner.isEnabled = false
+    if (pos == 0) {
+        Toast.makeText(this@FeedbackActivity, "Selecciona", Toast.LENGTH_SHORT).show()
+        return
+    }
+    // Handler con coroutine alternativa
+    // lifecycleScope.launch { delay(300); progressHorizontal.progress += 10 }
+}</code></pre>
+              </div>
+              <div class="grid grid-cols-1 lg:grid-cols-3 gap-3">
+                <div class="p-3 rounded-lg border border-zinc-200 bg-zinc-50">
+                  <p class="text-xs font-semibold text-zinc-900">Sobrescribir sin parpadeo</p>
+                  <p class="text-xs text-zinc-600 mt-1"><code class="font-mono">setProgress()</code> y <code class="font-mono">setRating()</code> son inmediatos. Para animar usa <code
+                      class="font-mono">ObjectAnimator.ofInt(pb, "progress", 0, 100)</code>.</p>
+                </div>
+                <div class="p-3 rounded-lg border border-zinc-200 bg-zinc-50">
+                  <p class="text-xs font-semibold text-zinc-900">Dar error sin setError</p>
+                  <p class="text-xs text-zinc-600 mt-1">Progress/Rating/Spinner no tienen <code class="font-mono">setError()</code>. Valida con <code class="font-mono">if (pos==0) Toast</code> + <code
+                      class="font-mono">tvResult.setText(...)</code> + <code class="font-mono">Log.w</code>.</p>
+                </div>
+                <div class="p-3 rounded-lg border border-violet-200 bg-violet-50">
+                  <p class="text-xs font-semibold text-violet-900">fromUser</p>
+                  <p class="text-xs text-zinc-700 mt-1"><code class="font-mono">fromUser</code> evita <code class="font-mono">Toast</code> al hacer <code class="font-mono">setRating(3.5f)</code>
+                    programático en <code class="font-mono">onCreate</code>.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="px-6 py-4 flex items-center justify-between border-t border-zinc-200 bg-zinc-50">
+            <a href="lab-selection.html" class="text-xs font-medium text-zinc-600 hover:text-zinc-950 transition-colors">← Lab 4 (Selection)</a>
+            <a href="lab-webview.html" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-md text-xs font-medium bg-zinc-900 text-white hover:bg-zinc-800 transition-colors shadow-xs">
+              <span>Siguiente: Lab 6 (WebView) →</span>
+            </a>
+          </div>
+    </div>
+    </section>
 
     </main>
-  </div>
+    </div>
 
-  <script src="assets/nav.js"></script>
-</body>
+    <script src="assets/nav.js"></script>
+  </body>
+
 </html>

@@ -1,173 +1,770 @@
 <!DOCTYPE html>
 <html lang="es" class="h-full bg-white text-zinc-950 antialiased">
-<head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
-  <title>Lab 4 · Selection — Sandbox Android</title>
-  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-  <style type="text/tailwindcss">
-    @theme {
+
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <title>Lab 4 · Selection — Sandbox Android</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <style type="text/tailwindcss">
+      @theme {
       --font-sans: 'Plus Jakarta Sans', Inter, system-ui, sans-serif;
       --font-mono: 'JetBrains Mono', monospace;
     }
   </style>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/java.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/xml.min.js"></script>
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
-    body { font-family: 'Plus Jakarta Sans', sans-serif; }
-    code, pre { font-family: 'JetBrains Mono', monospace; }
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/java.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/kotlin.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/xml.min.js"></script>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
 
-    pre {
-      background: #09090b !important;
-      border: 1px solid #27272a !important;
-      border-radius: 0.75rem !important;
-      padding: 0 !important;
-      overflow: hidden !important;
-      position: relative !important;
-      margin: 0 !important;
-    }
-    pre code {
-      display: block !important;
-      padding: 1rem 1rem 1rem 3.6rem !important;
-      font-size: 12.5px !important;
-      line-height: 1.65 !important;
-      color: #f4f4f5 !important;
-      background: transparent !important;
-      overflow-x: auto !important;
-    }
-    .cm-gutter {
-      position: absolute;
-      left: 0; top: 0; bottom: 0;
-      width: 3rem;
-      padding: 1rem 0;
-      text-align: right;
-      font-size: 11px;
-      line-height: 1.65;
-      color: #71717a;
-      background: #18181b;
-      border-right: 1px solid #27272a;
-      user-select: none;
-      z-index: 1;
-      pointer-events: none;
-    }
-    .cm-gutter span { display: block; padding-right: 0.6rem; }
-  </style>
-</head>
-<body class="min-h-full flex flex-col bg-white">
+      body {
+        font-family: 'Plus Jakarta Sans', sans-serif;
+      }
 
-  <!-- Header Superior shadcn -->
-  <header class="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-zinc-200">
-    <div class="max-w-[1440px] mx-auto px-4 sm:px-6 h-14 flex items-center justify-between gap-4">
-      <div class="flex items-center gap-3">
-        <button id="menuBtn" class="lg:hidden p-1.5 rounded-md text-zinc-600 hover:bg-zinc-100 transition-colors" aria-label="Abrir navegación">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
-        </button>
-        <div class="flex items-center gap-2">
-          <div class="w-6 h-6 rounded-md bg-zinc-900 text-white flex items-center justify-center font-bold text-xs shadow-xs">4</div>
-          <span class="font-semibold text-sm tracking-tight text-zinc-900">Lab 4</span>
-          <span class="text-zinc-300">/</span>
-          <span class="text-xs text-zinc-500 font-medium">Controles de Selección</span>
-        </div>
-      </div>
+      code,
+      pre {
+        font-family: 'JetBrains Mono', monospace;
+      }
 
-      <div class="flex items-center gap-2">
-        <div class="hidden sm:flex items-center gap-1 text-xs font-mono text-zinc-500">
-          <span class="px-2 py-0.5 rounded-md bg-zinc-100 text-zinc-800 border border-zinc-200">activity_selection.xml</span>
-          <span class="px-2 py-0.5 rounded-md bg-zinc-100 text-zinc-800 border border-zinc-200">SelectionActivity.java</span>
-        </div>
-        <a href="labs.html" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-md text-xs font-medium border border-zinc-200 hover:bg-zinc-50 transition-colors">
-          <span>← Labs</span>
-        </a>
-      </div>
-    </div>
-  </header>
+      pre {
+        background: #09090b !important;
+        border: 1px solid #27272a !important;
+        border-radius: 0.75rem !important;
+        padding: 0 !important;
+        overflow: hidden !important;
+        position: relative !important;
+        margin: 0 !important;
+      }
 
-  <!-- Contenedor Principal Layout -->
-  <div id="overlay" class="fixed inset-0 bg-black/40 z-40 hidden lg:hidden"></div>
-  <div class="max-w-[1440px] mx-auto px-4 sm:px-6 py-6 grid grid-cols-1 lg:grid-cols-[240px_minmax(0,1fr)] gap-8 w-full">
-    
-    <!-- Sidebar -->
-    <aside id="sidebar" class="fixed lg:sticky top-0 lg:top-20 left-0 z-40 w-[240px] h-[100dvh] lg:h-[calc(100vh-5rem)] bg-white lg:bg-transparent border-r lg:border-0 border-zinc-200 overflow-y-auto p-4 lg:p-0 -translate-x-full lg:translate-x-0 transition-transform duration-200"></aside>
+      pre code {
+        display: block !important;
+        padding: 1rem 1rem 1rem 3.6rem !important;
+        font-size: 12.5px !important;
+        line-height: 1.65 !important;
+        color: #f4f4f5 !important;
+        background: transparent !important;
+        overflow-x: auto !important;
+      }
 
-    <!-- Contenido Principal -->
-    <main class="min-w-0 space-y-8">
-      
-      <!-- Encabezado del Lab -->
-      <section class="space-y-3">
-        <div class="inline-flex items-center gap-2 px-2.5 py-1 rounded-full text-xs font-medium bg-zinc-100 text-zinc-800 border border-zinc-200">
-          <span class="w-1.5 h-1.5 rounded-full bg-violet-600"></span>
-          Laboratorio 4 · Selección Binaria y Exclusiva
-        </div>
-        <h1 class="text-3xl font-extrabold tracking-tight text-zinc-950">
-          CheckBox, RadioGroup y MaterialSwitch
-        </h1>
-        <p class="text-sm text-zinc-600 leading-relaxed max-w-3xl">
-          Aprende el uso adecuado de selecciones múltiples independientes (<code class="font-mono text-zinc-800 bg-zinc-100 px-1 py-0.5 rounded">CheckBox</code>), opciones mutuamente excluyentes en grupo (<code class="font-mono text-zinc-800 bg-zinc-100 px-1 py-0.5 rounded">RadioGroup</code> + <code class="font-mono text-zinc-800 bg-zinc-100 px-1 py-0.5 rounded">RadioButton</code>) e interruptores de activación inmediata (<code class="font-mono text-zinc-800 bg-zinc-100 px-1 py-0.5 rounded">MaterialSwitch</code>).
-        </p>
-      </section>
+      .cm-gutter {
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: 3rem;
+        padding: 1rem 0;
+        text-align: right;
+        font-size: 11px;
+        line-height: 1.65;
+        color: #71717a;
+        background: #18181b;
+        border-right: 1px solid #27272a;
+        user-select: none;
+        z-index: 1;
+        pointer-events: none;
+      }
 
-      <!-- Captura del Laboratorio -->
-      <section class="space-y-4">
-        <h2 class="text-lg font-bold text-zinc-950">1. Captura en Emulador</h2>
-        <figure class="group rounded-xl border border-zinc-200 bg-zinc-50 overflow-hidden shadow-2xs">
-          <div class="aspect-[16/9] flex flex-col items-center justify-center p-4 text-center">
-            <div class="w-8 h-8 rounded-lg bg-white border border-zinc-200 flex items-center justify-center text-zinc-600 shadow-xs">📷</div>
-            <p class="mt-2 font-medium text-xs text-zinc-700">Selección Completa</p>
-            <p class="text-[11px] text-zinc-400 font-mono">lab-selection-result.png</p>
+      .cm-gutter span {
+        display: block;
+        padding-right: 0.6rem;
+      }
+    </style>
+  </head>
+
+  <body class="min-h-full flex flex-col bg-white">
+
+    <!-- Header Superior shadcn -->
+    <header class="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-zinc-200">
+      <div class="max-w-[1440px] mx-auto px-4 sm:px-6 h-14 flex items-center justify-between gap-4">
+        <div class="flex items-center gap-3">
+          <button id="menuBtn" class="lg:hidden p-1.5 rounded-md text-zinc-600 hover:bg-zinc-100 transition-colors" aria-label="Abrir navegación">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+          </button>
+          <div class="flex items-center gap-2">
+            <div class="w-6 h-6 rounded-md bg-zinc-900 text-white flex items-center justify-center font-bold text-xs shadow-xs">4</div>
+            <span class="font-semibold text-sm tracking-tight text-zinc-900">Lab 4</span>
+            <span class="text-zinc-300">/</span>
+            <span class="text-xs text-zinc-500 font-medium">Controles de Selección</span>
           </div>
-          <img src="assets/images/lab-selection-result.png" alt="Selection" class="hidden w-full object-cover" onload="this.classList.remove('hidden'); this.style.display='block'; this.parentElement.classList.add('loaded'); if(this.previousElementSibling) this.previousElementSibling.style.display='none'" />
-          <figcaption class="px-3 py-2 bg-white border-t border-zinc-200 text-xs text-zinc-500">Fig. 1 — CheckBox de términos + RadioButton Pro + Switches activos con resumen</figcaption>
-        </figure>
-      </section>
-
-      <!-- Código de Implementación -->
-      <section class="p-6 rounded-xl border border-zinc-200 bg-white space-y-4">
-        <div class="flex items-center justify-between pb-2 border-b border-zinc-100">
-          <h3 class="text-base font-bold text-zinc-950">2. Lectura y Validación de Estados en Java</h3>
-          <span class="text-[11px] px-2 py-0.5 rounded-md bg-zinc-100 text-zinc-700 font-mono">SelectionActivity.java</span>
         </div>
 
-        <pre><code class="language-java">btnSubmit.setOnClickListener(v -> {
-    // 1. Validar CheckBox obligatorio (Términos y condiciones)
-    if (!cbTerms.isChecked()) {
-        Toast.makeText(this, getString(R.string.acsele_msg_accept_terms), Toast.LENGTH_SHORT).show();
-        return;
-    }
-
-    // 2. Obtener RadioButton seleccionado
-    int selectedRadioId = radioGroupPlan.getCheckedRadioButtonId();
-    String plan = getString(R.string.acsele_plan_free);
-    if (selectedRadioId == R.id.rbPro) {
-        plan = getString(R.string.acsele_plan_pro);
-    } else if (selectedRadioId == R.id.rbEnterprise) {
-        plan = getString(R.string.acsele_plan_enterprise);
-    }
-
-    // 3. Evaluar Switches
-    boolean notifs = switchNotifications.isChecked();
-    boolean dark = switchDarkMode.isChecked();
-
-    // 4. Mostrar resumen en TextView
-    String summary = getString(R.string.acsele_summary_result, plan, notifs ? "SI" : "NO", dark ? "SI" : "NO");
-    tvResult.setText(summary);
-    Toast.makeText(this, getString(R.string.acsele_toast_saved), Toast.LENGTH_SHORT).show();
-});</code></pre>
-      </section>
-
-      <!-- Navegación -->
-      <div class="pt-2 flex items-center justify-between border-t border-zinc-200/80">
-        <a href="lab-buttons.html" class="text-xs font-medium text-zinc-600 hover:text-zinc-950 transition-colors">← Lab 3 (Buttons/Chip)</a>
-        <a href="lab-feedback.html" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-md text-xs font-medium bg-zinc-900 text-white hover:bg-zinc-800 transition-colors shadow-xs">
-          <span>Siguiente: Lab 5 (Feedback) →</span>
-        </a>
+        <div class="flex items-center gap-2">
+          <div class="hidden sm:flex items-center gap-1 text-xs font-mono text-zinc-500">
+            <span class="px-2 py-0.5 rounded-md bg-zinc-100 text-zinc-800 border border-zinc-200">activity_selection.xml</span>
+            <span class="px-2 py-0.5 rounded-md bg-zinc-100 text-zinc-800 border border-zinc-200">SelectionActivity.java</span>
+          </div>
+          <a href="labs.html" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-md text-xs font-medium border border-zinc-200 hover:bg-zinc-50 transition-colors">
+            <span>← Labs</span>
+          </a>
+        </div>
       </div>
+    </header>
 
-    </main>
-  </div>
+    <!-- Contenedor Principal Layout -->
+    <div id="overlay" class="fixed inset-0 bg-black/40 z-40 hidden lg:hidden"></div>
+    <div class="max-w-[1440px] mx-auto px-4 sm:px-6 py-6 grid grid-cols-1 lg:grid-cols-[240px_minmax(0,1fr)] gap-8 w-full">
 
-  <script src="assets/nav.js"></script>
-</body>
+      <!-- Sidebar -->
+      <aside id="sidebar"
+        class="fixed lg:sticky top-0 lg:top-20 left-0 z-40 w-[240px] h-[100dvh] lg:h-[calc(100vh-5rem)] bg-white lg:bg-transparent border-r lg:border-0 border-zinc-200 overflow-y-auto p-4 lg:p-0 -translate-x-full lg:translate-x-0 transition-transform duration-200">
+      </aside>
+
+      <!-- Contenido Principal -->
+      <main class="min-w-0 space-y-8">
+
+        <!-- Encabezado del Lab -->
+        <section class="space-y-3">
+          <div class="inline-flex items-center gap-2 px-2.5 py-1 rounded-full text-xs font-medium bg-zinc-100 text-zinc-800 border border-zinc-200">
+            <span class="w-1.5 h-1.5 rounded-full bg-violet-600"></span>
+            Laboratorio 4 · Selección Binaria y Exclusiva
+          </div>
+          <h1 class="text-3xl font-extrabold tracking-tight text-zinc-950">
+            CheckBox, RadioGroup y SwitchMaterial
+          </h1>
+          <p class="text-sm text-zinc-600 leading-relaxed max-w-3xl">
+            Aprende el uso adecuado de selecciones múltiples independientes (<code class="font-mono text-zinc-800 bg-zinc-100 px-1 py-0.5 rounded">CheckBox</code>), opciones mutuamente excluyentes en
+            grupo (<code class="font-mono text-zinc-800 bg-zinc-100 px-1 py-0.5 rounded">RadioGroup</code> + <code class="font-mono text-zinc-800 bg-zinc-100 px-1 py-0.5 rounded">RadioButton</code>) e
+            interruptores de activación inmediata (<code class="font-mono text-zinc-800 bg-zinc-100 px-1 py-0.5 rounded">SwitchMaterial</code>) con persistencia y validación.
+          </p>
+        </section>
+
+        <!-- Capturas del Laboratorio -->
+        <section class="space-y-4">
+          <div class="flex items-center justify-between">
+            <div>
+              <h2 class="text-base font-bold text-zinc-950">1. Capturas del Emulador</h2>
+              <p class="text-xs text-zinc-500">Haz clic sobre cualquier captura para abrirla en zoom interactivo</p>
+            </div>
+            <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-zinc-100 text-[11px] text-zinc-600 font-mono border border-zinc-200">
+              🔍 Clic para ampliar
+            </span>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <figure class="group rounded-xl border border-zinc-200 bg-white overflow-hidden shadow-xs hover:shadow-md hover:border-zinc-300 transition-all flex flex-col cursor-zoom-in">
+              <div class="h-64 sm:h-72 w-full bg-zinc-50/80 flex items-center justify-center p-3 relative">
+                <div class="img-placeholder flex flex-col items-center justify-center p-4 text-center">
+                  <div class="w-8 h-8 rounded-lg bg-white border border-zinc-200 flex items-center justify-center text-sm text-zinc-600 shadow-xs">📷</div>
+                  <p class="mt-2 font-medium text-xs text-zinc-700">Selección Completa</p>
+                  <p class="text-[11px] text-zinc-400 font-mono">lab-selection.gif</p>
+                </div>
+                <img src="assets/images/lab-selection.gif" alt="Selection & Switches Demo" class="hidden mobile-gif max-h-full max-w-full object-contain rounded drop-shadow-xs"
+                  onerror="this.src='assets/images/lab-selection-result.gif'" />
+              </div>
+              <figcaption class="px-3.5 py-2.5 bg-white border-t border-zinc-100 text-xs font-medium text-zinc-700 flex items-center justify-between">
+                <span>Fig. 1 — CheckBoxes, RadioGroup y SwitchMaterial en vivo</span>
+                <span class="text-[11px] text-zinc-400 font-mono">Demo GIF</span>
+              </figcaption>
+            </figure>
+
+            <figure class="group rounded-xl border border-zinc-200 bg-white overflow-hidden shadow-xs hover:shadow-md hover:border-zinc-300 transition-all flex flex-col cursor-zoom-in">
+              <div class="h-64 sm:h-72 w-full bg-zinc-50/80 flex items-center justify-center p-3 relative">
+                <div class="img-placeholder flex flex-col items-center justify-center p-4 text-center">
+                  <div class="w-8 h-8 rounded-lg bg-white border border-zinc-200 flex items-center justify-center text-sm text-zinc-600 shadow-xs">📷</div>
+                  <p class="mt-2 font-medium text-xs text-zinc-700">Resultado Consolidado</p>
+                  <p class="text-[11px] text-zinc-400 font-mono">lab-selection-result.png</p>
+                </div>
+                <img src="assets/images/lab-selection-result.png" alt="Selection Summary" class="hidden max-h-full max-w-full object-contain rounded drop-shadow-xs"
+                  onerror="this.src='assets/images/lab-selection-result.png'" />
+              </div>
+              <figcaption class="px-3.5 py-2.5 bg-white border-t border-zinc-100 text-xs font-medium text-zinc-700 flex items-center justify-between">
+                <span>Fig. 2 — Validación de términos y reporte de selección</span>
+                <span class="text-[11px] text-emerald-600 font-mono">Resumen OK</span>
+              </figcaption>
+            </figure>
+          </div>
+        </section>
+
+        <!-- Tabla de Componentes y Funciones -->
+        <section class="space-y-4">
+          <div class="flex items-center justify-between">
+            <h2 class="text-lg font-bold text-zinc-950">2. Componentes de Selección</h2>
+            <span class="text-xs font-mono text-zinc-400">android.widget.* & Material3</span>
+          </div>
+
+          <div class="overflow-x-auto rounded-xl border border-zinc-200 shadow-2xs">
+            <table class="w-full text-left text-xs border-collapse">
+              <thead class="bg-zinc-50 border-b border-zinc-200 text-zinc-700 font-semibold">
+                <tr>
+                  <th class="py-2.5 px-4">Componente / ID</th>
+                  <th>Clase / Tipo</th>
+                  <th>Propósito</th>
+                  <th>Propiedad / Característica Clave</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-zinc-200 text-zinc-600 bg-white">
+                <tr>
+                  <td class="py-2.5 px-4 font-mono font-bold text-zinc-900">cbTerms</td>
+                  <td class="font-mono text-zinc-600">CheckBox</td>
+                  <td>Aceptación obligatoria de términos y condiciones</td>
+                  <td><code class="font-mono text-zinc-800">isChecked()</code> como guardia de validación</td>
+                </tr>
+                <tr>
+                  <td class="py-2.5 px-4 font-mono font-bold text-zinc-900">cbNewsletter</td>
+                  <td class="font-mono text-zinc-600">CheckBox</td>
+                  <td>Suscripción opcional a boletín informativo</td>
+                  <td>Selección independiente booleana</td>
+                </tr>
+                <tr>
+                  <td class="py-2.5 px-4 font-mono font-bold text-zinc-900">rgOptions</td>
+                  <td class="font-mono text-zinc-600">RadioGroup</td>
+                  <td>Contenedor de exclusión mutua para planes</td>
+                  <td><code class="font-mono text-zinc-800">getCheckedRadioButtonId() == -1</code></td>
+                </tr>
+                <tr>
+                  <td class="py-2.5 px-4 font-mono font-bold text-zinc-900">rbFree / rbPro / rbEnterprise</td>
+                  <td class="font-mono text-zinc-600">RadioButton</td>
+                  <td>Opciones individuales de nivel de suscripción</td>
+                  <td>Evaluadas mediante <code class="font-mono text-zinc-800">when / if-else</code></td>
+                </tr>
+                <tr>
+                  <td class="py-2.5 px-4 font-mono font-bold text-zinc-900">switchNotif / switchDark</td>
+                  <td class="font-mono text-zinc-600">SwitchMaterial</td>
+                  <td>Ajustes de notificaciones y tema oscuro</td>
+                  <td>Estilo visual Material Design con animación deslizante</td>
+                </tr>
+                <tr>
+                  <td class="py-2.5 px-4 font-mono font-bold text-zinc-900">btnValidateSelection</td>
+                  <td class="font-mono text-zinc-600">MaterialButton</td>
+                  <td>Disparador de validación y consolidación de estado</td>
+                  <td>Genera reporte en <code class="font-mono text-zinc-800">tvSelectionResult</code></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- Selector de Código Unificado (Layout XML, Java 11 y Kotlin + ViewBinding) -->
+        <section class="space-y-4">
+          <h2 class="text-lg font-bold text-zinc-950">3. Código Fuente del Layout XML y Controladores</h2>
+
+          <div id="codeTabSelection" class="space-y-3">
+            <div class="flex items-center justify-between flex-wrap gap-2">
+              <!-- Segmented Control de 3 Pestañas -->
+              <div class="inline-flex p-1 bg-zinc-100 rounded-lg border border-zinc-200 text-xs">
+                <button type="button" class="tab-btn px-3 py-1.5 rounded-md bg-white text-zinc-900 font-semibold shadow-xs transition-all" data-tab="xml"
+                  onclick="switchTab('codeTabSelection', 'xml')">
+                  📐 Layout XML (activity_selection.xml)
+                </button>
+                <button type="button" class="tab-btn px-3 py-1.5 rounded-md text-zinc-500 hover:text-zinc-900 transition-all" data-tab="java" onclick="switchTab('codeTabSelection', 'java')">
+                  ☕ Java 11
+                </button>
+                <button type="button" class="tab-btn px-3 py-1.5 rounded-md text-zinc-500 hover:text-zinc-900 transition-all" data-tab="kotlin" onclick="switchTab('codeTabSelection', 'kotlin')">
+                  ⚡ Kotlin + ViewBinding
+                </button>
+              </div>
+              <span class="text-[11px] text-zinc-400 font-mono">res/layout & src/main/java</span>
+            </div>
+
+            <!-- Tab 1: Layout XML -->
+            <div class="tab-pane" data-tab="xml">
+              <div class="rounded-xl border border-zinc-800 overflow-hidden bg-[#09090b]">
+                <div class="flex items-center justify-between px-4 py-2 bg-zinc-900/80 border-b border-zinc-800 text-xs text-zinc-400">
+                  <span class="font-mono text-zinc-300">res/layout/activity_selection.xml</span>
+                  <span class="text-[11px] text-zinc-500 font-mono">ScrollView + MaterialCardView + RadioGroup</span>
+                </div>
+                <pre><code class="language-xml">&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"&gt;
+
+    &lt;LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp"&gt;
+
+        &lt;TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/acsele_title"
+            android:textSize="20sp"
+            android:textStyle="bold" /&gt;
+
+        &lt;com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            app:strokeColor="@color/cardStroke"
+            app:strokeWidth="1dp"
+            app:cardElevation="0dp"&gt;
+
+            &lt;LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="12dp"&gt;
+
+                &lt;TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/common_label_operation"
+                    android:textStyle="bold"
+                    android:textSize="12sp" /&gt;
+
+                &lt;TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="@string/acsele_info_desc"
+                    android:textSize="11sp" /&gt;
+            &lt;/LinearLayout&gt;
+        &lt;/com.google.android.material.card.MaterialCardView&gt;
+
+        &lt;TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/acsele_label_checkboxes"
+            android:textStyle="bold" /&gt;
+
+        &lt;CheckBox
+            android:id="@+id/cbTerms"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/acsele_cb_terms" /&gt;
+
+        &lt;CheckBox
+            android:id="@+id/cbNewsletter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/acsele_cb_newsletter" /&gt;
+
+        &lt;TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/acsele_label_radios"
+            android:textStyle="bold" /&gt;
+
+        &lt;RadioGroup
+            android:id="@+id/rgOptions"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"&gt;
+
+            &lt;RadioButton
+                android:id="@+id/rbFree"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/acsele_rb_free" /&gt;
+
+            &lt;RadioButton
+                android:id="@+id/rbPro"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/acsele_rb_pro" /&gt;
+
+            &lt;RadioButton
+                android:id="@+id/rbEnterprise"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/acsele_rb_ent" /&gt;
+        &lt;/RadioGroup&gt;
+
+        &lt;TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/acsele_label_switch"
+            android:textStyle="bold" /&gt;
+
+        &lt;com.google.android.material.switchmaterial.SwitchMaterial
+            android:id="@+id/switchNotif"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/acsele_sw_notif" /&gt;
+
+        &lt;com.google.android.material.switchmaterial.SwitchMaterial
+            android:id="@+id/switchDark"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/acsele_sw_dark" /&gt;
+
+        &lt;TextView
+            android:id="@+id/tvSelectionResult"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:background="#FFEDE7F6"
+            android:padding="12dp"
+            android:text="@string/acsele_result_default" /&gt;
+
+        &lt;com.google.android.material.button.MaterialButton
+            android:id="@+id/btnValidateSelection"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="@string/acsele_btn_validate" /&gt;
+
+    &lt;/LinearLayout&gt;
+&lt;/ScrollView&gt;</code></pre>
+              </div>
+            </div>
+
+            <!-- Tab 2: Java 11 -->
+            <div class="tab-pane hidden" data-tab="java">
+              <div class="rounded-xl border border-zinc-800 overflow-hidden bg-[#09090b]">
+                <div class="flex items-center justify-between px-4 py-2 bg-zinc-900/80 border-b border-zinc-800 text-xs text-zinc-400">
+                  <span class="font-mono text-zinc-300">app/src/main/java/com/example/sandbox/sandbox/SelectionActivity.java</span>
+                  <span class="text-[11px] text-zinc-500 font-mono">Java 11 · findViewById</span>
+                </div>
+                <pre><code class="language-java">package com.example.sandbox.sandbox;
+
+import android.os.Bundle;
+import android.widget.CheckBox;
+import android.widget.RadioGroup;
+import android.widget.TextView;
+import android.widget.Toast;
+import androidx.appcompat.app.AppCompatActivity;
+import com.example.sandbox.R;
+import com.example.sandbox.utils.LoggerUtils;
+import com.google.android.material.switchmaterial.SwitchMaterial;
+
+public class SelectionActivity extends AppCompatActivity {
+    private static final String TAG = "SANDBOX_SELECTION";
+    private CheckBox cbTerms, cbNewsletter;
+    private RadioGroup rg;
+    private SwitchMaterial swNotif, swDark;
+    private TextView tvResult;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_selection);
+
+        cbTerms = findViewById(R.id.cbTerms);
+        cbNewsletter = findViewById(R.id.cbNewsletter);
+        rg = findViewById(R.id.rgOptions);
+        swNotif = findViewById(R.id.switchNotif);
+        swDark = findViewById(R.id.switchDark);
+        tvResult = findViewById(R.id.tvSelectionResult);
+
+        cbTerms.setOnCheckedChangeListener((b, c) -> LoggerUtils.d(TAG, "cbTerms=" + c));
+        cbNewsletter.setOnCheckedChangeListener((b, c) -> LoggerUtils.d(TAG, "cbNewsletter=" + c));
+        rg.setOnCheckedChangeListener((g, id) -> LoggerUtils.d(TAG, "Radio checkedId=" + id));
+        swNotif.setOnCheckedChangeListener((b, c) -> LoggerUtils.d(TAG, "switchNotif=" + c));
+        swDark.setOnCheckedChangeListener((b, c) -> LoggerUtils.d(TAG, "switchDark=" + c));
+
+        findViewById(R.id.btnValidateSelection).setOnClickListener(v -> validate());
+        LoggerUtils.d(TAG, "Selection lab listo");
+    }
+
+    private void validate() {
+        boolean terms = cbTerms.isChecked();
+        boolean newsletter = cbNewsletter.isChecked();
+        int radio = rg.getCheckedRadioButtonId();
+        boolean notif = swNotif.isChecked();
+        boolean dark = swDark.isChecked();
+
+        if (!terms) {
+            Toast.makeText(this, getString(R.string.acsele_toast_terms), Toast.LENGTH_SHORT).show();
+            LoggerUtils.e(TAG, "Validación fallida: términos no aceptados");
+            tvResult.setText(getString(R.string.acsele_result_terms_fail));
+            return;
+        }
+
+        if (radio == -1) {
+            Toast.makeText(this, getString(R.string.acsele_toast_plan), Toast.LENGTH_SHORT).show();
+            LoggerUtils.w(TAG, "Sin radio seleccionado");
+            tvResult.setText(getString(R.string.acsele_result_plan_fail));
+            return;
+        }
+
+        String plan = radio == R.id.rbFree ? getString(R.string.acsele_rb_free)
+                : radio == R.id.rbPro ? getString(R.string.acsele_rb_pro)
+                : getString(R.string.acsele_rb_ent);
+
+        // Para el detalle usamos valores cortos
+        String res = getString(
+                R.string.acsele_result_detail,
+                plan,
+                newsletter ? getString(R.string.acdito_dialog_yes) : getString(R.string.acdito_dialog_no),
+                notif ? "on" : "off",
+                dark ? "on" : "off"
+        );
+
+        tvResult.setText(getString(R.string.acsele_result_ok, res));
+        Toast.makeText(this, getString(R.string.acsele_toast_ok), Toast.LENGTH_SHORT).show();
+        LoggerUtils.i(TAG, res);
+    }
+}</code></pre>
+              </div>
+            </div>
+
+            <!-- Tab 3: Kotlin + ViewBinding -->
+            <div class="tab-pane hidden" data-tab="kotlin">
+              <div class="rounded-xl border border-zinc-800 overflow-hidden bg-[#09090b]">
+                <div class="flex items-center justify-between px-4 py-2 bg-zinc-900/80 border-b border-zinc-800 text-xs text-zinc-400">
+                  <span class="font-mono text-zinc-300">app/src/main/java/com/example/sandbox/sandbox/SelectionActivity.kt</span>
+                  <span class="text-[11px] text-zinc-500 font-mono">Kotlin · ViewBinding · Idiomático</span>
+                </div>
+                <pre><code class="language-kotlin">package com.example.sandbox.sandbox
+
+import android.os.Bundle
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import com.example.sandbox.R
+import com.example.sandbox.databinding.ActivitySelectionBinding
+import com.example.sandbox.utils.LoggerUtils
+
+class SelectionActivity : AppCompatActivity() {
+
+    private lateinit var binding: ActivitySelectionBinding
+    private val TAG = "SANDBOX_SELECTION"
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        binding = ActivitySelectionBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        setupListeners()
+        LoggerUtils.d(TAG, "Selection lab listo en Kotlin")
+    }
+
+    private fun setupListeners() = with(binding) {
+        // Monitoreo en tiempo real de cambios de estado
+        cbTerms.setOnCheckedChangeListener { _, isChecked ->
+            LoggerUtils.d(TAG, "cbTerms = $isChecked")
+        }
+
+        cbNewsletter.setOnCheckedChangeListener { _, isChecked ->
+            LoggerUtils.d(TAG, "cbNewsletter = $isChecked")
+        }
+
+        rgOptions.setOnCheckedChangeListener { _, checkedId ->
+            LoggerUtils.d(TAG, "RadioGroup checkedId = $checkedId")
+        }
+
+        switchNotif.setOnCheckedChangeListener { _, isChecked ->
+            LoggerUtils.d(TAG, "switchNotif = $isChecked")
+        }
+
+        switchDark.setOnCheckedChangeListener { _, isChecked ->
+            LoggerUtils.d(TAG, "switchDark = $isChecked")
+        }
+
+        // Botón principal de validación y consolidación
+        btnValidateSelection.setOnClickListener {
+            validateAndSubmit()
+        }
+    }
+
+    private fun validateAndSubmit() = with(binding) {
+        val termsAccepted = cbTerms.isChecked
+        val newsletterSubscribed = cbNewsletter.isChecked
+        val selectedRadioId = rgOptions.checkedRadioButtonId
+        val notifEnabled = switchNotif.isChecked
+        val darkEnabled = switchDark.isChecked
+
+        // 1. Validación obligatoria de términos y condiciones
+        if (!termsAccepted) {
+            Toast.makeText(this@SelectionActivity, getString(R.string.acsele_toast_terms), Toast.LENGTH_SHORT).show()
+            LoggerUtils.e(TAG, "Validación fallida: términos no aceptados")
+            tvSelectionResult.text = getString(R.string.acsele_result_terms_fail)
+            return
+        }
+
+        // 2. Validación obligatoria de selección de plan (RadioGroup)
+        if (selectedRadioId == -1) {
+            Toast.makeText(this@SelectionActivity, getString(R.string.acsele_toast_plan), Toast.LENGTH_SHORT).show()
+            LoggerUtils.w(TAG, "Sin radio seleccionado")
+            tvSelectionResult.text = getString(R.string.acsele_result_plan_fail)
+            return
+        }
+
+        // 3. Obtención del nombre del plan usando pattern matching con 'when'
+        val planName = when (selectedRadioId) {
+            R.id.rbFree -> getString(R.string.acsele_rb_free)
+            R.id.rbPro -> getString(R.string.acsele_rb_pro)
+            R.id.rbEnterprise -> getString(R.string.acsele_rb_ent)
+            else -> getString(R.string.acsele_rb_free)
+        }
+
+        val newsletterStatus = if (newsletterSubscribed) {
+            getString(R.string.acdito_dialog_yes)
+        } else {
+            getString(R.string.acdito_dialog_no)
+        }
+
+        val notifStatus = if (notifEnabled) "on" else "off"
+        val darkStatus = if (darkEnabled) "on" else "off"
+
+        // 4. Formatear y proyectar el resultado consolidado
+        val detail = getString(
+            R.string.acsele_result_detail,
+            planName,
+            newsletterStatus,
+            notifStatus,
+            darkStatus
+        )
+
+        tvSelectionResult.text = getString(R.string.acsele_result_ok, detail)
+        Toast.makeText(this@SelectionActivity, getString(R.string.acsele_toast_ok), Toast.LENGTH_SHORT).show()
+        LoggerUtils.i(TAG, detail)
+    }
+}</code></pre>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 4. Cómo llamar, manipular, sobrescribir y validar cada control -->
+        <section class="rounded-xl border border-zinc-200 bg-white overflow-hidden">
+          <div class="p-6 pb-0 space-y-2">
+            <div class="inline-flex items-center gap-2 px-2.5 py-1 rounded-full bg-violet-600 text-white text-[11px] font-bold uppercase tracking-wider">
+              <span>Deep Dive</span> <span class="w-1 h-1 rounded-full bg-white/60"></span> <span>Manipulación por control</span>
+            </div>
+            <h2 class="text-xl font-bold tracking-tight text-zinc-900">4. Cómo llamar, manipular, sobrescribir y validar cada control</h2>
+            <p class="text-xs text-zinc-600 leading-relaxed">Todos se leen con <code class="font-mono text-zinc-900">isChecked() / getCheckedRadioButtonId()</code> y se escriben con <code class="font-mono text-zinc-900">setChecked() / check() / clearCheck()</code>. Abajo, por cada tipo, cómo <strong>llamar</strong>, <strong>manipular</strong>, <strong>sobrescribir</strong> y cómo <strong>dar error/validar</strong> (aunque no tienen <code class="font-mono">setError()</code> como los TextInput).</p>
+          </div>
+
+          <div class="p-6 space-y-6">
+            <!-- API común -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+              <div class="p-4 rounded-lg border border-zinc-200 bg-zinc-50 space-y-2">
+                <p class="text-xs font-semibold text-zinc-900">API común (vale para CheckBox / Switch / Radio)</p>
+                <pre><code class="language-java">// Llamar (Java)
+CheckBox cbTerms = findViewById(R.id.cbTerms);
+RadioGroup rg = findViewById(R.id.rgOptions);
+SwitchMaterial sw = findViewById(R.id.switchNotif);
+// Kotlin + ViewBinding
+val cbTerms = binding.cbTerms
+
+// Manipular - leer
+boolean checked = cbTerms.isChecked();
+int id = rg.getCheckedRadioButtonId(); // -1 si ninguno
+
+// Sobrescribir
+cbTerms.setChecked(true);
+cbTerms.toggle();
+rg.check(R.id.rbPro);
+rg.clearCheck();
+sw.setChecked(false);
+
+// Dar error/validar (no hay setError visual, se usa Toast + TextView result + Log)
+if (!cbTerms.isChecked()) {
+    Toast.makeText(this, getString(R.string.acsele_toast_terms), Toast.LENGTH_SHORT).show();
+    tvResult.setText(getString(R.string.acsele_result_terms_fail));
+}</code></pre>
+              </div>
+              <div class="p-4 rounded-lg border border-amber-200 bg-amber-50 space-y-2">
+                <p class="text-xs font-semibold text-amber-900">Listeners - reaccionar al cambio</p>
+                <pre><code class="language-java">cbTerms.setOnCheckedChangeListener((buttonView, isChecked) -> {
+    Log.d(TAG, "cbTerms=" + isChecked);
+});
+rg.setOnCheckedChangeListener((group, checkedId) -> {
+    Log.d(TAG, "Radio id=" + checkedId);
+    if (checkedId == R.id.rbFree) { /* ... */ }
+});
+sw.setOnCheckedChangeListener((buttonView, isChecked) -> {
+    Log.d(TAG, "switch=" + isChecked);
+});</code></pre>
+                <p class="text-xs text-amber-800">En Lab 4 los listeners solo loguean; la <strong>validación real</strong> se hace al pulsar <code class="font-mono">btnValidateSelection</code>.</p>
+              </div>
+            </div>
+
+            <!-- Por tipo -->
+            <div class="space-y-4">
+              <h3 class="text-sm font-bold text-zinc-900">Por tipo de control</h3>
+              <div class="overflow-x-auto rounded-lg border border-zinc-200">
+                <table class="w-full text-xs border-collapse">
+                  <thead class="bg-zinc-50 text-zinc-700 font-semibold"><tr><th class="py-2 px-3 text-left">Control</th><th class="text-left">Llamar</th><th class="text-left">Manipular</th><th class="text-left">Sobrescribir</th><th class="text-left">Validar / Error</th></tr></thead>
+                  <tbody class="divide-y divide-zinc-200 bg-white text-zinc-600">
+                    <tr><td class="py-2 px-3 font-mono font-bold text-zinc-900">CheckBox<br><span class="text-[11px] text-zinc-500">cbTerms, cbNewsletter</span></td><td class="font-mono">findViewById(R.id.cbTerms)</td><td><code class="font-mono">isChecked()</code><br><code class="font-mono">setOnCheckedChangeListener</code></td><td><code class="font-mono">setChecked(true)</code><br><code class="font-mono">toggle()</code></td><td><code class="font-mono">if (!isChecked) Toast + tvResult</code><br>no tiene <code class="font-mono">setError()</code></td></tr>
+                    <tr><td class="py-2 px-3 font-mono font-bold text-zinc-900">RadioGroup<br><span class="text-[11px] text-zinc-500">rgOptions</span></td><td class="font-mono">findViewById(R.id.rgOptions)</td><td><code class="font-mono">getCheckedRadioButtonId()</code> → <code class="font-mono">-1</code> si vacío<br><code class="font-mono">setOnCheckedChangeListener</code></td><td><code class="font-mono">check(R.id.rbPro)</code><br><code class="font-mono">clearCheck()</code></td><td><code class="font-mono">if (id==-1) Toast acsele_toast_plan</code></td></tr>
+                    <tr><td class="py-2 px-3 font-mono font-bold text-zinc-900">RadioButton<br><span class="text-[11px] text-zinc-500">rbFree/rbPro/rbEnterprise</span></td><td class="font-mono">findViewById(R.id.rbFree)</td><td><code class="font-mono">isChecked()</code> (raro, usar grupo)</td><td><code class="font-mono">setChecked(true)</code> (delegado al grupo)</td><td>Se valida vía grupo, no individual</td></tr>
+                    <tr><td class="py-2 px-3 font-mono font-bold text-zinc-900">SwitchMaterial<br><span class="text-[11px] text-zinc-500">switchNotif/dark</span></td><td class="font-mono">findViewById(R.id.switchNotif)</td><td><code class="font-mono">isChecked()</code></td><td><code class="font-mono">setChecked(true/false)</code><br><code class="font-mono">toggle()</code></td><td>Opcional: <code class="font-mono">if (!isChecked) ...</code> pero en Lab 4 solo se reporta</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <!-- Snippets por tipo -->
+            <div class="space-y-3">
+              <h3 class="text-sm font-bold text-zinc-900">Snippets copiables — manipular / sobrescribir / validar</h3>
+              <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                <pre><code class="language-java">// Java — por cada control
+// CheckBox
+boolean terms = cbTerms.isChecked();
+cbTerms.setChecked(true);
+cbTerms.toggle();
+cbTerms.setOnCheckedChangeListener((b,c) -> Log.d(TAG, "terms="+c));
+if (!terms) {
+    Toast.makeText(this, getString(R.string.acsele_toast_terms), Toast.LENGTH_SHORT).show();
+    tvResult.setText(getString(R.string.acsele_result_terms_fail));
+    return;
+}
+
+// RadioGroup
+int radio = rg.getCheckedRadioButtonId();
+if (radio == -1) { /* error */ }
+rg.check(R.id.rbFree);
+rg.clearCheck();
+RadioButton selected = findViewById(radio);
+String plan = selected.getText().toString();
+
+// Switch
+boolean notif = sw.isChecked();
+sw.setChecked(!notif);
+sw.setOnCheckedChangeListener((b,c) -> { /* ... */ });</code></pre>
+                <pre><code class="language-kotlin">// Kotlin + ViewBinding — mismo, más corto
+with(binding) {
+    // CheckBox
+    val terms = cbTerms.isChecked
+    cbTerms.isChecked = true
+    cbTerms.toggle()
+    cbTerms.setOnCheckedChangeListener { _, c -> Log.d(TAG, "terms=$c") }
+    if (!terms) {
+        Toast.makeText(this@SelectionActivity, getString(R.string.acsele_toast_terms), Toast.LENGTH_SHORT).show()
+        tvSelectionResult.text = getString(R.string.acsele_result_terms_fail)
+        return
+    }
+    // RadioGroup
+    val radio = rgOptions.checkedRadioButtonId
+    rgOptions.check(R.id.rbPro)
+    rgOptions.clearCheck()
+    // Switch
+    val notif = switchNotif.isChecked
+    switchNotif.isChecked = !notif
+}</code></pre>
+              </div>
+              <div class="grid grid-cols-1 lg:grid-cols-3 gap-3">
+                <div class="p-3 rounded-lg border border-zinc-200 bg-zinc-50">
+                  <p class="text-xs font-semibold text-zinc-900">Sobrescribir vs alternar</p>
+                  <p class="text-xs text-zinc-600 mt-1"><code class="font-mono">setChecked(true/false)</code> fuerza estado. <code class="font-mono">toggle()</code> invierte. <code class="font-mono">check(id)</code> marca un Radio y desmarca los demás.</p>
+                </div>
+                <div class="p-3 rounded-lg border border-zinc-200 bg-zinc-50">
+                  <p class="text-xs font-semibold text-zinc-900">Dar error sin setError</p>
+                  <p class="text-xs text-zinc-600 mt-1">CheckBox/Radio/Switch no tienen <code class="font-mono">setError()</code>. Se valida con <code class="font-mono">Toast</code> + <code class="font-mono">tvResult.setText(acsele_result_*)</code> + <code class="font-mono">Log.e/w</code> como en Lab 4.</p>
+                </div>
+                <div class="p-3 rounded-lg border border-violet-200 bg-violet-50">
+                  <p class="text-xs font-semibold text-violet-900">Diferencia clave</p>
+                  <p class="text-xs text-zinc-700 mt-1">CheckBox y Switch son <strong>independientes</strong> (boolean). RadioGroup es <strong>exclusivo</strong> (un id o -1). Por eso se valida <code class="font-mono">checkedId == -1</code>.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="px-6 py-4 flex items-center justify-between border-t border-zinc-200 bg-zinc-50">
+            <a href="lab-buttons.html" class="text-xs font-medium text-zinc-600 hover:text-zinc-950 transition-colors">← Lab 3 (Buttons/Chip)</a>
+            <a href="lab-feedback.html" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-md text-xs font-medium bg-zinc-900 text-white hover:bg-zinc-800 transition-colors shadow-xs">
+              <span>Siguiente: Lab 5 (Feedback) →</span>
+            </a>
+          </div>
+        </section>
+
+      </main>
+    </div>
+
+    <script src="assets/nav.js"></script>
+  </body>
+
 </html>
