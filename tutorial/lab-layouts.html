@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="es">
+
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <title>Lab 8 · Layouts — Sandbox</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <style type="text/tailwindcss">@theme{--font-sans:Inter,system-ui,sans-serif;--font-mono:JetBrains Mono,monospace;}</style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/codemirror.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/theme/dracula.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <style>
+      pre {
+        background: #282a36 !important;
+        border: 1px solid #44475a !important;
+        border-radius: 12px !important;
+        padding: 0 !important;
+        overflow: hidden !important;
+        position: relative !important;
+        margin: 0 !important;
+      }
+
+      pre code {
+        display: block !important;
+        padding: 1rem 1rem 1rem 3.8rem !important;
+        font-family: 'JetBrains Mono', Consolas, monospace !important;
+        font-size: 12.5px !important;
+        line-height: 1.65 !important;
+        color: #f8f8f2 !important;
+        background: transparent !important;
+        overflow-x: auto !important;
+      }
+
+      pre::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: 3.2rem;
+        background: #21222c;
+        border-right: 1px solid #44475a;
+        z-index: 0;
+      }
+
+      .cm-gutter {
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: 3.2rem;
+        padding: 1rem 0;
+        text-align: right;
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 11.5px;
+        line-height: 1.65;
+        color: #6272a4;
+        user-select: none;
+        z-index: 1;
+        pointer-events: none;
+      }
+
+      .cm-gutter span {
+        display: block;
+        padding-right: 0.75rem;
+      }
+
+      .hljs {
+        background: transparent !important
+      }
+
+      .hljs-keyword {
+        color: #ff79c6 !important
+      }
+
+      .hljs-string {
+        color: #f1fa8c !important
+      }
+
+      .hljs-comment {
+        color: #6272a4 !important
+      }
+
+      .hljs-type {
+        color: #8be9fd !important
+      }
+
+      .hljs-title {
+        color: #50fa7b !important
+      }
+
+      .hljs-number {
+        color: #bd93f9 !important
+      }
+
+      .hljs-tag {
+        color: #f8f8f2 !important
+      }
+
+      .hljs-name {
+        color: #ff79c6 !important
+      }
+
+      .hljs-attr {
+        color: #50fa7b !important
+      }
+
+      .hljs-attribute {
+        color: #50fa7b !important
+      }
+    </style>
+  </head>
+
+  <body class="bg-[#f8f9fb] text-zinc-800 antialiased">
+    <header class="sticky top-0 z-50 bg-white/90 backdrop-blur border-b border-zinc-200">
+      <div class="max-w-[1440px] mx-auto px-4 sm:px-6 py-2 flex items-center justify-between gap-4">
+        <div class="flex items-center gap-3"><button id="menuBtn" class="lg:hidden p-2 rounded-xl border border-zinc-200 bg-white"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2">
+              <path d="M4 6h16M4 12h16M4 18h16" />
+            </svg></button>
+          <div class="w-8 h-8 rounded-xl text-sm bg-cyan-600 flex items-center justify-center text-white font-bold">8</div>
+          <div class="hidden sm:block">
+            <p class="font-semibold leading-none">Lab 8 · Layouts</p>
+            <p class="text-[10px] text-zinc-500">aclayo_ · Constraint / Linear / Table</p>
+          </div>
+        </div>
+        <div class="hidden md:flex items-center gap-2 text-[11px]"><span class="px-2 py-1 rounded-full bg-zinc-900 text-white">activity_layouts.xml</span><span
+            class="px-2 py-1 rounded-full border border-zinc-200">LayoutsActivity.java:11</span></div>
+        <a href="labs.html" class="px-4 py-2 bg-white border border-zinc-200 rounded-full text-sm">← Labs</a>
+      </div>
+    </header>
+    <div id="overlay" class="fixed inset-0 bg-black/30 z-40 hidden lg:hidden"></div>
+    <div class="max-w-[1440px] mx-auto px-4 sm:px-6 py-4 lg:py-6 grid grid-cols-1 lg:grid-cols-[240px_minmax(0,1fr)] gap-4 lg:gap-6">
+      <aside id="sidebar"
+        class="fixed lg:sticky top-0 lg:top-[53px] left-0 z-40 w-[240px] h-[100dvh] lg:h-[calc(100vh-53px)] bg-white lg:bg-transparent border-r lg:border-0 border-zinc-200 overflow-auto p-4 lg:p-0 -translate-x-full lg:translate-x-0 transition-transform duration-200">
+      </aside>
+      <main class="min-w-0 space-y-6">
+        <section class="bg-white rounded-[24px] border border-zinc-200 p-6 sm:p-8">
+          <h1 class="text-3xl font-semibold tracking-tight">Lab 8 — Layouts</h1>
+          <p class="mt-2 text-sm text-zinc-500">Comparativa visual y técnica: <strong>ConstraintLayout solo (plano)</strong> vs <strong>Linear vertical/horizontal</strong> vs
+            <strong>TableLayout</strong>. Mismo contenido, distinto contenedor.</p>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
+            <figure class="group rounded-2xl border-2 border-dashed border-zinc-300 bg-zinc-50 overflow-hidden">
+              <div class="aspect-[16/10] flex flex-col items-center justify-center p-6 text-center">
+                <div class="w-10 h-10 rounded-xl bg-white border flex items-center justify-center">📷</div>
+                <p class="mt-2 font-medium text-xs">ConstraintLayout plano</p>
+                <p class="text-[11px] text-zinc-500">assets/images/lab-layouts-constraint.png</p>
+              </div>
+              <img src="assets/images/lab-layouts-constraint.png" alt="Constraint" class="hidden w-full object-cover"
+                onload="this.parentElement.classList.add('loaded'); this.previousElementSibling.style.display='none'" />
+              <figcaption class="px-3 py-2 bg-white border-t text-[11px] text-zinc-500">Fig. — 3 boxes A/B/C con constraints 0dp, sin anidación</figcaption>
+            </figure>
+            <figure class="group rounded-2xl border-2 border-dashed border-zinc-300 bg-zinc-50 overflow-hidden">
+              <div class="aspect-[16/10] flex flex-col items-center justify-center p-6 text-center">
+                <div class="w-10 h-10 rounded-xl bg-white border flex items-center justify-center">📷</div>
+                <p class="mt-2 font-medium text-xs">TableLayout</p>
+                <p class="text-[11px] text-zinc-500">assets/images/lab-layouts-table.png</p>
+              </div>
+              <img src="assets/images/lab-layouts-table.png" alt="Table" class="hidden w-full object-cover"
+                onload="this.parentElement.classList.add('loaded'); this.previousElementSibling.style.display='none'" />
+              <figcaption class="px-3 py-2 bg-white border-t text-[11px] text-zinc-500">Fig. — TableLayout stretchColumns="1" con header y 2 filas</figcaption>
+            </figure>
+          </div>
+
+          <div class="mt-6 grid lg:grid-cols-1 gap-6">
+            <div class="rounded-2xl border border-zinc-200 p-5">
+              <p class="font-semibold text-sm">1. ConstraintLayout — solo (recomendado)</p>
+              <pre class="mt-3"><code class="language-xml">&lt;androidx.constraintlayout.widget.ConstraintLayout
+  android:layout_width="match_parent"
+  android:layout_height="120dp"&gt;
+  &lt;TextView android:id="@+id/boxA"
+    android:layout_width="0dp"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintEnd_toStartOf="@id/boxB"
+    app:layout_constraintTop_toTopOf="parent"/&gt;
+  &lt;TextView android:id="@+id/boxB"
+    app:layout_constraintStart_toEndOf="@id/boxA"
+    app:layout_constraintEnd_toStartOf="@id/boxC"/&gt;
+  &lt;TextView android:id="@+id/boxC"
+    app:layout_constraintStart_toEndOf="@id/boxB"
+    app:layout_constraintEnd_toEndOf="parent"/&gt;
+&lt;/ConstraintLayout&gt;</code></pre>
+              <p class="mt-2 text-xs text-zinc-600"><code>0dp</code> + <code>constraintStart/End</code> reparte ancho sin weight. Plano único → mejor performance (flat hierarchy).</p>
+            </div>
+            <div class="rounded-2xl border border-zinc-200 p-5">
+              <p class="font-semibold text-sm">2. LinearLayout vertical</p>
+              <pre class="mt-3"><code class="language-xml">&lt;LinearLayout
+  android:orientation="vertical"
+  android:layout_height="150dp"&gt;
+  &lt;Button android:layout_height="0dp"
+          android:layout_weight="1" /&gt;
+  &lt;Button android:layout_height="0dp"
+          android:layout_weight="1" /&gt;
+  &lt;Button android:layout_height="0dp"
+          android:layout_weight="1" /&gt;
+&lt;/LinearLayout&gt;</code></pre>
+              <p class="mt-2 text-xs text-zinc-600"><code>weight="1"</code> reparte altura equitativa. Ideal para formularios verticales.</p>
+            </div>
+          </div>
+
+          <div class="mt-6 grid lg:grid-cols-1 gap-6">
+            <div class="rounded-2xl border border-zinc-200 p-5">
+              <p class="font-semibold text-sm">3. LinearLayout horizontal</p>
+              <pre class="mt-3"><code class="language-xml">&lt;LinearLayout android:orientation="horizontal"
+              android:gravity="center"
+              android:padding="12dp"&gt;
+  &lt;Chip android:layout_width="0dp" android:layout_weight="1"
+        android:text="Chip A"/&gt;
+  &lt;Space android:layout_width="8dp"/&gt;
+  &lt;Chip android:layout_weight="1" android:text="Chip B"/&gt;
+  &lt;Chip android:layout_weight="1" android:text="Chip C"/&gt;
+&lt;/LinearLayout&gt;</code></pre>
+              <p class="mt-2 text-xs text-zinc-600">Fila con <code>Space 8dp</code> como separador. <code>gravity=center</code> centra vertical.</p>
+            </div>
+            <div class="rounded-2xl border border-zinc-200 p-5">
+              <p class="font-semibold text-sm">4. TableLayout</p>
+              <pre class="mt-3"><code class="language-xml">&lt;TableLayout android:stretchColumns="1"
+             android:background="#E3F2FD"&gt;
+  &lt;TableRow&gt; &lt;TextView text="@string/aclayo_row_header1"/&gt;
+             &lt;TextView text="@string/aclayo_row_header2"/&gt; &lt;/TableRow&gt;
+  &lt;TableRow&gt; &lt;TextView text="@string/aclayo_row_item1"/&gt; &lt;/TableRow&gt;
+&lt;/TableLayout&gt;</code></pre>
+              <p class="mt-2 text-xs text-zinc-600"><code>stretchColumns="1"</code> estira columna central. <code>shrinkColumns</code> opuesto. Útil para tablas simples (no para listas largas →
+                Recycler).</p>
+            </div>
+          </div>
+
+          <div class="mt-6 rounded-2xl bg-zinc-900 text-zinc-100 p-5">
+            <p class="font-semibold text-sm">LayoutsActivity.java — sin lógica</p>
+            <pre><code class="language-java">public class LayoutsActivity extends AppCompatActivity {
+  protected void onCreate(Bundle b){
+    super.onCreate(b);
+    setContentView(R.layout.activity_layouts);
+    Log.d("SANDBOX_LAYOUTS", "Constraint vs Linear vs Table");
+  }
+}</code></pre>
+            <p class="mt-2 text-xs text-zinc-400">Solo visual. No hay validación.</p>
+          </div>
+        </section>
+        <section class="bg-white rounded-[24px] border border-zinc-200 p-6 sm:p-8">
+          <h2 class="text-xl font-semibold tracking-tight">Cómo se desarrolló</h2>
+          <ol class="mt-4 list-decimal pl-5 text-sm text-zinc-700 space-y-2">
+            <li>Crea <code>activity_layouts.xml</code> con <code>ScrollView &gt; LinearLayout</code> + 4 secciones, cada una: título <code>aclayo_section_*</code> + desc + caja de color con el layout
+              real.</li>
+            <li>Constraint: 3 TextView 0dp con constraints encadenadas.</li>
+            <li>Linear vertical: 3 Button weight 1. Linear horizontal: 3 Chip weight 1 + Space.</li>
+            <li>Table: 1 header row con background + 2 data rows.</li>
+            <li>Activity solo hace <code>setContentView</code> + log.</li>
+          </ol>
+          <div class="mt-4 flex flex-wrap gap-2 text-xs"><a href="lab-scroll.html" class="px-4 py-2 bg-violet-600 text-white rounded-full">Siguiente → ScrollView lista</a><a href="lab-dialog.html"
+              class="px-4 py-2 bg-white border border-zinc-200 rounded-full">← Anterior Dialog</a></div>
+        </section>
+      </main>
+    </div>
+    <script src="assets/nav.js"></script>
+  </body>
+
+</html>

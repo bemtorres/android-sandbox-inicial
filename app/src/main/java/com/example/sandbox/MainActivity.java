@@ -43,6 +43,17 @@ public class MainActivity extends AppCompatActivity {
             LoggerUtils.d(TAG, "Navegando a Registro sin validar");
             startActivity(new Intent(this, RegisterActivity.class));
         });
+        findViewById(R.id.btnSkipIntro).setOnClickListener(v -> {
+            LoggerUtils.i(TAG, "Skip login → Intro");
+            Toast.makeText(this, getString(R.string.acmain_btn_skip), Toast.LENGTH_SHORT).show();
+            String guestEmail = "invitado@sandbox.com";
+            String guestName = "Invitado";
+            Prefs.saveUser(this, guestEmail);
+            Intent i = new Intent(this, IntroActivity.class);
+            i.putExtra("name", guestName);
+            i.putExtra("email", guestEmail);
+            startActivity(i);
+        });
 
         LoggerUtils.demo(TAG);
     }

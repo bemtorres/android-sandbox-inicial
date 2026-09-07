@@ -6,10 +6,13 @@ import android.util.Log;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import com.example.sandbox.sandbox.ButtonsActivity;
+import com.example.sandbox.sandbox.ContactRecyclerActivity;
 import com.example.sandbox.sandbox.DateTimeActivity;
 import com.example.sandbox.sandbox.DialogToastActivity;
 import com.example.sandbox.sandbox.FeedbackActivity;
+import com.example.sandbox.sandbox.LayoutsActivity;
 import com.example.sandbox.sandbox.SelectionActivity;
+import com.example.sandbox.sandbox.SimpleScrollListActivity;
 import com.example.sandbox.sandbox.TextInputsActivity;
 import com.example.sandbox.sandbox.WebViewActivity;
 
@@ -37,8 +40,11 @@ public class HomeActivity extends AppCompatActivity {
         findViewById(R.id.cardFeedback).setOnClickListener(v -> go(FeedbackActivity.class, "Feedback"));
         findViewById(R.id.cardWebView).setOnClickListener(v -> go(WebViewActivity.class, "WebView"));
         findViewById(R.id.cardDialogs).setOnClickListener(v -> go(DialogToastActivity.class, "Dialogs"));
+        findViewById(R.id.cardLayouts).setOnClickListener(v -> go(LayoutsActivity.class, "Layouts"));
+        findViewById(R.id.cardScroll).setOnClickListener(v -> go(SimpleScrollListActivity.class, "ScrollList"));
+        findViewById(R.id.cardRecycler).setOnClickListener(v -> go(ContactRecyclerActivity.class, "Recycler"));
 
-        Log.d(TAG, "Home cargado - 7 laboratorios disponibles");
+        Log.d(TAG, "Home cargado - 10 laboratorios disponibles");
     }
 
     private void go(Class<?> cls, String label) {

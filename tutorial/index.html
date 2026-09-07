@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
 <title>Sandbox Android — Tutorial Técnico</title>
 <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 <style type="text/tailwindcss">@theme{--font-sans:Inter,system-ui,sans-serif;--font-mono:JetBrains Mono,monospace;}</style>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/codemirror.min.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/theme/dracula.min.css">
@@ -74,25 +73,18 @@
   .hljs-params{color:#f8f8f2 !important}
   .hljs-built_in{color:#8be9fd !important}
 </style>
-<style type="text/tailwindcss">@theme{--font-sans:Inter,system-ui,sans-serif;--font-mono:JetBrains Mono,monospace;}</style>
-<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-<style type="text/tailwindcss">@theme{--font-sans:Inter,system-ui,sans-serif;--font-mono:JetBrains Mono,monospace;}</style>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
-
 </head>
 <body class="bg-[#f8f9fb] text-zinc-800 antialiased">
 <header class="sticky top-0 z-50 bg-white/90 backdrop-blur border-b border-zinc-200">
-  <div class="max-w-[1440px] mx-auto px-4 sm:px-6 py-3 flex items-center justify-between gap-4">
+  <div class="max-w-[1440px] mx-auto px-4 sm:px-6 py-2 flex items-center justify-between gap-4">
     <div class="flex items-center gap-3">
       <button id="menuBtn" class="lg:hidden p-2 rounded-xl border border-zinc-200 bg-white">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
       </button>
-      <div class="w-9 h-9 rounded-xl bg-violet-600 flex items-center justify-center text-white font-bold">Sb</div>
+      <div class="w-8 h-8 rounded-xl text-sm bg-violet-600 flex items-center justify-center text-white font-bold">Sb</div>
       <div class="hidden sm:block">
         <p class="font-semibold leading-none">Sandbox Android</p>
-        <p class="text-[11px] text-zinc-500">Tutorial técnico · Java · 7 labs aislados</p>
+        <p class="text-[10px] text-zinc-500">Tutorial técnico · Java · 7 labs aislados</p>
       </div>
     </div>
     <div class="hidden md:flex items-center gap-2 text-[11px]">
@@ -105,41 +97,9 @@
   </div>
 </header>
 <div id="overlay" class="fixed inset-0 bg-black/30 z-40 hidden lg:hidden"></div>
-<div class="max-w-[1440px] mx-auto px-4 sm:px-6 py-6 lg:py-8 grid grid-cols-1 lg:grid-cols-[300px_minmax(0,1fr)] gap-6 lg:gap-8">
-  <aside id="sidebar" class="fixed lg:sticky top-0 lg:top-[65px] left-0 z-40 w-[300px] h-[100dvh] lg:h-[calc(100vh-65px)] bg-white lg:bg-transparent border-r lg:border-0 border-zinc-200 overflow-auto p-6 lg:p-0 -translate-x-full lg:translate-x-0 transition-transform duration-200">
-    <div class="flex items-center justify-between lg:hidden mb-4">
-      <p class="font-semibold">Navegación</p>
-      <button id="closeBtn" class="p-2 rounded-xl border border-zinc-200"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg></button>
-    </div>
-    <nav class="space-y-6 text-[13px]">
-      <div><p class="font-semibold mb-2 text-zinc-900">Inicio</p><ul class="space-y-1 text-zinc-600">
-        <li><a href="index.html" class="block py-1.5 px-2 rounded-lg bg-violet-50 text-violet-700 font-medium">Dashboard</a></li>
-        <li><a href="arquitectura.html" class="block py-1.5 px-2 hover:bg-zinc-50 rounded-lg">Arquitectura profunda</a></li>
-        <li><a href="strings-i18n.html" class="block py-1.5 px-2 hover:bg-zinc-50 rounded-lg">Strings & i18n</a></li>
-        <li><a href="navegacion.html" class="block py-1.5 px-2 hover:bg-zinc-50 rounded-lg">Navegación & datos</a></li>
-      </ul></div>
-      <div><p class="font-semibold mb-2 text-zinc-900">Core (flujo auth)</p><ul class="space-y-1 text-zinc-600">
-        <li><a href="auth.html" class="block py-1.5 px-2 hover:bg-zinc-50 rounded-lg">Login / Registro / Intro</a></li>
-        <li><a href="home.html" class="block py-1.5 px-2 hover:bg-zinc-50 rounded-lg">Home Hub</a></li>
-      </ul></div>
-      <div><p class="font-semibold mb-2 text-zinc-900">Laboratorios</p><ul class="space-y-1 text-zinc-600">
-        <li><a href="labs.html" class="block py-1.5 px-2 hover:bg-zinc-50 rounded-lg">Índice labs</a></li>
-        <li><a href="lab-textinputs.html" class="block py-1.5 px-2 hover:bg-zinc-50 rounded-lg">Lab 1 · TextInputs</a></li>
-        <li><a href="lab-datetime.html" class="block py-1.5 px-2 hover:bg-zinc-50 rounded-lg">Lab 2 · Date/Time</a></li>
-        <li><a href="lab-buttons.html" class="block py-1.5 px-2 hover:bg-zinc-50 rounded-lg">Lab 3 · Buttons/Chip</a></li>
-        <li><a href="lab-selection.html" class="block py-1.5 px-2 hover:bg-zinc-50 rounded-lg">Lab 4 · Selection</a></li>
-        <li><a href="lab-feedback.html" class="block py-1.5 px-2 hover:bg-zinc-50 rounded-lg">Lab 5 · Feedback</a></li>
-        <li><a href="lab-webview.html" class="block py-1.5 px-2 hover:bg-zinc-50 rounded-lg">Lab 6 · WebView</a></li>
-        <li><a href="lab-dialog.html" class="block py-1.5 px-2 hover:bg-zinc-50 rounded-lg">Lab 7 · Dialog/Toast/Logger</a></li>
-      </ul></div>
-      <div><p class="font-semibold mb-2 text-zinc-900">Técnico</p><ul class="space-y-1 text-zinc-600">
-        <li><a href="vistas.html" class="block py-1.5 px-2 hover:bg-zinc-50 rounded-lg">Catálogo de vistas</a></li>
-        <li><a href="validacion.html" class="block py-1.5 px-2 hover:bg-zinc-50 rounded-lg">Validación</a></li>
-        <li><a href="debug.html" class="block py-1.5 px-2 hover:bg-zinc-50 rounded-lg">Build & Logcat</a></li>
-      </ul></div>
-    </nav>
-  </aside>
-  <main class="min-w-0 space-y-8">
+<div class="max-w-[1440px] mx-auto px-4 sm:px-6 py-4 lg:py-6 grid grid-cols-1 lg:grid-cols-[240px_minmax(0,1fr)] gap-4 lg:gap-6">
+  <aside id="sidebar" class="fixed lg:sticky top-0 lg:top-[53px] left-0 z-40 w-[240px] h-[100dvh] lg:h-[calc(100vh-53px)] bg-white lg:bg-transparent border-r lg:border-0 border-zinc-200 overflow-auto p-4 lg:p-0 -translate-x-full lg:translate-x-0 transition-transform duration-200"></aside>
+  <main class="min-w-0 space-y-6">
     <section class="bg-white rounded-[24px] border border-zinc-200 p-6 sm:p-8 overflow-hidden">
       <div class="inline-flex items-center gap-2 text-xs font-medium text-violet-700 bg-violet-50 border border-violet-200 px-3 py-1 rounded-full">Sandbox educativo · 11 layouts · 12 Activities · 187 strings × 3 locales</div>
       <h1 class="mt-4 text-[28px] sm:text-[40px] font-semibold tracking-tight leading-[0.95]">Tutorial técnico<br/><span class="text-violet-600">Android Sandbox</span><br/>de cero a Home → Lab</h1>
@@ -221,23 +181,6 @@ if(email==null) email = Prefs.getUser(this);</code></pre>
     </section>
   </main>
 </div>
-<script>
-  hljs.highlightAll();
-  document.querySelectorAll('pre code').forEach(code=>{
-    const pre = code.parentElement;
-    if(pre.querySelector('.cm-gutter')) return;
-    const gutter = document.createElement('div');
-    gutter.className='cm-gutter';
-    const n = code.textContent.split('\n').length;
-    for(let i=1;i<=n;i++){
-      const s=document.createElement('span');
-      s.textContent=i;
-      gutter.appendChild(s);
-    }
-    pre.style.position='relative';
-    pre.appendChild(gutter);
-    pre.classList.add('cm-s-dracula');
-  });
-</script>
+<script src="assets/nav.js"></script>
 </body>
 </html>

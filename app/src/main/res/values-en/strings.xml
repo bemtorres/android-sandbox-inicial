@@ -43,6 +43,7 @@
     <string name="acmain_card_title">How does it work internally?</string>
     <string name="acmain_card_desc">1. EditText with inputType=textEmailAddress and textPassword.\n2. On Button click → ValidationUtils.isEmail/isPassword → setError() on failure.\n3. Toast + Log.d + SharedPreferences + Intent to RegisterActivity.</string>
     <string name="acmain_go_register">Don\'t have an account? Sign up</string>
+    <string name="acmain_btn_skip">Skip login → Intro</string>
     <string name="acmain_logger_hint">Check Logcat with tag \'SANDBOX_LOGIN\' to see Logger (Log.v/d/i/w/e)</string>
 
     <!-- ACREGI -->
@@ -209,4 +210,46 @@
     <string name="acdito_log_no">Dialog: No</string>
     <string name="acdito_log_list">List: %1$s</string>
     <string name="acfeed_spinner_hint">Select option</string>
+
+    <string name="achome_card_layouts">8. Layouts — Constraint / Linear / Table</string>
+    <string name="achome_desc_layouts">Flat ConstraintLayout, vertical/horizontal LinearLayout, TableLayout with stretchColumns</string>
+    <string name="achome_card_scroll">9. Simple list — ScrollView</string>
+    <string name="achome_desc_scroll">ScrollView + LinearLayout, 10 hardcoded contacts, no adapter</string>
+    <string name="achome_card_recycler">10. RecyclerView — Contacts</string>
+    <string name="achome_desc_recycler">RecyclerView + Adapter + ViewHolder + Card | photo | name email phone</string>
+
+    <string name="aclayo_title">Lab 8 — Layouts</string>
+    <string name="aclayo_info_desc">• ConstraintLayout: single flat plane, constraints top/start/end/bottom, no nesting, best performance\n• Vertical LinearLayout: orientation vertical, weight to distribute\n• Horizontal LinearLayout: orientation horizontal, weight and gravity\n• TableLayout: TableRow, stretchColumns, shrinkColumns</string>
+    <string name="aclayo_section_const_title">ConstraintLayout — flat</string>
+    <string name="aclayo_section_const_desc">4 TextViews with constraints to parent and each other. No nested Linear. Recommended for complex screens.</string>
+    <string name="aclayo_section_linear_vert_title">Vertical LinearLayout</string>
+    <string name="aclayo_section_linear_vert_desc">orientation="vertical", 3 buttons distributed with layout_weight="1".</string>
+    <string name="aclayo_section_linear_horiz_title">Horizontal LinearLayout</string>
+    <string name="aclayo_section_linear_horiz_desc">orientation="horizontal", 3 chips/icons in a row with weight, gravity center.</string>
+    <string name="aclayo_section_table_title">TableLayout</string>
+    <string name="aclayo_section_table_desc">TableLayout with stretchColumns="1", 3 rows (header + 2 data) with TableRow.</string>
+    <string name="aclayo_cell_a">A</string>
+    <string name="aclayo_cell_b">B</string>
+    <string name="aclayo_cell_c">C</string>
+    <string name="aclayo_row_header1">Product</string>
+    <string name="aclayo_row_header2">Qty.</string>
+    <string name="aclayo_row_header3">Price</string>
+    <string name="aclayo_row_item1">Keyboard</string>
+    <string name="aclayo_row_item2">2</string>
+    <string name="aclayo_row_item3">25€</string>
+    <string name="aclayo_row_item4">Mouse</string>
+    <string name="aclayo_row_item5">1</string>
+    <string name="aclayo_row_item6">15€</string>
+
+    <string name="acscro_title">Lab 9 — Simple list with ScrollView</string>
+    <string name="acscro_info_desc">ScrollView + vertical LinearLayout. 10 contacts inflated statically (no RecyclerView). Useful for short lists &lt;20 items. No recycling, whole list in memory.</string>
+    <string name="acscro_item_photo_desc">Contact photo</string>
+    <string name="acscro_toast">Contact: %1$s</string>
+
+    <string name="acrecy_title">Lab 10 — RecyclerView Contacts</string>
+    <string name="acrecy_info_desc">RecyclerView + LinearLayoutManager + Adapter + ViewHolder. Component | photo | name email phone. View recycling for long lists.</string>
+    <string name="acrecy_item_photo_desc">Photo</string>
+    <string name="acrecy_btn_add">Add contact</string>
+    <string name="acrecy_toast_click">Click: %1$s — %2$s</string>
+    <string name="acrecy_empty">No contacts</string>
 </resources>

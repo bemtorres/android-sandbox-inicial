@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="es" class="h-full bg-slate-950 text-slate-100">
+
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Propuesta de Migración: Java a Kotlin | Sandbox Android</title>
+    <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/kotlin.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/java.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/xml.min.js"></script>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+
+      body {
+        font-family: 'Plus Jakarta Sans', sans-serif;
+      }
+
+      code,
+      pre {
+        font-family: 'JetBrains Mono', monospace;
+      }
+    </style>
+  </head>
+
+  <body class="h-full flex overflow-hidden selection:bg-purple-500 selection:text-white">
+
+    <!-- Sidebar unificado dinámico -->
+    <aside id="sidebar" class="w-72 bg-slate-900 border-r border-slate-800 flex flex-col flex-shrink-0 z-20"></aside>
+
+    <!-- Contenedor Principal -->
+    <main class="flex-1 flex flex-col overflow-y-auto bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950">
+
+      <!-- Top Header -->
+      <header class="border-b border-slate-800/80 bg-slate-950/80 backdrop-blur sticky top-0 z-10 px-8 py-5 flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <span class="px-2.5 py-1 text-xs font-semibold tracking-wide bg-gradient-to-r from-purple-500 to-indigo-500 text-white rounded-md uppercase">Evolución Tecnológica</span>
+          <span class="text-xs text-slate-400">Java 11 → Kotlin + ViewBinding + Coroutines</span>
+        </div>
+        <a href="index.html" class="text-xs font-medium text-slate-400 hover:text-white transition-colors">← Volver al Inicio</a>
+      </header>
+
+      <div class="max-w-6xl mx-auto px-6 py-10 w-full space-y-12">
+
+        <!-- Hero Section -->
+        <section class="space-y-4">
+          <h1 class="text-3xl lg:text-4xl font-extrabold text-white tracking-tight flex items-center gap-3">
+            <span class="bg-gradient-to-r from-purple-400 via-indigo-400 to-pink-400 bg-clip-text text-transparent">Propuesta Técnica de Migración: Java 11 a Kotlin</span>
+          </h1>
+          <p class="text-slate-400 text-base leading-relaxed max-w-4xl">
+            El proyecto <strong class="text-white">Android Sandbox</strong> fue construido en Java 11 con fines puramente pedagógicos y de compatibilidad base. Esta propuesta técnica detalla los
+            beneficios arquitectónicos, el plan de migración paso a paso y comparativas de código antes/después para transformar el Sandbox a Kotlin moderno con ViewBinding sin romper la filosofía
+            modular de los 10 Laboratorios.
+          </p>
+        </section>
+
+        <!-- Resumen Ejecutivo: Tabla Comparativa -->
+        <section class="bg-slate-900/90 border border-slate-800 rounded-2xl p-6 lg:p-8 space-y-6">
+          <h2 class="text-xl font-bold text-white flex items-center gap-2">
+            <span class="w-2.5 h-2.5 rounded-full bg-indigo-500"></span> Resumen Ejecutivo: Java 11 vs Kotlin en el Sandbox
+          </h2>
+
+          <div class="overflow-x-auto">
+            <table class="w-full text-left text-sm text-slate-300">
+              <thead class="bg-slate-950/80 text-xs uppercase font-semibold text-slate-400 border-b border-slate-800">
+                <tr>
+                  <th class="py-3 px-4">Aspecto</th>
+                  <th class="py-3 px-4 text-amber-400">Java 11 (Actual)</th>
+                  <th class="py-3 px-4 text-purple-400">Kotlin (Propuesto)</th>
+                  <th class="py-3 px-4 text-emerald-400">Beneficio</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-slate-800">
+                <tr>
+                  <td class="py-3.5 px-4 font-semibold text-white">Seguridad de Nulos</td>
+                  <td class="py-3.5 px-4 text-slate-400">Riesgo constante de <code class="text-amber-300">NullPointerException</code> en runtime.</td>
+                  <td class="py-3.5 px-4 text-purple-300 font-medium">Tipado nulo en tiempo de compilación (<code class="text-purple-300">T?</code> vs <code class="text-purple-300">T</code>).</td>
+                  <td class="py-3.5 px-4 text-emerald-300">Cero crashes por nulos en formularios y vistas.</td>
+                </tr>
+                <tr>
+                  <td class="py-3.5 px-4 font-semibold text-white">Acceso a Vistas</td>
+                  <td class="py-3.5 px-4 text-slate-400"><code class="text-amber-300">findViewById&lt;T&gt;()</code> repetitivo en cada Activity.</td>
+                  <td class="py-3.5 px-4 text-purple-300 font-medium"><code class="text-purple-300">ViewBinding</code> con inicialización <code class="text-purple-300">lazy</code> o <code
+                      class="text-purple-300">lateinit</code>.</td>
+                  <td class="py-3.5 px-4 text-emerald-300">Type-safety total, sin IDs incorrectos o casteos.</td>
+                </tr>
+                <tr>
+                  <td class="py-3.5 px-4 font-semibold text-white">Modelos de Datos</td>
+                  <td class="py-3.5 px-4 text-slate-400">Getters, Setters, <code class="text-amber-300">equals</code>, <code class="text-amber-300">hashCode</code>, <code
+                      class="text-amber-300">toString</code> manuales.</td>
+                  <td class="py-3.5 px-4 text-purple-300 font-medium"><code class="text-purple-300">data class</code> de 1 línea.</td>
+                  <td class="py-3.5 px-4 text-emerald-300">Reducción del 80% de líneas de código (LOC).</td>
+                </tr>
+                <tr>
+                  <td class="py-3.5 px-4 font-semibold text-white">Utilidades y Validaciones</td>
+                  <td class="py-3.5 px-4 text-slate-400">Métodos estáticos <code class="text-amber-300">ValidationUtils.isValidEmail(text)</code>.</td>
+                  <td class="py-3.5 px-4 text-purple-300 font-medium">Extension Functions: <code class="text-purple-300">text.isValidEmail()</code>, <code
+                      class="text-purple-300">context.toast()</code>.</td>
+                  <td class="py-3.5 px-4 text-emerald-300">Código fluido, expresivo y natural de leer.</td>
+                </tr>
+                <tr>
+                  <td class="py-3.5 px-4 font-semibold text-white">Control de Flujo</td>
+                  <td class="py-3.5 px-4 text-slate-400"><code class="text-amber-300">if-else</code> encadenados o <code class="text-amber-300">switch-case</code> limitados.</td>
+                  <td class="py-3.5 px-4 text-purple-300 font-medium">Expresión <code class="text-purple-300">when</code> exhaustiva y pattern matching.</td>
+                  <td class="py-3.5 px-4 text-emerald-300">Menos anidamiento y ramas no controladas.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- Comparativas Técnicas 1 a 1 -->
+        <section class="space-y-8">
+          <div>
+            <h2 class="text-2xl font-bold text-white">Comparativa Técnica: Antes vs Después</h2>
+            <p class="text-slate-400 text-sm mt-1">Examinemos los componentes neurálgicos del Sandbox migrados a Kotlin.</p>
+          </div>
+
+          <!-- 1. Modelos de Datos -->
+          <article class="bg-slate-900/80 border border-slate-800 rounded-2xl overflow-hidden shadow-lg space-y-4">
+            <div class="px-6 pt-6 pb-2 border-b border-slate-800/80 flex items-center justify-between">
+              <div>
+                <span class="text-xs font-bold uppercase tracking-wider text-purple-400">1. Modelos de Datos</span>
+                <h3 class="text-lg font-bold text-white">Contact Model (Modelo de Contacto para RecyclerView)</h3>
+              </div>
+              <span class="text-xs px-2.5 py-1 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">85% menos código</span>
+            </div>
+
+            <div class="p-6 grid grid-cols-1 lg:grid-cols-1 gap-6">
+              <!-- Java -->
+              <div class="space-y-2">
+                <div class="flex items-center justify-between text-xs font-semibold px-3 py-1.5 bg-amber-950/40 border border-amber-800/40 rounded-t-lg text-amber-300">
+                  <span>Java 11 (Contact.java - 45 líneas)</span>
+                  <span>Clásico</span>
+                </div>
+                <pre class="m-0 rounded-b-lg border border-slate-800 bg-slate-950 p-4 text-xs overflow-x-auto"><code class="language-java">public class Contact {
+    private final String id;
+    private final String name;
+    private final String phone;
+    private final String category;
+    private final boolean favorite;
+
+    public Contact(String id, String name, String phone, 
+                   String category, boolean favorite) {
+        this.id = id;
+        this.name = name;
+        this.phone = phone;
+        this.category = category;
+        this.favorite = favorite;
+    }
+
+    public String getId() { return id; }
+    public String getName() { return name; }
+    public String getPhone() { return phone; }
+    public String getCategory() { return category; }
+    public boolean isFavorite() { return favorite; }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Contact)) return false;
+        Contact contact = (Contact) o;
+        return Objects.equals(id, contact.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
+}</code></pre>
+              </div>
+
+              <!-- Kotlin -->
+              <div class="space-y-2">
+                <div class="flex items-center justify-between text-xs font-semibold px-3 py-1.5 bg-purple-950/40 border border-purple-800/40 rounded-t-lg text-purple-300">
+                  <span>Kotlin (Contact.kt - 7 líneas)</span>
+                  <span>Moderno</span>
+                </div>
+                <pre class="m-0 rounded-b-lg border border-slate-800 bg-slate-950 p-4 text-xs overflow-x-auto"><code class="language-kotlin">data class Contact(
+    val id: String,
+    val name: String,
+    val phone: String,
+    val category: String,
+    val isFavorite: Boolean = false
+)
+
+// Genera automáticamente:
+// equals(), hashCode(), toString(), copy(), componentN()</code></pre>
+                <div class="p-3 bg-purple-950/20 border border-purple-900/30 rounded-lg text-xs text-slate-300 leading-relaxed">
+                  <strong class="text-purple-300">Inmutabilidad garantizada:</strong> Todos los campos son <code class="text-purple-200">val</code> y soporta valores por defecto (<code
+                    class="text-purple-200">isFavorite = false</code>).
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <!-- 2. Utilidades y Extension Functions -->
+          <article class="bg-slate-900/80 border border-slate-800 rounded-2xl overflow-hidden shadow-lg space-y-4">
+            <div class="px-6 pt-6 pb-2 border-b border-slate-800/80 flex items-center justify-between">
+              <div>
+                <span class="text-xs font-bold uppercase tracking-wider text-purple-400">2. Extension Functions</span>
+                <h3 class="text-lg font-bold text-white">Validaciones & Helpers de UI (ValidationUtils vs Extensions)</h3>
+              </div>
+              <span class="text-xs px-2.5 py-1 rounded-full bg-indigo-500/20 text-indigo-400 border border-indigo-500/30">Cero clases utilitarias estáticas</span>
+            </div>
+
+            <div class="p-6 grid grid-cols-1 lg:grid-cols-1 gap-6">
+              <!-- Java -->
+              <div class="space-y-2">
+                <div class="flex items-center justify-between text-xs font-semibold px-3 py-1.5 bg-amber-950/40 border border-amber-800/40 rounded-t-lg text-amber-300">
+                  <span>Java 11 (ValidationUtils.java)</span>
+                  <span>Estático</span>
+                </div>
+                <pre class="m-0 rounded-b-lg border border-slate-800 bg-slate-950 p-4 text-xs overflow-x-auto"><code class="language-java">public final class ValidationUtils {
+    private ValidationUtils() {}
+
+    public static boolean isValidEmail(String email) {
+        if (email == null) return false;
+        return Patterns.EMAIL_ADDRESS.matcher(email.trim()).matches();
+    }
+
+    public static void showToast(Context context, String message) {
+        if (context != null && message != null) {
+            Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
+        }
+    }
+}
+
+// Uso en Activity:
+// ValidationUtils.isValidEmail(etEmail.getText().toString());
+// ValidationUtils.showToast(this, "Guardado");</code></pre>
+              </div>
+
+              <!-- Kotlin -->
+              <div class="space-y-2">
+                <div class="flex items-center justify-between text-xs font-semibold px-3 py-1.5 bg-purple-950/40 border border-purple-800/40 rounded-t-lg text-purple-300">
+                  <span>Kotlin (Extensions.kt)</span>
+                  <span>Idiomático</span>
+                </div>
+                <pre class="m-0 rounded-b-lg border border-slate-800 bg-slate-950 p-4 text-xs overflow-x-auto"><code class="language-kotlin">// Extensiones de String y Context
+fun String?.isValidEmail(): Boolean = 
+    !this.isNullOrBlank() && Patterns.EMAIL_ADDRESS.matcher(this.trim()).matches()
+
+fun Context.toast(message: String, duration: Int = Toast.LENGTH_SHORT) {
+    Toast.makeText(this, message, duration).show()
+}
+
+// Uso directo y limpio en cualquier Activity:
+// val valid = binding.etEmail.text?.toString().isValidEmail()
+// toast("Guardado con éxito")</code></pre>
+              </div>
+            </div>
+          </article>
+
+          <!-- 3. Activities y ViewBinding -->
+          <article class="bg-slate-900/80 border border-slate-800 rounded-2xl overflow-hidden shadow-lg space-y-4">
+            <div class="px-6 pt-6 pb-2 border-b border-slate-800/80 flex items-center justify-between">
+              <div>
+                <span class="text-xs font-bold uppercase tracking-wider text-purple-400">3. Controladores de Vistas</span>
+                <h3 class="text-lg font-bold text-white">Activity + ViewBinding vs findViewById Tradicional</h3>
+              </div>
+              <span class="text-xs px-2.5 py-1 rounded-full bg-purple-500/20 text-purple-400 border border-purple-500/30">Type-Safe UI</span>
+            </div>
+
+            <div class="p-6 grid grid-cols-1 lg:grid-cols-1 gap-6">
+              <!-- Java -->
+              <div class="space-y-2">
+                <div class="flex items-center justify-between text-xs font-semibold px-3 py-1.5 bg-amber-950/40 border border-amber-800/40 rounded-t-lg text-amber-300">
+                  <span>Java 11 (LabButtonsActivity.java)</span>
+                  <span>findViewById repetitivo</span>
+                </div>
+                <pre class="m-0 rounded-b-lg border border-slate-800 bg-slate-950 p-4 text-xs overflow-x-auto"><code class="language-java">public class LabButtonsActivity extends AppCompatActivity {
+    private MaterialButton btnNormal;
+    private MaterialButton btnToggle;
+    private TextView tvStatus;
+    private long lastClick = 0;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_lab_buttons);
+
+        btnNormal = findViewById(R.id.btnNormal);
+        btnToggle = findViewById(R.id.btnToggle);
+        tvStatus = findViewById(R.id.tvStatus);
+
+        btnNormal.setOnClickListener(v -> {
+            long now = System.currentTimeMillis();
+            if (now - lastClick < 500) return;
+            lastClick = now;
+            tvStatus.setText(R.string.acbutt_status_button);
+        });
+    }
+}</code></pre>
+              </div>
+
+              <!-- Kotlin -->
+              <div class="space-y-2">
+                <div class="flex items-center justify-between text-xs font-semibold px-3 py-1.5 bg-purple-950/40 border border-purple-800/40 rounded-t-lg text-purple-300">
+                  <span>Kotlin (LabButtonsActivity.kt)</span>
+                  <span>ViewBinding + Lambdas</span>
+                </div>
+                <pre class="m-0 rounded-b-lg border border-slate-800 bg-slate-950 p-4 text-xs overflow-x-auto"><code class="language-kotlin">class LabButtonsActivity : AppCompatActivity() {
+
+    private val binding by lazy { ActivityLabButtonsBinding.inflate(layoutInflater) }
+    private var lastClick = 0L
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(binding.root)
+
+        binding.btnNormal.setOnClickListener {
+            val now = System.currentTimeMillis()
+            if (now - lastClick < 500) return@setOnClickListener
+            lastClick = now
+            binding.tvStatus.setText(R.string.acbutt_status_button)
+        }
+    }
+}</code></pre>
+              </div>
+            </div>
+          </article>
+
+          <!-- 4. RecyclerView y ListAdapter -->
+          <article class="bg-slate-900/80 border border-slate-800 rounded-2xl overflow-hidden shadow-lg space-y-4">
+            <div class="px-6 pt-6 pb-2 border-b border-slate-800/80 flex items-center justify-between">
+              <div>
+                <span class="text-xs font-bold uppercase tracking-wider text-purple-400">4. Listas y Rendimiento</span>
+                <h3 class="text-lg font-bold text-white">RecyclerView: Adapter Tradicional vs ListAdapter + DiffUtil</h3>
+              </div>
+              <span class="text-xs px-2.5 py-1 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">Animaciones y Diffing automáticos</span>
+            </div>
+
+            <div class="p-6 grid grid-cols-1 lg:grid-cols-1 gap-6">
+              <!-- Java -->
+              <div class="space-y-2">
+                <div class="flex items-center justify-between text-xs font-semibold px-3 py-1.5 bg-amber-950/40 border border-amber-800/40 rounded-t-lg text-amber-300">
+                  <span>Java 11 (ContactAdapter.java - Notificaciones manuales)</span>
+                  <span>Manual</span>
+                </div>
+                <pre class="m-0 rounded-b-lg border border-slate-800 bg-slate-950 p-4 text-xs overflow-x-auto"><code class="language-java">public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.VH> {
+    private List<Contact> list;
+
+    public void setData(List<Contact> newList) {
+        this.list = new ArrayList<>(newList);
+        notifyDataSetChanged(); // Ineficiente, redibuja todo
+    }
+
+    @Override
+    public int getItemCount() {
+        return list == null ? 0 : list.size();
+    }
+}</code></pre>
+              </div>
+
+              <!-- Kotlin -->
+              <div class="space-y-2">
+                <div class="flex items-center justify-between text-xs font-semibold px-3 py-1.5 bg-purple-950/40 border border-purple-800/40 rounded-t-lg text-purple-300">
+                  <span>Kotlin (ContactAdapter.kt - ListAdapter nativo)</span>
+                  <span>Optimizado</span>
+                </div>
+                <pre class="m-0 rounded-b-lg border border-slate-800 bg-slate-950 p-4 text-xs overflow-x-auto"><code class="language-kotlin">class ContactAdapter(
+    private val onFavoriteClick: (Contact) -> Unit
+) : ListAdapter<Contact, ContactAdapter.VH>(DIFF_CALLBACK) {
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = VH(
+        ItemContactBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+    )
+
+    override fun onBindViewHolder(holder: VH, position: Int) = holder.bind(getItem(position))
+
+    inner class VH(private val binding: ItemContactBinding) : RecyclerView.ViewHolder(binding.root) {
+        fun bind(item: Contact) = with(binding) {
+            tvName.text = item.name
+            tvPhone.text = item.phone
+            btnFav.setOnClickListener { onFavoriteClick(item) }
+        }
+    }
+
+    companion object {
+        private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Contact>() {
+            override fun areItemsTheSame(old: Contact, new: Contact) = old.id == new.id
+            override fun areContentsTheSame(old: Contact, new: Contact) = old == new
+        }
+    }
+}</code></pre>
+              </div>
+            </div>
+          </article>
+        </section>
+
+        <!-- Plan de Migración por Fases -->
+        <section class="bg-slate-900/90 border border-slate-800 rounded-2xl p-6 lg:p-8 space-y-6">
+          <h2 class="text-2xl font-bold text-white flex items-center gap-3">
+            <span class="flex items-center justify-center w-8 h-8 rounded-lg bg-purple-500/20 text-purple-400 border border-purple-500/30 text-sm font-bold">🚀</span>
+            Hoja de Ruta de Migración (Estrategia Sin Rupturas)
+          </h2>
+          <p class="text-slate-400 text-sm">
+            Kotlin y Java son 100% interoperables en el mismo proyecto Gradle. La migración puede realizarse de forma incremental, módulo por módulo, sin detener el funcionamiento del Sandbox:
+          </p>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 pt-2">
+
+            <div class="p-5 rounded-xl bg-slate-950 border border-slate-800 flex flex-col justify-between space-y-3">
+              <div>
+                <span class="text-xs font-bold text-purple-400 uppercase tracking-wider">Fase 1</span>
+                <h4 class="text-base font-bold text-white mt-1">Configuración Gradle</h4>
+                <p class="text-xs text-slate-400 mt-2">Aplicar plugin <code class="text-purple-300">kotlin-android</code> y habilitar <code class="text-purple-300">viewBinding = true</code> en <code
+                    class="text-slate-300">build.gradle</code>.</p>
+              </div>
+              <span class="text-[11px] text-slate-500 font-mono">build.gradle (.kts)</span>
+            </div>
+
+            <div class="p-5 rounded-xl bg-slate-950 border border-slate-800 flex flex-col justify-between space-y-3">
+              <div>
+                <span class="text-xs font-bold text-purple-400 uppercase tracking-wider">Fase 2</span>
+                <h4 class="text-base font-bold text-white mt-1">Modelos & Utils</h4>
+                <p class="text-xs text-slate-400 mt-2">Migrar clases base como <code class="text-purple-300">Contact.java</code> a <code class="text-purple-300">data class</code> y crear archivo de
+                  <code class="text-purple-300">Extensions.kt</code>.</p>
+              </div>
+              <span class="text-[11px] text-slate-500 font-mono">com.example.sandbox.model</span>
+            </div>
+
+            <div class="p-5 rounded-xl bg-slate-950 border border-slate-800 flex flex-col justify-between space-y-3">
+              <div>
+                <span class="text-xs font-bold text-purple-400 uppercase tracking-wider">Fase 3</span>
+                <h4 class="text-base font-bold text-white mt-1">Flujo Core</h4>
+                <p class="text-xs text-slate-400 mt-2">Migrar <code class="text-purple-300">SplashActivity</code>, <code class="text-purple-300">LoginActivity</code>, <code
+                    class="text-purple-300">RegisterActivity</code> y <code class="text-purple-300">MainActivity</code> con ViewBinding.</p>
+              </div>
+              <span class="text-[11px] text-slate-500 font-mono">Auth & Navigation</span>
+            </div>
+
+            <div class="p-5 rounded-xl bg-slate-950 border border-slate-800 flex flex-col justify-between space-y-3">
+              <div>
+                <span class="text-xs font-bold text-purple-400 uppercase tracking-wider">Fase 4</span>
+                <h4 class="text-base font-bold text-white mt-1">Laboratorios 1 al 10</h4>
+                <p class="text-xs text-slate-400 mt-2">Migrar incrementalmente cada uno de los 10 Labs, simplificando listeners con lambdas y adapters con ListAdapter.</p>
+              </div>
+              <span class="text-[11px] text-slate-500 font-mono">Labs 1 a 10</span>
+            </div>
+
+          </div>
+        </section>
+
+        <!-- Configuración Gradle Recomendada -->
+        <section class="bg-slate-900/80 border border-slate-800 rounded-2xl overflow-hidden shadow-lg space-y-4">
+          <div class="px-6 pt-6 pb-2 border-b border-slate-800/80 flex items-center justify-between">
+            <div>
+              <span class="text-xs font-bold uppercase tracking-wider text-purple-400">Configuración Requerida</span>
+              <h3 class="text-lg font-bold text-white">Cambios en app/build.gradle</h3>
+            </div>
+            <span class="text-xs px-2.5 py-1 rounded-full bg-slate-800 text-slate-300">Gradle Groovy / KTS</span>
+          </div>
+
+          <div class="p-6">
+            <pre class="m-0 rounded-lg border border-slate-800 bg-slate-950 p-4 text-xs overflow-x-auto"><code class="language-groovy">plugins {
+    alias(libs.plugins.android.application)
+    id 'org.jetbrains.kotlin.android' // <-- Agregar plugin de Kotlin
+}
+
+android {
+    namespace 'com.example.sandbox'
+    compileSdk 37
+
+    defaultConfig {
+        applicationId "com.example.sandbox"
+        minSdk 24
+        targetSdk 37
+        versionCode 1
+        versionName "1.0"
+    }
+
+    buildFeatures {
+        viewBinding true // <-- Habilitar ViewBinding para eliminar findViewById
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+    kotlinOptions {
+        jvmTarget = '17'
+    }
+}
+
+dependencies {
+    implementation libs.appcompat
+    implementation libs.material
+    implementation libs.activity
+    implementation libs.constraintlayout
+    
+    // Kotlin KTX Extensions
+    implementation 'androidx.core:core-ktx:1.13.1'
+    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.8.4'
+}</code></pre>
+          </div>
+        </section>
+
+      </div>
+    </main>
+
+    <script src="assets/nav.js"></script>
+  </body>
+
+</html>

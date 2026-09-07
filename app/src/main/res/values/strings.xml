@@ -43,6 +43,7 @@
     <string name="acmain_card_title">¿Cómo funciona internamente?</string>
     <string name="acmain_card_desc">1. EditText con inputType=textEmailAddress y textPassword.\n2. Al pulsar Button → ValidationUtils.isEmail/isPassword → setError() si falla.\n3. Toast + Log.d + SharedPreferences + Intent a RegisterActivity.</string>
     <string name="acmain_go_register">¿No tienes cuenta? Regístrate</string>
+    <string name="acmain_btn_skip">Saltar login → Intro</string>
     <string name="acmain_logger_hint">Mira Logcat con tag \'SANDBOX_LOGIN\' para ver Logger (Log.v/d/i/w/e)</string>
 
     <!-- ACREGI: activity_register -->
@@ -209,4 +210,50 @@
     <string name="acdito_log_no">Dialog: No</string>
     <string name="acdito_log_list">Lista: %1$s</string>
     <string name="acfeed_spinner_hint">Selecciona opción</string>
+
+    <!-- ACHOME nuevos labs -->
+    <string name="achome_card_layouts">8. Layouts — Constraint / Linear / Table</string>
+    <string name="achome_desc_layouts">ConstraintLayout plano, LinearLayout vertical/horizontal, TableLayout con stretchColumns</string>
+    <string name="achome_card_scroll">9. Lista simple — ScrollView</string>
+    <string name="achome_desc_scroll">ScrollView + LinearLayout, 10 contactos hardcodeados, sin adapter</string>
+    <string name="achome_card_recycler">10. RecyclerView — Contactos</string>
+    <string name="achome_desc_recycler">RecyclerView + Adapter + ViewHolder + Card | foto | nombre correo teléfono</string>
+
+    <!-- ACLAYO: activity_layouts -->
+    <string name="aclayo_title">Lab 8 — Layouts</string>
+    <string name="aclayo_info_desc">• ConstraintLayout: plano único, constraints top/start/end/bottom, sin anidación, mejor performance\n• LinearLayout vertical: orientation vertical, weight para repartir\n• LinearLayout horizontal: orientation horizontal, weight y gravity\n• TableLayout: TableRow, stretchColumns, shrinkColumns</string>
+    <string name="aclayo_section_const_title">ConstraintLayout — plano único</string>
+    <string name="aclayo_section_const_desc">4 TextViews con constraints a parent y entre sí. Sin Linear anidado. Recomendado para pantallas complejas.</string>
+    <string name="aclayo_section_linear_vert_title">LinearLayout vertical</string>
+    <string name="aclayo_section_linear_vert_desc">orientation="vertical", 3 botones repartidos con layout_weight="1".</string>
+    <string name="aclayo_section_linear_horiz_title">LinearLayout horizontal</string>
+    <string name="aclayo_section_linear_horiz_desc">orientation="horizontal", 3 chips/iconos en fila con weight, gravity center.</string>
+    <string name="aclayo_section_table_title">TableLayout</string>
+    <string name="aclayo_section_table_desc">TableLayout con stretchColumns="1", 3 filas (header + 2 datos) con TableRow.</string>
+    <string name="aclayo_cell_a">A</string>
+    <string name="aclayo_cell_b">B</string>
+    <string name="aclayo_cell_c">C</string>
+    <string name="aclayo_row_header1">Producto</string>
+    <string name="aclayo_row_header2">Cant.</string>
+    <string name="aclayo_row_header3">Precio</string>
+    <string name="aclayo_row_item1">Teclado</string>
+    <string name="aclayo_row_item2">2</string>
+    <string name="aclayo_row_item3">25€</string>
+    <string name="aclayo_row_item4">Ratón</string>
+    <string name="aclayo_row_item5">1</string>
+    <string name="aclayo_row_item6">15€</string>
+
+    <!-- ACSCRO: activity_simple_scroll_list -->
+    <string name="acscro_title">Lab 9 — Lista simple con ScrollView</string>
+    <string name="acscro_info_desc">ScrollView + LinearLayout vertical. 10 contactos inflados estáticamente (sin RecyclerView). Útil para listas cortas &lt;20 items. Sin reciclaje, toda la lista en memoria.</string>
+    <string name="acscro_item_photo_desc">Foto contacto</string>
+    <string name="acscro_toast">Contacto: %1$s</string>
+
+    <!-- ACRECY: activity_contact_recycler -->
+    <string name="acrecy_title">Lab 10 — RecyclerView Contactos</string>
+    <string name="acrecy_info_desc">RecyclerView + LinearLayoutManager + Adapter + ViewHolder. Componente | foto | nombre correo teléfono. Reciclaje de vistas para listas largas.</string>
+    <string name="acrecy_item_photo_desc">Foto</string>
+    <string name="acrecy_btn_add">Añadir contacto</string>
+    <string name="acrecy_toast_click">Click: %1$s — %2$s</string>
+    <string name="acrecy_empty">Sin contactos</string>
 </resources>

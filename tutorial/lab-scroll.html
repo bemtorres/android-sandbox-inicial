@@ -3,8 +3,8 @@
 
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Lab 4 · Selection — Sandbox</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <title>Lab 9 · ScrollView lista — Sandbox</title>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <style type="text/tailwindcss">@theme{--font-sans:Inter,system-ui,sans-serif;--font-mono:JetBrains Mono,monospace;}</style>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/codemirror.min.css">
@@ -12,7 +12,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
     <style>
-      /* CodeMirror-like code blocks — Dracula, Java + XML */
       pre {
         background: #282a36 !important;
         border: 1px solid #44475a !important;
@@ -69,7 +68,7 @@
       }
 
       .hljs {
-        background: transparent !important;
+        background: transparent !important
       }
 
       .hljs-keyword {
@@ -107,48 +106,20 @@
       .hljs-attr {
         color: #50fa7b !important
       }
-
-      .hljs-attribute {
-        color: #50fa7b !important
-      }
-
-      .hljs-meta {
-        color: #ff79c6 !important
-      }
-
-      .hljs-meta-string {
-        color: #f1fa8c !important
-      }
-
-      .hljs-value {
-        color: #f1fa8c !important
-      }
-
-      .hljs-function .hljs-title {
-        color: #50fa7b !important
-      }
-
-      .hljs-params {
-        color: #f8f8f2 !important
-      }
-
-      .hljs-built_in {
-        color: #8be9fd !important
-      }
     </style>
   </head>
 
   <body class="bg-[#f8f9fb] text-zinc-800 antialiased">
     <header class="sticky top-0 z-50 bg-white/90 backdrop-blur border-b border-zinc-200">
-      <div class="max-w-[1440px] mx-auto px-4 sm:px-6 py-2 flex items-center justify-between">
+      <div class="max-w-[1440px] mx-auto px-4 sm:px-6 py-2 flex items-center justify-between gap-4">
         <div class="flex items-center gap-3"><button id="menuBtn" class="lg:hidden p-2 rounded-xl border border-zinc-200 bg-white"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"
               stroke="currentColor" stroke-width="2">
               <path d="M4 6h16M4 12h16M4 18h16" />
             </svg></button>
-          <div class="w-8 h-8 rounded-xl text-sm bg-violet-600 flex items-center justify-center text-white font-bold">4</div>
+          <div class="w-8 h-8 rounded-xl text-sm bg-orange-600 flex items-center justify-center text-white font-bold">9</div>
           <div class="hidden sm:block">
-            <p class="font-semibold leading-none">Lab 4 · Selection</p>
-            <p class="text-[10px] text-zinc-500">acsele_ · CheckBox / Radio / Switch</p>
+            <p class="font-semibold leading-none">Lab 9 · ScrollView</p>
+            <p class="text-[10px] text-zinc-500">acscro_ · Lista simple</p>
           </div>
         </div>
         <a href="labs.html" class="px-4 py-2 bg-white border border-zinc-200 rounded-full text-sm">← Labs</a>
@@ -161,82 +132,87 @@
       </aside>
       <main class="min-w-0 space-y-6">
         <section class="bg-white rounded-[24px] border border-zinc-200 p-6 sm:p-8">
-          <h1 class="text-3xl font-semibold tracking-tight">Lab 4 — CheckBox · RadioButton · Switch</h1>
-          <p class="mt-2 text-sm text-zinc-500">Tres modelos de selección: múltiple, exclusivo y toggle. Validación combinada con fail rápido.</p>
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+          <h1 class="text-3xl font-semibold tracking-tight">Lab 9 — Lista simple con ScrollView</h1>
+          <p class="mt-2 text-sm text-zinc-500">Cuando la lista es corta (&lt;20) y no necesitas reciclaje. Todo inflado a la vez con <code>ScrollView &gt; LinearLayout</code>.</p>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
             <figure class="group rounded-2xl border-2 border-dashed border-zinc-300 bg-zinc-50 overflow-hidden">
               <div class="aspect-[16/10] flex flex-col items-center justify-center p-6 text-center">
                 <div class="w-10 h-10 rounded-xl bg-white border flex items-center justify-center">📷</div>
-                <p class="mt-2 font-medium text-xs">Layout selection</p>
-                <p class="text-[10px] text-zinc-500">assets/images/lab-selection-preview.png</p>
+                <p class="mt-2 font-medium text-xs">ScrollView lista</p>
+                <p class="text-[11px] text-zinc-500">assets/images/lab-scroll-list.png</p>
               </div>
-              <img src="assets/images/lab-selection-preview.png" alt="Selection layout" class="hidden w-full object-cover"
+              <img src="assets/images/lab-scroll-list.png" alt="Scroll list" class="hidden w-full object-cover"
                 onload="this.parentElement.classList.add('loaded'); this.previousElementSibling.style.display='none'" />
-              <figcaption class="px-3 py-2 bg-white border-t text-[10px] text-zinc-500">Fig. — Design activity_selection.xml, CheckBox + RadioGroup + Switches</figcaption>
+              <figcaption class="px-3 py-2 bg-white border-t text-[11px] text-zinc-500">Fig. — 10 contactos hardcodeados, cada card | foto | nombre correo teléfono</figcaption>
             </figure>
             <figure class="group rounded-2xl border-2 border-dashed border-zinc-300 bg-zinc-50 overflow-hidden">
               <div class="aspect-[16/10] flex flex-col items-center justify-center p-6 text-center">
                 <div class="w-10 h-10 rounded-xl bg-white border flex items-center justify-center">📷</div>
-                <p class="mt-2 font-medium text-xs">Resultado validado</p>
-                <p class="text-[10px] text-zinc-500">assets/images/lab-selection-result.png</p>
+                <p class="mt-2 font-medium text-xs">Click Toast</p>
+                <p class="text-[11px] text-zinc-500">assets/images/lab-scroll-toast.png</p>
               </div>
-              <img src="assets/images/lab-selection-result.png" alt="Result" class="hidden w-full object-cover"
+              <img src="assets/images/lab-scroll-toast.png" alt="Toast" class="hidden w-full object-cover"
                 onload="this.parentElement.classList.add('loaded'); this.previousElementSibling.style.display='none'" />
-              <figcaption class="px-3 py-2 bg-white border-t text-[10px] text-zinc-500">Fig. — Emulador con "✓ Terms OK | Plan: Pro | Newsletter: sí"</figcaption>
+              <figcaption class="px-3 py-2 bg-white border-t text-[11px] text-zinc-500">Fig. — Click en fila → Toast "Contacto: Ana García" + Log</figcaption>
             </figure>
           </div>
+
           <div class="mt-6 grid lg:grid-cols-1 gap-6">
             <div class="rounded-2xl border border-zinc-200 p-5">
-              <p class="font-semibold text-sm">Vistas y APIs</p>
-              <pre class="mt-3 bg-zinc-50 rounded-xl p-4 text-xs border overflow-auto"><code>&lt;CheckBox android:text="@string/acsele_cb_terms"/&gt; // isChecked()
-&lt;CheckBox android:text="@string/acsele_cb_newsletter"/&gt;
-
-&lt;RadioGroup android:id="@+id/rgOptions"&gt;
-  &lt;RadioButton text="@string/acsele_rb_free"/&gt;
-  &lt;RadioButton text="@string/acsele_rb_pro"/&gt;
-  &lt;RadioButton text="@string/acsele_rb_ent"/&gt;
-&lt;/RadioGroup&gt; // getCheckedRadioButtonId() == -1 si ninguno
-
-&lt;SwitchMaterial text="@string/acsele_sw_notif"/&gt;
-&lt;SwitchMaterial text="@string/acsele_sw_dark"/&gt;</code></pre>
+              <p class="font-semibold text-sm">Layout — ScrollView + LinearLayout</p>
+              <pre class="mt-3"><code class="language-xml">&lt;LinearLayout orientation="vertical"&gt;
+  &lt;MaterialCardView&gt; // header acscro_info_desc &lt;/CardView&gt;
+  &lt;ScrollView layout_weight="1"&gt;
+    &lt;LinearLayout android:id="@+id/container"
+                  orientation="vertical"/&gt;
+  &lt;/ScrollView&gt;
+&lt;/LinearLayout&gt;</code></pre>
+              <p class="mt-2 text-xs text-zinc-600"><code>container</code> es donde se hace <code>addView</code> en bucle.</p>
             </div>
             <div class="rounded-2xl border border-zinc-200 p-5">
-              <p class="font-semibold text-sm">Listeners</p>
-              <pre class="mt-3 bg-zinc-900 text-zinc-100 rounded-xl p-4 text-xs"><code>cbTerms.setOnCheckedChangeListener((b,c)-> Log.d(TAG,"cbTerms="+c));
-rg.setOnCheckedChangeListener((g,id)-> Log.d(TAG,"radio="+id));
-swNotif.setOnCheckedChangeListener((b,c)-> Log.d(TAG,"switch="+c));</code></pre>
-              <p class="mt-2 text-xs text-zinc-600">Cada cambio logea. No valida hasta pulsar botón.</p>
+              <p class="font-semibold text-sm">Inflado dinámico en bucle</p>
+              <pre class="mt-3"><code class="language-java">LinearLayout container = findViewById(R.id.container);
+LayoutInflater inflater = LayoutInflater.from(this);
+for(String[] row : data){
+  View item = inflater.inflate(R.layout.item_contact, container, false);
+  ((TextView)item.findViewById(R.id.tvName)).setText(row[0]);
+  ((TextView)item.findViewById(R.id.tvEmail)).setText(row[1]);
+  ((TextView)item.findViewById(R.id.tvPhone)).setText(row[2]);
+  item.setOnClickListener(v -> {
+    Toast.makeText(this, getString(R.string.acscro_toast, row[0]), SHORT).show();
+  });
+  container.addView(item);
+}</code></pre>
+              <p class="mt-2 text-xs text-zinc-600">10 inflates → 10 addView. Sin Adapter, sin ViewHolder. Simple pero no recicla.</p>
             </div>
           </div>
-          <div class="mt-6 rounded-2xl bg-zinc-900 text-zinc-100 p-6">
-            <p class="font-semibold">Validación combinada — orden importa</p>
-            <pre class="mt-3 bg-black rounded-xl p-4 text-xs overflow-auto"><code class="language-java">boolean terms = cbTerms.isChecked();
-int radio = rg.getCheckedRadioButtonId(); // -1 si vacío
-if(!terms){
-  Toast.makeText(this, getString(R.string.acsele_toast_terms), SHORT).show();
-  tvResult.setText(getString(R.string.acsele_result_terms_fail)); // ❌ acepta términos
-  return; // fail rápido
-}
-if(radio==-1){
-  Toast.makeText(this, getString(R.string.acsele_toast_plan), SHORT).show();
-  tvResult.setText(getString(R.string.acsele_result_plan_fail));
-  return;
-}
-String plan = radio==R.id.rbFree? getString(acsele_rb_free) : ...;
-String res = getString(R.string.acsele_result_detail, plan, newsletter?"Sí":"No", notif?"on":"off", dark?"on":"off");
-tvResult.setText(getString(R.string.acsele_result_ok, res));</code></pre>
-            <p class="mt-3 text-xs text-zinc-400">Terminal: <code>TextView id=tvSelectionResult</code> con <code>acsele_result_default → terms_fail → plan_fail → result_ok</code>.</p>
+
+          <div class="mt-6 rounded-2xl bg-amber-50 border border-amber-200 p-5">
+            <p class="font-semibold text-sm">Cuándo usar ScrollView vs RecyclerView</p>
+            <div class="mt-3 grid md:grid-cols-2 gap-4 text-xs">
+              <div>
+                <p class="font-medium">ScrollView ✅</p>
+                <p class="text-zinc-700">Lista corta, estática, &lt;20 items, sin scroll anidado, prototipo rápido.</p>
+              </div>
+              <div>
+                <p class="font-medium">RecyclerView ✅</p>
+                <p class="text-zinc-700">Lista larga/dinámica, reciclaje, animaciones, diff, paginación.</p>
+              </div>
+            </div>
+            <p class="mt-3 text-xs text-zinc-600">ScrollView con 100 contactos = 100 views en memoria → lag. Recycler recicla ~7-10 views visibles.</p>
           </div>
         </section>
         <section class="bg-white rounded-[24px] border border-zinc-200 p-6 sm:p-8">
           <h2 class="text-xl font-semibold tracking-tight">Cómo se desarrolló</h2>
           <ol class="mt-4 list-decimal pl-5 text-sm text-zinc-700 space-y-2">
-            <li>Layout <code>ScrollView</code> + Card <code>acsele_info_desc</code> + 2 CheckBox + RadioGroup 3 opciones + 2 SwitchMaterial + TextView result + Button validate.</li>
-            <li>En <code>onCreate</code>: <code>findViewById</code> 6 vistas + 5 listeners que solo logean.</li>
-            <li>Validar recorre 3 tipos: <code>boolean terms</code> (obligatorio), <code>int radio</code> (exclusivo), <code>boolean notif/dark</code> (opcional pero se reporta).</li>
+            <li>Crea <code>activity_simple_scroll_list.xml</code> con header card + ScrollView container.</li>
+            <li>Reusa <code>item_contact.xml</code> (mismo componente que Recycler: | foto | nombre correo teléfono |).</li>
+            <li>En <code>SimpleScrollListActivity.java</code> define <code>String[][] data</code> 10 filas.</li>
+            <li>Loop <code>inflate → findViewById → setText → setOnClickListener → addView</code> + log <code>SANDBOX_SCROLL</code>.</li>
           </ol>
-          <div class="mt-4 flex flex-wrap gap-2 text-xs"><a href="lab-feedback.html" class="px-4 py-2 bg-zinc-900 text-white rounded-full">Siguiente → Feedback</a><a href="lab-buttons.html"
-              class="px-4 py-2 bg-white border border-zinc-200 rounded-full">← Anterior Buttons</a></div>
+          <div class="mt-4 flex flex-wrap gap-2 text-xs"><a href="lab-recycler.html" class="px-4 py-2 bg-orange-600 text-white rounded-full">Siguiente → RecyclerView</a><a href="lab-layouts.html"
+              class="px-4 py-2 bg-white border border-zinc-200 rounded-full">← Anterior Layouts</a></div>
         </section>
       </main>
     </div>

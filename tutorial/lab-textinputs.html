@@ -1,147 +1,323 @@
 <!DOCTYPE html>
 <html lang="es">
-<head>
-<meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Lab 1 · TextInputs — Sandbox</title>
-<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-<style type="text/tailwindcss">@theme{--font-sans:Inter,system-ui,sans-serif;--font-mono:JetBrains Mono,monospace;}</style>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/codemirror.min.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/theme/dracula.min.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
-<style>
-  /* CodeMirror-like code blocks — Dracula, Java + XML */
-  pre {
-    background:#282a36 !important;
-    border:1px solid #44475a !important;
-    border-radius:12px !important;
-    padding:0 !important;
-    overflow:hidden !important;
-    position:relative !important;
-    margin:0 !important;
-  }
-  pre code {
-    display:block !important;
-    padding:1rem 1rem 1rem 3.8rem !important;
-    font-family:'JetBrains Mono', Consolas, monospace !important;
-    font-size:12.5px !important;
-    line-height:1.65 !important;
-    color:#f8f8f2 !important;
-    background:transparent !important;
-    overflow-x:auto !important;
-  }
-  pre::before {
-    content:"";
-    position:absolute;
-    left:0; top:0; bottom:0;
-    width:3.2rem;
-    background:#21222c;
-    border-right:1px solid #44475a;
-    z-index:0;
-  }
-  .cm-gutter {
-    position:absolute;
-    left:0; top:0; bottom:0;
-    width:3.2rem;
-    padding:1rem 0;
-    text-align:right;
-    font-family:'JetBrains Mono', monospace;
-    font-size:11.5px;
-    line-height:1.65;
-    color:#6272a4;
-    user-select:none;
-    z-index:1;
-    pointer-events:none;
-  }
-  .cm-gutter span { display:block; padding-right:0.75rem; }
-  .hljs { background:transparent !important; }
-  .hljs-keyword{color:#ff79c6 !important}
-  .hljs-string{color:#f1fa8c !important}
-  .hljs-comment{color:#6272a4 !important}
-  .hljs-type{color:#8be9fd !important}
-  .hljs-title{color:#50fa7b !important}
-  .hljs-number{color:#bd93f9 !important}
-  .hljs-tag{color:#f8f8f2 !important}
-  .hljs-name{color:#ff79c6 !important}
-  .hljs-attr{color:#50fa7b !important}
-  .hljs-attribute{color:#50fa7b !important}
-  .hljs-meta{color:#ff79c6 !important}
-  .hljs-meta-string{color:#f1fa8c !important}
-  .hljs-value{color:#f1fa8c !important}
-  .hljs-function .hljs-title{color:#50fa7b !important}
-  .hljs-params{color:#f8f8f2 !important}
-  .hljs-built_in{color:#8be9fd !important}
-</style>
-<style type="text/tailwindcss">@theme{--font-sans:Inter,system-ui,sans-serif;--font-mono:JetBrains Mono,monospace;}</style>
-<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-<style type="text/tailwindcss">@theme{--font-sans:Inter,system-ui,sans-serif;--font-mono:JetBrains Mono,monospace;}</style>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
-</head>
-<body class="bg-[#f8f9fb] text-zinc-800 antialiased">
-<header class="sticky top-0 z-50 bg-white/90 backdrop-blur border-b border-zinc-200">
-<div class="max-w-[1440px] mx-auto px-4 sm:px-6 py-3 flex items-center justify-between">
-<div class="flex items-center gap-3"><button id="menuBtn" class="lg:hidden p-2 rounded-xl border border-zinc-200 bg-white"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h16"/></svg></button><div class="w-9 h-9 rounded-xl bg-violet-600 flex items-center justify-center text-white font-bold">1</div><div class="hidden sm:block"><p class="font-semibold leading-none">Lab 1 · TextInputs</p><p class="text-[11px] text-zinc-500">actinp_ · TextView + 6 EditText</p></div></div>
-<div class="hidden md:flex items-center gap-2 text-xs"><span class="px-2 py-1 rounded-full bg-zinc-900 text-white">activity_text_inputs.xml</span><span class="px-2 py-1 rounded-full border border-zinc-200">TextInputsActivity.java:11</span></div>
-<a href="labs.html" class="px-4 py-2 bg-white border border-zinc-200 rounded-full text-sm">← Labs</a>
-</div></header>
-<div id="overlay" class="fixed inset-0 bg-black/30 z-40 hidden lg:hidden"></div>
-<div class="max-w-[1440px] mx-auto px-4 sm:px-6 py-6 lg:py-8 grid grid-cols-1 lg:grid-cols-[300px_minmax(0,1fr)] gap-6 lg:gap-8">
-<aside id="sidebar" class="fixed lg:sticky top-0 lg:top-[65px] left-0 z-40 w-[300px] h-[100dvh] lg:h-[calc(100vh-65px)] bg-white lg:bg-transparent border-r lg:border-0 border-zinc-200 overflow-auto p-6 lg:p-0 -translate-x-full lg:translate-x-0 transition-transform duration-200">
-<div class="flex items-center justify-between lg:hidden mb-4"><p class="font-semibold">Navegación</p><button id="closeBtn" class="p-2 rounded-xl border border-zinc-200"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg></button></div>
-<nav class="space-y-6 text-[13px]">
-<div><p class="font-semibold mb-2">Fundamentos</p><ul class="space-y-1 text-zinc-600"><li><a href="index.html" class="block py-1.5 px-2 hover:bg-zinc-50 rounded-lg">Dashboard</a></li><li><a href="arquitectura.html" class="block py-1.5 px-2 hover:bg-zinc-50 rounded-lg">Arquitectura</a></li><li><a href="strings-i18n.html" class="block py-1.5 px-2 hover:bg-zinc-50 rounded-lg">Strings & i18n</a></li></ul></div>
-<div><p class="font-semibold mb-2">Labs</p><ul class="space-y-1 text-zinc-600"><li><a href="labs.html" class="block py-1.5 px-2 hover:bg-zinc-50 rounded-lg">Índice labs</a></li><li><a href="lab-textinputs.html" class="block py-1.5 px-2 rounded-lg bg-violet-600 text-white">Lab 1 · TextInputs</a></li><li><a href="lab-datetime.html" class="block py-1.5 px-2 hover:bg-zinc-50 rounded-lg">Lab 2 · Date/Time</a></li><li><a href="lab-buttons.html" class="block py-1.5 px-2 hover:bg-zinc-50 rounded-lg">Lab 3 · Buttons</a></li><li><a href="lab-selection.html" class="block py-1.5 px-2 hover:bg-zinc-50 rounded-lg">Lab 4 · Selection</a></li><li><a href="lab-feedback.html" class="block py-1.5 px-2 hover:bg-zinc-50 rounded-lg">Lab 5 · Feedback</a></li><li><a href="lab-webview.html" class="block py-1.5 px-2 hover:bg-zinc-50 rounded-lg">Lab 6 · WebView</a></li><li><a href="lab-dialog.html" class="block py-1.5 px-2 hover:bg-zinc-50 rounded-lg">Lab 7 · Dialog</a></li></ul></div>
-</nav></aside>
-<main class="min-w-0 space-y-8">
-<section class="bg-white rounded-[24px] border border-zinc-200 p-6 sm:p-8">
-<h1 class="text-3xl font-semibold tracking-tight">Lab 1 — TextView + 6 EditText</h1>
-<p class="mt-2 text-sm text-zinc-500">Objetivo: dominar <code>inputType</code>, <code>TextInputLayout</code>, <code>setError</code>, <code>TextWatcher</code> y <code>TextView</code> como preview. Carpeta: <code>sandbox/TextInputsActivity.java</code></p>
-<div class="mt-6 grid lg:grid-cols-2 gap-6">
-<div class="rounded-2xl border border-zinc-200 p-5">
-<p class="font-semibold text-sm">6 EditText — qué teclado abre cada inputType</p>
-<div class="mt-3 overflow-x-auto -mx-2 px-2">
-<table class="min-w-[520px] w-full text-xs border-collapse"><thead class="text-zinc-500"><tr><th class="text-left py-2 border-b">Campo (hint actinp_)</th><th class="text-left border-b">inputType</th><th class="text-left border-b">Teclado</th><th class="text-left border-b">Validador</th></tr></thead>
-<tbody class="divide-y divide-zinc-100">
-<tr><td class="py-2 font-mono">actinp_hint_plain → Nombre</td><td class="font-mono">text</td><td>Texto + autocorrect</td><td>isRequired</td></tr>
-<tr><td class="py-2">Email</td><td class="font-mono">textEmailAddress</td><td>Email (@, .com)</td><td>isEmail → Patterns</td></tr>
-<tr><td class="py-2">Teléfono</td><td class="font-mono">phone</td><td>Marcación</td><td>isPhone ^\+?[0-9 ]{9,15}$</td></tr>
-<tr><td class="py-2">Código Postal</td><td class="font-mono">number</td><td>Numérico</td><td>isPostal ^\d{5}$</td></tr>
-<tr><td class="py-2">Password</td><td class="font-mono">textPassword</td><td>Texto oculto + ojito</td><td>isPassword len≥6</td></tr>
-<tr><td class="py-2">PIN</td><td class="font-mono">numberPassword</td><td>Numérico oculto</td><td>isNumericPassword ^\d{4,6}$</td></tr>
-</tbody></table>
-</div>
-<p class="mt-3 text-xs text-zinc-600"><code>TextInputLayout</code> envuelve y pinta <code>android:hint</code> flotante + <code>app:helperText</code> (ej. <code>actinp_helper_textEmail</code>) + <code>app:passwordToggleEnabled</code> para ojito.</p>
-</div>
-<div class="rounded-2xl bg-zinc-50 border border-zinc-200 p-5">
-<p class="font-semibold text-sm">TextView preview</p>
-<pre class="mt-3 bg-white rounded-xl p-4 text-xs border overflow-auto"><code>&lt;TextView android:id="@+id/tvPreview"
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lab 1 · TextInputs — Sandbox</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <style type="text/tailwindcss">@theme{--font-sans:Inter,system-ui,sans-serif;--font-mono:JetBrains Mono,monospace;}</style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/codemirror.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/theme/dracula.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <style>
+      /* CodeMirror-like code blocks — Dracula, Java + XML */
+      pre {
+        background: #282a36 !important;
+        border: 1px solid #44475a !important;
+        border-radius: 12px !important;
+        padding: 0 !important;
+        overflow: hidden !important;
+        position: relative !important;
+        margin: 0 !important;
+      }
+
+      pre code {
+        display: block !important;
+        padding: 1rem 1rem 1rem 3.8rem !important;
+        font-family: 'JetBrains Mono', Consolas, monospace !important;
+        font-size: 12.5px !important;
+        line-height: 1.65 !important;
+        color: #f8f8f2 !important;
+        background: transparent !important;
+        overflow-x: auto !important;
+      }
+
+      pre::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: 3.2rem;
+        background: #21222c;
+        border-right: 1px solid #44475a;
+        z-index: 0;
+      }
+
+      .cm-gutter {
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: 3.2rem;
+        padding: 1rem 0;
+        text-align: right;
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 11.5px;
+        line-height: 1.65;
+        color: #6272a4;
+        user-select: none;
+        z-index: 1;
+        pointer-events: none;
+      }
+
+      .cm-gutter span {
+        display: block;
+        padding-right: 0.75rem;
+      }
+
+      .hljs {
+        background: transparent !important;
+      }
+
+      .hljs-keyword {
+        color: #ff79c6 !important
+      }
+
+      .hljs-string {
+        color: #f1fa8c !important
+      }
+
+      .hljs-comment {
+        color: #6272a4 !important
+      }
+
+      .hljs-type {
+        color: #8be9fd !important
+      }
+
+      .hljs-title {
+        color: #50fa7b !important
+      }
+
+      .hljs-number {
+        color: #bd93f9 !important
+      }
+
+      .hljs-tag {
+        color: #f8f8f2 !important
+      }
+
+      .hljs-name {
+        color: #ff79c6 !important
+      }
+
+      .hljs-attr {
+        color: #50fa7b !important
+      }
+
+      .hljs-attribute {
+        color: #50fa7b !important
+      }
+
+      .hljs-meta {
+        color: #ff79c6 !important
+      }
+
+      .hljs-meta-string {
+        color: #f1fa8c !important
+      }
+
+      .hljs-value {
+        color: #f1fa8c !important
+      }
+
+      .hljs-function .hljs-title {
+        color: #50fa7b !important
+      }
+
+      .hljs-params {
+        color: #f8f8f2 !important
+      }
+
+      .hljs-built_in {
+        color: #8be9fd !important
+      }
+    </style>
+  </head>
+
+  <body class="bg-[#f8f9fb] text-zinc-800 antialiased">
+    <header class="sticky top-0 z-50 bg-white/90 backdrop-blur border-b border-zinc-200">
+      <div class="max-w-[1440px] mx-auto px-4 sm:px-6 py-2 flex items-center justify-between">
+        <div class="flex items-center gap-3"><button id="menuBtn" class="lg:hidden p-2 rounded-xl border border-zinc-200 bg-white"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2">
+              <path d="M4 6h16M4 12h16M4 18h16" />
+            </svg></button>
+          <div class="w-8 h-8 rounded-xl text-sm bg-violet-600 flex items-center justify-center text-white font-bold">1</div>
+          <div class="hidden sm:block">
+            <p class="font-semibold leading-none">Lab 1 · TextInputs</p>
+            <p class="text-[10px] text-zinc-500">actinp_ · TextView + 6 EditText</p>
+          </div>
+        </div>
+        <div class="hidden md:flex items-center gap-2 text-xs"><span class="px-2 py-1 rounded-full bg-zinc-900 text-white">activity_text_inputs.xml</span><span
+            class="px-2 py-1 rounded-full border border-zinc-200">TextInputsActivity.java:11</span></div>
+        <a href="labs.html" class="px-4 py-2 bg-white border border-zinc-200 rounded-full text-sm">← Labs</a>
+      </div>
+    </header>
+    <div id="overlay" class="fixed inset-0 bg-black/30 z-40 hidden lg:hidden"></div>
+    <div class="max-w-[1440px] mx-auto px-4 sm:px-6 py-4 lg:py-6 grid grid-cols-1 lg:grid-cols-[240px_minmax(0,1fr)] gap-4 lg:gap-6">
+      <aside id="sidebar"
+        class="fixed lg:sticky top-0 lg:top-[53px] left-0 z-40 w-[240px] h-[100dvh] lg:h-[calc(100vh-53px)] bg-white lg:bg-transparent border-r lg:border-0 border-zinc-200 overflow-auto p-4 lg:p-0 -translate-x-full lg:translate-x-0 transition-transform duration-200">
+      </aside>
+      <main class="min-w-0 space-y-6">
+        <section class="bg-white rounded-[24px] border border-zinc-200 p-6 sm:p-8">
+          <h1 class="text-3xl font-semibold tracking-tight">Lab 1 — TextView + 6 EditText</h1>
+          <p class="mt-2 text-sm text-zinc-500">Objetivo: dominar <code>inputType</code>, <code>TextInputLayout</code>, <code>setError</code>, <code>TextWatcher</code> y <code>TextView</code> como
+            preview. Carpeta: <code>sandbox/TextInputsActivity.java</code></p>
+          <div class="mt-6 grid lg:grid-cols-1 gap-6">
+            <div class="rounded-2xl border border-zinc-200 p-5">
+              <p class="font-semibold text-sm">6 EditText — qué teclado abre cada inputType</p>
+              <div class="mt-3 overflow-x-auto -mx-2 px-2">
+                <table class="min-w-[520px] w-full text-xs border-collapse">
+                  <thead class="text-zinc-500">
+                    <tr>
+                      <th class="text-left py-2 border-b">Campo (hint actinp_)</th>
+                      <th class="text-left border-b">inputType</th>
+                      <th class="text-left border-b">Teclado</th>
+                      <th class="text-left border-b">Validador</th>
+                    </tr>
+                  </thead>
+                  <tbody class="divide-y divide-zinc-100">
+                    <tr>
+                      <td class="py-2 font-mono">actinp_hint_plain → Nombre</td>
+                      <td class="font-mono">text</td>
+                      <td>Texto + autocorrect</td>
+                      <td>isRequired</td>
+                    </tr>
+                    <tr>
+                      <td class="py-2">Email</td>
+                      <td class="font-mono">textEmailAddress</td>
+                      <td>Email (@, .com)</td>
+                      <td>isEmail → Patterns</td>
+                    </tr>
+                    <tr>
+                      <td class="py-2">Teléfono</td>
+                      <td class="font-mono">phone</td>
+                      <td>Marcación</td>
+                      <td>isPhone ^\+?[0-9 ]{9,15}$</td>
+                    </tr>
+                    <tr>
+                      <td class="py-2">Código Postal</td>
+                      <td class="font-mono">number</td>
+                      <td>Numérico</td>
+                      <td>isPostal ^\d{5}$</td>
+                    </tr>
+                    <tr>
+                      <td class="py-2">Password</td>
+                      <td class="font-mono">textPassword</td>
+                      <td>Texto oculto + ojito</td>
+                      <td>isPassword len≥6</td>
+                    </tr>
+                    <tr>
+                      <td class="py-2">PIN</td>
+                      <td class="font-mono">numberPassword</td>
+                      <td>Numérico oculto</td>
+                      <td>isNumericPassword ^\d{4,6}$</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <p class="mt-3 text-xs text-zinc-600"><code>TextInputLayout</code> envuelve y pinta <code>android:hint</code> flotante + <code>app:helperText</code> (ej.
+                <code>actinp_helper_textEmail</code>) + <code>app:passwordToggleEnabled</code> para ojito.
+              </p>
+            </div>
+            <div class="rounded-2xl bg-zinc-50 border border-zinc-200 p-5">
+              <p class="font-semibold text-sm">TextView preview</p>
+              <pre class="mt-3 bg-white rounded-xl p-4 text-xs border overflow-auto"><code>&lt;TextView android:id="@+id/tvPreview"
   android:text="@string/actinp_preview" // "Preview TextView: se actualiza al validar"
   android:background="#FFEDE7F6"/&gt;</code></pre>
-<p class="mt-2 text-xs text-zinc-600">Solo muestra texto: <code>tvPreview.setText(getString(actinp_preview_ok, plain,email,phone))</code> o <code>actinp_preview_error</code>. Demuestra <code>TextView.setText</code> vs <code>EditText.getText</code>.</p>
-</div>
-</div>
-<div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
-<figure class="group rounded-2xl border-2 border-dashed border-zinc-300 bg-zinc-50 overflow-hidden">
-  <div class="aspect-[16/10] flex flex-col items-center justify-center p-6 text-center"><div class="w-10 h-10 rounded-xl bg-white border flex items-center justify-center">📷</div><p class="mt-2 font-medium text-xs">Design preview</p><p class="text-[11px] text-zinc-500">assets/images/lab-textinputs-preview.png</p></div>
-  <img src="assets/images/lab-textinputs-preview.png" alt="Design" class="hidden w-full object-cover" onload="this.parentElement.classList.add('loaded'); this.previousElementSibling.style.display='none'" />
-  <figcaption class="px-3 py-2 bg-white border-t text-[11px] text-zinc-500">Fig. — activity_text_inputs.xml Design split, 6 TextInputLayout</figcaption>
-</figure>
-<figure class="group rounded-2xl border-2 border-dashed border-zinc-300 bg-zinc-50 overflow-hidden">
-  <div class="aspect-[16/10] flex flex-col items-center justify-center p-6 text-center"><div class="w-10 h-10 rounded-xl bg-white border flex items-center justify-center">📷</div><p class="mt-2 font-medium text-xs">Emulador validado</p><p class="text-[11px] text-zinc-500">assets/images/lab-textinputs-emulator.png</p></div>
-  <img src="assets/images/lab-textinputs-emulator.png" alt="Emulador" class="hidden w-full object-cover" onload="this.parentElement.classList.add('loaded'); this.previousElementSibling.style.display='none'" />
-  <figcaption class="px-3 py-2 bg-white border-t text-[11px] text-zinc-500">Fig. — Lab 1 con preview "✓ Todo válido → plain:..."</figcaption>
-</figure>
-<figure class="group rounded-2xl border-2 border-dashed border-zinc-300 bg-zinc-50 overflow-hidden">
-  <div class="aspect-[16/10] flex flex-col items-center justify-center p-6 text-center"><div class="w-10 h-10 rounded-xl bg-white border flex items-center justify-center">📷</div><p class="mt-2 font-medium text-xs">Error setError</p><p class="text-[11px] text-zinc-500">assets/images/lab-textinputs-error.png</p></div>
-  <img src="assets/images/lab-textinputs-error.png" alt="Error" class="hidden w-full object-cover" onload="this.parentElement.classList.add('loaded'); this.previousElementSibling.style.display='none'" />
-  <figcaption class="px-3 py-2 bg-white border-t text-[11px] text-zinc-500">Fig. — Campo en rojo + Toast "Corrige los errores"</figcaption>
-</figure>
-</div>
-<div class="mt-6 grid lg:grid-cols-2 gap-6">
-<pre class="bg-zinc-900 text-zinc-100 rounded-2xl p-5 text-xs overflow-auto"><code class="language-java">// Validación en bloque — patrón fail acumulativo
+              <p class="mt-2 text-xs text-zinc-600">Solo muestra texto: <code>tvPreview.setText(getString(actinp_preview_ok, plain,email,phone))</code> o <code>actinp_preview_error</code>. Demuestra
+                <code>TextView.setText</code> vs <code>EditText.getText</code>.
+              </p>
+            </div>
+          </div>
+          <!-- BLOQUES DE CAPTURA EN ROJO (GUÍA TEMPORAL PARA BORRAR TRAS AGREGAR FOTOS) -->
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
+            <!-- Foto 1 -->
+            <div class="rounded-2xl border-2 border-red-500 bg-red-50/90 p-5 text-red-950 flex flex-col justify-between">
+              <div>
+                <div class="flex items-center justify-between gap-1 pb-2 border-b border-red-200">
+                  <span class="px-2 py-0.5 rounded bg-red-600 text-white font-bold text-[10px] uppercase tracking-wider">🔴 Foto 1: Design</span>
+                  <span class="text-[9px] font-bold text-red-600 uppercase bg-red-100 px-1.5 py-0.5 rounded border border-red-300">Borrar al poner foto</span>
+                </div>
+                <div class="mt-3 space-y-1.5 text-xs">
+                  <p><strong class="text-red-900">📄 Vista XML:</strong> <code
+                      class="text-red-700 bg-white px-1 py-0.5 rounded border border-red-200 font-mono font-bold">activity_text_inputs.xml</code></p>
+                  <p><strong class="text-red-900">☕ Clase:</strong> <code class="text-red-700 bg-white px-1 py-0.5 rounded border border-red-200 font-mono font-bold">TextInputsActivity.java</code></p>
+                  <p><strong class="text-red-900">🎯 Qué capturar:</strong> Android Studio en modo Split mostrando los 6 <code>TextInputLayout</code> con sus hints y estilos.</p>
+                  <p><strong class="text-red-900">💾 Guardar:</strong> <code
+                      class="text-red-800 bg-white px-1 py-0.5 rounded border border-red-200 font-mono font-bold">assets/images/lab-textinputs-preview.png</code></p>
+                </div>
+              </div>
+              <figure class="group rounded-xl border-2 border-dashed border-red-400 bg-white overflow-hidden mt-4">
+                <div class="aspect-[16/10] flex flex-col items-center justify-center p-3 text-center">
+                  <div class="w-7 h-7 rounded-lg bg-red-100 border border-red-300 flex items-center justify-center text-red-600 text-sm">📷</div>
+                  <p class="mt-1 font-bold text-[11px] text-red-800">lab-textinputs-preview.png</p>
+                </div>
+                <img src="assets/images/lab-textinputs-preview.png" alt="Design" class="hidden w-full object-cover"
+                  onload="this.parentElement.classList.add('loaded'); this.previousElementSibling.style.display='none'" />
+                <figcaption class="px-2.5 py-1 bg-red-100/60 border-t border-red-200 text-[10px] text-red-800 font-medium">Fig. 1 — Vista previa de diseño</figcaption>
+              </figure>
+            </div>
+
+            <!-- Foto 2 -->
+            <div class="rounded-2xl border-2 border-red-500 bg-red-50/90 p-5 text-red-950 flex flex-col justify-between">
+              <div>
+                <div class="flex items-center justify-between gap-1 pb-2 border-b border-red-200">
+                  <span class="px-2 py-0.5 rounded bg-red-600 text-white font-bold text-[10px] uppercase tracking-wider">🔴 Foto 2: Válido</span>
+                  <span class="text-[9px] font-bold text-red-600 uppercase bg-red-100 px-1.5 py-0.5 rounded border border-red-300">Borrar al poner foto</span>
+                </div>
+                <div class="mt-3 space-y-1.5 text-xs">
+                  <p><strong class="text-red-900">📄 Vista XML:</strong> <code
+                      class="text-red-700 bg-white px-1 py-0.5 rounded border border-red-200 font-mono font-bold">activity_text_inputs.xml</code></p>
+                  <p><strong class="text-red-900">☕ Clase:</strong> <code class="text-red-700 bg-white px-1 py-0.5 rounded border border-red-200 font-mono font-bold">TextInputsActivity.java</code></p>
+                  <p><strong class="text-red-900">🎯 Qué capturar:</strong> Emulador con todos los campos llenados válidamente y el <code>tvPreview</code> morado mostrando "✓ Todo válido".</p>
+                  <p><strong class="text-red-900">💾 Guardar:</strong> <code
+                      class="text-red-800 bg-white px-1 py-0.5 rounded border border-red-200 font-mono font-bold">assets/images/lab-textinputs-emulator.png</code></p>
+                </div>
+              </div>
+              <figure class="group rounded-xl border-2 border-dashed border-red-400 bg-white overflow-hidden mt-4">
+                <div class="aspect-[16/10] flex flex-col items-center justify-center p-3 text-center">
+                  <div class="w-7 h-7 rounded-lg bg-red-100 border border-red-300 flex items-center justify-center text-red-600 text-sm">📷</div>
+                  <p class="mt-1 font-bold text-[11px] text-red-800">lab-textinputs-emulator.png</p>
+                </div>
+                <img src="assets/images/lab-textinputs-emulator.png" alt="Emulador" class="hidden w-full object-cover"
+                  onload="this.parentElement.classList.add('loaded'); this.previousElementSibling.style.display='none'" />
+                <figcaption class="px-2.5 py-1 bg-red-100/60 border-t border-red-200 text-[10px] text-red-800 font-medium">Fig. 2 — Formulario validado con éxito</figcaption>
+              </figure>
+            </div>
+
+            <!-- Foto 3 -->
+            <div class="rounded-2xl border-2 border-red-500 bg-red-50/90 p-5 text-red-950 flex flex-col justify-between">
+              <div>
+                <div class="flex items-center justify-between gap-1 pb-2 border-b border-red-200">
+                  <span class="px-2 py-0.5 rounded bg-red-600 text-white font-bold text-[10px] uppercase tracking-wider">🔴 Foto 3: Error</span>
+                  <span class="text-[9px] font-bold text-red-600 uppercase bg-red-100 px-1.5 py-0.5 rounded border border-red-300">Borrar al poner foto</span>
+                </div>
+                <div class="mt-3 space-y-1.5 text-xs">
+                  <p><strong class="text-red-900">📄 Vista XML:</strong> <code
+                      class="text-red-700 bg-white px-1 py-0.5 rounded border border-red-200 font-mono font-bold">activity_text_inputs.xml</code></p>
+                  <p><strong class="text-red-900">☕ Clase:</strong> <code class="text-red-700 bg-white px-1 py-0.5 rounded border border-red-200 font-mono font-bold">TextInputsActivity.java</code></p>
+                  <p><strong class="text-red-900">🎯 Qué capturar:</strong> Dejar campos vacíos o email inválido, pulsar Validar para ver <code>setError</code> en rojo y Toast.</p>
+                  <p><strong class="text-red-900">💾 Guardar:</strong> <code
+                      class="text-red-800 bg-white px-1 py-0.5 rounded border border-red-200 font-mono font-bold">assets/images/lab-textinputs-error.png</code></p>
+                </div>
+              </div>
+              <figure class="group rounded-xl border-2 border-dashed border-red-400 bg-white overflow-hidden mt-4">
+                <div class="aspect-[16/10] flex flex-col items-center justify-center p-3 text-center">
+                  <div class="w-7 h-7 rounded-lg bg-red-100 border border-red-300 flex items-center justify-center text-red-600 text-sm">📷</div>
+                  <p class="mt-1 font-bold text-[11px] text-red-800">lab-textinputs-error.png</p>
+                </div>
+                <img src="assets/images/lab-textinputs-error.png" alt="Error" class="hidden w-full object-cover"
+                  onload="this.parentElement.classList.add('loaded'); this.previousElementSibling.style.display='none'" />
+                <figcaption class="px-2.5 py-1 bg-red-100/60 border-t border-red-200 text-[10px] text-red-800 font-medium">Fig. 3 — Estado de error con setError</figcaption>
+              </figure>
+            </div>
+          </div>
+          <div class="mt-6 grid lg:grid-cols-1 gap-6">
+            <pre class="bg-zinc-900 text-zinc-100 rounded-2xl p-5 text-xs overflow-auto"><code class="language-java">// Validación en bloque — patrón fail acumulativo
 boolean ok = true;
 if(!ValidationUtils.isRequired(plain)){ tilPlain.setError(common_err_required); ok=false; } else tilPlain.setError(null);
 if(!isEmail(email)){ tilEmail.setError(common_err_email); ok=false; } else tilEmail.setError(null);
@@ -154,43 +330,37 @@ if(!ok){
 }
 tvPreview.setText(getString(R.string.actinp_preview_ok, plain, email, phone));
 Toast.makeText(this, getString(common_toast_validation_ok), SHORT).show();</code></pre>
-<div class="rounded-2xl border border-zinc-200 p-5">
-<p class="font-semibold text-sm">Por qué dos botones Validar/Limpiar</p><p class="mt-2 text-sm text-zinc-600">Validar = ejecuta bloque anterior. Limpiar = <code>setText("")</code> + <code>setError(null)</code> + <code>tvPreview=actinp_preview</code> + <code>Log.d</code>. Así practicas reset sin re-crear Activity.</p>
-<div class="mt-4 rounded-xl bg-amber-50 border border-amber-200 p-3 text-xs"><p class="font-medium">Responsive</p><p>ScrollView + LinearLayout: todos <code>match_parent</code>, 12dp horizontal padding. No Card anidada, scroll natural. MaterialButton Validar peso 1 + Space 8dp + Limpiar outlined peso 1.</p></div>
-</div>
-</div>
-</section>
-<section class="bg-white rounded-[24px] border border-zinc-200 p-6 sm:p-8">
-<h2 class="text-xl font-semibold tracking-tight">Cómo se desarrolló paso a paso (mano a mano)</h2>
-<ol class="mt-4 list-decimal pl-5 text-sm text-zinc-700 space-y-2">
-<li>Crea <code>activity_text_inputs.xml</code> con <code>ScrollView</code> + título <code>actinp_title</code> + Card <code>common_label_operation / actinp_info_desc</code>.</li>
-<li>Añade 6 <code>TextInputLayout</code> con ids <code>tilPlain…tilPin</code> y 6 <code>TextInputEditText</code> <code>etPlain…etPin</code> + <code>app:helperText</code> <code>actinp_helper_*</code>.</li>
-<li>Añade <code>TextView id=tvPreview</code> con <code>actinp_preview</code>.</li>
-<li>En <code>TextInputsActivity.onCreate</code>: <code>setContentView</code> → <code>bind()</code> (findViewById x 13) → listeners de 2 botones.</li>
-<li>Implementa <code>validate()</code> con bloque acumulativo <code>boolean ok</code> + <code>Toast common_msg_correct_errors</code> + <code>actinp_preview_error</code>.</li>
-<li>Implementa <code>clear()</code> con reset + <code>Log.d</code>. Valida strings con <code>ValidationUtils</code>.</li>
-</ol>
-<div class="mt-4 flex flex-wrap gap-2 text-xs"><a href="lab-datetime.html" class="px-4 py-2 bg-violet-600 text-white rounded-full">Siguiente Lab 2 →</a><a href="validacion.html" class="px-4 py-2 bg-white border border-zinc-200 rounded-full">Ver estrategia validación →</a></div>
-</section>
-</main>
-</div>
-<script>
-  hljs.highlightAll();
-  document.querySelectorAll('pre code').forEach(code=>{
-    const pre = code.parentElement;
-    if(pre.querySelector('.cm-gutter')) return;
-    const gutter = document.createElement('div');
-    gutter.className='cm-gutter';
-    const n = code.textContent.split('\n').length;
-    for(let i=1;i<=n;i++){
-      const s=document.createElement('span');
-      s.textContent=i;
-      gutter.appendChild(s);
-    }
-    pre.style.position='relative';
-    pre.appendChild(gutter);
-    pre.classList.add('cm-s-dracula');
-  });
-</script>
-</body>
+            <div class="rounded-2xl border border-zinc-200 p-5">
+              <p class="font-semibold text-sm">Por qué dos botones Validar/Limpiar</p>
+              <p class="mt-2 text-sm text-zinc-600">Validar = ejecuta bloque anterior. Limpiar = <code>setText("")</code> + <code>setError(null)</code> + <code>tvPreview=actinp_preview</code> +
+                <code>Log.d</code>. Así practicas reset sin re-crear Activity.
+              </p>
+              <div class="mt-4 rounded-xl bg-amber-50 border border-amber-200 p-3 text-xs">
+                <p class="font-medium">Responsive</p>
+                <p>ScrollView + LinearLayout: todos <code>match_parent</code>, 12dp horizontal padding. No Card anidada, scroll natural. MaterialButton Validar peso 1 + Space 8dp + Limpiar outlined
+                  peso 1.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+        <section class="bg-white rounded-[24px] border border-zinc-200 p-6 sm:p-8">
+          <h2 class="text-xl font-semibold tracking-tight">Cómo se desarrolló paso a paso (mano a mano)</h2>
+          <ol class="mt-4 list-decimal pl-5 text-sm text-zinc-700 space-y-2">
+            <li>Crea <code>activity_text_inputs.xml</code> con <code>ScrollView</code> + título <code>actinp_title</code> + Card <code>common_label_operation / actinp_info_desc</code>.</li>
+            <li>Añade 6 <code>TextInputLayout</code> con ids <code>tilPlain…tilPin</code> y 6 <code>TextInputEditText</code> <code>etPlain…etPin</code> + <code>app:helperText</code>
+              <code>actinp_helper_*</code>.
+            </li>
+            <li>Añade <code>TextView id=tvPreview</code> con <code>actinp_preview</code>.</li>
+            <li>En <code>TextInputsActivity.onCreate</code>: <code>setContentView</code> → <code>bind()</code> (findViewById x 13) → listeners de 2 botones.</li>
+            <li>Implementa <code>validate()</code> con bloque acumulativo <code>boolean ok</code> + <code>Toast common_msg_correct_errors</code> + <code>actinp_preview_error</code>.</li>
+            <li>Implementa <code>clear()</code> con reset + <code>Log.d</code>. Valida strings con <code>ValidationUtils</code>.</li>
+          </ol>
+          <div class="mt-4 flex flex-wrap gap-2 text-xs"><a href="lab-datetime.html" class="px-4 py-2 bg-violet-600 text-white rounded-full">Siguiente Lab 2 →</a><a href="validacion.html"
+              class="px-4 py-2 bg-white border border-zinc-200 rounded-full">Ver estrategia validación →</a></div>
+        </section>
+      </main>
+    </div>
+    <script src="assets/nav.js"></script>
+  </body>
+
 </html>

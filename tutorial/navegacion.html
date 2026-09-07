@@ -1,146 +1,204 @@
 <!DOCTYPE html>
 <html lang="es">
-<head>
-<meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
-<title>Navegación y paso de datos — Sandbox</title>
-<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-<style type="text/tailwindcss">@theme{--font-sans:Inter,system-ui,sans-serif;--font-mono:JetBrains Mono,monospace;}</style>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/codemirror.min.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/theme/dracula.min.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
-<style>
-  /* CodeMirror-like code blocks — Dracula, Java + XML */
-  pre {
-    background:#282a36 !important;
-    border:1px solid #44475a !important;
-    border-radius:12px !important;
-    padding:0 !important;
-    overflow:hidden !important;
-    position:relative !important;
-    margin:0 !important;
-  }
-  pre code {
-    display:block !important;
-    padding:1rem 1rem 1rem 3.8rem !important;
-    font-family:'JetBrains Mono', Consolas, monospace !important;
-    font-size:12.5px !important;
-    line-height:1.65 !important;
-    color:#f8f8f2 !important;
-    background:transparent !important;
-    overflow-x:auto !important;
-  }
-  pre::before {
-    content:"";
-    position:absolute;
-    left:0; top:0; bottom:0;
-    width:3.2rem;
-    background:#21222c;
-    border-right:1px solid #44475a;
-    z-index:0;
-  }
-  .cm-gutter {
-    position:absolute;
-    left:0; top:0; bottom:0;
-    width:3.2rem;
-    padding:1rem 0;
-    text-align:right;
-    font-family:'JetBrains Mono', monospace;
-    font-size:11.5px;
-    line-height:1.65;
-    color:#6272a4;
-    user-select:none;
-    z-index:1;
-    pointer-events:none;
-  }
-  .cm-gutter span { display:block; padding-right:0.75rem; }
-  .hljs { background:transparent !important; }
-  .hljs-keyword{color:#ff79c6 !important}
-  .hljs-string{color:#f1fa8c !important}
-  .hljs-comment{color:#6272a4 !important}
-  .hljs-type{color:#8be9fd !important}
-  .hljs-title{color:#50fa7b !important}
-  .hljs-number{color:#bd93f9 !important}
-  .hljs-tag{color:#f8f8f2 !important}
-  .hljs-name{color:#ff79c6 !important}
-  .hljs-attr{color:#50fa7b !important}
-  .hljs-attribute{color:#50fa7b !important}
-  .hljs-meta{color:#ff79c6 !important}
-  .hljs-meta-string{color:#f1fa8c !important}
-  .hljs-value{color:#f1fa8c !important}
-  .hljs-function .hljs-title{color:#50fa7b !important}
-  .hljs-params{color:#f8f8f2 !important}
-  .hljs-built_in{color:#8be9fd !important}
-</style>
-<style type="text/tailwindcss">@theme{--font-sans:Inter,system-ui,sans-serif;--font-mono:JetBrains Mono,monospace;}</style>
-<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-<style type="text/tailwindcss">@theme{--font-sans:Inter,system-ui,sans-serif;--font-mono:JetBrains Mono,monospace;}</style>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
-</head>
-<body class="bg-[#f8f9fb] text-zinc-800 antialiased">
-<header class="sticky top-0 z-50 bg-white/90 backdrop-blur border-b border-zinc-200">
-<div class="max-w-[1440px] mx-auto px-4 sm:px-6 py-3 flex items-center justify-between gap-4">
-<div class="flex items-center gap-3"><button id="menuBtn" class="lg:hidden p-2 rounded-xl border border-zinc-200 bg-white"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h16"/></svg></button><div class="w-9 h-9 rounded-xl bg-violet-600 flex items-center justify-center text-white font-bold">⇄</div><div class="hidden sm:block"><p class="font-semibold leading-none">Navegación & Datos</p><p class="text-[11px] text-zinc-500">Cambiar de vista + pasar información</p></div></div>
-<div class="hidden md:flex items-center gap-2 text-[11px]"><span class="px-2 py-1 rounded-full bg-zinc-900 text-white">Intent explícito</span><span class="px-2 py-1 rounded-full border border-zinc-200">putExtra / Bundle</span><span class="px-2 py-1 rounded-full border border-zinc-200">SharedPreferences</span></div>
-<a href="index.html" class="px-4 py-2 bg-white border border-zinc-200 rounded-full text-sm">← Dashboard</a>
-</div></header>
-<div id="overlay" class="fixed inset-0 bg-black/30 z-40 hidden lg:hidden"></div>
-<div class="max-w-[1440px] mx-auto px-4 sm:px-6 py-6 lg:py-8 grid grid-cols-1 lg:grid-cols-[300px_minmax(0,1fr)] gap-6 lg:gap-8">
-<aside id="sidebar" class="fixed lg:sticky top-0 lg:top-[65px] left-0 z-40 w-[300px] h-[100dvh] lg:h-[calc(100vh-65px)] bg-white lg:bg-transparent border-r lg:border-0 border-zinc-200 overflow-auto p-6 lg:p-0 -translate-x-full lg:translate-x-0 transition-transform duration-200">
-<div class="flex items-center justify-between lg:hidden mb-4"><p class="font-semibold">Navegación</p><button id="closeBtn" class="p-2 rounded-xl border border-zinc-200"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg></button></div>
-<nav class="space-y-6 text-[13px]">
-<div><p class="font-semibold mb-2">Fundamentos</p><ul class="space-y-1 text-zinc-600">
-<li><a href="index.html" class="block py-1.5 px-2 hover:bg-zinc-50 rounded-lg">Dashboard</a></li>
-<li><a href="arquitectura.html" class="block py-1.5 px-2 hover:bg-zinc-50 rounded-lg">Arquitectura</a></li>
-<li><a href="strings-i18n.html" class="block py-1.5 px-2 hover:bg-zinc-50 rounded-lg">Strings & i18n</a></li>
-<li><a href="navegacion.html" class="block py-1.5 px-2 rounded-lg bg-violet-600 text-white">Navegación & paso datos</a></li>
-</ul></div>
-<div><p class="font-semibold mb-2">Core</p><ul class="space-y-1 text-zinc-600">
-<li><a href="auth.html" class="block py-1.5 px-2 hover:bg-zinc-50 rounded-lg">Login / Registro / Intro</a></li>
-<li><a href="home.html" class="block py-1.5 px-2 hover:bg-zinc-50 rounded-lg">Home Hub</a></li>
-</ul></div>
-<div><p class="font-semibold mb-2">Labs</p><ul class="space-y-1 text-zinc-600">
-<li><a href="labs.html" class="block py-1.5 px-2 hover:bg-zinc-50 rounded-lg">Índice labs</a></li>
-<li><a href="lab-textinputs.html" class="block py-1.5 px-2 hover:bg-zinc-50 rounded-lg">Lab 1 · TextInputs</a></li>
-<li><a href="lab-datetime.html" class="block py-1.5 px-2 hover:bg-zinc-50 rounded-lg">Lab 2 · Date/Time</a></li>
-<li><a href="lab-buttons.html" class="block py-1.5 px-2 hover:bg-zinc-50 rounded-lg">Lab 3 · Buttons</a></li>
-<li><a href="lab-selection.html" class="block py-1.5 px-2 hover:bg-zinc-50 rounded-lg">Lab 4 · Selection</a></li>
-<li><a href="lab-feedback.html" class="block py-1.5 px-2 hover:bg-zinc-50 rounded-lg">Lab 5 · Feedback</a></li>
-<li><a href="lab-webview.html" class="block py-1.5 px-2 hover:bg-zinc-50 rounded-lg">Lab 6 · WebView</a></li>
-<li><a href="lab-dialog.html" class="block py-1.5 px-2 hover:bg-zinc-50 rounded-lg">Lab 7 · Dialog</a></li></ul></div>
-<div><p class="font-semibold mb-2">Técnico</p><ul class="space-y-1 text-zinc-600">
-<li><a href="vistas.html" class="block py-1.5 px-2 hover:bg-zinc-50 rounded-lg">Catálogo vistas</a></li><li><a href="validacion.html" class="block py-1.5 px-2 hover:bg-zinc-50 rounded-lg">Validación</a></li><li><a href="debug.html" class="block py-1.5 px-2 hover:bg-zinc-50 rounded-lg">Build & Logcat</a></li></ul></div>
-</nav></aside>
-<main class="min-w-0 space-y-8">
-<section class="bg-white rounded-[24px] border border-zinc-200 p-6 sm:p-8">
-<h1 class="text-3xl font-semibold tracking-tight">Cómo cambiar de vista y pasar información</h1>
-<p class="mt-2 text-sm text-zinc-500">Dos problemas separados: <strong class="text-zinc-900">cambiar de pantalla</strong> (Intent) y <strong class="text-zinc-900">pasar datos</strong> (extras, Bundle, Parcelable, SharedPreferences). Aquí cómo se hace en este Sandbox y cómo escalarlo.</p>
-<figure class="group rounded-2xl border-2 border-dashed border-zinc-300 bg-zinc-50 overflow-hidden mb-6">
-  <div class="aspect-[16/9] flex flex-col items-center justify-center p-8 text-center">
-    <div class="w-12 h-12 rounded-xl bg-white border border-zinc-200 flex items-center justify-center">📷</div>
-    <p class="mt-3 font-medium text-sm">Flujo visual — Main → Register → Intro → Home</p>
-    <p class="text-xs text-zinc-500">Guarda como <code class="bg-white border px-1 rounded">assets/images/navegacion-flow.png</code> · captura Logcat o diagrama flechas</p>
-  </div>
-  <img src="assets/images/navegacion-flow.png" alt="Flujo" class="hidden w-full object-cover" onload="this.parentElement.classList.add('loaded'); this.previousElementSibling.style.display='none'" />
-  <figcaption class="px-4 py-2 bg-white border-t text-xs text-zinc-500">Fig. — Esquema flechas exportec=true MAIN → putExtra email → getStringExtra + Prefs → Hub</figcaption>
-</figure>
-<div class="mt-6 grid grid-cols-1 md:grid-cols-3 gap-3 text-xs">
-<div class="rounded-2xl bg-zinc-900 text-white p-4"><p class="font-semibold">Cambiar vista = Intent explícito</p><p class="text-zinc-300 mt-1">Origen conoce Destino.class. Declarado en Manifest.</p></div>
-<div class="rounded-2xl border border-zinc-200 p-4"><p class="font-semibold">Pasar dato = putExtra / Bundle / Prefs</p><p class="text-zinc-600 mt-1">Primitivos y Strings por Intent; objetos por Parcelable; sesión por SharedPreferences.</p></div>
-<div class="rounded-2xl border border-zinc-200 p-4"><p class="font-semibold">Dentro de la misma Activity</p><p class="text-zinc-600 mt-1">findViewById + setText + listeners. Sin Intent.</p></div>
-</div>
-</section>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <title>Navegación y paso de datos — Sandbox</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <style type="text/tailwindcss">@theme{--font-sans:Inter,system-ui,sans-serif;--font-mono:JetBrains Mono,monospace;}</style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/codemirror.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/theme/dracula.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <style>
+      /* CodeMirror-like code blocks — Dracula, Java + XML */
+      pre {
+        background: #282a36 !important;
+        border: 1px solid #44475a !important;
+        border-radius: 12px !important;
+        padding: 0 !important;
+        overflow: hidden !important;
+        position: relative !important;
+        margin: 0 !important;
+      }
 
-<section class="bg-white rounded-[24px] border border-zinc-200 p-6 sm:p-8">
-<h2 class="text-xl font-semibold tracking-tight">1. Cambiar entre vistas (Activity → Activity)</h2>
-<p class="mt-2 text-sm text-zinc-500">Este proyecto usa <strong>Actividad por pantalla</strong> (didáctico). En producción migrarías a Navigation Component + Fragments.</p>
-<div class="mt-6 grid lg:grid-cols-2 gap-6">
-<div class="rounded-2xl border border-zinc-200 p-5">
-<p class="font-semibold text-sm">Declaración en Manifest — obligatorio</p>
-<pre class="mt-3 bg-zinc-900 text-zinc-100 rounded-xl p-4 text-xs overflow-auto"><code class="language-xml">&lt;activity android:name=".MainActivity"
+      pre code {
+        display: block !important;
+        padding: 1rem 1rem 1rem 3.8rem !important;
+        font-family: 'JetBrains Mono', Consolas, monospace !important;
+        font-size: 12.5px !important;
+        line-height: 1.65 !important;
+        color: #f8f8f2 !important;
+        background: transparent !important;
+        overflow-x: auto !important;
+      }
+
+      pre::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: 3.2rem;
+        background: #21222c;
+        border-right: 1px solid #44475a;
+        z-index: 0;
+      }
+
+      .cm-gutter {
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: 3.2rem;
+        padding: 1rem 0;
+        text-align: right;
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 11.5px;
+        line-height: 1.65;
+        color: #6272a4;
+        user-select: none;
+        z-index: 1;
+        pointer-events: none;
+      }
+
+      .cm-gutter span {
+        display: block;
+        padding-right: 0.75rem;
+      }
+
+      .hljs {
+        background: transparent !important;
+      }
+
+      .hljs-keyword {
+        color: #ff79c6 !important
+      }
+
+      .hljs-string {
+        color: #f1fa8c !important
+      }
+
+      .hljs-comment {
+        color: #6272a4 !important
+      }
+
+      .hljs-type {
+        color: #8be9fd !important
+      }
+
+      .hljs-title {
+        color: #50fa7b !important
+      }
+
+      .hljs-number {
+        color: #bd93f9 !important
+      }
+
+      .hljs-tag {
+        color: #f8f8f2 !important
+      }
+
+      .hljs-name {
+        color: #ff79c6 !important
+      }
+
+      .hljs-attr {
+        color: #50fa7b !important
+      }
+
+      .hljs-attribute {
+        color: #50fa7b !important
+      }
+
+      .hljs-meta {
+        color: #ff79c6 !important
+      }
+
+      .hljs-meta-string {
+        color: #f1fa8c !important
+      }
+
+      .hljs-value {
+        color: #f1fa8c !important
+      }
+
+      .hljs-function .hljs-title {
+        color: #50fa7b !important
+      }
+
+      .hljs-params {
+        color: #f8f8f2 !important
+      }
+
+      .hljs-built_in {
+        color: #8be9fd !important
+      }
+    </style>
+  </head>
+
+  <body class="bg-[#f8f9fb] text-zinc-800 antialiased">
+    <header class="sticky top-0 z-50 bg-white/90 backdrop-blur border-b border-zinc-200">
+      <div class="max-w-[1440px] mx-auto px-4 sm:px-6 py-2 flex items-center justify-between gap-4">
+        <div class="flex items-center gap-3"><button id="menuBtn" class="lg:hidden p-2 rounded-xl border border-zinc-200 bg-white"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2">
+              <path d="M4 6h16M4 12h16M4 18h16" />
+            </svg></button>
+          <div class="w-8 h-8 rounded-xl text-sm bg-violet-600 flex items-center justify-center text-white font-bold">⇄</div>
+          <div class="hidden sm:block">
+            <p class="font-semibold leading-none">Navegación & Datos</p>
+            <p class="text-[10px] text-zinc-500">Cambiar de vista + pasar información</p>
+          </div>
+        </div>
+        <div class="hidden md:flex items-center gap-2 text-[11px]"><span class="px-2 py-1 rounded-full bg-zinc-900 text-white">Intent explícito</span><span
+            class="px-2 py-1 rounded-full border border-zinc-200">putExtra / Bundle</span><span class="px-2 py-1 rounded-full border border-zinc-200">SharedPreferences</span></div>
+        <a href="index.html" class="px-4 py-2 bg-white border border-zinc-200 rounded-full text-sm">← Dashboard</a>
+      </div>
+    </header>
+    <div id="overlay" class="fixed inset-0 bg-black/30 z-40 hidden lg:hidden"></div>
+    <div class="max-w-[1440px] mx-auto px-4 sm:px-6 py-4 lg:py-6 grid grid-cols-1 lg:grid-cols-[240px_minmax(0,1fr)] gap-4 lg:gap-6">
+      <aside id="sidebar"
+        class="fixed lg:sticky top-0 lg:top-[53px] left-0 z-40 w-[240px] h-[100dvh] lg:h-[calc(100vh-53px)] bg-white lg:bg-transparent border-r lg:border-0 border-zinc-200 overflow-auto p-4 lg:p-0 -translate-x-full lg:translate-x-0 transition-transform duration-200">
+      </aside>
+      <main class="min-w-0 space-y-6">
+        <section class="bg-white rounded-[24px] border border-zinc-200 p-6 sm:p-8">
+          <h1 class="text-3xl font-semibold tracking-tight">Cómo cambiar de vista y pasar información</h1>
+          <p class="mt-2 text-sm text-zinc-500">Dos problemas separados: <strong class="text-zinc-900">cambiar de pantalla</strong> (Intent) y <strong class="text-zinc-900">pasar datos</strong>
+            (extras, Bundle, Parcelable, SharedPreferences). Aquí cómo se hace en este Sandbox y cómo escalarlo.</p>
+          <figure class="group rounded-2xl border-2 border-dashed border-zinc-300 bg-zinc-50 overflow-hidden mb-6">
+            <div class="aspect-[16/9] flex flex-col items-center justify-center p-8 text-center">
+              <div class="w-12 h-12 rounded-xl bg-white border border-zinc-200 flex items-center justify-center">📷</div>
+              <p class="mt-3 font-medium text-sm">Flujo visual — Main → Register → Intro → Home</p>
+              <p class="text-xs text-zinc-500">Guarda como <code class="bg-white border px-1 rounded">assets/images/navegacion-flow.png</code> · captura Logcat o diagrama flechas</p>
+            </div>
+            <img src="assets/images/navegacion-flow.png" alt="Flujo" class="hidden w-full object-cover"
+              onload="this.parentElement.classList.add('loaded'); this.previousElementSibling.style.display='none'" />
+            <figcaption class="px-4 py-2 bg-white border-t text-xs text-zinc-500">Fig. — Esquema flechas exportec=true MAIN → putExtra email → getStringExtra + Prefs → Hub</figcaption>
+          </figure>
+          <div class="mt-6 grid grid-cols-1 md:grid-cols-3 gap-3 text-xs">
+            <div class="rounded-2xl bg-zinc-900 text-white p-4">
+              <p class="font-semibold">Cambiar vista = Intent explícito</p>
+              <p class="text-zinc-300 mt-1">Origen conoce Destino.class. Declarado en Manifest.</p>
+            </div>
+            <div class="rounded-2xl border border-zinc-200 p-4">
+              <p class="font-semibold">Pasar dato = putExtra / Bundle / Prefs</p>
+              <p class="text-zinc-600 mt-1">Primitivos y Strings por Intent; objetos por Parcelable; sesión por SharedPreferences.</p>
+            </div>
+            <div class="rounded-2xl border border-zinc-200 p-4">
+              <p class="font-semibold">Dentro de la misma Activity</p>
+              <p class="text-zinc-600 mt-1">findViewById + setText + listeners. Sin Intent.</p>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-white rounded-[24px] border border-zinc-200 p-6 sm:p-8">
+          <h2 class="text-xl font-semibold tracking-tight">1. Cambiar entre vistas (Activity → Activity)</h2>
+          <p class="mt-2 text-sm text-zinc-500">Este proyecto usa <strong>Actividad por pantalla</strong> (didáctico). En producción migrarías a Navigation Component + Fragments.</p>
+          <div class="mt-6 grid lg:grid-cols-1 gap-6">
+            <div class="rounded-2xl border border-zinc-200 p-5">
+              <p class="font-semibold text-sm">Declaración en Manifest — obligatorio</p>
+              <pre class="mt-3 bg-zinc-900 text-zinc-100 rounded-xl p-4 text-xs overflow-auto"><code class="language-xml">&lt;activity android:name=".MainActivity"
           android:exported="true" &gt; &lt;!-- solo launcher --&gt;
   &lt;intent-filter&gt;
     &lt;action android:name="android.intent.action.MAIN"/&gt;
@@ -150,11 +208,11 @@
 &lt;activity android:name=".RegisterActivity" android:exported="false"
           android:windowSoftInputMode="adjustResize"/&gt;
 &lt;activity android:name=".sandbox.TextInputsActivity" android:exported="false"/&gt;</code></pre>
-<p class="mt-3 text-xs text-zinc-600">Android 12+ exige <code>exported</code> explícito. <code>adjustResize</code> evita que teclado oculte EditText.</p>
-</div>
-<div class="rounded-2xl border border-zinc-200 p-5">
-<p class="font-semibold text-sm">Disparar navegación desde un botón</p>
-<pre class="mt-3 bg-zinc-900 text-zinc-100 rounded-xl p-4 text-xs overflow-auto"><code class="language-java">// 1) Botón en layout: android:id="@+id/btnLogin"
+              <p class="mt-3 text-xs text-zinc-600">Android 12+ exige <code>exported</code> explícito. <code>adjustResize</code> evita que teclado oculte EditText.</p>
+            </div>
+            <div class="rounded-2xl border border-zinc-200 p-5">
+              <p class="font-semibold text-sm">Disparar navegación desde un botón</p>
+              <pre class="mt-3 bg-zinc-900 text-zinc-100 rounded-xl p-4 text-xs overflow-auto"><code class="language-java">// 1) Botón en layout: android:id="@+id/btnLogin"
 // 2) En onCreate de MainActivity.java:25
 MaterialButton btn = findViewById(R.id.btnLogin);
 btn.setOnClickListener(v -> {
@@ -168,48 +226,51 @@ private void go(Class&lt;?&gt; cls, String label){
   startActivity(new Intent(this, cls));
 }
 findViewById(R.id.cardInputs).setOnClickListener(v -> go(TextInputsActivity.class, "TextInputs"));</code></pre>
-<p class="mt-2 text-xs text-zinc-600"><code>new Intent(context, Destino.class)</code> = Intent <strong>explícito</strong> (sabes a dónde vas). Implícito sería <code>ACTION_VIEW</code> para abrir browser.</p>
-</div>
-</div>
-<div class="mt-6 grid md:grid-cols-3 gap-4">
-<div class="rounded-2xl bg-zinc-50 border border-zinc-200 p-5">
-<p class="font-semibold text-sm">Back stack</p><p class="mt-2 text-xs text-zinc-600">Cada <code>startActivity</code> apila. Botón sistema ← hace <code>pop</code>. <code>finish()</code> cierra actual sin ir a nueva. <code>finishAffinity()</code> cierra toda la tarea.</p>
-<pre class="mt-3 bg-white rounded-xl p-3 text-xs border"><code>findViewById(R.id.tvGoLogin).setOnClickListener(v -> finish());</code></pre>
-</div>
-<div class="rounded-2xl border border-zinc-200 p-5">
-<p class="font-semibold text-sm">Edge: WebView</p>
-<pre class="mt-3 bg-zinc-900 text-zinc-100 rounded-xl p-3 text-xs"><code>@Override public void onBackPressed(){
+              <p class="mt-2 text-xs text-zinc-600"><code>new Intent(context, Destino.class)</code> = Intent <strong>explícito</strong> (sabes a dónde vas). Implícito sería <code>ACTION_VIEW</code>
+                para abrir browser.</p>
+            </div>
+          </div>
+          <div class="mt-6 grid md:grid-cols-3 gap-4">
+            <div class="rounded-2xl bg-zinc-50 border border-zinc-200 p-5">
+              <p class="font-semibold text-sm">Back stack</p>
+              <p class="mt-2 text-xs text-zinc-600">Cada <code>startActivity</code> apila. Botón sistema ← hace <code>pop</code>. <code>finish()</code> cierra actual sin ir a nueva.
+                <code>finishAffinity()</code> cierra toda la tarea.</p>
+              <pre class="mt-3 bg-white rounded-xl p-3 text-xs border"><code>findViewById(R.id.tvGoLogin).setOnClickListener(v -> finish());</code></pre>
+            </div>
+            <div class="rounded-2xl border border-zinc-200 p-5">
+              <p class="font-semibold text-sm">Edge: WebView</p>
+              <pre class="mt-3 bg-zinc-900 text-zinc-100 rounded-xl p-3 text-xs"><code>@Override public void onBackPressed(){
   if(webView.canGoBack()) webView.goBack(); // historial interno
   else super.onBackPressed(); // pop Activity
 }</code></pre>
-</div>
-<div class="rounded-2xl border border-zinc-200 p-5">
-<p class="font-semibold text-sm">Flags útiles</p>
-<pre class="mt-3 bg-zinc-50 rounded-xl p-3 text-xs border"><code>i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            </div>
+            <div class="rounded-2xl border border-zinc-200 p-5">
+              <p class="font-semibold text-sm">Flags útiles</p>
+              <pre class="mt-3 bg-zinc-50 rounded-xl p-3 text-xs border"><code>i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | FLAG_ACTIVITY_CLEAR_TASK); // logout</code></pre>
-<p class="mt-2 text-xs text-zinc-600">Sandbox no los usa (flujo lineal), pero en login real limpiarías stack al ir a Home.</p>
-</div>
-</div>
-</section>
+              <p class="mt-2 text-xs text-zinc-600">Sandbox no los usa (flujo lineal), pero en login real limpiarías stack al ir a Home.</p>
+            </div>
+          </div>
+        </section>
 
-<section class="bg-white rounded-[24px] border border-zinc-200 p-6 sm:p-8">
-<h2 class="text-xl font-semibold tracking-tight">2. Pasar información entre vistas</h2>
-<p class="mt-2 text-sm text-zinc-500">4 niveles: Intent extras → Bundle → Parcelable → SharedPreferences/ViewModel. En Sandbox usamos <strong>extras simples + Prefs</strong>.</p>
+        <section class="bg-white rounded-[24px] border border-zinc-200 p-6 sm:p-8">
+          <h2 class="text-xl font-semibold tracking-tight">2. Pasar información entre vistas</h2>
+          <p class="mt-2 text-sm text-zinc-500">4 niveles: Intent extras → Bundle → Parcelable → SharedPreferences/ViewModel. En Sandbox usamos <strong>extras simples + Prefs</strong>.</p>
 
-<div class="mt-6 rounded-2xl border border-violet-200 bg-violet-50 p-5">
-<p class="font-semibold text-sm">Caso real del Sandbox — flujo Login → Registro → Intro</p>
-<div class="mt-3 grid lg:grid-cols-3 gap-4">
-<div class="rounded-xl bg-white border border-violet-200 p-4">
-<p class="text-xs font-semibold text-violet-700">PASO 1: MainActivity → RegisterActivity</p>
-<pre class="mt-2 bg-zinc-900 text-zinc-100 rounded-xl p-3 text-xs"><code class="language-java">// MainActivity.java:50
+          <div class="mt-6 rounded-2xl border border-violet-200 bg-violet-50 p-5">
+            <p class="font-semibold text-sm">Caso real del Sandbox — flujo Login → Registro → Intro</p>
+            <div class="mt-3 grid lg:grid-cols-3 gap-4">
+              <div class="rounded-xl bg-white border border-violet-200 p-4">
+                <p class="text-xs font-semibold text-violet-700">PASO 1: MainActivity → RegisterActivity</p>
+                <pre class="mt-2 bg-zinc-900 text-zinc-100 rounded-xl p-3 text-xs"><code class="language-java">// MainActivity.java:50
 String email = etEmail.getText().toString().trim();
 Intent i = new Intent(this, RegisterActivity.class);
 i.putExtra("email", email); // key "email"
 startActivity(i);</code></pre>
-</div>
-<div class="rounded-xl bg-white border border-violet-200 p-4">
-<p class="text-xs font-semibold text-violet-700">PASO 2: RegisterActivity lee + guarda</p>
-<pre class="mt-2 bg-zinc-900 text-zinc-100 rounded-xl p-3 text-xs"><code class="language-java">// RegisterActivity.java:40
+              </div>
+              <div class="rounded-xl bg-white border border-violet-200 p-4">
+                <p class="text-xs font-semibold text-violet-700">PASO 2: RegisterActivity lee + guarda</p>
+                <pre class="mt-2 bg-zinc-900 text-zinc-100 rounded-xl p-3 text-xs"><code class="language-java">// RegisterActivity.java:40
 String incoming = getIntent().getStringExtra("email");
 if(incoming==null) incoming = Prefs.getUser(this); // fallback Prefs
 etEmail.setText(incoming);
@@ -219,25 +280,26 @@ Intent i = new Intent(this, IntroActivity.class);
 i.putExtra("name", name);
 i.putExtra("email", email);
 startActivity(i);</code></pre>
-</div>
-<div class="rounded-xl bg-white border border-violet-200 p-4">
-<p class="text-xs font-semibold text-violet-700">PASO 3: IntroActivity lee y muestra</p>
-<pre class="mt-2 bg-zinc-900 text-zinc-100 rounded-xl p-3 text-xs"><code class="language-java">// IntroActivity.java:17
+              </div>
+              <div class="rounded-xl bg-white border border-violet-200 p-4">
+                <p class="text-xs font-semibold text-violet-700">PASO 3: IntroActivity lee y muestra</p>
+                <pre class="mt-2 bg-zinc-900 text-zinc-100 rounded-xl p-3 text-xs"><code class="language-java">// IntroActivity.java:17
 String name = getIntent().getStringExtra("name");
 String email = getIntent().getStringExtra("email");
 if(email==null) email = Prefs.getUser(this);
 if(name==null || name.isEmpty()) name = email;
 tvUser.setText(getString(R.string.common_msg_hello, name));
 // ¡Hola, Javier!</code></pre>
-</div>
-</div>
-<p class="mt-3 text-xs text-zinc-600">Patrón: <code>putExtra</code> con key string literal → <code>getStringExtra</code> + null-check → fallback a <code>Prefs</code>. Placeholder <code>%1$s</code> en <code>common_msg_hello</code> se resuelve con <code>getString(…, name)</code>.</p>
-</div>
+              </div>
+            </div>
+            <p class="mt-3 text-xs text-zinc-600">Patrón: <code>putExtra</code> con key string literal → <code>getStringExtra</code> + null-check → fallback a <code>Prefs</code>. Placeholder
+              <code>%1$s</code> en <code>common_msg_hello</code> se resuelve con <code>getString(…, name)</code>.</p>
+          </div>
 
-<div class="mt-6 grid lg:grid-cols-2 gap-6">
-<div class="rounded-2xl border border-zinc-200 p-5">
-<p class="font-semibold text-sm">2.1 Intent extras — tipos y Bundle</p>
-<pre class="mt-3 bg-zinc-900 text-zinc-100 rounded-xl p-4 text-xs overflow-auto"><code class="language-java">// Primitivos y Strings
+          <div class="mt-6 grid lg:grid-cols-1 gap-6">
+            <div class="rounded-2xl border border-zinc-200 p-5">
+              <p class="font-semibold text-sm">2.1 Intent extras — tipos y Bundle</p>
+              <pre class="mt-3 bg-zinc-900 text-zinc-100 rounded-xl p-4 text-xs overflow-auto"><code class="language-java">// Primitivos y Strings
 i.putExtra("age", 27); // int
 i.putExtra("price", 9.99); // double
 i.putExtra("isPro", true);
@@ -255,11 +317,11 @@ b.putString("name", name);
 b.putString("email", email);
 i.putExtras(b);
 // getIntent().getExtras() → Bundle</code></pre>
-<p class="mt-2 text-xs text-zinc-600">Keys por convención <code>EXTRA_*_KEY</code> constantes. Sandbox usa literales simples ("email","name") para claridad.</p>
-</div>
-<div class="rounded-2xl border border-zinc-200 p-5">
-<p class="font-semibold text-sm">2.2 Objetos: Parcelable (no usado en Sandbox, pero patrón)</p>
-<pre class="mt-3 bg-zinc-900 text-zinc-100 rounded-xl p-4 text-xs"><code class="language-java">// Model
+              <p class="mt-2 text-xs text-zinc-600">Keys por convención <code>EXTRA_*_KEY</code> constantes. Sandbox usa literales simples ("email","name") para claridad.</p>
+            </div>
+            <div class="rounded-2xl border border-zinc-200 p-5">
+              <p class="font-semibold text-sm">2.2 Objetos: Parcelable (no usado en Sandbox, pero patrón)</p>
+              <pre class="mt-3 bg-zinc-900 text-zinc-100 rounded-xl p-4 text-xs"><code class="language-java">// Model
 public class User implements Parcelable {
   String name, email;
   // ... Parcelable impl o @Parcelize en Kotlin
@@ -270,14 +332,17 @@ i.putExtra("user", user); // Parcelable
 User u = getIntent().getParcelableExtra("user", User.class); // API 33+
 // o
 User u = getIntent().getParcelableExtra("user");</code></pre>
-<div class="mt-3 rounded-xl bg-amber-50 border border-amber-200 p-3 text-xs"><p class="font-medium">¡Cuidado!</p><p><code>TransactionTooLargeException</code> si pasas bitmaps grandes por Intent (&gt;1MB Binder). Usa archivo, URI o ViewModel.</p></div>
-</div>
-</div>
+              <div class="mt-3 rounded-xl bg-amber-50 border border-amber-200 p-3 text-xs">
+                <p class="font-medium">¡Cuidado!</p>
+                <p><code>TransactionTooLargeException</code> si pasas bitmaps grandes por Intent (&gt;1MB Binder). Usa archivo, URI o ViewModel.</p>
+              </div>
+            </div>
+          </div>
 
-<div class="mt-6 grid lg:grid-cols-2 gap-6">
-<div class="rounded-2xl border border-zinc-200 p-5">
-<p class="font-semibold text-sm">2.3 SharedPreferences — sesión fake (Prefs.java)</p>
-<pre class="mt-3 bg-zinc-900 text-zinc-100 rounded-xl p-4 text-xs"><code class="language-java">// utils/Prefs.java
+          <div class="mt-6 grid lg:grid-cols-1 gap-6">
+            <div class="rounded-2xl border border-zinc-200 p-5">
+              <p class="font-semibold text-sm">2.3 SharedPreferences — sesión fake (Prefs.java)</p>
+              <pre class="mt-3 bg-zinc-900 text-zinc-100 rounded-xl p-4 text-xs"><code class="language-java">// utils/Prefs.java
 private static final String NAME = "sandbox_prefs";
 private static final String KEY_USER = "user_email";
 public static void saveUser(Context c, String email){
@@ -286,17 +351,34 @@ public static void saveUser(Context c, String email){
 public static String getUser(Context c){
   return c.getSharedPreferences(NAME, MODE_PRIVATE).getString(KEY_USER, "");
 }</code></pre>
-<p class="mt-2 text-xs text-zinc-600">Persistente entre Activities y reinicios. <code>apply()</code> async vs <code>commit()</code> sync. Para sesión real usarías <code>EncryptedSharedPreferences</code> o <code>DataStore</code>.</p>
-</div>
-<div class="rounded-2xl border border-zinc-200 p-5">
-<p class="font-semibold text-sm">2.4 Otras vías (escala)</p>
-<table class="mt-3 w-full text-xs border-collapse"><thead class="text-zinc-500"><tr><th class="text-left py-2 border-b">Vía</th><th class="text-left border-b">Cuándo</th></tr></thead>
-<tbody class="divide-y divide-zinc-100">
-<tr><td class="py-2 font-mono">ViewModel + SavedStateHandle</td><td>Datos entre config changes, sin pasar por Intent</td></tr>
-<tr><td>Application singleton</td><td>Cache en memoria (riesgo leak)</td></tr>
-<tr><td>ActivityResultLauncher</td><td>Volver con dato: <code>registerForActivityResult</code></td></tr>
-</tbody></table>
-<pre class="mt-3 bg-zinc-50 rounded-xl p-3 text-xs border"><code>// Retorno moderno (no usado en Sandbox lineal)
+              <p class="mt-2 text-xs text-zinc-600">Persistente entre Activities y reinicios. <code>apply()</code> async vs <code>commit()</code> sync. Para sesión real usarías
+                <code>EncryptedSharedPreferences</code> o <code>DataStore</code>.</p>
+            </div>
+            <div class="rounded-2xl border border-zinc-200 p-5">
+              <p class="font-semibold text-sm">2.4 Otras vías (escala)</p>
+              <table class="mt-3 w-full text-xs border-collapse">
+                <thead class="text-zinc-500">
+                  <tr>
+                    <th class="text-left py-2 border-b">Vía</th>
+                    <th class="text-left border-b">Cuándo</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-zinc-100">
+                  <tr>
+                    <td class="py-2 font-mono">ViewModel + SavedStateHandle</td>
+                    <td>Datos entre config changes, sin pasar por Intent</td>
+                  </tr>
+                  <tr>
+                    <td>Application singleton</td>
+                    <td>Cache en memoria (riesgo leak)</td>
+                  </tr>
+                  <tr>
+                    <td>ActivityResultLauncher</td>
+                    <td>Volver con dato: <code>registerForActivityResult</code></td>
+                  </tr>
+                </tbody>
+              </table>
+              <pre class="mt-3 bg-zinc-50 rounded-xl p-3 text-xs border"><code>// Retorno moderno (no usado en Sandbox lineal)
 ActivityResultLauncher&lt;Intent&gt; launcher = registerForActivityResult(
   new ActivityResultContracts.StartActivityForResult(),
   result -> {
@@ -305,17 +387,17 @@ ActivityResultLauncher&lt;Intent&gt; launcher = registerForActivityResult(
     }
   });
 launcher.launch(new Intent(this, OtherActivity.class));</code></pre>
-</div>
-</div>
-</section>
+            </div>
+          </div>
+        </section>
 
-<section class="bg-white rounded-[24px] border border-zinc-200 p-6 sm:p-8">
-<h2 class="text-xl font-semibold tracking-tight">3. Pasar información dentro de la misma Activity (entre vistas)</h2>
-<p class="mt-2 text-sm text-zinc-500">No necesitas Intent: es <code>findViewById → getText/setText + listeners</code>.</p>
-<div class="mt-6 grid lg:grid-cols-2 gap-6">
-<div class="rounded-2xl border border-zinc-200 p-5">
-<p class="font-semibold text-sm">Ejemplo Lab 1: EditText → TextView preview</p>
-<pre class="mt-3 bg-zinc-900 text-zinc-100 rounded-xl p-4 text-xs"><code class="language-java">// TextInputsActivity.java:30
+        <section class="bg-white rounded-[24px] border border-zinc-200 p-6 sm:p-8">
+          <h2 class="text-xl font-semibold tracking-tight">3. Pasar información dentro de la misma Activity (entre vistas)</h2>
+          <p class="mt-2 text-sm text-zinc-500">No necesitas Intent: es <code>findViewById → getText/setText + listeners</code>.</p>
+          <div class="mt-6 grid lg:grid-cols-1 gap-6">
+            <div class="rounded-2xl border border-zinc-200 p-5">
+              <p class="font-semibold text-sm">Ejemplo Lab 1: EditText → TextView preview</p>
+              <pre class="mt-3 bg-zinc-900 text-zinc-100 rounded-xl p-4 text-xs"><code class="language-java">// TextInputsActivity.java:30
 TextInputEditText etPlain = findViewById(R.id.etPlain);
 TextView tvPreview = findViewById(R.id.tvPreview);
 findViewById(R.id.btnValidate).setOnClickListener(v -> {
@@ -327,69 +409,55 @@ findViewById(R.id.btnValidate).setOnClickListener(v -> {
     tvPreview.setText(getString(R.string.actinp_preview_ok, plain, email, phone));
   }
 });</code></pre>
-</div>
-<div class="rounded-2xl border border-zinc-200 p-5">
-<p class="font-semibold text-sm">Ejemplo Lab 4: CheckBox/Radio/Switch → TextView result</p>
-<pre class="mt-3 bg-zinc-900 text-zinc-100 rounded-xl p-4 text-xs"><code class="language-java">// SelectionActivity.java:40
+            </div>
+            <div class="rounded-2xl border border-zinc-200 p-5">
+              <p class="font-semibold text-sm">Ejemplo Lab 4: CheckBox/Radio/Switch → TextView result</p>
+              <pre class="mt-3 bg-zinc-900 text-zinc-100 rounded-xl p-4 text-xs"><code class="language-java">// SelectionActivity.java:40
 boolean terms = cbTerms.isChecked();
 int radio = rg.getCheckedRadioButtonId();
 boolean notif = swNotif.isChecked();
 String plan = radio==R.id.rbFree? getString(acsele_rb_free) : ...;
 String res = getString(R.string.acsele_result_detail, plan, notif?"on":"off", ...);
 tvResult.setText(getString(R.string.acsele_result_ok, res));</code></pre>
-<p class="mt-2 text-xs text-zinc-600">Mismo patrón: leer estado → validar → escribir en otra vista + Toast + Log.</p>
-</div>
-</div>
-</section>
+              <p class="mt-2 text-xs text-zinc-600">Mismo patrón: leer estado → validar → escribir en otra vista + Toast + Log.</p>
+            </div>
+          </div>
+        </section>
 
-<section class="bg-white rounded-[24px] border border-zinc-200 p-6 sm:p-8">
-<h2 class="text-xl font-semibold tracking-tight">Errores comunes y checklist</h2>
-<div class="mt-4 grid md:grid-cols-2 gap-4">
-<div class="rounded-2xl border border-red-200 bg-red-50 p-5">
-<p class="font-semibold text-sm">❌ Errores típicos</p><ul class="mt-2 text-sm text-zinc-700 list-disc pl-5 space-y-1">
-<li><code>getStringExtra</code> devuelve <code>null</code> si key no existe → siempre null-check o default.</li>
-<li>Typo en key: <code>putExtra("emial",…)</code> vs <code>getStringExtra("email")</code> → define <code>public static final String EXTRA_EMAIL="email"</code>.</li>
-<li>Pasar objeto grande (&gt;1MB) por Intent → <code>TransactionTooLargeException</code>.</li>
-<li>Olvidar <code>exported</code> o <code>intent-filter</code> en Manifest → app no aparece en launcher.</li>
-<li>Usar <code>getIntent()</code> en <code onCreate</code> sin guardar → se pierde tras <code>onNewIntent</code> en <code>singleTop</code>.</li>
-</ul>
-</div>
-<div class="rounded-2xl border border-emerald-200 bg-emerald-50 p-5">
-<p class="font-semibold text-sm">✅ Checklist antes de navegar</p><ul class="mt-2 text-sm text-zinc-700 list-disc pl-5 space-y-1">
-<li>¿Activity declarada en <code>AndroidManifest.xml</code> con <code>exported</code>?</li>
-<li>¿Keys de extras centralizadas y con default?</li>
-<li>¿<code>trim()</code> en Strings de EditText?</li>
-<li>¿Fallback a <code>Prefs</code> si extra es null?</li>
-<li>¿Placeholder <code>%1$s</code> coincide en es/en/pt?</li>
-<li>¿Probado cambio de idioma y rotación (config change no pierde dato)?</li>
-</ul>
-</div>
-</div>
-<div class="mt-6 flex flex-wrap gap-2 text-xs">
-<a href="auth.html" class="px-4 py-2 bg-violet-600 text-white rounded-full">Ver flujo Auth →</a>
-<a href="validacion.html" class="px-4 py-2 bg-white border border-zinc-200 rounded-full">Validación →</a>
-<a href="index.html" class="px-4 py-2 bg-white border border-zinc-200 rounded-full">← Dashboard</a>
-</div>
-</section>
-</main>
-</div>
-<script>
-  hljs.highlightAll();
-  document.querySelectorAll('pre code').forEach(code=>{
-    const pre = code.parentElement;
-    if(pre.querySelector('.cm-gutter')) return;
-    const gutter = document.createElement('div');
-    gutter.className='cm-gutter';
-    const n = code.textContent.split('\n').length;
-    for(let i=1;i<=n;i++){
-      const s=document.createElement('span');
-      s.textContent=i;
-      gutter.appendChild(s);
-    }
-    pre.style.position='relative';
-    pre.appendChild(gutter);
-    pre.classList.add('cm-s-dracula');
-  });
-</script>
-</body>
+        <section class="bg-white rounded-[24px] border border-zinc-200 p-6 sm:p-8">
+          <h2 class="text-xl font-semibold tracking-tight">Errores comunes y checklist</h2>
+          <div class="mt-4 grid md:grid-cols-2 gap-4">
+            <div class="rounded-2xl border border-red-200 bg-red-50 p-5">
+              <p class="font-semibold text-sm">❌ Errores típicos</p>
+              <ul class="mt-2 text-sm text-zinc-700 list-disc pl-5 space-y-1">
+                <li><code>getStringExtra</code> devuelve <code>null</code> si key no existe → siempre null-check o default.</li>
+                <li>Typo en key: <code>putExtra("emial",…)</code> vs <code>getStringExtra("email")</code> → define <code>public static final String EXTRA_EMAIL="email"</code>.</li>
+                <li>Pasar objeto grande (&gt;1MB) por Intent → <code>TransactionTooLargeException</code>.</li>
+                <li>Olvidar <code>exported</code> o <code>intent-filter</code> en Manifest → app no aparece en launcher.</li>
+                <li>Usar <code>getIntent()</code> en <code onCreate</code> sin guardar → se pierde tras <code>onNewIntent</code> en <code>singleTop</code>.</li>
+              </ul>
+            </div>
+            <div class="rounded-2xl border border-emerald-200 bg-emerald-50 p-5">
+              <p class="font-semibold text-sm">✅ Checklist antes de navegar</p>
+              <ul class="mt-2 text-sm text-zinc-700 list-disc pl-5 space-y-1">
+                <li>¿Activity declarada en <code>AndroidManifest.xml</code> con <code>exported</code>?</li>
+                <li>¿Keys de extras centralizadas y con default?</li>
+                <li>¿<code>trim()</code> en Strings de EditText?</li>
+                <li>¿Fallback a <code>Prefs</code> si extra es null?</li>
+                <li>¿Placeholder <code>%1$s</code> coincide en es/en/pt?</li>
+                <li>¿Probado cambio de idioma y rotación (config change no pierde dato)?</li>
+              </ul>
+            </div>
+          </div>
+          <div class="mt-6 flex flex-wrap gap-2 text-xs">
+            <a href="auth.html" class="px-4 py-2 bg-violet-600 text-white rounded-full">Ver flujo Auth →</a>
+            <a href="validacion.html" class="px-4 py-2 bg-white border border-zinc-200 rounded-full">Validación →</a>
+            <a href="index.html" class="px-4 py-2 bg-white border border-zinc-200 rounded-full">← Dashboard</a>
+          </div>
+        </section>
+      </main>
+    </div>
+    <script src="assets/nav.js"></script>
+  </body>
+
 </html>
