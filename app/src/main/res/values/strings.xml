@@ -256,4 +256,63 @@
     <string name="acrecy_btn_add">Añadir contacto</string>
     <string name="acrecy_toast_click">Click: %1$s — %2$s</string>
     <string name="acrecy_empty">Sin contactos</string>
+
+    <!-- SECCIONES DE MÓDULOS -->
+    <string name="achome_module1_title">Módulo 1: Conoce Android</string>
+    <string name="achome_module1_subtitle">10 Laboratorios · Vistas, Formas, Diálogos y Listas</string>
+    <string name="achome_module2_title">Módulo 2: Funcionalidades Especiales</string>
+    <string name="achome_module2_subtitle">Concurrencia (Threads/AsyncTask) y Sensores de Hardware</string>
+
+    <!-- ACHOME MÓDULO 2 CARDS -->
+    <string name="achome_card_concurrency">11. Threads &amp; AsyncTask — Concurrencia</string>
+    <string name="achome_desc_concurrency">Segundo plano, Worker Thread con Handler/runOnUiThread y AsyncTask con progreso</string>
+    <string name="achome_card_sensors">12. Sensores de Hardware — SensorManager</string>
+    <string name="achome_desc_sensors">Acelerómetro, Giroscopio, Magnetómetro, Luz, Proximidad, Presión, Temperatura, Humedad, Gravedad y Rotación</string>
+    <string name="achome_card_speech">13. Voz &amp; Audio — Speech to Text &amp; Text to Speech</string>
+    <string name="achome_desc_speech">Síntesis de voz (TextToSpeech) con control de tono/velocidad y reconocimiento de voz (Speech-to-Text)</string>
+
+    <!-- ACCONC: activity_concurrency -->
+    <string name="acconc_title">Lab 11 — Threads &amp; AsyncTask</string>
+    <string name="acconc_info_desc">• Worker Thread: Ejecuta cálculos pesados en segundo plano para no congelar la UI.\n• runOnUiThread / Handler: Devuelve el resultado al hilo principal de forma segura.\n• AsyncTask: Maneja onPreExecute, doInBackground, publishProgress y onPostExecute.</string>
+    <string name="acconc_section_thread_title">1. Worker Thread + runOnUiThread</string>
+    <string name="acconc_section_thread_desc">Simula un procesamiento iterativo en un nuevo hilo nativo con feedback reactivo.</string>
+    <string name="acconc_btn_start_thread">Iniciar Worker Thread</string>
+    <string name="acconc_status_idle">Estado: En espera de iniciar</string>
+    <string name="acconc_section_async_title">2. AsyncTask Clásico</string>
+    <string name="acconc_section_async_desc">Patrón paramétrico &lt;Params, Progress, Result&gt; con reporte de porcentaje.</string>
+    <string name="acconc_btn_start_async">Iniciar AsyncTask</string>
+    <string name="acconc_btn_cancel_async">Cancelar Tarea</string>
+
+    <!-- ACSENS: activity_sensors -->
+    <string name="acsens_title">Lab 12 — Sensores de Android</string>
+    <string name="acsens_info_desc">SensorManager y SensorEventListener. Monitoreo en tiempo real de los 10 sensores de hardware estándar con gestión segura en onResume() y onPause().</string>
+    <string name="acsens_available_count">Sensores detectados: %1$d de 10 disponibles</string>
+    <string name="acsens_not_available">Sensor no presente en este dispositivo</string>
+    <string name="acsens_accel_name">1. Acelerómetro (TYPE_ACCELEROMETER)</string>
+    <string name="acsens_gyro_name">2. Giroscopio (TYPE_GYROSCOPE)</string>
+    <string name="acsens_mag_name">3. Magnetómetro / Brújula (TYPE_MAGNETIC_FIELD)</string>
+    <string name="acsens_light_name">4. Sensor de Luz (TYPE_LIGHT)</string>
+    <string name="acsens_prox_name">5. Sensor de Proximidad (TYPE_PROXIMITY)</string>
+    <string name="acsens_pressure_name">6. Presión / Barómetro (TYPE_PRESSURE)</string>
+    <string name="acsens_temp_name">7. Temperatura Ambiental (TYPE_AMBIENT_TEMPERATURE)</string>
+    <string name="acsens_humidity_name">8. Humedad Relativa (TYPE_RELATIVE_HUMIDITY)</string>
+    <string name="acsens_gravity_name">9. Gravedad (TYPE_GRAVITY)</string>
+    <string name="acsens_rotation_name">10. Vector de Rotación (TYPE_ROTATION_VECTOR)</string>
+
+    <!-- ACSPEE: activity_speech -->
+    <string name="acspee_title">Lab 13 — Speech (TTS &amp; STT)</string>
+    <string name="acspee_info_desc">• Text-to-Speech (TTS): Síntesis de voz con android.speech.tts.TextToSpeech, tono (pitch), velocidad y control de idioma.\n• Speech-to-Text (STT): Reconocimiento vocal mediante RecognizerIntent modal y SpeechRecognizer en tiempo real.</string>
+    <string name="acspee_tts_section_title">1. Text to Speech (Síntesis de Voz)</string>
+    <string name="acspee_tts_hint">Escribe el texto a reproducir...</string>
+    <string name="acspee_tts_default_text">¡Hola! Bienvenido al Sandbox de Android. Estamos probando la síntesis de voz Text to Speech.</string>
+    <string name="acspee_tts_btn_speak">Hablar Texto (TTS)</string>
+    <string name="acspee_tts_btn_stop">Detener Audio</string>
+    <string name="acspee_stt_section_title">2. Speech to Text (Reconocimiento Vocal)</string>
+    <string name="acspee_stt_desc">Pulsa el botón y habla claramente al micrófono del dispositivo.</string>
+    <string name="acspee_stt_btn_intent">Hablar con RecognizerIntent</string>
+    <string name="acspee_stt_result_title">Texto Reconocido:</string>
+    <string name="acspee_stt_placeholder">Los resultados de voz aparecerán aquí...</string>
+    <string name="acspee_status_ready">Estado TTS: Motor inicializado y listo</string>
+    <string name="acspee_status_speaking">Estado TTS: Reproduciendo voz...</string>
+    <string name="acspee_status_idle">Estado TTS: En espera</string>
 </resources>

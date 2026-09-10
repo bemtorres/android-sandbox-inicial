@@ -1,0 +1,289 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/surface">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/acsens_title"
+            android:textSize="22sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/txtSensorSummary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="Detectando sensores de hardware..."
+            android:textSize="12sp"
+            android:textStyle="bold"
+            android:textColor="@color/primary" />
+
+        <!-- AREA EXPERIMENTAL EN VIVO -->
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            app:cardElevation="3dp"
+            app:strokeColor="@color/primary"
+            app:strokeWidth="1.5dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="14dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="🧪 Laboratorio Experimental en Vivo"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/primary" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:text="Mueve o inclina el dispositivo para ver la respuesta visual en tiempo real:"
+                    android:textSize="11sp" />
+
+                <!-- Visual 1: Barra de Nivel / Inclinación (Acelerómetro / Gravedad) -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="Inclinación Eje X (Acelerómetro / Gravedad):"
+                    android:textSize="11sp"
+                    android:textStyle="bold" />
+
+                <ProgressBar
+                    android:id="@+id/progressTiltX"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:max="200"
+                    android:progress="100" />
+
+                <!-- Visual 2: Medidor de Lux (Sensor de Luz) -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="Intensidad de Luz Ambiental (Lux):"
+                    android:textSize="11sp"
+                    android:textStyle="bold" />
+
+                <ProgressBar
+                    android:id="@+id/progressLight"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:max="1000"
+                    android:progress="0" />
+
+                <!-- Visual 3: Estado de Proximidad -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_marginTop="8dp">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Detector de Proximidad:"
+                        android:textSize="11sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/badgeProximity"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingHorizontal="10dp"
+                        android:paddingVertical="4dp"
+                        android:background="@drawable/shape_rounded_box"
+                        android:backgroundTint="@color/cardStroke"
+                        android:text="Esperando sensor..."
+                        android:textSize="11sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- SECCIÓN: LOS 10 SENSORES DETALLADOS -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="Catálogo de los 10 Sensores de Hardware"
+            android:textSize="15sp"
+            android:textStyle="bold" />
+
+        <!-- 1. ACELERÓMETRO -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardSensor1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            app:cardElevation="2dp"
+            app:strokeColor="@color/cardStroke">
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="12dp">
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/acsens_accel_name" android:textStyle="bold" android:textSize="13sp" android:textColor="@color/primary"/>
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="2dp" android:text="Mide aceleración en X, Y, Z. Detecta sacudidas (shake), caídas y movimiento." android:textSize="11sp"/>
+                <TextView android:id="@+id/txtValAccel" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="6dp" android:text="X: 0.00 | Y: 0.00 | Z: 0.00 m/s²" android:fontFamily="monospace" android:textSize="12sp" android:textStyle="bold"/>
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- 2. GIROSCOPIO -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardSensor2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            app:cardElevation="2dp"
+            app:strokeColor="@color/cardStroke">
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="12dp">
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/acsens_gyro_name" android:textStyle="bold" android:textSize="13sp" android:textColor="@color/primary"/>
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="2dp" android:text="Mide la velocidad angular de rotación alrededor de X, Y, Z. Usado en videojuegos y estabilización." android:textSize="11sp"/>
+                <TextView android:id="@+id/txtValGyro" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="6dp" android:text="X: 0.00 | Y: 0.00 | Z: 0.00 rad/s" android:fontFamily="monospace" android:textSize="12sp" android:textStyle="bold"/>
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- 3. MAGNETÓMETRO -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardSensor3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            app:cardElevation="2dp"
+            app:strokeColor="@color/cardStroke">
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="12dp">
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/acsens_mag_name" android:textStyle="bold" android:textSize="13sp" android:textColor="@color/primary"/>
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="2dp" android:text="Mide el campo magnético terrestre en microteslas (µT). Base para brújulas digitales." android:textSize="11sp"/>
+                <TextView android:id="@+id/txtValMag" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="6dp" android:text="X: 0.00 | Y: 0.00 | Z: 0.00 µT" android:fontFamily="monospace" android:textSize="12sp" android:textStyle="bold"/>
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- 4. SENSOR DE LUZ -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardSensor4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            app:cardElevation="2dp"
+            app:strokeColor="@color/cardStroke">
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="12dp">
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/acsens_light_name" android:textStyle="bold" android:textSize="13sp" android:textColor="@color/primary"/>
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="2dp" android:text="Mide iluminación ambiental en lux. Controla el brillo automático y modo noche." android:textSize="11sp"/>
+                <TextView android:id="@+id/txtValLight" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="6dp" android:text="Iluminación: 0.00 Lux" android:fontFamily="monospace" android:textSize="12sp" android:textStyle="bold"/>
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- 5. SENSOR DE PROXIMIDAD -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardSensor5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            app:cardElevation="2dp"
+            app:strokeColor="@color/cardStroke">
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="12dp">
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/acsens_prox_name" android:textStyle="bold" android:textSize="13sp" android:textColor="@color/primary"/>
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="2dp" android:text="Detecta la distancia de un objeto a la pantalla (cm) para apagarla en llamadas." android:textSize="11sp"/>
+                <TextView android:id="@+id/txtValProx" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="6dp" android:text="Distancia: 0.00 cm" android:fontFamily="monospace" android:textSize="12sp" android:textStyle="bold"/>
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- 6. PRESIÓN / BARÓMETRO -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardSensor6"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            app:cardElevation="2dp"
+            app:strokeColor="@color/cardStroke">
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="12dp">
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/acsens_pressure_name" android:textStyle="bold" android:textSize="13sp" android:textColor="@color/primary"/>
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="2dp" android:text="Mide la presión atmosférica en hectopascales (hPa). Permite estimar altitud." android:textSize="11sp"/>
+                <TextView android:id="@+id/txtValPressure" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="6dp" android:text="Presión: 0.00 hPa" android:fontFamily="monospace" android:textSize="12sp" android:textStyle="bold"/>
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- 7. TEMPERATURA AMBIENTAL -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardSensor7"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            app:cardElevation="2dp"
+            app:strokeColor="@color/cardStroke">
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="12dp">
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/acsens_temp_name" android:textStyle="bold" android:textSize="13sp" android:textColor="@color/primary"/>
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="2dp" android:text="Temperatura ambiental del entorno en °C si el hardware dispone del termómetro." android:textSize="11sp"/>
+                <TextView android:id="@+id/txtValTemp" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="6dp" android:text="Temperatura: 0.00 °C" android:fontFamily="monospace" android:textSize="12sp" android:textStyle="bold"/>
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- 8. HUMEDAD RELATIVA -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardSensor8"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            app:cardElevation="2dp"
+            app:strokeColor="@color/cardStroke">
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="12dp">
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/acsens_humidity_name" android:textStyle="bold" android:textSize="13sp" android:textColor="@color/primary"/>
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="2dp" android:text="Humedad relativa del ambiente en % (estaciones climáticas y confort ambiental)." android:textSize="11sp"/>
+                <TextView android:id="@+id/txtValHumidity" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="6dp" android:text="Humedad: 0.00 %" android:fontFamily="monospace" android:textSize="12sp" android:textStyle="bold"/>
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- 9. GRAVEDAD -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardSensor9"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            app:cardElevation="2dp"
+            app:strokeColor="@color/cardStroke">
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="12dp">
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/acsens_gravity_name" android:textStyle="bold" android:textSize="13sp" android:textColor="@color/primary"/>
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="2dp" android:text="Componente pura de la gravedad en X, Y, Z (~9.81 m/s² total)." android:textSize="11sp"/>
+                <TextView android:id="@+id/txtValGravity" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="6dp" android:text="X: 0.00 | Y: 0.00 | Z: 0.00 m/s²" android:fontFamily="monospace" android:textSize="12sp" android:textStyle="bold"/>
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- 10. VECTOR DE ROTACIÓN -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardSensor10"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="16dp"
+            app:cardElevation="2dp"
+            app:strokeColor="@color/cardStroke">
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="12dp">
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/acsens_rotation_name" android:textStyle="bold" android:textSize="13sp" android:textColor="@color/primary"/>
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="2dp" android:text="Orientación 3D precisa (cuaterniones) para Realidad Aumentada (AR) y brújula 3D." android:textSize="11sp"/>
+                <TextView android:id="@+id/txtValRotation" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="6dp" android:text="X: 0.00 | Y: 0.00 | Z: 0.00 | Cos: 0.00" android:fontFamily="monospace" android:textSize="12sp" android:textStyle="bold"/>
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+    </LinearLayout>
+</ScrollView>

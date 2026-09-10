@@ -27,7 +27,7 @@
       ],
     },
     {
-      title: "Laboratorios (1 al 10)",
+      title: "Módulo 1 · Conoce Android",
       items: [
         { href: "labs.html", label: "Índice de Laboratorios" },
         { href: "lab-textinputs.html", label: "Lab 1 · TextInputs" },
@@ -40,6 +40,20 @@
         { href: "lab-layouts.html", label: "Lab 8 · Layouts" },
         { href: "lab-scroll.html", label: "Lab 9 · ScrollView" },
         { href: "lab-recycler.html", label: "Lab 10 · RecyclerView" },
+      ],
+    },
+    {
+      title: "Módulo 2 · Funcionalidades Especiales",
+      items: [
+        { href: "lab-concurrencia.html", label: "Lab 11 · Threads & AsyncTask", badge: "Async" },
+        { href: "lab-sensores.html", label: "Lab 12 · Sensores Android", badge: "10 Sensores" },
+        { href: "lab-speech.html", label: "Lab 13 · Speech (TTS & STT)", badge: "Voz" },
+      ],
+    },
+    {
+      title: "🎮 Desafíos & Exámenes",
+      items: [
+        { href: "challenges-game/vectors-crud-exam/index.html", label: "⚔️ Examen Vectores & CRUD", badge: "6 Casos" },
       ],
     },
     {

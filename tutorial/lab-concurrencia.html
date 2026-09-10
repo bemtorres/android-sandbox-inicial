@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="es" class="h-full bg-white text-zinc-950 antialiased">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Lab 11 · Threads & AsyncTask (Concurrencia) — Sandbox Android</title>
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <style type="text/tailwindcss">
+    @theme {
+      --font-sans: 'Plus Jakarta Sans', Inter, system-ui, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+  </style>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/kotlin.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/java.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/xml.min.js"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+    body { font-family: 'Plus Jakarta Sans', sans-serif; }
+    code, pre { font-family: 'JetBrains Mono', monospace; }
+    pre {
+      background: #09090b !important;
+      border: 1px solid #27272a !important;
+      border-radius: 0.75rem !important;
+      padding: 0 !important;
+      overflow: hidden !important;
+      position: relative !important;
+      margin: 0 !important;
+    }
+    pre code {
+      display: block !important;
+      padding: 1rem 1rem 1rem 3.6rem !important;
+      font-size: 12.5px !important;
+      line-height: 1.65 !important;
+      color: #f4f4f5 !important;
+      background: transparent !important;
+      overflow-x: auto !important;
+    }
+    .cm-gutter {
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 3rem;
+      padding: 1rem 0;
+      text-align: right;
+      font-size: 11px;
+      line-height: 1.65;
+      color: #71717a;
+      background: #18181b;
+      border-right: 1px solid #27272a;
+      user-select: none;
+      z-index: 1;
+      pointer-events: none;
+    }
+    .cm-gutter span {
+      display: block;
+      padding-right: 0.6rem;
+    }
+  </style>
+</head>
+<body class="min-h-full flex flex-col bg-white">
+
+  <!-- Header Superior shadcn -->
+  <header class="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-zinc-200">
+    <div class="max-w-[1440px] mx-auto px-4 sm:px-6 h-14 flex items-center justify-between gap-4">
+      <div class="flex items-center gap-3">
+        <button id="menuBtn" class="lg:hidden p-1.5 rounded-md text-zinc-600 hover:bg-zinc-100 transition-colors" aria-label="Abrir navegación">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h16" /></svg>
+        </button>
+        <div class="flex items-center gap-2">
+          <div class="w-6 h-6 rounded-md bg-violet-600 text-white flex items-center justify-center font-bold text-xs shadow-xs">11</div>
+          <span class="font-semibold text-sm tracking-tight text-zinc-900">Lab 11</span>
+          <span class="text-zinc-300">/</span>
+          <span class="text-xs text-zinc-500 font-medium">Módulo 2 · Threads & AsyncTask</span>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-2">
+        <div class="hidden sm:flex items-center gap-1 text-xs font-mono text-zinc-500">
+          <span class="px-2 py-0.5 rounded-md bg-zinc-100 text-zinc-800 border border-zinc-200">activity_concurrency.xml</span>
+          <span class="px-2 py-0.5 rounded-md bg-zinc-100 text-zinc-800 border border-zinc-200">ConcurrencyActivity.java</span>
+        </div>
+        <a href="labs.html" class="inline-flex items-center justify-center text-xs font-medium h-8 px-3 rounded-md border border-zinc-200 bg-white text-zinc-900 hover:bg-zinc-100 transition-colors">
+          ← Índice Labs
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <div id="overlay" class="fixed inset-0 bg-black/40 backdrop-blur-xs z-40 hidden lg:hidden"></div>
+
+  <!-- Layout Principal -->
+  <div class="max-w-[1440px] mx-auto px-4 sm:px-6 py-6 grid grid-cols-1 lg:grid-cols-[240px_minmax(0,1fr)] gap-8 w-full flex-1">
+    <aside id="sidebar" class="fixed lg:sticky top-0 lg:top-20 left-0 z-40 w-[240px] h-[100dvh] lg:h-[calc(100vh-5rem)] bg-white lg:bg-transparent border-r lg:border-0 border-zinc-200 overflow-y-auto p-4 lg:p-0 -translate-x-full lg:translate-x-0 transition-transform duration-200"></aside>
+
+    <main class="min-w-0 space-y-10 pb-16">
+      
+      <!-- Título y Badges -->
+      <div class="space-y-3 border-b border-zinc-200 pb-6">
+        <div class="flex flex-wrap items-center gap-2">
+          <span class="px-2 py-0.5 rounded-md text-[11px] font-semibold bg-violet-50 text-violet-700 border border-violet-200">Módulo 2: Funcionalidades Especiales</span>
+          <span class="px-2 py-0.5 rounded-md text-[11px] font-mono text-zinc-600 bg-zinc-100 border border-zinc-200">acconc_</span>
+          <span class="px-2 py-0.5 rounded-md text-[11px] font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">Java & Kotlin</span>
+        </div>
+        <h1 class="text-3xl font-bold tracking-tight text-zinc-950">Lab 11 · Concurrencia: Threads & AsyncTask</h1>
+        <p class="text-sm text-zinc-600 leading-relaxed max-w-3xl">
+          Aprende a ejecutar código en segundo plano sin congelar la interfaz. Conoce los dos patrones fundamentales: el uso de <strong>Worker Threads con Handler/runOnUiThread</strong> y el patrón clásico <strong>AsyncTask con barra de progreso y cancelación</strong>.
+        </p>
+      </div>
+
+      <!-- Regla de Oro UI Thread -->
+      <div class="rounded-xl border border-zinc-200 bg-zinc-50/50 p-6 space-y-4">
+        <h3 class="text-sm font-semibold text-zinc-900 flex items-center gap-2">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-violet-600"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+          La Regla de Oro del Main Thread (UI Thread)
+        </h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs text-zinc-700">
+          <div class="p-4 rounded-lg bg-white border border-rose-200 space-y-2">
+            <span class="font-bold text-rose-700 flex items-center gap-1.5">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
+              ¡Peligro: ANR & Crash!
+            </span>
+            <p>1. <strong>ANR (Application Not Responding):</strong> Si bloqueas el Main Thread más de 5 segundos, Android congela la app y muestra el diálogo de forzar cierre.</p>
+            <p>2. <strong>CalledFromWrongThreadException:</strong> Intentar modificar una vista desde un hilo secundario sin sincronizar genera un cierre inesperado.</p>
+          </div>
+          <div class="p-4 rounded-lg bg-white border border-emerald-200 space-y-2">
+            <span class="font-bold text-emerald-700 flex items-center gap-1.5">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9 12l2 2 4-4"/></svg>
+              ¡La Solución Asíncrona!
+            </span>
+            <p>1. <strong>Worker Thread:</strong> Procesa cálculos, temporizadores o I/O en hilos secundarios (<code>new Thread()</code>).</p>
+            <p>2. <strong>Sincronización UI:</strong> Regresa al Main Thread con <code>runOnUiThread()</code>, <code>Handler(Looper.getMainLooper())</code> o <code>AsyncTask</code>.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- ========================================== -->
+      <!-- SECCIÓN 1: EJEMPLO DEDICADO SOLO THREADS -->
+      <!-- ========================================== -->
+      <div class="space-y-4 pt-4">
+        <div class="flex items-center justify-between pb-2 border-b border-zinc-100">
+          <div>
+            <h2 class="text-xl font-bold text-zinc-900 tracking-tight flex items-center gap-2">
+              <span class="w-7 h-7 rounded-lg bg-violet-600 text-white flex items-center justify-center text-xs font-bold shadow-xs">1</span>
+              Ejemplo Exclusivo: Worker Thread + runOnUiThread
+            </h2>
+            <p class="text-xs text-zinc-500 mt-0.5">Creación de un hilo nativo en Java/Kotlin con actualización progresiva de la interfaz.</p>
+          </div>
+          <span class="text-xs font-mono font-medium px-2 py-0.5 bg-violet-50 text-violet-700 rounded-md border border-violet-200">java.lang.Thread</span>
+        </div>
+
+        <p class="text-xs text-zinc-600 leading-relaxed">
+          Un <code>Thread</code> permite derivar una secuencia de instrucciones para que corran en paralelo al hilo principal. Para interactuar con la pantalla durante el progreso, se despacha un <code>Runnable</code> a la cola del hilo principal mediante <code>activity.runOnUiThread()</code> o <code>Handler.post()</code>.
+        </p>
+
+        <div id="example-thread" class="rounded-xl border border-zinc-200 bg-zinc-950 overflow-hidden shadow-sm">
+          <div class="flex items-center justify-between px-4 py-2 bg-zinc-900 border-b border-zinc-800">
+            <div class="flex items-center gap-1">
+              <button onclick="switchTab('example-thread', 'java')" data-tab="java" class="tab-btn px-3 py-1 rounded-md text-xs font-semibold bg-white text-zinc-900 shadow-xs transition-all">Java 11</button>
+              <button onclick="switchTab('example-thread', 'kotlin')" data-tab="kotlin" class="tab-btn px-3 py-1 rounded-md text-xs font-medium text-zinc-400 hover:text-white transition-all">Kotlin</button>
+              <button onclick="switchTab('example-thread', 'xml')" data-tab="xml" class="tab-btn px-3 py-1 rounded-md text-xs font-medium text-zinc-400 hover:text-white transition-all">XML Layout</button>
+            </div>
+            <span class="text-[11px] font-mono text-zinc-400">Worker Thread</span>
+          </div>
+
+          <!-- Java Tab -->
+          <div data-tab="java" class="tab-pane p-0">
+            <pre><code class="language-java">// Ejemplo Exclusivo: Worker Thread en Java 11
+private void ejecutarWorkerThread() {
+    btnStartThread.setEnabled(false);
+    progressThread.setProgress(0);
+    txtThreadStatus.setText("Hilo secundario en ejecución...");
+
+    // 1. Crear e iniciar el hilo en segundo plano
+    new Thread(new Runnable() {
+        @Override
+        public void run() {
+            // Este código corre en un Worker Thread (NO bloquea la UI)
+            for (int i = 1; i <= 100; i += 10) {
+                try {
+                    Thread.sleep(250); // Carga pesada simulada
+                } catch (InterruptedException e) {
+                    return;
+                }
+                
+                final int progreso = i;
+                // 2. Regresar al UI Thread para actualizar vistas
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        progressThread.setProgress(progreso);
+                        txtThreadStatus.setText("Progreso: " + progreso + "%");
+                    }
+                });
+            }
+
+            // 3. Notificación de fin de tarea en el UI Thread
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    progressThread.setProgress(100);
+                    txtThreadStatus.setText("¡Worker Thread finalizado con éxito!");
+                    btnStartThread.setEnabled(true);
+                    Toast.makeText(ConcurrencyActivity.this, "Hilo completado", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
+    }).start(); // ¡start() lanza el nuevo hilo!
+}</code></pre>
+          </div>
+
+          <!-- Kotlin Tab -->
+          <div data-tab="kotlin" class="tab-pane hidden p-0">
+            <pre><code class="language-kotlin">// Ejemplo Exclusivo: Worker Thread en Kotlin
+private fun ejecutarWorkerThread() {
+    binding.btnStartThread.isEnabled = false
+    binding.progressThread.progress = 0
+    binding.txtThreadStatus.text = "Hilo secundario en ejecución..."
+
+    // Función nativa thread {} de Kotlin
+    kotlin.concurrent.thread {
+        for (i in 1..100 step 10) {
+            Thread.sleep(250) // Carga pesada en Worker Thread
+            
+            // Regreso al UI Thread
+            runOnUiThread {
+                binding.progressThread.progress = i
+                binding.txtThreadStatus.text = "Progreso: $i%"
+            }
+        }
+
+        runOnUiThread {
+            binding.progressThread.progress = 100
+            binding.txtThreadStatus.text = "¡Worker Thread finalizado con éxito!"
+            binding.btnStartThread.isEnabled = true
+            Toast.makeText(this@ConcurrencyActivity, "Hilo completado", Toast.LENGTH_SHORT).show()
+        }
+    }
+}</code></pre>
+          </div>
+
+          <!-- XML Tab -->
+          <div data-tab="xml" class="tab-pane hidden p-0">
+            <pre><code class="language-xml">&lt;!-- Componentes XML para el Worker Thread --&gt;
+&lt;ProgressBar
+    android:id="@+id/progressThread"
+    style="?android:attr/progressBarStyleHorizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:max="100"
+    android:progress="0" /&gt;
+
+&lt;TextView
+    android:id="@+id/txtThreadStatus"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="Estado: En espera de iniciar"
+    android:textStyle="italic" /&gt;
+
+&lt;Button
+    android:id="@+id/btnStartThread"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="Iniciar Worker Thread" /&gt;</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <!-- ========================================== -->
+      <!-- SECCIÓN 2: EJEMPLO DEDICADO SOLO ASYNCTASK -->
+      <!-- ========================================== -->
+      <div class="space-y-4 pt-6 border-t border-zinc-200">
+        <div class="flex items-center justify-between pb-2 border-b border-zinc-100">
+          <div>
+            <h2 class="text-xl font-bold text-zinc-900 tracking-tight flex items-center gap-2">
+              <span class="w-7 h-7 rounded-lg bg-emerald-600 text-white flex items-center justify-center text-xs font-bold shadow-xs">2</span>
+              Ejemplo Exclusivo: Patrón AsyncTask Completo
+            </h2>
+            <p class="text-xs text-zinc-500 mt-0.5">Manejo estructurado del ciclo de vida asíncrono con parámetros, progreso y cancelación.</p>
+          </div>
+          <span class="text-xs font-mono font-medium px-2 py-0.5 bg-emerald-50 text-emerald-700 rounded-md border border-emerald-200">android.os.AsyncTask</span>
+        </div>
+
+        <p class="text-xs text-zinc-600 leading-relaxed">
+          <code>AsyncTask&lt;Params, Progress, Result&gt;</code> encapsula la comunicación entre el hilo de fondo y la UI en 4 etapas bien definidas:
+        </p>
+
+        <!-- Pasos del ciclo de vida AsyncTask -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 text-xs">
+          <div class="p-3.5 rounded-lg border border-zinc-200 bg-zinc-50 space-y-1">
+            <span class="font-bold text-zinc-900 block font-mono">1. onPreExecute()</span>
+            <span class="text-[10px] px-1.5 py-0.5 rounded bg-blue-100 text-blue-800 font-semibold inline-block">UI Thread</span>
+            <p class="text-zinc-600 mt-1">Prepara la UI antes de empezar (activa spinners, resetea barras).</p>
+          </div>
+          <div class="p-3.5 rounded-lg border border-zinc-200 bg-zinc-50 space-y-1">
+            <span class="font-bold text-zinc-900 block font-mono">2. doInBackground()</span>
+            <span class="text-[10px] px-1.5 py-0.5 rounded bg-amber-100 text-amber-800 font-semibold inline-block">Background</span>
+            <p class="text-zinc-600 mt-1">Ejecuta la tarea pesada. Emite avances con <code>publishProgress()</code>.</p>
+          </div>
+          <div class="p-3.5 rounded-lg border border-zinc-200 bg-zinc-50 space-y-1">
+            <span class="font-bold text-zinc-900 block font-mono">3. onProgressUpdate()</span>
+            <span class="text-[10px] px-1.5 py-0.5 rounded bg-blue-100 text-blue-800 font-semibold inline-block">UI Thread</span>
+            <p class="text-zinc-600 mt-1">Recibe el progreso emitido y actualiza la vista en tiempo real.</p>
+          </div>
+          <div class="p-3.5 rounded-lg border border-zinc-200 bg-zinc-50 space-y-1">
+            <span class="font-bold text-zinc-900 block font-mono">4. onPostExecute()</span>
+            <span class="text-[10px] px-1.5 py-0.5 rounded bg-blue-100 text-blue-800 font-semibold inline-block">UI Thread</span>
+            <p class="text-zinc-600 mt-1">Recibe el resultado final retornado por <code>doInBackground</code> y restaura botones.</p>
+          </div>
+        </div>
+
+        <div id="example-async" class="rounded-xl border border-zinc-200 bg-zinc-950 overflow-hidden shadow-sm">
+          <div class="flex items-center justify-between px-4 py-2 bg-zinc-900 border-b border-zinc-800">
+            <div class="flex items-center gap-1">
+              <button onclick="switchTab('example-async', 'java')" data-tab="java" class="tab-btn px-3 py-1 rounded-md text-xs font-semibold bg-white text-zinc-900 shadow-xs transition-all">Java 11</button>
+              <button onclick="switchTab('example-async', 'kotlin')" data-tab="kotlin" class="tab-btn px-3 py-1 rounded-md text-xs font-medium text-zinc-400 hover:text-white transition-all">Kotlin</button>
+              <button onclick="switchTab('example-async', 'xml')" data-tab="xml" class="tab-btn px-3 py-1 rounded-md text-xs font-medium text-zinc-400 hover:text-white transition-all">XML Layout</button>
+            </div>
+            <span class="text-[11px] font-mono text-zinc-400">AsyncTask Lifecycle</span>
+          </div>
+
+          <!-- Java Tab -->
+          <div data-tab="java" class="tab-pane p-0">
+            <pre><code class="language-java">// Ejemplo Exclusivo: Clase AsyncTask Completa en Java 11
+private class HeavyCalculationTask extends AsyncTask&lt;Integer, Integer, String&gt; {
+
+    // 1. Antes de iniciar (En hilo principal)
+    @Override
+    protected void onPreExecute() {
+        super.onPreExecute();
+        btnStartAsync.setEnabled(false);
+        btnCancelAsync.setEnabled(true);
+        progressAsync.setProgress(0);
+        txtAsyncStatus.setText("Iniciando tarea asíncrona...");
+    }
+
+    // 2. En segundo plano (Worker Thread)
+    @Override
+    protected String doInBackground(Integer... params) {
+        int limite = (params.length > 0) ? params[0] : 100;
+        
+        for (int i = 1; i <= limite; i += 10) {
+            // Verificar si el usuario canceló la tarea
+            if (isCancelled()) {
+                return "Tarea cancelada por el usuario";
+            }
+            try {
+                Thread.sleep(200); // Simular cálculo pesado
+            } catch (InterruptedException e) {
+                return "Interrumpido";
+            }
+            
+            // Envía el valor actual a onProgressUpdate() en el UI Thread
+            publishProgress(i);
+        }
+        return "¡Descarga de datos completada con éxito!";
+    }
+
+    // 3. Actualización de progreso (En hilo principal)
+    @Override
+    protected void onProgressUpdate(Integer... values) {
+        super.onProgressUpdate(values);
+        int porcentaje = values[0];
+        progressAsync.setProgress(porcentaje);
+        txtAsyncStatus.setText(String.format("AsyncTask: %d%%", porcentaje));
+    }
+
+    // 4. Conclusión exitosa (En hilo principal)
+    @Override
+    protected void onPostExecute(String resultado) {
+        super.onPostExecute(resultado);
+        txtAsyncStatus.setText(resultado);
+        progressAsync.setProgress(100);
+        btnStartAsync.setEnabled(true);
+        btnCancelAsync.setEnabled(false);
+        Toast.makeText(ConcurrencyActivity.this, resultado, Toast.LENGTH_SHORT).show();
+    }
+
+    // 5. Cancelación (En hilo principal)
+    @Override
+    protected void onCancelled(String resultado) {
+        super.onCancelled(resultado);
+        txtAsyncStatus.setText(resultado != null ? resultado : "Cancelado");
+        btnStartAsync.setEnabled(true);
+        btnCancelAsync.setEnabled(false);
+    }
+}
+
+// Invocación:
+// HeavyCalculationTask task = new HeavyCalculationTask();
+// task.execute(100); // Pasa 100 como parámetro al doInBackground</code></pre>
+          </div>
+
+          <!-- Kotlin Tab -->
+          <div data-tab="kotlin" class="tab-pane hidden p-0">
+            <pre><code class="language-kotlin">// Ejemplo Exclusivo: Equivalente en Kotlin con Coroutines y Flow
+private fun ejecutarTareaModerna() {
+    lifecycleScope.launch {
+        binding.btnStartAsync.isEnabled = false
+        binding.btnCancelAsync.isEnabled = true
+        binding.progressAsync.progress = 0
+        binding.txtAsyncStatus.text = "Iniciando corrutina..."
+
+        // Ejecutar en hilo de entrada/salida (IO)
+        val resultado = withContext(Dispatchers.IO) {
+            for (i in 1..100 step 10) {
+                delay(200)
+                // Reportar progreso al hilo principal (Main)
+                withContext(Dispatchers.Main) {
+                    binding.progressAsync.progress = i
+                    binding.txtAsyncStatus.text = "Corrutina: $i%"
+                }
+            }
+            "¡Descarga completada con Coroutines!"
+        }
+
+        binding.txtAsyncStatus.text = resultado
+        binding.progressAsync.progress = 100
+        binding.btnStartAsync.isEnabled = true
+        binding.btnCancelAsync.isEnabled = false
+    }
+}</code></pre>
+          </div>
+
+          <!-- XML Tab -->
+          <div data-tab="xml" class="tab-pane hidden p-0">
+            <pre><code class="language-xml">&lt;!-- Componentes XML para el AsyncTask --&gt;
+&lt;ProgressBar
+    android:id="@+id/progressAsync"
+    style="?android:attr/progressBarStyleHorizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:max="100"
+    android:progress="0" /&gt;
+
+&lt;TextView
+    android:id="@+id/txtAsyncStatus"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="Estado: En espera de iniciar"
+    android:textStyle="italic" /&gt;
+
+&lt;LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"&gt;
+
+    &lt;Button
+        android:id="@+id/btnStartAsync"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="Iniciar AsyncTask" /&gt;
+
+    &lt;Button
+        android:id="@+id/btnCancelAsync"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:enabled="false"
+        android:text="Cancelar Tarea" /&gt;
+&lt;/LinearLayout&gt;</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <!-- SECCIÓN XML COMPLETO: activity_concurrency.xml -->
+      <div class="space-y-4 pt-6 border-t border-zinc-200">
+        <div class="flex items-center justify-between pb-2 border-b border-zinc-100">
+          <div>
+            <h2 class="text-lg font-bold text-zinc-900 tracking-tight flex items-center gap-2">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-violet-600"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+              Diseño de Interfaz: XML Completo (activity_concurrency.xml)
+            </h2>
+            <p class="text-xs text-zinc-500 mt-0.5">Estructura basada en ScrollView, MaterialCardView, barras de progreso horizontales deterministas y botones de control.</p>
+          </div>
+          <span class="text-xs font-mono font-medium px-2.5 py-1 bg-zinc-100 text-zinc-700 rounded-md border border-zinc-200">res/layout/activity_concurrency.xml</span>
+        </div>
+
+        <div class="rounded-xl border border-zinc-200 bg-zinc-950 overflow-hidden shadow-sm">
+          <div class="flex items-center justify-between px-4 py-2 bg-zinc-900 border-b border-zinc-800">
+            <span class="text-xs font-semibold text-zinc-300">activity_concurrency.xml</span>
+            <span class="text-[11px] font-mono text-zinc-400">XML Layout · Android Views</span>
+          </div>
+          <pre><code class="language-xml">&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/surface"&gt;
+
+    &lt;LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp"&gt;
+
+        &lt;TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/acconc_title"
+            android:textSize="20sp"
+            android:textStyle="bold" /&gt;
+
+        &lt;!-- Tarjeta de Operación Interna y Diagnóstico --&gt;
+        &lt;com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            app:cardElevation="0dp"
+            app:strokeColor="@color/cardStroke"
+            app:strokeWidth="1dp"&gt;
+
+            &lt;LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="12dp"&gt;
+
+                &lt;TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/common_label_operation"
+                    android:textSize="12sp"
+                    android:textStyle="bold" /&gt;
+
+                &lt;TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="@string/acconc_info_desc"
+                    android:textSize="11sp" /&gt;
+            &lt;/LinearLayout&gt;
+        &lt;/com.google.android.material.card.MaterialCardView&gt;
+
+        &lt;!-- SECCIÓN 1: WORKER THREAD + RUNONUITHREAD --&gt;
+        &lt;com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            app:cardElevation="2dp"
+            app:strokeColor="@color/cardStroke"
+            app:strokeWidth="1dp"&gt;
+
+            &lt;LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp"&gt;
+
+                &lt;TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/acconc_section_thread_title"
+                    android:textStyle="bold"
+                    android:textSize="14sp" /&gt;
+
+                &lt;TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:text="@string/acconc_section_thread_desc"
+                    android:textSize="11sp" /&gt;
+
+                &lt;ProgressBar
+                    android:id="@+id/progressThread"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:max="100"
+                    android:progress="0" /&gt;
+
+                &lt;TextView
+                    android:id="@+id/txtThreadStatus"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:text="@string/acconc_status_idle"
+                    android:textSize="12sp"
+                    android:textStyle="italic" /&gt;
+
+                &lt;Button
+                    android:id="@+id/btnStartThread"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/acconc_btn_start_thread" /&gt;
+            &lt;/LinearLayout&gt;
+        &lt;/com.google.android.material.card.MaterialCardView&gt;
+
+        &lt;!-- SECCIÓN 2: ASYNCTASK CLÁSICO CON PROGRESO Y CANCELACIÓN --&gt;
+        &lt;com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            app:cardElevation="2dp"
+            app:strokeColor="@color/cardStroke"
+            app:strokeWidth="1dp"&gt;
+
+            &lt;LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp"&gt;
+
+                &lt;TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/acconc_section_async_title"
+                    android:textStyle="bold"
+                    android:textSize="14sp" /&gt;
+
+                &lt;TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:text="@string/acconc_section_async_desc"
+                    android:textSize="11sp" /&gt;
+
+                &lt;ProgressBar
+                    android:id="@+id/progressAsync"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:max="100"
+                    android:progress="0" /&gt;
+
+                &lt;TextView
+                    android:id="@+id/txtAsyncStatus"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:text="@string/acconc_status_idle"
+                    android:textSize="12sp"
+                    android:textStyle="italic" /&gt;
+
+                &lt;LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="10dp"&gt;
+
+                    &lt;Button
+                        android:id="@+id/btnStartAsync"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/acconc_btn_start_async" /&gt;
+
+                    &lt;Button
+                        android:id="@+id/btnCancelAsync"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:enabled="false"
+                        android:text="@string/acconc_btn_cancel_async" /&gt;
+                &lt;/LinearLayout&gt;
+            &lt;/LinearLayout&gt;
+        &lt;/com.google.android.material.card.MaterialCardView&gt;
+
+    &lt;/LinearLayout&gt;
+&lt;/ScrollView&gt;</code></pre>
+        </div>
+      </div>
+
+      <!-- Navigation Footer -->
+      <div class="flex items-center justify-between pt-6 border-t border-zinc-200">
+        <a href="lab-recycler.html" class="inline-flex items-center gap-2 text-xs font-medium text-zinc-600 hover:text-zinc-900 transition-colors">
+          ← Lab 10 · RecyclerView
+        </a>
+        <a href="lab-sensores.html" class="inline-flex items-center gap-2 text-xs font-medium text-violet-600 hover:text-violet-700 font-semibold transition-colors">
+          Lab 12 · Sensores de Hardware →
+        </a>
+      </div>
+
+    </main>
+  </div>
+
+  <script src="assets/nav.js"></script>
+</body>
+</html>

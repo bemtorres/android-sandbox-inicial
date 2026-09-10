@@ -1,0 +1,1072 @@
+<!DOCTYPE html>
+<html lang="es" class="h-full bg-white text-zinc-950 antialiased">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Lab 13 · Speech: Text to Speech & Speech to Text — Sandbox Android</title>
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <style type="text/tailwindcss">
+    @theme {
+      --font-sans: 'Plus Jakarta Sans', Inter, system-ui, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+  </style>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/kotlin.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/java.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/xml.min.js"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+    body { font-family: 'Plus Jakarta Sans', sans-serif; }
+    code, pre { font-family: 'JetBrains Mono', monospace; }
+    pre {
+      background: #09090b !important;
+      border: 1px solid #27272a !important;
+      border-radius: 0.75rem !important;
+      padding: 0 !important;
+      overflow: hidden !important;
+      position: relative !important;
+      margin: 0 !important;
+    }
+    pre code {
+      display: block !important;
+      padding: 1rem 1rem 1rem 3.6rem !important;
+      font-size: 12.5px !important;
+      line-height: 1.65 !important;
+      color: #f4f4f5 !important;
+      background: transparent !important;
+      overflow-x: auto !important;
+    }
+    .cm-gutter {
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 3rem;
+      padding: 1rem 0;
+      text-align: right;
+      font-size: 11px;
+      line-height: 1.65;
+      color: #71717a;
+      background: #18181b;
+      border-right: 1px solid #27272a;
+      user-select: none;
+      z-index: 1;
+      pointer-events: none;
+    }
+    .cm-gutter span {
+      display: block;
+      padding-right: 0.6rem;
+    }
+  </style>
+</head>
+<body class="min-h-full flex flex-col bg-white">
+
+  <!-- Header Superior shadcn -->
+  <header class="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-zinc-200">
+    <div class="max-w-[1440px] mx-auto px-4 sm:px-6 h-14 flex items-center justify-between gap-4">
+      <div class="flex items-center gap-3">
+        <button id="menuBtn" class="lg:hidden p-1.5 rounded-md text-zinc-600 hover:bg-zinc-100 transition-colors" aria-label="Abrir navegación">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h16" /></svg>
+        </button>
+        <div class="flex items-center gap-2">
+          <div class="w-6 h-6 rounded-md bg-amber-600 text-white flex items-center justify-center font-bold text-xs shadow-xs">13</div>
+          <span class="font-semibold text-sm tracking-tight text-zinc-900">Lab 13</span>
+          <span class="text-zinc-300">/</span>
+          <span class="text-xs text-zinc-500 font-medium">Módulo 2 · Voz & Audio (Speech)</span>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-2">
+        <div class="hidden sm:flex items-center gap-1 text-xs font-mono text-zinc-500">
+          <span class="px-2 py-0.5 rounded-md bg-zinc-100 text-zinc-800 border border-zinc-200">activity_speech.xml</span>
+          <span class="px-2 py-0.5 rounded-md bg-zinc-100 text-zinc-800 border border-zinc-200">SpeechActivity.java</span>
+        </div>
+        <a href="labs.html" class="inline-flex items-center justify-center text-xs font-medium h-8 px-3 rounded-md border border-zinc-200 bg-white text-zinc-900 hover:bg-zinc-100 transition-colors">
+          ← Índice Labs
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <div id="overlay" class="fixed inset-0 bg-black/40 backdrop-blur-xs z-40 hidden lg:hidden"></div>
+
+  <!-- Layout Principal -->
+  <div class="max-w-[1440px] mx-auto px-4 sm:px-6 py-6 grid grid-cols-1 lg:grid-cols-[240px_minmax(0,1fr)] gap-8 w-full flex-1">
+    <aside id="sidebar" class="fixed lg:sticky top-0 lg:top-20 left-0 z-40 w-[240px] h-[100dvh] lg:h-[calc(100vh-5rem)] bg-white lg:bg-transparent border-r lg:border-0 border-zinc-200 overflow-y-auto p-4 lg:p-0 -translate-x-full lg:translate-x-0 transition-transform duration-200"></aside>
+
+    <main class="min-w-0 space-y-10 pb-16">
+      
+      <!-- Título y Badges -->
+      <div class="space-y-3 border-b border-zinc-200 pb-6">
+        <div class="flex flex-wrap items-center gap-2">
+          <span class="px-2 py-0.5 rounded-md text-[11px] font-semibold bg-amber-50 text-amber-700 border border-amber-200">Módulo 2: Funcionalidades Especiales</span>
+          <span class="px-2 py-0.5 rounded-md text-[11px] font-mono text-zinc-600 bg-zinc-100 border border-zinc-200">acspee_</span>
+          <span class="px-2 py-0.5 rounded-md text-[11px] font-semibold bg-blue-50 text-blue-700 border border-blue-200">TTS & STT Completo</span>
+        </div>
+        <h1 class="text-3xl font-bold tracking-tight text-zinc-950">Lab 13 · Speech: Text-to-Speech & Speech-to-Text</h1>
+        <p class="text-sm text-zinc-600 leading-relaxed max-w-3xl">
+          Aprende a integrar interacción por voz en Android: conversión de texto a voz natural mediante <strong>TextToSpeech (TTS)</strong> con control de tono, velocidad e idioma, y transcripción de voz a texto mediante <strong>RecognizerIntent</strong> y el servicio continuo <strong>SpeechRecognizer</strong>.
+        </p>
+      </div>
+
+      <!-- Resumen Comparativo de Capacidades de Voz -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        
+        <div class="p-5 rounded-xl border border-zinc-200 bg-zinc-50/50 space-y-2">
+          <div class="flex items-center gap-2">
+            <span class="w-7 h-7 rounded-lg bg-amber-600 text-white flex items-center justify-center text-xs font-bold shadow-xs">🗣️</span>
+            <h3 class="text-sm font-bold text-zinc-900">Text to Speech (TTS)</h3>
+          </div>
+          <p class="text-xs text-zinc-600">Sintetiza texto en audio hablado usando el motor nativo de Google TTS o del fabricante.</p>
+          <ul class="text-[11px] text-zinc-500 space-y-1 pt-1 list-disc list-inside">
+            <li>Control de tono (pitch) de 0.5x a 2.0x.</li>
+            <li>Velocidad de habla (speech rate) de 0.5x a 2.0x.</li>
+            <li>Colas de reproducción: <code>QUEUE_FLUSH</code> y <code>QUEUE_ADD</code>.</li>
+            <li>Monitoreo de estado con <code>UtteranceProgressListener</code>.</li>
+          </ul>
+        </div>
+
+        <div class="p-5 rounded-xl border border-zinc-200 bg-zinc-50/50 space-y-2">
+          <div class="flex items-center gap-2">
+            <span class="w-7 h-7 rounded-lg bg-blue-600 text-white flex items-center justify-center text-xs font-bold shadow-xs">🎙️</span>
+            <h3 class="text-sm font-bold text-zinc-900">Speech to Text (STT)</h3>
+          </div>
+          <p class="text-xs text-zinc-600">Transcribe el audio capturado por el micrófono a cadenas de texto estructuradas.</p>
+          <ul class="text-[11px] text-zinc-500 space-y-1 pt-1 list-disc list-inside">
+            <li>Reconocimiento modal con <code>RecognizerIntent</code>.</li>
+            <li>Permiso de micrófono en tiempo de ejecución (<code>RECORD_AUDIO</code>).</li>
+            <li>Gestión de resultados con <code>ActivityResultLauncher</code>.</li>
+            <li>Soporte multilenguaje con detección automática.</li>
+          </ul>
+        </div>
+
+      </div>
+
+      <!-- ========================================== -->
+      <!-- SECCIÓN 1: TODOS LOS EJEMPLOS DE TEXT-TO-SPEECH (TTS) -->
+      <!-- ========================================== -->
+      <div class="space-y-6">
+        <div class="border-b border-zinc-200 pb-2">
+          <h2 class="text-xl font-bold text-zinc-900 tracking-tight flex items-center gap-2">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-amber-600"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+            1. Ejemplos de Text to Speech (TTS)
+          </h2>
+          <p class="text-xs text-zinc-500 mt-0.5">Desde la inicialización básica hasta control acústico de tono, velocidad y exportación de audio.</p>
+        </div>
+
+        <!-- Ejemplo 1.1: Inicialización, UtteranceProgressListener y Reproducción al Clic -->
+        <div class="rounded-xl border border-zinc-200 bg-white p-6 space-y-4 shadow-2xs">
+          <div class="flex items-center justify-between">
+            <h3 class="text-sm font-bold text-zinc-900 flex items-center gap-2">
+              <span class="w-5 h-5 rounded bg-zinc-900 text-white flex items-center justify-center text-[10px] font-bold">1.1</span>
+              Inicialización del Motor TTS, UtteranceProgressListener y Reproducción al Clic
+            </h3>
+            <span class="text-xs font-mono font-medium px-2 py-0.5 bg-amber-50 text-amber-700 rounded-md border border-amber-200">OnInitListener & Speak</span>
+          </div>
+          <p class="text-xs text-zinc-600 leading-relaxed">
+            Muestra el flujo completo de Text-to-Speech: se define una caja de texto (<code class="font-mono text-zinc-800">etTtsInput</code>), un botón (<code class="font-mono text-zinc-800">btnSpeak</code>) y una etiqueta de estado (<code class="font-mono text-zinc-800">txtTtsStatus</code>). Al iniciar la Activity se crea <code>TextToSpeech</code> con <code>OnInitListener</code> y <code>UtteranceProgressListener</code>; al pulsar el botón, se lee el texto ingresado y el sintetizador lo reproduce en voz alta.
+          </p>
+
+          <div id="tts-example-1" class="rounded-lg border border-zinc-800 bg-zinc-950 overflow-hidden">
+            <div class="flex items-center justify-between px-3 py-1.5 bg-zinc-900 border-b border-zinc-800 text-xs">
+              <div class="flex gap-1">
+                <button onclick="switchTab('tts-example-1', 'java')" data-tab="java" class="tab-btn px-2.5 py-0.5 rounded bg-white text-zinc-900 font-semibold">Java 11</button>
+                <button onclick="switchTab('tts-example-1', 'kotlin')" data-tab="kotlin" class="tab-btn px-2.5 py-0.5 rounded text-zinc-400 hover:text-white">Kotlin</button>
+                <button onclick="switchTab('tts-example-1', 'xml')" data-tab="xml" class="tab-btn px-2.5 py-0.5 rounded text-zinc-400 hover:text-white">XML</button>
+              </div>
+              <span class="text-[11px] font-mono text-zinc-400">Init, Listeners & Button Click</span>
+            </div>
+            <div data-tab="java" class="tab-pane p-0">
+              <pre><code class="language-java">// 1. Inicializar el motor TextToSpeech y sus listeners de progreso
+textToSpeech = new TextToSpeech(this, new TextToSpeech.OnInitListener() {
+    @Override
+    public void onInit(int status) {
+        if (status == TextToSpeech.SUCCESS) {
+            // Configurar idioma por defecto (fallback a Español)
+            int result = textToSpeech.setLanguage(Locale.getDefault());
+            if (result == TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED) {
+                textToSpeech.setLanguage(new Locale("es", "ES"));
+            }
+
+            // Monitorear cuando comienza, finaliza o da error la locución
+            textToSpeech.setOnUtteranceProgressListener(new UtteranceProgressListener() {
+                @Override
+                public void onStart(String utteranceId) {
+                    runOnUiThread(() -> txtTtsStatus.setText("Estado: Hablando..."));
+                }
+
+                @Override
+                public void onDone(String utteranceId) {
+                    runOnUiThread(() -> txtTtsStatus.setText("Estado: Listo"));
+                }
+
+                @Override
+                public void onError(String utteranceId) {
+                    runOnUiThread(() -> txtTtsStatus.setText("Estado: Error en locución"));
+                }
+            });
+
+            isTtsReady = true;
+            txtTtsStatus.setText("Estado: Motor TTS Listo");
+        } else {
+            txtTtsStatus.setText("Estado: Error de inicialización");
+        }
+    }
+});
+
+// 2. Al hacer clic en el botón, lee el texto del input y lo sintetiza en voz alta
+btnSpeak.setOnClickListener(v -> {
+    if (!isTtsReady || textToSpeech == null) {
+        Toast.makeText(this, "El motor TTS aún no está listo", Toast.LENGTH_SHORT).show();
+        return;
+    }
+
+    String text = etTtsInput.getText() != null ? etTtsInput.getText().toString().trim() : "";
+    if (text.isEmpty()) {
+        etTtsInput.setError("Escribe algún texto para hablar");
+        return;
+    }
+
+    // QUEUE_FLUSH reproduce inmediatamente descartando mensajes previos
+    textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, null, "TTS_MSG_ID");
+});</code></pre>
+            </div>
+            <div data-tab="kotlin" class="tab-pane hidden p-0">
+              <pre><code class="language-kotlin">// 1. Inicializar TextToSpeech y callbacks de locución
+textToSpeech = TextToSpeech(this) { status ->
+    if (status == TextToSpeech.SUCCESS) {
+        val result = textToSpeech?.setLanguage(Locale.getDefault())
+        if (result == TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED) {
+            textToSpeech?.language = Locale("es", "ES")
+        }
+
+        textToSpeech?.setOnUtteranceProgressListener(object : UtteranceProgressListener() {
+            override fun onStart(utteranceId: String?) {
+                runOnUiThread { binding.txtTtsStatus.text = "Estado: Hablando..." }
+            }
+            override fun onDone(utteranceId: String?) {
+                runOnUiThread { binding.txtTtsStatus.text = "Estado: Listo" }
+            }
+            override fun onError(utteranceId: String?) {
+                runOnUiThread { binding.txtTtsStatus.text = "Estado: Error" }
+            }
+        })
+
+        isTtsReady = true
+        binding.txtTtsStatus.text = "Estado: Motor TTS Listo"
+    } else {
+        binding.txtTtsStatus.text = "Estado: Error de inicialización"
+    }
+}
+
+// 2. Al pulsar el botón, sintetizar el texto escrito
+binding.btnSpeak.setOnClickListener {
+    if (!isTtsReady || textToSpeech == null) {
+        Toast.makeText(this, "Motor no listo", Toast.LENGTH_SHORT).show()
+        return@setOnClickListener
+    }
+
+    val text = binding.etTtsInput.text?.toString()?.trim() ?: ""
+    if (text.isEmpty()) {
+        binding.etTtsInput.error = "Escribe algún texto"
+        return@setOnClickListener
+    }
+
+    textToSpeech?.speak(text, TextToSpeech.QUEUE_FLUSH, null, "TTS_MSG_ID")
+}</code></pre>
+            </div>
+            <div data-tab="xml" class="tab-pane hidden p-0">
+              <pre><code class="language-xml">&lt;!-- Campo de texto de entrada para el mensaje --&gt;
+&lt;com.google.android.material.textfield.TextInputLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:hint="@string/acspee_tts_hint"&gt;
+
+    &lt;com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/etTtsInput"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/acspee_tts_default_text"
+        android:textSize="13sp" /&gt;
+&lt;/com.google.android.material.textfield.TextInputLayout&gt;
+
+&lt;!-- Indicador visual de estado de locución (Idle, Speaking, Ready) --&gt;
+&lt;TextView
+    android:id="@+id/txtTtsStatus"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="6dp"
+    android:text="@string/acspee_status_idle"
+    android:textSize="11sp"
+    android:textStyle="italic" /&gt;
+
+&lt;!-- Botón para hablar el texto ingresado --&gt;
+&lt;Button
+    android:id="@+id/btnSpeak"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="8dp"
+    android:text="@string/acspee_tts_btn_speak" /&gt;</code></pre>
+            </div>
+          </div>
+        </div>
+
+        <!-- Ejemplo 1.2: Sliders Interactivos para Tono y Velocidad -->
+        <div class="rounded-xl border border-zinc-200 bg-white p-6 space-y-4 shadow-2xs">
+          <div class="flex items-center justify-between">
+            <h3 class="text-sm font-bold text-zinc-900 flex items-center gap-2">
+              <span class="w-5 h-5 rounded bg-zinc-900 text-white flex items-center justify-center text-[10px] font-bold">1.2</span>
+              Ajuste Dinámico de Tono (Pitch) y Velocidad (Speech Rate) con Sliders
+            </h3>
+            <span class="text-xs font-mono font-medium px-2 py-0.5 bg-zinc-100 text-zinc-700 rounded-md border border-zinc-200">Material Slider</span>
+          </div>
+          <p class="text-xs text-zinc-600 leading-relaxed">
+            Permite al usuario ajustar de forma continua la frecuencia acústica (<code class="font-mono text-zinc-800">sliderPitch</code> de 0.5x a 2.0x) y la velocidad de habla (<code class="font-mono text-zinc-800">sliderSpeed</code> de 0.5x a 2.0x), actualizando las etiquetas de texto descriptivas en cada cambio.
+          </p>
+
+          <div id="tts-example-2" class="rounded-lg border border-zinc-800 bg-zinc-950 overflow-hidden">
+            <div class="flex items-center justify-between px-3 py-1.5 bg-zinc-900 border-b border-zinc-800 text-xs">
+              <div class="flex gap-1">
+                <button onclick="switchTab('tts-example-2', 'java')" data-tab="java" class="tab-btn px-2.5 py-0.5 rounded bg-white text-zinc-900 font-semibold">Java 11</button>
+                <button onclick="switchTab('tts-example-2', 'kotlin')" data-tab="kotlin" class="tab-btn px-2.5 py-0.5 rounded text-zinc-400 hover:text-white">Kotlin</button>
+                <button onclick="switchTab('tts-example-2', 'xml')" data-tab="xml" class="tab-btn px-2.5 py-0.5 rounded text-zinc-400 hover:text-white">XML</button>
+              </div>
+              <span class="text-[11px] font-mono text-zinc-400">Pitch & Speed Controls</span>
+            </div>
+            <div data-tab="java" class="tab-pane p-0">
+              <pre><code class="language-java">// Escuchadores para actualizar etiquetas de Tono y Velocidad en tiempo real
+sliderPitch.addOnChangeListener((slider, value, fromUser) ->
+        lblPitch.setText(String.format(Locale.getDefault(), "Tono de Voz (Pitch): %.1fx", value)));
+
+sliderSpeed.addOnChangeListener((slider, value, fromUser) ->
+        lblSpeed.setText(String.format(Locale.getDefault(), "Velocidad (Speech Rate): %.1fx", value)));</code></pre>
+            </div>
+            <div data-tab="kotlin" class="tab-pane hidden p-0">
+              <pre><code class="language-kotlin">binding.sliderPitch.addOnChangeListener { _, value, _ ->
+    binding.lblPitch.text = String.format(Locale.getDefault(), "Tono de Voz (Pitch): %.1fx", value)
+}
+
+binding.sliderSpeed.addOnChangeListener { _, value, _ ->
+    binding.lblSpeed.text = String.format(Locale.getDefault(), "Velocidad (Speech Rate): %.1fx", value)
+}</code></pre>
+            </div>
+            <div data-tab="xml" class="tab-pane hidden p-0">
+              <pre><code class="language-xml">&lt;!-- Control de Tono (Pitch) --&gt;
+&lt;TextView
+    android:id="@+id/lblPitch"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="12dp"
+    android:text="Tono de Voz (Pitch): 1.0x"
+    android:textSize="11sp"
+    android:textStyle="bold" /&gt;
+
+&lt;com.google.android.material.slider.Slider
+    android:id="@+id/sliderPitch"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:valueFrom="0.5"
+    android:valueTo="2.0"
+    android:stepSize="0.1"
+    android:value="1.0" /&gt;
+
+&lt;!-- Control de Velocidad (Speed) --&gt;
+&lt;TextView
+    android:id="@+id/lblSpeed"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="4dp"
+    android:text="Velocidad (Speech Rate): 1.0x"
+    android:textSize="11sp"
+    android:textStyle="bold" /&gt;
+
+&lt;com.google.android.material.slider.Slider
+    android:id="@+id/sliderSpeed"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:valueFrom="0.5"
+    android:valueTo="2.0"
+    android:stepSize="0.1"
+    android:value="1.0" /&gt;</code></pre>
+            </div>
+          </div>
+        </div>
+
+        <!-- Ejemplo 1.3: Entrada de Texto, Síntesis con speak() y Detención con stop() -->
+        <div class="rounded-xl border border-zinc-200 bg-white p-6 space-y-4 shadow-2xs">
+          <div class="flex items-center justify-between">
+            <h3 class="text-sm font-bold text-zinc-900 flex items-center gap-2">
+              <span class="w-5 h-5 rounded bg-zinc-900 text-white flex items-center justify-center text-[10px] font-bold">1.3</span>
+              Entrada de Texto, Síntesis con <code>speak()</code> y Detención con <code>stop()</code>
+            </h3>
+            <span class="text-xs font-mono font-medium px-2 py-0.5 bg-amber-50 text-amber-700 rounded-md border border-amber-200">QUEUE_FLUSH</span>
+          </div>
+          <p class="text-xs text-zinc-600 leading-relaxed">
+            Se captura el texto ingresado en <code class="font-mono text-zinc-800">etTtsInput</code>, se configuran el tono y la velocidad actuales del motor, y se invoca <code>speak()</code> usando la constante <code>TextToSpeech.QUEUE_FLUSH</code> para interrumpir audios previos. El botón <code class="font-mono text-zinc-800">btnStopTts</code> permite cancelar la locución en curso.
+          </p>
+
+          <div id="tts-example-3" class="rounded-lg border border-zinc-800 bg-zinc-950 overflow-hidden">
+            <div class="flex items-center justify-between px-3 py-1.5 bg-zinc-900 border-b border-zinc-800 text-xs">
+              <div class="flex gap-1">
+                <button onclick="switchTab('tts-example-3', 'java')" data-tab="java" class="tab-btn px-2.5 py-0.5 rounded bg-white text-zinc-900 font-semibold">Java 11</button>
+                <button onclick="switchTab('tts-example-3', 'kotlin')" data-tab="kotlin" class="tab-btn px-2.5 py-0.5 rounded text-zinc-400 hover:text-white">Kotlin</button>
+                <button onclick="switchTab('tts-example-3', 'xml')" data-tab="xml" class="tab-btn px-2.5 py-0.5 rounded text-zinc-400 hover:text-white">XML</button>
+              </div>
+              <span class="text-[11px] font-mono text-zinc-400">Speak & Stop</span>
+            </div>
+            <div data-tab="java" class="tab-pane p-0">
+              <pre><code class="language-java">// Método para sintetizar el texto del input
+private void speakText() {
+    if (!isTtsReady || textToSpeech == null) {
+        Toast.makeText(this, "El motor TTS aún no está listo", Toast.LENGTH_SHORT).show();
+        return;
+    }
+
+    String text = etTtsInput.getText() != null ? etTtsInput.getText().toString().trim() : "";
+    if (text.isEmpty()) {
+        etTtsInput.setError("Escribe algún texto para hablar");
+        return;
+    }
+
+    float pitch = sliderPitch.getValue();
+    float speed = sliderSpeed.getValue();
+
+    textToSpeech.setPitch(pitch);
+    textToSpeech.setSpeechRate(speed);
+
+    // QUEUE_FLUSH descarta audios anteriores y habla de inmediato
+    textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, null, "SANDBOX_TTS_ID");
+}
+
+// Detener reproducción
+btnStopTts.setOnClickListener(v -> {
+    if (textToSpeech != null && textToSpeech.isSpeaking()) {
+        textToSpeech.stop();
+        txtTtsStatus.setText(R.string.acspee_status_idle);
+    }
+});</code></pre>
+            </div>
+            <div data-tab="kotlin" class="tab-pane hidden p-0">
+              <pre><code class="language-kotlin">private fun speakText() {
+    if (!isTtsReady || textToSpeech == null) {
+        Toast.makeText(this, "El motor TTS aún no está listo", Toast.LENGTH_SHORT).show()
+        return
+    }
+
+    val text = binding.etTtsInput.text?.toString()?.trim() ?: ""
+    if (text.isEmpty()) {
+        binding.etTtsInput.error = "Escribe algún texto para hablar"
+        return
+    }
+
+    val pitch = binding.sliderPitch.value
+    val speed = binding.sliderSpeed.value
+
+    textToSpeech?.setPitch(pitch)
+    textToSpeech?.setSpeechRate(speed)
+
+    textToSpeech?.speak(text, TextToSpeech.QUEUE_FLUSH, null, "SANDBOX_TTS_ID")
+}
+
+binding.btnStopTts.setOnClickListener {
+    if (textToSpeech?.isSpeaking == true) {
+        textToSpeech?.stop()
+        binding.txtTtsStatus.setText(R.string.acspee_status_idle)
+    }
+}</code></pre>
+            </div>
+            <div data-tab="xml" class="tab-pane hidden p-0">
+              <pre><code class="language-xml">&lt;!-- Entrada de texto Material y botones Speak / Stop --&gt;
+&lt;com.google.android.material.textfield.TextInputLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="10dp"
+    android:hint="@string/acspee_tts_hint"&gt;
+
+    &lt;com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/etTtsInput"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/acspee_tts_default_text"
+        android:textSize="13sp" /&gt;
+&lt;/com.google.android.material.textfield.TextInputLayout&gt;
+
+&lt;LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:layout_marginTop="10dp"&gt;
+
+    &lt;Button
+        android:id="@+id/btnSpeak"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="@string/acspee_tts_btn_speak" /&gt;
+
+    &lt;Button
+        android:id="@+id/btnStopTts"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="@string/acspee_tts_btn_stop" /&gt;
+&lt;/LinearLayout&gt;</code></pre>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ========================================== -->
+      <!-- SECCIÓN 2: TODOS LOS EJEMPLOS DE SPEECH-TO-TEXT (STT) -->
+      <!-- ========================================== -->
+      <div class="space-y-6 pt-6 border-t border-zinc-200">
+        <div class="border-b border-zinc-200 pb-2">
+          <h2 class="text-xl font-bold text-zinc-900 tracking-tight flex items-center gap-2">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-blue-600"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="22"/></svg>
+            2. Ejemplos de Speech to Text (STT)
+          </h2>
+          <p class="text-xs text-zinc-500 mt-0.5">Gestión de permisos en tiempo de ejecución, RecognizerIntent y ciclo de vida seguro.</p>
+        </div>
+
+        <!-- Ejemplo 2.1: Gestión de Permisos RECORD_AUDIO -->
+        <div class="rounded-xl border border-zinc-200 bg-white p-6 space-y-4 shadow-2xs">
+          <div class="flex items-center justify-between">
+            <h3 class="text-sm font-bold text-zinc-900 flex items-center gap-2">
+              <span class="w-5 h-5 rounded bg-blue-600 text-white flex items-center justify-center text-[10px] font-bold">2.1</span>
+              Gestión de Permiso en Tiempo de Ejecución (<code>RECORD_AUDIO</code>)
+            </h3>
+            <span class="text-xs font-mono font-medium px-2 py-0.5 bg-blue-50 text-blue-700 rounded-md border border-blue-200">RequestPermission</span>
+          </div>
+          <p class="text-xs text-zinc-600 leading-relaxed">
+            El micrófono es un permiso sensible. Se utiliza <code>ActivityResultContracts.RequestPermission()</code> para solicitar <code>Manifest.permission.RECORD_AUDIO</code> al presionar el botón <code class="font-mono text-zinc-800">btnRecognizeIntent</code> si el usuario aún no lo ha otorgado.
+          </p>
+
+          <div id="stt-example-1" class="rounded-lg border border-zinc-800 bg-zinc-950 overflow-hidden">
+            <div class="flex items-center justify-between px-3 py-1.5 bg-zinc-900 border-b border-zinc-800 text-xs">
+              <div class="flex gap-1">
+                <button onclick="switchTab('stt-example-1', 'java')" data-tab="java" class="tab-btn px-2.5 py-0.5 rounded bg-white text-zinc-900 font-semibold">Java 11</button>
+                <button onclick="switchTab('stt-example-1', 'kotlin')" data-tab="kotlin" class="tab-btn px-2.5 py-0.5 rounded text-zinc-400 hover:text-white">Kotlin</button>
+                <button onclick="switchTab('stt-example-1', 'xml')" data-tab="xml" class="tab-btn px-2.5 py-0.5 rounded text-zinc-400 hover:text-white">XML</button>
+              </div>
+              <span class="text-[11px] font-mono text-zinc-400">Permission Flow</span>
+            </div>
+            <div data-tab="java" class="tab-pane p-0">
+              <pre><code class="language-java">// Launcher para solicitud de permiso de micrófono
+private final ActivityResultLauncher&lt;String&gt; permissionLauncher = registerForActivityResult(
+    new ActivityResultContracts.RequestPermission(),
+    isGranted -> {
+        if (isGranted) {
+            launchSpeechRecognizerIntent();
+        } else {
+            Toast.makeText(this, "Se requiere permiso de micrófono para reconocer voz", Toast.LENGTH_LONG).show();
+        }
+    }
+);
+
+// Click listener del botón para validar permiso previo
+btnRecognizeIntent.setOnClickListener(v -> {
+    if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO)
+            == PackageManager.PERMISSION_GRANTED) {
+        launchSpeechRecognizerIntent();
+    } else {
+        permissionLauncher.launch(Manifest.permission.RECORD_AUDIO);
+    }
+});</code></pre>
+            </div>
+            <div data-tab="kotlin" class="tab-pane hidden p-0">
+              <pre><code class="language-kotlin">private val permissionLauncher = registerForActivityResult(
+    ActivityResultContracts.RequestPermission()
+) { isGranted ->
+    if (isGranted) {
+        launchSpeechRecognizerIntent()
+    } else {
+        Toast.makeText(this, "Se requiere permiso de micrófono", Toast.LENGTH_LONG).show()
+    }
+}
+
+binding.btnRecognizeIntent.setOnClickListener {
+    if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO)
+        == PackageManager.PERMISSION_GRANTED) {
+        launchSpeechRecognizerIntent()
+    } else {
+        permissionLauncher.launch(Manifest.permission.RECORD_AUDIO)
+    }
+}</code></pre>
+            </div>
+            <div data-tab="xml" class="tab-pane hidden p-0">
+              <pre><code class="language-xml">&lt;!-- Botón que dispara el flujo de validación de permisos y STT --&gt;
+&lt;Button
+    android:id="@+id/btnRecognizeIntent"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="12dp"
+    android:text="@string/acspee_stt_btn_intent" /&gt;</code></pre>
+            </div>
+          </div>
+        </div>
+
+        <!-- Ejemplo 2.2: Lanzamiento de RecognizerIntent y Transcripción en txtSttResult -->
+        <div class="rounded-xl border border-zinc-200 bg-white p-6 space-y-4 shadow-2xs">
+          <div class="flex items-center justify-between">
+            <h3 class="text-sm font-bold text-zinc-900 flex items-center gap-2">
+              <span class="w-5 h-5 rounded bg-blue-600 text-white flex items-center justify-center text-[10px] font-bold">2.2</span>
+              Reconocimiento Modal con RecognizerIntent & Transcripción en <code>txtSttResult</code>
+            </h3>
+            <span class="text-xs font-mono font-medium px-2 py-0.5 bg-blue-50 text-blue-700 rounded-md border border-blue-200">RecognizerIntent</span>
+          </div>
+          <p class="text-xs text-zinc-600 leading-relaxed">
+            Se dispara el diálogo modal nativo mediante <code>RecognizerIntent.ACTION_RECOGNIZE_SPEECH</code>. La lista de coincidencias devuelta se recupera de <code>RecognizerIntent.EXTRA_RESULTS</code> y la mejor coincidencia se muestra de inmediato en <code class="font-mono text-zinc-800">txtSttResult</code>.
+          </p>
+
+          <div id="stt-example-2" class="rounded-lg border border-zinc-800 bg-zinc-950 overflow-hidden">
+            <div class="flex items-center justify-between px-3 py-1.5 bg-zinc-900 border-b border-zinc-800 text-xs">
+              <div class="flex gap-1">
+                <button onclick="switchTab('stt-example-2', 'java')" data-tab="java" class="tab-btn px-2.5 py-0.5 rounded bg-white text-zinc-900 font-semibold">Java 11</button>
+                <button onclick="switchTab('stt-example-2', 'kotlin')" data-tab="kotlin" class="tab-btn px-2.5 py-0.5 rounded text-zinc-400 hover:text-white">Kotlin</button>
+                <button onclick="switchTab('stt-example-2', 'xml')" data-tab="xml" class="tab-btn px-2.5 py-0.5 rounded text-zinc-400 hover:text-white">XML</button>
+              </div>
+              <span class="text-[11px] font-mono text-zinc-400">RecognizerIntent & Result</span>
+            </div>
+            <div data-tab="java" class="tab-pane p-0">
+              <pre><code class="language-java">// 1. Registrar ActivityResultLauncher para recibir el texto de voz
+private final ActivityResultLauncher&lt;Intent&gt; speechLauncher = registerForActivityResult(
+    new ActivityResultContracts.StartActivityForResult(),
+    result -> {
+        if (result.getResultCode() == Activity.RESULT_OK && result.getData() != null) {
+            ArrayList&lt;String&gt; matches = result.getData().getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+            if (matches != null && !matches.isEmpty()) {
+                String recognized = matches.get(0); // Mejor coincidencia
+                txtSttResult.setText(recognized);
+                Toast.makeText(this, "Voz reconocida: " + recognized, Toast.LENGTH_SHORT).show();
+            }
+        } else {
+            txtSttResult.setText("Reconocimiento cancelado o sin audio detectado");
+        }
+    }
+);
+
+// 2. Disparar el Intent de Reconocimiento
+private void launchSpeechRecognizerIntent() {
+    Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+    intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+    intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault());
+    intent.putExtra(RecognizerIntent.EXTRA_PROMPT, "Habla ahora para transcribir...");
+
+    try {
+        speechLauncher.launch(intent);
+    } catch (Exception e) {
+        Toast.makeText(this, "Tu dispositivo no cuenta con servicio de voz", Toast.LENGTH_LONG).show();
+    }
+}</code></pre>
+            </div>
+            <div data-tab="kotlin" class="tab-pane hidden p-0">
+              <pre><code class="language-kotlin">private val speechLauncher = registerForActivityResult(
+    ActivityResultContracts.StartActivityForResult()
+) { result ->
+    if (result.resultCode == Activity.RESULT_OK && result.data != null) {
+        val matches = result.data?.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS)
+        matches?.firstOrNull()?.let { recognized ->
+            binding.txtSttResult.text = recognized
+            Toast.makeText(this, "Voz reconocida: $recognized", Toast.LENGTH_SHORT).show()
+        }
+    } else {
+        binding.txtSttResult.text = "Reconocimiento cancelado o sin audio detectado"
+    }
+}
+
+private fun launchSpeechRecognizerIntent() {
+    val intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH).apply {
+        putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM)
+        putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault())
+        putExtra(RecognizerIntent.EXTRA_PROMPT, "Habla ahora para transcribir...")
+    }
+    try {
+        speechLauncher.launch(intent)
+    } catch (e: Exception) {
+        Toast.makeText(this, "Tu dispositivo no cuenta con servicio de voz", Toast.LENGTH_LONG).show()
+    }
+}</code></pre>
+            </div>
+            <div data-tab="xml" class="tab-pane hidden p-0">
+              <pre><code class="language-xml">&lt;!-- Visor con fondo shape_rounded_box para el resultado transcrito --&gt;
+&lt;TextView
+    android:id="@+id/txtSttResult"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="4dp"
+    android:padding="12dp"
+    android:background="@drawable/shape_rounded_box"
+    android:text="@string/acspee_stt_placeholder"
+    android:textSize="12sp"
+    android:fontFamily="monospace" /&gt;</code></pre>
+            </div>
+          </div>
+        </div>
+
+        <!-- Ejemplo 2.3: Liberación de Recursos y AndroidManifest.xml -->
+        <div class="rounded-xl border border-zinc-200 bg-white p-6 space-y-4 shadow-2xs">
+          <div class="flex items-center justify-between">
+            <h3 class="text-sm font-bold text-zinc-900 flex items-center gap-2">
+              <span class="w-5 h-5 rounded bg-blue-600 text-white flex items-center justify-center text-[10px] font-bold">2.3</span>
+              Ciclo de Vida (<code>onDestroy</code>) y Declaración de <code>&lt;queries&gt;</code> en AndroidManifest
+            </h3>
+            <span class="text-xs font-mono font-medium px-2 py-0.5 bg-zinc-100 text-zinc-700 rounded-md border border-zinc-200">Lifecycle & Manifest</span>
+          </div>
+          <p class="text-xs text-zinc-600 leading-relaxed">
+            Es indispensable liberar la memoria del motor <code>TextToSpeech</code> invocando <code>stop()</code> y <code>shutdown()</code> dentro de <code>onDestroy()</code>. Además, desde Android 11 (API 30), es obligatorio incluir el bloque <code>&lt;queries&gt;</code> en <code class="font-mono text-zinc-800">AndroidManifest.xml</code> para permitir que el sistema descubra los servicios de reconocimiento de voz.
+          </p>
+
+          <div id="stt-example-3" class="rounded-lg border border-zinc-800 bg-zinc-950 overflow-hidden">
+            <div class="flex items-center justify-between px-3 py-1.5 bg-zinc-900 border-b border-zinc-800 text-xs">
+              <div class="flex gap-1">
+                <button onclick="switchTab('stt-example-3', 'java')" data-tab="java" class="tab-btn px-2.5 py-0.5 rounded bg-white text-zinc-900 font-semibold">Java 11</button>
+                <button onclick="switchTab('stt-example-3', 'kotlin')" data-tab="kotlin" class="tab-btn px-2.5 py-0.5 rounded text-zinc-400 hover:text-white">Kotlin</button>
+                <button onclick="switchTab('stt-example-3', 'xml')" data-tab="xml" class="tab-btn px-2.5 py-0.5 rounded text-zinc-400 hover:text-white">Manifest XML</button>
+              </div>
+              <span class="text-[11px] font-mono text-zinc-400">Cleanup & Manifest</span>
+            </div>
+            <div data-tab="java" class="tab-pane p-0">
+              <pre><code class="language-java">@Override
+protected void onDestroy() {
+    super.onDestroy();
+    // Liberar recursos de audio al destruir la Activity
+    if (textToSpeech != null) {
+        textToSpeech.stop();
+        textToSpeech.shutdown();
+        Log.d(TAG, "TextToSpeech liberado en onDestroy");
+    }
+}</code></pre>
+            </div>
+            <div data-tab="kotlin" class="tab-pane hidden p-0">
+              <pre><code class="language-kotlin">override fun onDestroy() {
+    super.onDestroy()
+    // Liberación del motor en Kotlin
+    textToSpeech?.stop()
+    textToSpeech?.shutdown()
+    Log.d(TAG, "TextToSpeech liberado en onDestroy")
+}</code></pre>
+            </div>
+            <div data-tab="xml" class="tab-pane hidden p-0">
+              <pre><code class="language-xml">&lt;!-- Permisos y queries en AndroidManifest.xml --&gt;
+&lt;uses-permission android:name="android.permission.RECORD_AUDIO" /&gt;
+&lt;uses-permission android:name="android.permission.INTERNET" /&gt;
+
+&lt;queries&gt;
+    &lt;intent&gt;
+        &lt;action android:name="android.speech.RecognitionService" /&gt;
+    &lt;/intent&gt;
+&lt;/queries&gt;</code></pre>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SECCIÓN XML COMPLETO: activity_speech.xml -->
+      <div class="space-y-4 pt-6 border-t border-zinc-200">
+        <div class="flex items-center justify-between pb-2 border-b border-zinc-100">
+          <div>
+            <h2 class="text-lg font-bold text-zinc-900 tracking-tight flex items-center gap-2">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-amber-600"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+              Diseño de Interfaz: XML Completo (activity_speech.xml)
+            </h2>
+            <p class="text-xs text-zinc-500 mt-0.5">Layout real con ScrollView, tarjetas explicativas, Sliders de tono/velocidad y visor de transcripción.</p>
+          </div>
+          <span class="text-xs font-mono font-medium px-2.5 py-1 bg-zinc-100 text-zinc-700 rounded-md border border-zinc-200">res/layout/activity_speech.xml</span>
+        </div>
+
+        <div class="rounded-xl border border-zinc-200 bg-zinc-950 overflow-hidden shadow-sm">
+          <div class="flex items-center justify-between px-4 py-2 bg-zinc-900 border-b border-zinc-800">
+            <span class="text-xs font-semibold text-zinc-300">activity_speech.xml</span>
+            <span class="text-[11px] font-mono text-zinc-400">XML Layout · TTS & STT</span>
+          </div>
+          <pre><code class="language-xml">&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/surface"&gt;
+
+    &lt;LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp"&gt;
+
+        &lt;TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/acspee_title"
+            android:textSize="20sp"
+            android:textStyle="bold" /&gt;
+
+        &lt;!-- Card Explicativa --&gt;
+        &lt;com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            app:cardElevation="0dp"
+            app:strokeColor="@color/cardStroke"
+            app:strokeWidth="1dp"&gt;
+
+            &lt;LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="12dp"&gt;
+
+                &lt;TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/common_label_operation"
+                    android:textSize="12sp"
+                    android:textStyle="bold" /&gt;
+
+                &lt;TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="@string/acspee_info_desc"
+                    android:textSize="11sp" /&gt;
+            &lt;/LinearLayout&gt;
+        &lt;/com.google.android.material.card.MaterialCardView&gt;
+
+        &lt;!-- SECCIÓN 1: TEXT-TO-SPEECH (TTS) --&gt;
+        &lt;com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            app:cardElevation="2dp"
+            app:strokeColor="@color/cardStroke"
+            app:strokeWidth="1dp"&gt;
+
+            &lt;LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp"&gt;
+
+                &lt;TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/acspee_tts_section_title"
+                    android:textStyle="bold"
+                    android:textSize="14sp"
+                    android:textColor="@color/primary" /&gt;
+
+                &lt;com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:hint="@string/acspee_tts_hint"&gt;
+
+                    &lt;com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etTtsInput"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/acspee_tts_default_text"
+                        android:textSize="13sp" /&gt;
+                &lt;/com.google.android.material.textfield.TextInputLayout&gt;
+
+                &lt;!-- Control de Tono (Pitch) --&gt;
+                &lt;TextView
+                    android:id="@+id/lblPitch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:text="Tono de Voz (Pitch): 1.0x"
+                    android:textSize="11sp"
+                    android:textStyle="bold" /&gt;
+
+                &lt;com.google.android.material.slider.Slider
+                    android:id="@+id/sliderPitch"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:valueFrom="0.5"
+                    android:valueTo="2.0"
+                    android:stepSize="0.1"
+                    android:value="1.0" /&gt;
+
+                &lt;!-- Control de Velocidad (Speed) --&gt;
+                &lt;TextView
+                    android:id="@+id/lblSpeed"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="Velocidad (Speech Rate): 1.0x"
+                    android:textSize="11sp"
+                    android:textStyle="bold" /&gt;
+
+                &lt;com.google.android.material.slider.Slider
+                    android:id="@+id/sliderSpeed"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:valueFrom="0.5"
+                    android:valueTo="2.0"
+                    android:stepSize="0.1"
+                    android:value="1.0" /&gt;
+
+                &lt;TextView
+                    android:id="@+id/txtTtsStatus"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="@string/acspee_status_idle"
+                    android:textSize="11sp"
+                    android:textStyle="italic" /&gt;
+
+                &lt;LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="10dp"&gt;
+
+                    &lt;Button
+                        android:id="@+id/btnSpeak"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/acspee_tts_btn_speak" /&gt;
+
+                    &lt;Button
+                        android:id="@+id/btnStopTts"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:text="@string/acspee_tts_btn_stop" /&gt;
+                &lt;/LinearLayout&gt;
+            &lt;/LinearLayout&gt;
+        &lt;/com.google.android.material.card.MaterialCardView&gt;
+
+        &lt;!-- SECCIÓN 2: SPEECH-TO-TEXT (STT) --&gt;
+        &lt;com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="24dp"
+            app:cardElevation="2dp"
+            app:strokeColor="@color/cardStroke"
+            app:strokeWidth="1dp"&gt;
+
+            &lt;LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp"&gt;
+
+                &lt;TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/acspee_stt_section_title"
+                    android:textStyle="bold"
+                    android:textSize="14sp"
+                    android:textColor="@color/primary" /&gt;
+
+                &lt;TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:text="@string/acspee_stt_desc"
+                    android:textSize="11sp" /&gt;
+
+                &lt;Button
+                    android:id="@+id/btnRecognizeIntent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:text="@string/acspee_stt_btn_intent" /&gt;
+
+                &lt;TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:text="@string/acspee_stt_result_title"
+                    android:textStyle="bold"
+                    android:textSize="12sp" /&gt;
+
+                &lt;TextView
+                    android:id="@+id/txtSttResult"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:padding="12dp"
+                    android:background="@drawable/shape_rounded_box"
+                    android:text="@string/acspee_stt_placeholder"
+                    android:textSize="12sp"
+                    android:fontFamily="monospace" /&gt;
+            &lt;/LinearLayout&gt;
+        &lt;/com.google.android.material.card.MaterialCardView&gt;
+
+    &lt;/LinearLayout&gt;
+&lt;/ScrollView&gt;</code></pre>
+        </div>
+
+        <!-- Tabla de Atributos y Componentes XML -->
+        <div class="rounded-xl border border-zinc-200 bg-white p-5 space-y-3">
+          <h3 class="text-xs font-bold text-zinc-900 tracking-tight flex items-center gap-2">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-amber-600"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+            Referencia de Componentes y Atributos XML Utilizados
+          </h3>
+          <div class="overflow-x-auto">
+            <table class="w-full text-left text-xs border-collapse">
+              <thead>
+                <tr class="border-b border-zinc-200 bg-zinc-50/75">
+                  <th class="p-2.5 font-semibold text-zinc-700">Componente XML</th>
+                  <th class="p-2.5 font-semibold text-zinc-700">Identificador / Atributos Clave</th>
+                  <th class="p-2.5 font-semibold text-zinc-700">Propósito en el Laboratorio</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-zinc-100 text-zinc-600">
+                <tr>
+                  <td class="p-2.5 font-mono text-zinc-900 font-medium">TextInputEditText</td>
+                  <td class="p-2.5 font-mono text-[11px] text-zinc-500">@+id/etTtsInput</td>
+                  <td class="p-2.5">Entrada de texto editable para el mensaje que sintetiza el motor TTS.</td>
+                </tr>
+                <tr>
+                  <td class="p-2.5 font-mono text-zinc-900 font-medium">Slider (Material)</td>
+                  <td class="p-2.5 font-mono text-[11px] text-zinc-500">@+id/sliderPitch, @+id/sliderSpeed (0.5 a 2.0)</td>
+                  <td class="p-2.5">Ajuste de tono acústico (pitch) y velocidad de locución (speech rate).</td>
+                </tr>
+                <tr>
+                  <td class="p-2.5 font-mono text-zinc-900 font-medium">TextView (Estado TTS)</td>
+                  <td class="p-2.5 font-mono text-[11px] text-zinc-500">@+id/txtTtsStatus</td>
+                  <td class="p-2.5">Muestra el estado en tiempo real (Listo, Hablando, Idle) mediante UtteranceProgressListener.</td>
+                </tr>
+                <tr>
+                  <td class="p-2.5 font-mono text-zinc-900 font-medium">Button (Acciones)</td>
+                  <td class="p-2.5 font-mono text-[11px] text-zinc-500">@+id/btnSpeak, @+id/btnStopTts, @+id/btnRecognizeIntent</td>
+                  <td class="p-2.5">Disparadores interactivos para hablar, detener y lanzar el reconocimiento de voz.</td>
+                </tr>
+                <tr>
+                  <td class="p-2.5 font-mono text-zinc-900 font-medium">TextView (Resultado STT)</td>
+                  <td class="p-2.5 font-mono text-[11px] text-zinc-500">@+id/txtSttResult, shape_rounded_box</td>
+                  <td class="p-2.5">Visor estilizado con tipografía monospace donde se plasma el texto transcrito.</td>
+                </tr>
+                <tr>
+                  <td class="p-2.5 font-mono text-zinc-900 font-medium">MaterialCardView</td>
+                  <td class="p-2.5 font-mono text-[11px] text-zinc-500">app:cardElevation="2dp", app:strokeColor</td>
+                  <td class="p-2.5">Estructura modular y limpia para agrupar las secciones de TTS y STT.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- Navigation Footer -->
+      <div class="flex items-center justify-between pt-6 border-t border-zinc-200">
+        <a href="lab-sensores.html" class="inline-flex items-center gap-2 text-xs font-medium text-zinc-600 hover:text-zinc-900 transition-colors">
+          ← Lab 12 · Sensores de Hardware
+        </a>
+        <a href="labs.html" class="inline-flex items-center gap-2 text-xs font-medium text-zinc-900 hover:text-zinc-700 transition-colors">
+          Índice de Laboratorios →
+        </a>
+      </div>
+
+    </main>
+  </div>
+
+  <script src="assets/nav.js"></script>
+</body>
+</html>

@@ -106,12 +106,12 @@
         <div class="space-y-2 border-b border-zinc-200 pb-6">
           <div class="flex items-center gap-2">
             <span class="px-2 py-0.5 rounded-md text-[11px] font-semibold bg-zinc-100 text-zinc-700 border border-zinc-200">Módulo Hub</span>
-            <span class="text-xs text-zinc-400 font-mono">achome_ · Distribuidor a 10 Laboratorios</span>
+            <span class="text-xs text-zinc-400 font-mono">achome_ · Distribuidor a 12 Laboratorios (2 Módulos)</span>
           </div>
           <h1 class="text-3xl font-bold tracking-tight text-zinc-950">Home Hub (HomeActivity)</h1>
           <p class="text-sm text-zinc-600 leading-relaxed max-w-3xl">
             Panel de control y selector de módulos técnicos. Implementado mediante un contenedor <code class="text-zinc-800">ScrollView</code> con tarjetas táctiles <code
-              class="text-zinc-800">MaterialCardView</code> que despachan Intents explícitos hacia cada Activity independiente.
+              class="text-zinc-800">MaterialCardView</code> que despachan Intents explícitos hacia cada Activity independiente en <strong>Módulo 1 (Conoce Android)</strong> y <strong>Módulo 2 (Funcionalidades Especiales)</strong>.
           </p>
         </div>
 
@@ -148,6 +148,7 @@
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
+        // Módulo 1: Conoce Android (Labs 1 al 10)
         findViewById(R.id.cardInputs).setOnClickListener(v -> navigateTo(TextInputsActivity.class, "TextInputs"));
         findViewById(R.id.cardDateTime).setOnClickListener(v -> navigateTo(DateTimeActivity.class, "DateTime"));
         findViewById(R.id.cardButtons).setOnClickListener(v -> navigateTo(ButtonsActivity.class, "Buttons"));
@@ -158,6 +159,10 @@
         findViewById(R.id.cardLayouts).setOnClickListener(v -> navigateTo(LayoutsActivity.class, "Layouts"));
         findViewById(R.id.cardScroll).setOnClickListener(v -> navigateTo(SimpleScrollListActivity.class, "ScrollView"));
         findViewById(R.id.cardRecycler).setOnClickListener(v -> navigateTo(ContactRecyclerActivity.class, "RecyclerView"));
+
+        // Módulo 2: Funcionalidades Especiales (Labs 11 y 12)
+        findViewById(R.id.cardConcurrency).setOnClickListener(v -> navigateTo(ConcurrencyActivity.class, "Concurrencia"));
+        findViewById(R.id.cardSensors).setOnClickListener(v -> navigateTo(SensorsActivity.class, "Sensores Android"));
     }
 
     private void navigateTo(Class&lt;?&gt; targetActivity, String label) {

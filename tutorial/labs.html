@@ -29,7 +29,7 @@
           <span>Sandbox <span class="text-zinc-400 font-normal">Docs</span></span>
         </a>
         <span class="text-zinc-300">/</span>
-        <span class="text-xs font-medium text-zinc-600 bg-zinc-100 px-2 py-0.5 rounded-full border border-zinc-200">10 Labs</span>
+        <span class="text-xs font-medium text-zinc-600 bg-zinc-100 px-2 py-0.5 rounded-full border border-zinc-200">12 Labs · 2 Módulos</span>
       </div>
 
       <div class="flex items-center gap-2">
@@ -47,19 +47,32 @@
     <aside id="sidebar" class="fixed lg:sticky top-0 lg:top-20 left-0 z-40 w-[240px] h-[100dvh] lg:h-[calc(100vh-5rem)] bg-white lg:bg-transparent border-r lg:border-0 border-zinc-200 overflow-y-auto p-4 lg:p-0 -translate-x-full lg:translate-x-0 transition-transform duration-200"></aside>
 
     <!-- Main Content -->
-    <main class="min-w-0 space-y-8 pb-16">
+    <main class="min-w-0 space-y-10 pb-16">
       
       <!-- Page Header -->
       <div class="space-y-2 border-b border-zinc-200 pb-6">
         <div class="flex items-center gap-2">
           <span class="px-2 py-0.5 rounded-md text-[11px] font-semibold bg-zinc-100 text-zinc-700 border border-zinc-200">Catálogo de Prácticas</span>
-          <span class="text-xs text-zinc-400 font-mono">10 Activities Aisladas e Independientes</span>
+          <span class="text-xs text-zinc-400 font-mono">12 Activities Aisladas · 2 Módulos Formativos</span>
         </div>
         <h1 class="text-3xl font-bold tracking-tight text-zinc-950">Índice de Laboratorios</h1>
         <p class="text-sm text-zinc-600 leading-relaxed max-w-3xl">
-          Explora los 10 laboratorios prácticos de la Sandbox. Cada módulo encapsula un conjunto de componentes de Android Views, validaciones y patrones de desarrollo con soporte dual para Java 11 y Kotlin.
+          Explora los laboratorios de la Sandbox estructurados en dos bloques: <strong>Módulo 1: Conoce Android</strong> (UI, widgets, validaciones y vistas) y <strong>Módulo 2: Funcionalidades Especiales</strong> (concurrencia con Threads/AsyncTask y catálogo de 10 sensores de hardware).
         </p>
       </div>
+
+      <!-- SECCIÓN MÓDULO 1 -->
+      <div class="space-y-4">
+        <div class="flex items-center justify-between pb-2 border-b border-zinc-100">
+          <div>
+            <h2 class="text-xl font-bold text-zinc-900 tracking-tight flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-blue-600"></span>
+              Módulo 1: Conoce Android
+            </h2>
+            <p class="text-xs text-zinc-500 mt-0.5">Fundamentos de UI, controles de entrada, selección, diálogos, layouts y virtualización.</p>
+          </div>
+          <span class="text-xs font-mono font-medium px-2 py-0.5 bg-blue-50 text-blue-700 rounded-md border border-blue-200">Labs 01 – 10</span>
+        </div>
 
       <!-- Labs Grid (10 cards) -->
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -222,8 +235,113 @@
             <span>ContactRecyclerActivity.java</span>
             <span class="group-hover:translate-x-1 transition-transform">Ver detalle →</span>
           </div>
-        </a>
+      </div>
+      </div>
 
+      <!-- SECCIÓN MÓDULO 2 -->
+      <div class="space-y-4 pt-6 border-t border-zinc-200">
+        <div class="flex items-center justify-between pb-2 border-b border-zinc-100">
+          <div>
+            <h2 class="text-xl font-bold text-zinc-900 tracking-tight flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-violet-600"></span>
+              Módulo 2: Funcionalidades Especiales de Android
+            </h2>
+            <p class="text-xs text-zinc-500 mt-0.5">Manejo asíncrono, hilos de ejecución en segundo plano y lectura del subsistema de sensores de hardware.</p>
+          </div>
+          <span class="text-xs font-mono font-medium px-2 py-0.5 bg-violet-50 text-violet-700 rounded-md border border-violet-200">Labs 11 – 12</span>
+        </div>
+
+        <!-- Labs Grid (Modulo 2) -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          
+          <!-- Lab 11 -->
+          <a href="lab-concurrencia.html" class="group rounded-xl border border-zinc-200 bg-white p-5 hover:border-zinc-400 hover:shadow-xs transition-all space-y-3">
+            <div class="flex items-center justify-between">
+              <span class="text-[11px] font-mono font-semibold text-violet-600 bg-violet-50 px-2 py-0.5 rounded border border-violet-200">acconc_</span>
+              <span class="text-xs text-zinc-400 font-mono">Lab 11</span>
+            </div>
+            <div>
+              <h2 class="text-base font-semibold text-zinc-900 group-hover:text-violet-600 transition-colors">Threads & AsyncTask (Concurrencia)</h2>
+              <p class="text-xs text-zinc-600 mt-1">Hilos en segundo plano, sincronización con UI Thread mediante Handler/runOnUiThread y patrón AsyncTask con progreso.</p>
+            </div>
+            <div class="text-[11px] font-medium text-zinc-500 pt-2 border-t border-zinc-100 flex items-center justify-between">
+              <span>ConcurrencyActivity.java</span>
+              <span class="group-hover:translate-x-1 transition-transform">Ver detalle →</span>
+            </div>
+          </a>
+
+          <!-- Lab 12 -->
+          <a href="lab-sensores.html" class="group rounded-xl border border-zinc-200 bg-white p-5 hover:border-zinc-400 hover:shadow-xs transition-all space-y-3">
+            <div class="flex items-center justify-between">
+              <span class="text-[11px] font-mono font-semibold text-rose-600 bg-rose-50 px-2 py-0.5 rounded border border-rose-200">acsens_</span>
+              <span class="text-xs text-zinc-400 font-mono">Lab 12</span>
+            </div>
+            <div>
+              <h2 class="text-base font-semibold text-zinc-900 group-hover:text-rose-600 transition-colors">Sensores de Hardware</h2>
+              <p class="text-xs text-zinc-600 mt-1">SensorManager y SensorEventListener con 10 sensores: acelerómetro, giroscopio, luz, proximidad, brújula, barómetro y más.</p>
+            </div>
+            <div class="text-[11px] font-medium text-zinc-500 pt-2 border-t border-zinc-100 flex items-center justify-between">
+              <span>SensorsActivity.java</span>
+              <span class="group-hover:translate-x-1 transition-transform">Ver detalle →</span>
+            </div>
+          </a>
+
+          <!-- Lab 13 -->
+          <a href="lab-speech.html" class="group rounded-xl border border-zinc-200 bg-white p-5 hover:border-zinc-400 hover:shadow-xs transition-all space-y-3">
+            <div class="flex items-center justify-between">
+              <span class="text-[11px] font-mono font-semibold text-amber-600 bg-amber-50 px-2 py-0.5 rounded border border-amber-200">acspee_</span>
+              <span class="text-xs text-zinc-400 font-mono">Lab 13</span>
+            </div>
+            <div>
+              <h2 class="text-base font-semibold text-zinc-900 group-hover:text-amber-600 transition-colors">Speech (TTS & STT)</h2>
+              <p class="text-xs text-zinc-600 mt-1">Síntesis vocal TextToSpeech (tono, velocidad, idioma) y reconocimiento por voz con RecognizerIntent.</p>
+            </div>
+            <div class="text-[11px] font-medium text-zinc-500 pt-2 border-t border-zinc-100 flex items-center justify-between">
+              <span>SpeechActivity.java</span>
+              <span class="group-hover:translate-x-1 transition-transform">Ver detalle →</span>
+            </div>
+          </a>
+
+        </div>
+      </div>
+
+      <!-- SECCIÓN GAMING CHALLENGES & EXAMEN -->
+      <div class="space-y-4 pt-6 border-t border-zinc-200">
+        <div class="flex items-center justify-between pb-2 border-b border-zinc-100">
+          <div>
+            <h2 class="text-xl font-bold text-zinc-900 tracking-tight flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-cyan-600"></span>
+              🎮 Desafíos & Evaluación Práctica
+            </h2>
+            <p class="text-xs text-zinc-500 mt-0.5">6 Propuestas temáticas de videojuegos con Vectores Paralelos, CRUD, Reportes y Solución protegida.</p>
+          </div>
+          <span class="text-xs font-mono font-medium px-2 py-0.5 bg-cyan-50 text-cyan-700 rounded-md border border-cyan-200">Examen & Taller</span>
+        </div>
+
+        <a href="challenges-game/vectors-crud-exam/index.html" class="group block rounded-2xl border-2 border-zinc-900 bg-linear-to-r from-zinc-950 via-zinc-900 to-cyan-950 p-6 text-white shadow-xl hover:shadow-2xl hover:scale-[1.01] transition-all">
+          <div class="flex flex-wrap items-center justify-between gap-4">
+            <div class="space-y-2 max-w-2xl">
+              <div class="flex items-center gap-2">
+                <span class="text-2xl">⚔️</span>
+                <span class="text-xs font-mono font-bold px-2 py-0.5 rounded bg-cyan-500/20 text-cyan-300 border border-cyan-500/30">
+                  NUEVO · 6 PROPUESTAS GAMING
+                </span>
+                <span class="text-xs font-mono text-zinc-400">Pociones · Gladiadores · Carreras · Bestiario · Naves · Fútbol</span>
+              </div>
+              <h3 class="text-lg font-bold text-white group-hover:text-cyan-300 transition-colors">
+                Examen Práctico: Vectores, CRUD & Reportes Estadísticos
+              </h3>
+              <p class="text-xs text-zinc-400 leading-relaxed">
+                Historias inmersivas, simulador interactivo de vectores en tiempo real, validaciones de límite, búsqueda secuencial, compactación por eliminación y soluciones completas protegidas por contraseña docente.
+              </p>
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="px-4 py-2 rounded-xl bg-cyan-500 group-hover:bg-cyan-400 text-zinc-950 text-xs font-bold transition-colors">
+                Abrir Examen →
+              </span>
+            </div>
+          </div>
+        </a>
       </div>
 
       <!-- Navigation Footer -->

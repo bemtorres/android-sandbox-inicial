@@ -1,0 +1,983 @@
+<!DOCTYPE html>
+<html lang="es" class="h-full bg-white text-zinc-950 antialiased">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Lab 12 · Sensores de Hardware (SensorManager) — Sandbox Android</title>
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <style type="text/tailwindcss">
+    @theme {
+      --font-sans: 'Plus Jakarta Sans', Inter, system-ui, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+  </style>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/kotlin.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/java.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/xml.min.js"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+    body { font-family: 'Plus Jakarta Sans', sans-serif; }
+    code, pre { font-family: 'JetBrains Mono', monospace; }
+    pre {
+      background: #09090b !important;
+      border: 1px solid #27272a !important;
+      border-radius: 0.75rem !important;
+      padding: 0 !important;
+      overflow: hidden !important;
+      position: relative !important;
+      margin: 0 !important;
+    }
+    pre code {
+      display: block !important;
+      padding: 1rem 1rem 1rem 3.6rem !important;
+      font-size: 12.5px !important;
+      line-height: 1.65 !important;
+      color: #f4f4f5 !important;
+      background: transparent !important;
+      overflow-x: auto !important;
+    }
+    .cm-gutter {
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 3rem;
+      padding: 1rem 0;
+      text-align: right;
+      font-size: 11px;
+      line-height: 1.65;
+      color: #71717a;
+      background: #18181b;
+      border-right: 1px solid #27272a;
+      user-select: none;
+      z-index: 1;
+      pointer-events: none;
+    }
+    .cm-gutter span {
+      display: block;
+      padding-right: 0.6rem;
+    }
+  </style>
+</head>
+<body class="min-h-full flex flex-col bg-white">
+
+  <!-- Header Superior shadcn -->
+  <header class="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-zinc-200">
+    <div class="max-w-[1440px] mx-auto px-4 sm:px-6 h-14 flex items-center justify-between gap-4">
+      <div class="flex items-center gap-3">
+        <button id="menuBtn" class="lg:hidden p-1.5 rounded-md text-zinc-600 hover:bg-zinc-100 transition-colors" aria-label="Abrir navegación">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h16" /></svg>
+        </button>
+        <div class="flex items-center gap-2">
+          <div class="w-6 h-6 rounded-md bg-rose-600 text-white flex items-center justify-center font-bold text-xs shadow-xs">12</div>
+          <span class="font-semibold text-sm tracking-tight text-zinc-900">Lab 12</span>
+          <span class="text-zinc-300">/</span>
+          <span class="text-xs text-zinc-500 font-medium">Módulo 2 · Sensores de Hardware</span>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-2">
+        <div class="hidden sm:flex items-center gap-1 text-xs font-mono text-zinc-500">
+          <span class="px-2 py-0.5 rounded-md bg-zinc-100 text-zinc-800 border border-zinc-200">activity_sensors.xml</span>
+          <span class="px-2 py-0.5 rounded-md bg-zinc-100 text-zinc-800 border border-zinc-200">SensorsActivity.java</span>
+        </div>
+        <a href="labs.html" class="inline-flex items-center justify-center text-xs font-medium h-8 px-3 rounded-md border border-zinc-200 bg-white text-zinc-900 hover:bg-zinc-100 transition-colors">
+          ← Índice Labs
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <div id="overlay" class="fixed inset-0 bg-black/40 backdrop-blur-xs z-40 hidden lg:hidden"></div>
+
+  <!-- Layout Principal -->
+  <div class="max-w-[1440px] mx-auto px-4 sm:px-6 py-6 grid grid-cols-1 lg:grid-cols-[240px_minmax(0,1fr)] gap-8 w-full flex-1">
+    <aside id="sidebar" class="fixed lg:sticky top-0 lg:top-20 left-0 z-40 w-[240px] h-[100dvh] lg:h-[calc(100vh-5rem)] bg-white lg:bg-transparent border-r lg:border-0 border-zinc-200 overflow-y-auto p-4 lg:p-0 -translate-x-full lg:translate-x-0 transition-transform duration-200"></aside>
+
+    <main class="min-w-0 space-y-10 pb-16">
+      
+      <!-- Título y Badges -->
+      <div class="space-y-3 border-b border-zinc-200 pb-6">
+        <div class="flex flex-wrap items-center gap-2">
+          <span class="px-2 py-0.5 rounded-md text-[11px] font-semibold bg-rose-50 text-rose-700 border border-rose-200">Módulo 2: Funcionalidades Especiales</span>
+          <span class="px-2 py-0.5 rounded-md text-[11px] font-mono text-zinc-600 bg-zinc-100 border border-zinc-200">acsens_</span>
+          <span class="px-2 py-0.5 rounded-md text-[11px] font-semibold bg-blue-50 text-blue-700 border border-blue-200">10 Sensores de Android</span>
+        </div>
+        <h1 class="text-3xl font-bold tracking-tight text-zinc-950">Lab 12 · Sensores de Hardware (SensorManager)</h1>
+        <p class="text-sm text-zinc-600 leading-relaxed max-w-3xl">
+          Aprende a interactuar con los componentes físicos del dispositivo mediante el framework de sensores de Android (<code>SensorManager</code> y <code>SensorEventListener</code>), controlando el ciclo de vida en <code>onResume()</code> y <code>onPause()</code> para optimizar batería y evitar memory leaks.
+        </p>
+      </div>
+
+      <!-- Arquitectura y Flujo de SensorEventListener -->
+      <div class="rounded-xl border border-zinc-200 bg-zinc-50/50 p-6 space-y-3">
+        <h3 class="text-sm font-semibold text-zinc-900 flex items-center gap-2">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-rose-600"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+          Arquitectura del Subsistema de Sensores
+        </h3>
+        <p class="text-xs text-zinc-600 leading-relaxed">
+          Android organiza el acceso al hardware en 3 piezas fundamentales:
+        </p>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs">
+          <div class="p-3 bg-white rounded-lg border border-zinc-200">
+            <span class="font-bold text-zinc-900 block font-mono">1. SensorManager</span>
+            <p class="text-zinc-600 mt-1">Servicio del sistema obtenido con <code>getSystemService(SENSOR_SERVICE)</code>. Permite listar y registrar listeners.</p>
+          </div>
+          <div class="p-3 bg-white rounded-lg border border-zinc-200">
+            <span class="font-bold text-zinc-900 block font-mono">2. Sensor</span>
+            <p class="text-zinc-600 mt-1">Representa el hardware físico individual (tipo, rango máximo, resolución, fabricante y consumo en mA).</p>
+          </div>
+          <div class="p-3 bg-white rounded-lg border border-zinc-200">
+            <span class="font-bold text-zinc-900 block font-mono">3. SensorEventListener</span>
+            <p class="text-zinc-600 mt-1">Interfaz que recibe los callbacks <code>onSensorChanged(SensorEvent)</code> con el array de lecturas en <code>event.values[]</code>.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- DESGLOSE EXPERIMENTAL DE LOS 10 SENSORES -->
+      <div class="space-y-8">
+        <div class="border-b border-zinc-200 pb-3">
+          <h2 class="text-xl font-bold text-zinc-900 tracking-tight flex items-center gap-2">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-rose-600"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            Experimentación y Código Detallado: Los 10 Sensores
+          </h2>
+          <p class="text-xs text-zinc-500 mt-1">Cada sensor incluye su explicación teórica, experimento en vivo, interfaz XML y código en Java 11 y Kotlin.</p>
+        </div>
+
+        <!-- 1. ACELERÓMETRO -->
+        <div class="rounded-xl border border-zinc-200 bg-white p-6 space-y-4 shadow-2xs">
+          <div class="flex items-center justify-between">
+            <h3 class="text-base font-bold text-zinc-900 flex items-center gap-2">
+              <span class="w-6 h-6 rounded-md bg-blue-600 text-white flex items-center justify-center text-xs font-bold">1</span>
+              Acelerómetro (Sensor.TYPE_ACCELEROMETER)
+            </h3>
+            <span class="text-xs font-mono px-2 py-0.5 rounded bg-blue-50 text-blue-700 font-semibold border border-blue-200">Unidad: m/s²</span>
+          </div>
+          <p class="text-xs text-zinc-600 leading-relaxed">
+            <strong>¿Qué hace?:</strong> Mide la aceleración aplicada al dispositivo en los tres ejes físicos ($X$: lateral, $Y$: longitudinal, $Z$: perpendicular a la pantalla). Incluye la aceleración de la gravedad (~9.81 m/s² cuando el móvil descansa sobre una mesa).
+          </p>
+          <div class="p-3 bg-blue-50/50 rounded-lg border border-blue-200 text-xs text-blue-900">
+            <strong>🧪 Experimento Práctico:</strong> Coloca el teléfono boca arriba sobre la mesa ($Z \approx 9.81$, $X \approx 0$, $Y \approx 0$). Ahora inclínalo a la izquierda: $X$ se vuelve positivo; sacúdelo rápidamente para disparar un detector de agitación (*shake detector*).
+          </div>
+          
+          <div id="sensor-tab-1" class="rounded-lg border border-zinc-800 bg-zinc-950 overflow-hidden">
+            <div class="flex items-center justify-between px-3 py-1.5 bg-zinc-900 border-b border-zinc-800 text-xs">
+              <div class="flex gap-1">
+                <button onclick="switchTab('sensor-tab-1', 'java')" data-tab="java" class="tab-btn px-2.5 py-0.5 rounded bg-white text-zinc-900 font-semibold">Java 11</button>
+                <button onclick="switchTab('sensor-tab-1', 'kotlin')" data-tab="kotlin" class="tab-btn px-2.5 py-0.5 rounded text-zinc-400 hover:text-white">Kotlin</button>
+                <button onclick="switchTab('sensor-tab-1', 'xml')" data-tab="xml" class="tab-btn px-2.5 py-0.5 rounded text-zinc-400 hover:text-white">XML</button>
+              </div>
+              <span class="text-[11px] font-mono text-zinc-400">TYPE_ACCELEROMETER</span>
+            </div>
+            <div data-tab="java" class="tab-pane p-0">
+              <pre><code class="language-java">// Registro y lectura en Java 11
+Sensor accel = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+sensorManager.registerListener(new SensorEventListener() {
+    @Override
+    public void onSensorChanged(SensorEvent event) {
+        float x = event.values[0]; // Inclinación lateral
+        float y = event.values[1]; // Inclinación vertical
+        float z = event.values[2]; // Empuje frontal
+        txtValAccel.setText(String.format("X: %.2f | Y: %.2f | Z: %.2f m/s²", x, y, z));
+    }
+    @Override
+    public void onAccuracyChanged(Sensor sensor, int accuracy) {}
+}, accel, SensorManager.SENSOR_DELAY_UI);</code></pre>
+            </div>
+            <div data-tab="kotlin" class="tab-pane hidden p-0">
+              <pre><code class="language-kotlin">// Registro y lectura en Kotlin
+val accel = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)
+sensorManager.registerListener(object : SensorEventListener {
+    override fun onSensorChanged(event: SensorEvent) {
+        val (x, y, z) = event.values
+        binding.txtValAccel.text = "X: %.2f | Y: %.2f | Z: %.2f m/s²".format(x, y, z)
+    }
+    override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {}
+}, accel, SensorManager.SENSOR_DELAY_UI)</code></pre>
+            </div>
+            <div data-tab="xml" class="tab-pane hidden p-0">
+              <pre><code class="language-xml">&lt;TextView
+    android:id="@+id/txtValAccel"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:fontFamily="monospace"
+    android:text="X: 0.00 | Y: 0.00 | Z: 0.00 m/s²"
+    android:textSize="12sp"
+    android:textStyle="bold" /&gt;</code></pre>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2. GIROSCOPIO -->
+        <div class="rounded-xl border border-zinc-200 bg-white p-6 space-y-4 shadow-2xs">
+          <div class="flex items-center justify-between">
+            <h3 class="text-base font-bold text-zinc-900 flex items-center gap-2">
+              <span class="w-6 h-6 rounded-md bg-indigo-600 text-white flex items-center justify-center text-xs font-bold">2</span>
+              Giroscopio (Sensor.TYPE_GYROSCOPE)
+            </h3>
+            <span class="text-xs font-mono px-2 py-0.5 rounded bg-indigo-50 text-indigo-700 font-semibold border border-indigo-200">Unidad: rad/s</span>
+          </div>
+          <p class="text-xs text-zinc-600 leading-relaxed">
+            <strong>¿Qué hace?:</strong> Mide la velocidad angular de rotación alrededor de los ejes X, Y y Z en radianes por segundo. A diferencia del acelerómetro, solo detecta velocidad de giro (si el móvil está quieto, los tres valores son 0 rad/s independientemente de su inclinación).
+          </p>
+          <div class="p-3 bg-indigo-50/50 rounded-lg border border-indigo-200 text-xs text-indigo-900">
+            <strong>🧪 Experimento Práctico:</strong> Mantén el teléfono inmóvil sobre la mesa (valores = 0.00 rad/s). Ahora gíralo rápidamente como las manecillas de un reloj: el eje Z registrará un pico angular instantáneo.
+          </div>
+
+          <div id="sensor-tab-2" class="rounded-lg border border-zinc-800 bg-zinc-950 overflow-hidden">
+            <div class="flex items-center justify-between px-3 py-1.5 bg-zinc-900 border-b border-zinc-800 text-xs">
+              <div class="flex gap-1">
+                <button onclick="switchTab('sensor-tab-2', 'java')" data-tab="java" class="tab-btn px-2.5 py-0.5 rounded bg-white text-zinc-900 font-semibold">Java 11</button>
+                <button onclick="switchTab('sensor-tab-2', 'kotlin')" data-tab="kotlin" class="tab-btn px-2.5 py-0.5 rounded text-zinc-400 hover:text-white">Kotlin</button>
+                <button onclick="switchTab('sensor-tab-2', 'xml')" data-tab="xml" class="tab-btn px-2.5 py-0.5 rounded text-zinc-400 hover:text-white">XML</button>
+              </div>
+              <span class="text-[11px] font-mono text-zinc-400">TYPE_GYROSCOPE</span>
+            </div>
+            <div data-tab="java" class="tab-pane p-0">
+              <pre><code class="language-java">Sensor gyro = sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE);
+if (gyro != null) {
+    sensorManager.registerListener(new SensorEventListener() {
+        @Override
+        public void onSensorChanged(SensorEvent event) {
+            float radX = event.values[0];
+            float radY = event.values[1];
+            float radZ = event.values[2];
+            txtValGyro.setText(String.format("X: %.2f | Y: %.2f | Z: %.2f rad/s", radX, radY, radZ));
+        }
+        @Override
+        public void onAccuracyChanged(Sensor sensor, int accuracy) {}
+    }, gyro, SensorManager.SENSOR_DELAY_UI);
+}</code></pre>
+            </div>
+            <div data-tab="kotlin" class="tab-pane hidden p-0">
+              <pre><code class="language-kotlin">val gyro = sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE)
+gyro?.let {
+    sensorManager.registerListener(object : SensorEventListener {
+        override fun onSensorChanged(event: SensorEvent) {
+            val (x, y, z) = event.values
+            binding.txtValGyro.text = "X: %.2f | Y: %.2f | Z: %.2f rad/s".format(x, y, z)
+        }
+        override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {}
+    }, it, SensorManager.SENSOR_DELAY_UI)
+}</code></pre>
+            </div>
+            <div data-tab="xml" class="tab-pane hidden p-0">
+              <pre><code class="language-xml">&lt;TextView
+    android:id="@+id/txtValGyro"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:fontFamily="monospace"
+    android:text="X: 0.00 | Y: 0.00 | Z: 0.00 rad/s"
+    android:textSize="12sp"
+    android:textStyle="bold" /&gt;</code></pre>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3. MAGNETÓMETRO -->
+        <div class="rounded-xl border border-zinc-200 bg-white p-6 space-y-4 shadow-2xs">
+          <div class="flex items-center justify-between">
+            <h3 class="text-base font-bold text-zinc-900 flex items-center gap-2">
+              <span class="w-6 h-6 rounded-md bg-emerald-600 text-white flex items-center justify-center text-xs font-bold">3</span>
+              Magnetómetro (Sensor.TYPE_MAGNETIC_FIELD)
+            </h3>
+            <span class="text-xs font-mono px-2 py-0.5 rounded bg-emerald-50 text-emerald-700 font-semibold border border-emerald-200">Unidad: µT</span>
+          </div>
+          <p class="text-xs text-zinc-600 leading-relaxed">
+            <strong>¿Qué hace?:</strong> Mide el campo magnético del entorno en microteslas ($\mu T$) a lo largo de los tres ejes espaciales. Detecta el polo norte magnético terrestre y presencia de metales ferromagnéticos o imanes.
+          </p>
+          <div class="p-3 bg-emerald-50/50 rounded-lg border border-emerald-200 text-xs text-emerald-900">
+            <strong>🧪 Experimento Práctico:</strong> Rota tu cuerpo orientándote al Norte geográfico; o aproxima un imán pequeño al borde superior del smartphone: verás la intensidad subir de ~40 $\mu T$ a más de 300 $\mu T$.
+          </div>
+
+          <div id="sensor-tab-3" class="rounded-lg border border-zinc-800 bg-zinc-950 overflow-hidden">
+            <div class="flex items-center justify-between px-3 py-1.5 bg-zinc-900 border-b border-zinc-800 text-xs">
+              <div class="flex gap-1">
+                <button onclick="switchTab('sensor-tab-3', 'java')" data-tab="java" class="tab-btn px-2.5 py-0.5 rounded bg-white text-zinc-900 font-semibold">Java 11</button>
+                <button onclick="switchTab('sensor-tab-3', 'kotlin')" data-tab="kotlin" class="tab-btn px-2.5 py-0.5 rounded text-zinc-400 hover:text-white">Kotlin</button>
+                <button onclick="switchTab('sensor-tab-3', 'xml')" data-tab="xml" class="tab-btn px-2.5 py-0.5 rounded text-zinc-400 hover:text-white">XML</button>
+              </div>
+              <span class="text-[11px] font-mono text-zinc-400">TYPE_MAGNETIC_FIELD</span>
+            </div>
+            <div data-tab="java" class="tab-pane p-0">
+              <pre><code class="language-java">Sensor mag = sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
+sensorManager.registerListener(new SensorEventListener() {
+    @Override
+    public void onSensorChanged(SensorEvent event) {
+        float x = event.values[0];
+        float y = event.values[1];
+        float z = event.values[2];
+        txtValMag.setText(String.format("X: %.1f | Y: %.1f | Z: %.1f µT", x, y, z));
+    }
+    @Override
+    public void onAccuracyChanged(Sensor sensor, int accuracy) {}
+}, mag, SensorManager.SENSOR_DELAY_UI);</code></pre>
+            </div>
+            <div data-tab="kotlin" class="tab-pane hidden p-0">
+              <pre><code class="language-kotlin">val mag = sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD)
+sensorManager.registerListener(object : SensorEventListener {
+    override fun onSensorChanged(event: SensorEvent) {
+        val (x, y, z) = event.values
+        binding.txtValMag.text = "X: %.1f | Y: %.1f | Z: %.1f µT".format(x, y, z)
+    }
+    override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {}
+}, mag, SensorManager.SENSOR_DELAY_UI)</code></pre>
+            </div>
+            <div data-tab="xml" class="tab-pane hidden p-0">
+              <pre><code class="language-xml">&lt;TextView
+    android:id="@+id/txtValMag"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:fontFamily="monospace"
+    android:text="X: 0.00 | Y: 0.00 | Z: 0.00 µT"
+    android:textSize="12sp"
+    android:textStyle="bold" /&gt;</code></pre>
+            </div>
+          </div>
+        </div>
+
+        <!-- 4. SENSOR DE LUZ -->
+        <div class="rounded-xl border border-zinc-200 bg-white p-6 space-y-4 shadow-2xs">
+          <div class="flex items-center justify-between">
+            <h3 class="text-base font-bold text-zinc-900 flex items-center gap-2">
+              <span class="w-6 h-6 rounded-md bg-amber-500 text-white flex items-center justify-center text-xs font-bold">4</span>
+              Sensor de Luz (Sensor.TYPE_LIGHT)
+            </h3>
+            <span class="text-xs font-mono px-2 py-0.5 rounded bg-amber-50 text-amber-700 font-semibold border border-amber-200">Unidad: Lux (lx)</span>
+          </div>
+          <p class="text-xs text-zinc-600 leading-relaxed">
+            <strong>¿Qué hace?:</strong> Mide la iluminación ambiental en Lux (1 valor flotante en <code>values[0]</code>). Sirve para graduar el brillo de pantalla automáticamente y activar modos oscuros en aplicaciones.
+          </p>
+          <div class="p-3 bg-amber-50/50 rounded-lg border border-amber-200 text-xs text-amber-900">
+            <strong>🧪 Experimento Práctico:</strong> Cubre con tu dedo la cámara frontal / notch: los Lux caerán a 0 lx. Alumbra con la linterna de otro teléfono o exponlo a la luz del sol: la barra superará los 800+ Lux.
+          </div>
+
+          <div id="sensor-tab-4" class="rounded-lg border border-zinc-800 bg-zinc-950 overflow-hidden">
+            <div class="flex items-center justify-between px-3 py-1.5 bg-zinc-900 border-b border-zinc-800 text-xs">
+              <div class="flex gap-1">
+                <button onclick="switchTab('sensor-tab-4', 'java')" data-tab="java" class="tab-btn px-2.5 py-0.5 rounded bg-white text-zinc-900 font-semibold">Java 11</button>
+                <button onclick="switchTab('sensor-tab-4', 'kotlin')" data-tab="kotlin" class="tab-btn px-2.5 py-0.5 rounded text-zinc-400 hover:text-white">Kotlin</button>
+                <button onclick="switchTab('sensor-tab-4', 'xml')" data-tab="xml" class="tab-btn px-2.5 py-0.5 rounded text-zinc-400 hover:text-white">XML</button>
+              </div>
+              <span class="text-[11px] font-mono text-zinc-400">TYPE_LIGHT</span>
+            </div>
+            <div data-tab="java" class="tab-pane p-0">
+              <pre><code class="language-java">Sensor light = sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT);
+sensorManager.registerListener(new SensorEventListener() {
+    @Override
+    public void onSensorChanged(SensorEvent event) {
+        float lux = event.values[0]; // 0 lx a 10,000+ lx
+        txtValLight.setText(String.format("Iluminación: %.1f Lux (lx)", lux));
+        progressLight.setProgress((int) Math.min(lux, 1000));
+    }
+    @Override
+    public void onAccuracyChanged(Sensor sensor, int accuracy) {}
+}, light, SensorManager.SENSOR_DELAY_UI);</code></pre>
+            </div>
+            <div data-tab="kotlin" class="tab-pane hidden p-0">
+              <pre><code class="language-kotlin">val light = sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT)
+sensorManager.registerListener(object : SensorEventListener {
+    override fun onSensorChanged(event: SensorEvent) {
+        val lux = event.values[0]
+        binding.txtValLight.text = "Iluminación: %.1f Lux (lx)".format(lux)
+        binding.progressLight.progress = lux.toInt().coerceAtMost(1000)
+    }
+    override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {}
+}, light, SensorManager.SENSOR_DELAY_UI)</code></pre>
+            </div>
+            <div data-tab="xml" class="tab-pane hidden p-0">
+              <pre><code class="language-xml">&lt;ProgressBar
+    android:id="@+id/progressLight"
+    style="?android:attr/progressBarStyleHorizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:max="1000" /&gt;</code></pre>
+            </div>
+          </div>
+        </div>
+
+        <!-- 5. SENSOR DE PROXIMIDAD -->
+        <div class="rounded-xl border border-zinc-200 bg-white p-6 space-y-4 shadow-2xs">
+          <div class="flex items-center justify-between">
+            <h3 class="text-base font-bold text-zinc-900 flex items-center gap-2">
+              <span class="w-6 h-6 rounded-md bg-teal-600 text-white flex items-center justify-center text-xs font-bold">5</span>
+              Sensor de Proximidad (Sensor.TYPE_PROXIMITY)
+            </h3>
+            <span class="text-xs font-mono px-2 py-0.5 rounded bg-teal-50 text-teal-700 font-semibold border border-teal-200">Unidad: cm (o Cerca/Lejos)</span>
+          </div>
+          <p class="text-xs text-zinc-600 leading-relaxed">
+            <strong>¿Qué hace?:</strong> Detecta la cercanía de un objeto (como la oreja o mano) respecto a la pantalla. La mayoría de fabricantes implementan un valor binario: <code>0.0 cm</code> (Cerca / Cubierto) o <code>5.0 cm</code> (Lejos / Despejado).
+          </p>
+          <div class="p-3 bg-teal-50/50 rounded-lg border border-teal-200 text-xs text-teal-900">
+            <strong>🧪 Experimento Práctico:</strong> Acerca la palma de tu mano a 2 cm de la parte superior del móvil sin tocarla: el badge cambiará dinámicamente a "🔴 Objeto Cerca" y se tornará "🟢 Despejado" al retirar la mano.
+          </div>
+
+          <div id="sensor-tab-5" class="rounded-lg border border-zinc-800 bg-zinc-950 overflow-hidden">
+            <div class="flex items-center justify-between px-3 py-1.5 bg-zinc-900 border-b border-zinc-800 text-xs">
+              <div class="flex gap-1">
+                <button onclick="switchTab('sensor-tab-5', 'java')" data-tab="java" class="tab-btn px-2.5 py-0.5 rounded bg-white text-zinc-900 font-semibold">Java 11</button>
+                <button onclick="switchTab('sensor-tab-5', 'kotlin')" data-tab="kotlin" class="tab-btn px-2.5 py-0.5 rounded text-zinc-400 hover:text-white">Kotlin</button>
+                <button onclick="switchTab('sensor-tab-5', 'xml')" data-tab="xml" class="tab-btn px-2.5 py-0.5 rounded text-zinc-400 hover:text-white">XML</button>
+              </div>
+              <span class="text-[11px] font-mono text-zinc-400">TYPE_PROXIMITY</span>
+            </div>
+            <div data-tab="java" class="tab-pane p-0">
+              <pre><code class="language-java">Sensor prox = sensorManager.getDefaultSensor(Sensor.TYPE_PROXIMITY);
+sensorManager.registerListener(new SensorEventListener() {
+    @Override
+    public void onSensorChanged(SensorEvent event) {
+        float distance = event.values[0];
+        txtValProx.setText(String.format("Distancia: %.1f cm", distance));
+        if (distance < prox.getMaximumRange()) {
+            badgeProximity.setText("🔴 Objeto Cerca");
+        } else {
+            badgeProximity.setText("🟢 Despejado / Lejos");
+        }
+    }
+    @Override
+    public void onAccuracyChanged(Sensor sensor, int accuracy) {}
+}, prox, SensorManager.SENSOR_DELAY_UI);</code></pre>
+            </div>
+            <div data-tab="kotlin" class="tab-pane hidden p-0">
+              <pre><code class="language-kotlin">val prox = sensorManager.getDefaultSensor(Sensor.TYPE_PROXIMITY)
+prox?.let { sensor ->
+    sensorManager.registerListener(object : SensorEventListener {
+        override fun onSensorChanged(event: SensorEvent) {
+            val dist = event.values[0]
+            binding.txtValProx.text = "Distancia: %.1f cm".format(dist)
+            binding.badgeProximity.text = if (dist < sensor.maximumRange) "🔴 Cerca" else "🟢 Lejos"
+        }
+        override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {}
+    }, sensor, SensorManager.SENSOR_DELAY_UI)
+}</code></pre>
+            </div>
+            <div data-tab="xml" class="tab-pane hidden p-0">
+              <pre><code class="language-xml">&lt;TextView
+    android:id="@+id/badgeProximity"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="Estado Proximidad"
+    android:textStyle="bold" /&gt;</code></pre>
+            </div>
+          </div>
+        </div>
+
+        <!-- 6. PRESIÓN / BARÓMETRO -->
+        <div class="rounded-xl border border-zinc-200 bg-white p-6 space-y-4 shadow-2xs">
+          <div class="flex items-center justify-between">
+            <h3 class="text-base font-bold text-zinc-900 flex items-center gap-2">
+              <span class="w-6 h-6 rounded-md bg-cyan-600 text-white flex items-center justify-center text-xs font-bold">6</span>
+              Presión / Barómetro (Sensor.TYPE_PRESSURE)
+            </h3>
+            <span class="text-xs font-mono px-2 py-0.5 rounded bg-cyan-50 text-cyan-700 font-semibold border border-cyan-200">Unidad: hPa (mbar)</span>
+          </div>
+          <p class="text-xs text-zinc-600 leading-relaxed">
+            <strong>¿Qué hace?:</strong> Mide la presión del aire ambiente en hectopascales (hPa). Mediante la fórmula barométrica, permite calcular la altitud exacta sobre el nivel del mar y detectar si el usuario sube o baja escaleras o plantas en un edificio.
+          </p>
+          <div id="sensor-tab-6" class="rounded-lg border border-zinc-800 bg-zinc-950 overflow-hidden">
+            <div class="flex items-center justify-between px-3 py-1.5 bg-zinc-900 border-b border-zinc-800 text-xs">
+              <div class="flex gap-1">
+                <button onclick="switchTab('sensor-tab-6', 'java')" data-tab="java" class="tab-btn px-2.5 py-0.5 rounded bg-white text-zinc-900 font-semibold">Java 11</button>
+                <button onclick="switchTab('sensor-tab-6', 'kotlin')" data-tab="kotlin" class="tab-btn px-2.5 py-0.5 rounded text-zinc-400 hover:text-white">Kotlin</button>
+                <button onclick="switchTab('sensor-tab-6', 'xml')" data-tab="xml" class="tab-btn px-2.5 py-0.5 rounded text-zinc-400 hover:text-white">XML</button>
+              </div>
+              <span class="text-[11px] font-mono text-zinc-400">TYPE_PRESSURE</span>
+            </div>
+            <div data-tab="java" class="tab-pane p-0">
+              <pre><code class="language-java">Sensor pressure = sensorManager.getDefaultSensor(Sensor.TYPE_PRESSURE);
+if (pressure != null) {
+    sensorManager.registerListener(new SensorEventListener() {
+        @Override
+        public void onSensorChanged(SensorEvent event) {
+            float hPa = event.values[0]; // ~1013.25 hPa a nivel del mar
+            txtValPressure.setText(String.format("Presión: %.2f hPa", hPa));
+        }
+        @Override
+        public void onAccuracyChanged(Sensor sensor, int accuracy) {}
+    }, pressure, SensorManager.SENSOR_DELAY_UI);
+}</code></pre>
+            </div>
+            <div data-tab="kotlin" class="tab-pane hidden p-0">
+              <pre><code class="language-kotlin">val pressure = sensorManager.getDefaultSensor(Sensor.TYPE_PRESSURE)
+pressure?.let {
+    sensorManager.registerListener(object : SensorEventListener {
+        override fun onSensorChanged(event: SensorEvent) {
+            val hPa = event.values[0]
+            binding.txtValPressure.text = "Presión: %.2f hPa".format(hPa)
+        }
+        override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {}
+    }, it, SensorManager.SENSOR_DELAY_UI)
+}</code></pre>
+            </div>
+            <div data-tab="xml" class="tab-pane hidden p-0">
+              <pre><code class="language-xml">&lt;TextView
+    android:id="@+id/txtValPressure"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:fontFamily="monospace"
+    android:text="Presión: 0.00 hPa" /&gt;</code></pre>
+            </div>
+          </div>
+        </div>
+
+        <!-- 7. TEMPERATURA AMBIENTAL -->
+        <div class="rounded-xl border border-zinc-200 bg-white p-6 space-y-4 shadow-2xs">
+          <div class="flex items-center justify-between">
+            <h3 class="text-base font-bold text-zinc-900 flex items-center gap-2">
+              <span class="w-6 h-6 rounded-md bg-rose-600 text-white flex items-center justify-center text-xs font-bold">7</span>
+              Temperatura Ambiental (Sensor.TYPE_AMBIENT_TEMPERATURE)
+            </h3>
+            <span class="text-xs font-mono px-2 py-0.5 rounded bg-rose-50 text-rose-700 font-semibold border border-rose-200">Unidad: °C</span>
+          </div>
+          <p class="text-xs text-zinc-600 leading-relaxed">
+            <strong>¿Qué hace?:</strong> Mide la temperatura ambiente del entorno (en grados Celsius). A diferencia del termómetro interno de la CPU/batería, este sensor mide el aire exterior si el dispositivo cuenta con dicho componente.
+          </p>
+          <div id="sensor-tab-7" class="rounded-lg border border-zinc-800 bg-zinc-950 overflow-hidden">
+            <div class="flex items-center justify-between px-3 py-1.5 bg-zinc-900 border-b border-zinc-800 text-xs">
+              <div class="flex gap-1">
+                <button onclick="switchTab('sensor-tab-7', 'java')" data-tab="java" class="tab-btn px-2.5 py-0.5 rounded bg-white text-zinc-900 font-semibold">Java 11</button>
+                <button onclick="switchTab('sensor-tab-7', 'kotlin')" data-tab="kotlin" class="tab-btn px-2.5 py-0.5 rounded text-zinc-400 hover:text-white">Kotlin</button>
+                <button onclick="switchTab('sensor-tab-7', 'xml')" data-tab="xml" class="tab-btn px-2.5 py-0.5 rounded text-zinc-400 hover:text-white">XML</button>
+              </div>
+              <span class="text-[11px] font-mono text-zinc-400">TYPE_AMBIENT_TEMPERATURE</span>
+            </div>
+            <div data-tab="java" class="tab-pane p-0">
+              <pre><code class="language-java">Sensor temp = sensorManager.getDefaultSensor(Sensor.TYPE_AMBIENT_TEMPERATURE);
+if (temp != null) {
+    sensorManager.registerListener(new SensorEventListener() {
+        @Override
+        public void onSensorChanged(SensorEvent event) {
+            float celsius = event.values[0];
+            txtValTemp.setText(String.format("Temperatura: %.1f °C", celsius));
+        }
+        @Override
+        public void onAccuracyChanged(Sensor sensor, int accuracy) {}
+    }, temp, SensorManager.SENSOR_DELAY_UI);
+}</code></pre>
+            </div>
+            <div data-tab="kotlin" class="tab-pane hidden p-0">
+              <pre><code class="language-kotlin">val temp = sensorManager.getDefaultSensor(Sensor.TYPE_AMBIENT_TEMPERATURE)
+temp?.let {
+    sensorManager.registerListener(object : SensorEventListener {
+        override fun onSensorChanged(event: SensorEvent) {
+            binding.txtValTemp.text = "Temperatura: %.1f °C".format(event.values[0])
+        }
+        override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {}
+    }, it, SensorManager.SENSOR_DELAY_UI)
+}</code></pre>
+            </div>
+            <div data-tab="xml" class="tab-pane hidden p-0">
+              <pre><code class="language-xml">&lt;TextView
+    android:id="@+id/txtValTemp"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:fontFamily="monospace"
+    android:text="Temperatura: 0.00 °C" /&gt;</code></pre>
+            </div>
+          </div>
+        </div>
+
+        <!-- 8. HUMEDAD RELATIVA -->
+        <div class="rounded-xl border border-zinc-200 bg-white p-6 space-y-4 shadow-2xs">
+          <div class="flex items-center justify-between">
+            <h3 class="text-base font-bold text-zinc-900 flex items-center gap-2">
+              <span class="w-6 h-6 rounded-md bg-blue-500 text-white flex items-center justify-center text-xs font-bold">8</span>
+              Humedad Relativa (Sensor.TYPE_RELATIVE_HUMIDITY)
+            </h3>
+            <span class="text-xs font-mono px-2 py-0.5 rounded bg-blue-50 text-blue-700 font-semibold border border-blue-200">Unidad: %</span>
+          </div>
+          <p class="text-xs text-zinc-600 leading-relaxed">
+            <strong>¿Qué hace?:</strong> Mide el porcentaje de vapor de agua en el aire circundante (de 0% a 100%). Usado en agricultura inteligente y monitoreo ambiental.
+          </p>
+          <div id="sensor-tab-8" class="rounded-lg border border-zinc-800 bg-zinc-950 overflow-hidden">
+            <div class="flex items-center justify-between px-3 py-1.5 bg-zinc-900 border-b border-zinc-800 text-xs">
+              <div class="flex gap-1">
+                <button onclick="switchTab('sensor-tab-8', 'java')" data-tab="java" class="tab-btn px-2.5 py-0.5 rounded bg-white text-zinc-900 font-semibold">Java 11</button>
+                <button onclick="switchTab('sensor-tab-8', 'kotlin')" data-tab="kotlin" class="tab-btn px-2.5 py-0.5 rounded text-zinc-400 hover:text-white">Kotlin</button>
+                <button onclick="switchTab('sensor-tab-8', 'xml')" data-tab="xml" class="tab-btn px-2.5 py-0.5 rounded text-zinc-400 hover:text-white">XML</button>
+              </div>
+              <span class="text-[11px] font-mono text-zinc-400">TYPE_RELATIVE_HUMIDITY</span>
+            </div>
+            <div data-tab="java" class="tab-pane p-0">
+              <pre><code class="language-java">Sensor hum = sensorManager.getDefaultSensor(Sensor.TYPE_RELATIVE_HUMIDITY);
+if (hum != null) {
+    sensorManager.registerListener(new SensorEventListener() {
+        @Override
+        public void onSensorChanged(SensorEvent event) {
+            float percent = event.values[0];
+            txtValHumidity.setText(String.format("Humedad: %.1f %%", percent));
+        }
+        @Override
+        public void onAccuracyChanged(Sensor sensor, int accuracy) {}
+    }, hum, SensorManager.SENSOR_DELAY_UI);
+}</code></pre>
+            </div>
+            <div data-tab="kotlin" class="tab-pane hidden p-0">
+              <pre><code class="language-kotlin">val hum = sensorManager.getDefaultSensor(Sensor.TYPE_RELATIVE_HUMIDITY)
+hum?.let {
+    sensorManager.registerListener(object : SensorEventListener {
+        override fun onSensorChanged(event: SensorEvent) {
+            binding.txtValHumidity.text = "Humedad: %.1f %%".format(event.values[0])
+        }
+        override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {}
+    }, it, SensorManager.SENSOR_DELAY_UI)
+}</code></pre>
+            </div>
+            <div data-tab="xml" class="tab-pane hidden p-0">
+              <pre><code class="language-xml">&lt;TextView
+    android:id="@+id/txtValHumidity"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:fontFamily="monospace"
+    android:text="Humedad: 0.00 %" /&gt;</code></pre>
+            </div>
+          </div>
+        </div>
+
+        <!-- 9. GRAVEDAD -->
+        <div class="rounded-xl border border-zinc-200 bg-white p-6 space-y-4 shadow-2xs">
+          <div class="flex items-center justify-between">
+            <h3 class="text-base font-bold text-zinc-900 flex items-center gap-2">
+              <span class="w-6 h-6 rounded-md bg-stone-700 text-white flex items-center justify-center text-xs font-bold">9</span>
+              Gravedad (Sensor.TYPE_GRAVITY)
+            </h3>
+            <span class="text-xs font-mono px-2 py-0.5 rounded bg-stone-100 text-stone-700 font-semibold border border-stone-200">Unidad: m/s²</span>
+          </div>
+          <p class="text-xs text-zinc-600 leading-relaxed">
+            <strong>¿Qué hace?:</strong> Entrega la componente pura de atracción gravitatoria aislada del movimiento del usuario. Es un sensor sintético/fusión perfecto para calcular el ángulo de inclinación exacto sin ruidos de vibración.
+          </p>
+          <div id="sensor-tab-9" class="rounded-lg border border-zinc-800 bg-zinc-950 overflow-hidden">
+            <div class="flex items-center justify-between px-3 py-1.5 bg-zinc-900 border-b border-zinc-800 text-xs">
+              <div class="flex gap-1">
+                <button onclick="switchTab('sensor-tab-9', 'java')" data-tab="java" class="tab-btn px-2.5 py-0.5 rounded bg-white text-zinc-900 font-semibold">Java 11</button>
+                <button onclick="switchTab('sensor-tab-9', 'kotlin')" data-tab="kotlin" class="tab-btn px-2.5 py-0.5 rounded text-zinc-400 hover:text-white">Kotlin</button>
+                <button onclick="switchTab('sensor-tab-9', 'xml')" data-tab="xml" class="tab-btn px-2.5 py-0.5 rounded text-zinc-400 hover:text-white">XML</button>
+              </div>
+              <span class="text-[11px] font-mono text-zinc-400">TYPE_GRAVITY</span>
+            </div>
+            <div data-tab="java" class="tab-pane p-0">
+              <pre><code class="language-java">Sensor gravity = sensorManager.getDefaultSensor(Sensor.TYPE_GRAVITY);
+sensorManager.registerListener(new SensorEventListener() {
+    @Override
+    public void onSensorChanged(SensorEvent event) {
+        float gx = event.values[0];
+        float gy = event.values[1];
+        float gz = event.values[2];
+        txtValGravity.setText(String.format("X: %.2f | Y: %.2f | Z: %.2f m/s²", gx, gy, gz));
+    }
+    @Override
+    public void onAccuracyChanged(Sensor sensor, int accuracy) {}
+}, gravity, SensorManager.SENSOR_DELAY_UI);</code></pre>
+            </div>
+            <div data-tab="kotlin" class="tab-pane hidden p-0">
+              <pre><code class="language-kotlin">val gravity = sensorManager.getDefaultSensor(Sensor.TYPE_GRAVITY)
+sensorManager.registerListener(object : SensorEventListener {
+    override fun onSensorChanged(event: SensorEvent) {
+        val (gx, gy, gz) = event.values
+        binding.txtValGravity.text = "X: %.2f | Y: %.2f | Z: %.2f m/s²".format(gx, gy, gz)
+    }
+    override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {}
+}, gravity, SensorManager.SENSOR_DELAY_UI)</code></pre>
+            </div>
+            <div data-tab="xml" class="tab-pane hidden p-0">
+              <pre><code class="language-xml">&lt;TextView
+    android:id="@+id/txtValGravity"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:fontFamily="monospace"
+    android:text="X: 0.00 | Y: 0.00 | Z: 0.00 m/s²" /&gt;</code></pre>
+            </div>
+          </div>
+        </div>
+
+        <!-- 10. VECTOR DE ROTACIÓN -->
+        <div class="rounded-xl border border-zinc-200 bg-white p-6 space-y-4 shadow-2xs">
+          <div class="flex items-center justify-between">
+            <h3 class="text-base font-bold text-zinc-900 flex items-center gap-2">
+              <span class="w-6 h-6 rounded-md bg-purple-600 text-white flex items-center justify-center text-xs font-bold">10</span>
+              Vector de Rotación (Sensor.TYPE_ROTATION_VECTOR)
+            </h3>
+            <span class="text-xs font-mono px-2 py-0.5 rounded bg-purple-50 text-purple-700 font-semibold border border-purple-200">Cuaterniones 3D</span>
+          </div>
+          <p class="text-xs text-zinc-600 leading-relaxed">
+            <strong>¿Qué hace?:</strong> Combina acelerómetro, giroscopio y magnetómetro para calcular la orientación espacial 3D absoluta del dispositivo en forma de cuaternión ($[x \cdot \sin(\theta/2), y \cdot \sin(\theta/2), z \cdot \sin(\theta/2), \cos(\theta/2)]$). Imprescindible para Realidad Aumentada (ARCore) y tracking 3D sin efecto *gimbal lock*.
+          </p>
+          <div id="sensor-tab-10" class="rounded-lg border border-zinc-800 bg-zinc-950 overflow-hidden">
+            <div class="flex items-center justify-between px-3 py-1.5 bg-zinc-900 border-b border-zinc-800 text-xs">
+              <div class="flex gap-1">
+                <button onclick="switchTab('sensor-tab-10', 'java')" data-tab="java" class="tab-btn px-2.5 py-0.5 rounded bg-white text-zinc-900 font-semibold">Java 11</button>
+                <button onclick="switchTab('sensor-tab-10', 'kotlin')" data-tab="kotlin" class="tab-btn px-2.5 py-0.5 rounded text-zinc-400 hover:text-white">Kotlin</button>
+                <button onclick="switchTab('sensor-tab-10', 'xml')" data-tab="xml" class="tab-btn px-2.5 py-0.5 rounded text-zinc-400 hover:text-white">XML</button>
+              </div>
+              <span class="text-[11px] font-mono text-zinc-400">TYPE_ROTATION_VECTOR</span>
+            </div>
+            <div data-tab="java" class="tab-pane p-0">
+              <pre><code class="language-java">Sensor rot = sensorManager.getDefaultSensor(Sensor.TYPE_ROTATION_VECTOR);
+sensorManager.registerListener(new SensorEventListener() {
+    @Override
+    public void onSensorChanged(SensorEvent event) {
+        float qx = event.values[0];
+        float qy = event.values[1];
+        float qz = event.values[2];
+        float cos = event.values.length > 3 ? event.values[3] : 0f;
+        txtValRotation.setText(String.format("X: %.2f | Y: %.2f | Z: %.2f | Cos: %.2f", qx, qy, qz, cos));
+    }
+    @Override
+    public void onAccuracyChanged(Sensor sensor, int accuracy) {}
+}, rot, SensorManager.SENSOR_DELAY_UI);</code></pre>
+            </div>
+            <div data-tab="kotlin" class="tab-pane hidden p-0">
+              <pre><code class="language-kotlin">val rot = sensorManager.getDefaultSensor(Sensor.TYPE_ROTATION_VECTOR)
+sensorManager.registerListener(object : SensorEventListener {
+    override fun onSensorChanged(event: SensorEvent) {
+        val qx = event.values[0]
+        val qy = event.values[1]
+        val qz = event.values[2]
+        val cos = if (event.values.size > 3) event.values[3] else 0f
+        binding.txtValRotation.text = "X: %.2f | Y: %.2f | Z: %.2f | Cos: %.2f".format(qx, qy, qz, cos)
+    }
+    override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {}
+}, rot, SensorManager.SENSOR_DELAY_UI)</code></pre>
+            </div>
+            <div data-tab="xml" class="tab-pane hidden p-0">
+              <pre><code class="language-xml">&lt;TextView
+    android:id="@+id/txtValRotation"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:fontFamily="monospace"
+    android:text="X: 0.00 | Y: 0.00 | Z: 0.00 | Cos: 0.00" /&gt;</code></pre>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- SECCIÓN XML COMPLETO: activity_sensors.xml -->
+      <div class="space-y-4 pt-6 border-t border-zinc-200">
+        <div class="flex items-center justify-between pb-2 border-b border-zinc-100">
+          <div>
+            <h2 class="text-lg font-bold text-zinc-900 tracking-tight flex items-center gap-2">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-rose-600"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+              Diseño de Interfaz: XML Completo (activity_sensors.xml)
+            </h2>
+            <p class="text-xs text-zinc-500 mt-0.5">Malla de tarjetas MaterialCardView con tipografía monoespaciada para telemetría en tiempo real de los 10 sensores.</p>
+          </div>
+          <span class="text-xs font-mono font-medium px-2.5 py-1 bg-zinc-100 text-zinc-700 rounded-md border border-zinc-200">res/layout/activity_sensors.xml</span>
+        </div>
+
+        <div class="rounded-xl border border-zinc-200 bg-zinc-950 overflow-hidden shadow-sm">
+          <div class="flex items-center justify-between px-4 py-2 bg-zinc-900 border-b border-zinc-800">
+            <span class="text-xs font-semibold text-zinc-300">activity_sensors.xml</span>
+            <span class="text-[11px] font-mono text-zinc-400">XML Layout · 10 Sensores</span>
+          </div>
+          <pre><code class="language-xml">&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/surface"&gt;
+
+    &lt;LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp"&gt;
+
+        &lt;TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/acsens_title"
+            android:textSize="20sp"
+            android:textStyle="bold" /&gt;
+
+        &lt;!-- Resumen de Sensores Detectados --&gt;
+        &lt;com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            app:cardElevation="0dp"
+            app:strokeColor="@color/cardStroke"
+            app:strokeWidth="1dp"&gt;
+            &lt;LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="12dp"&gt;
+                &lt;TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/common_label_operation"
+                    android:textSize="12sp"
+                    android:textStyle="bold" /&gt;
+                &lt;TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="@string/acsens_info_desc"
+                    android:textSize="11sp" /&gt;
+                &lt;TextView
+                    android:id="@+id/txtSensorSummary"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="Detectando sensores..."
+                    android:textSize="12sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/primary" /&gt;
+            &lt;/LinearLayout&gt;
+        &lt;/com.google.android.material.card.MaterialCardView&gt;
+
+        &lt;!-- 1. Acelerómetro --&gt;
+        &lt;com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            app:cardElevation="2dp"
+            app:strokeColor="@color/cardStroke"&gt;
+            &lt;LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="12dp"&gt;
+                &lt;TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/acsens_accel_name" android:textStyle="bold" android:textSize="13sp"/&gt;
+                &lt;TextView android:id="@+id/txtValAccel" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="4dp" android:text="X: 0.00 | Y: 0.00 | Z: 0.00 m/s²" android:fontFamily="monospace" android:textSize="12sp"/&gt;
+            &lt;/LinearLayout&gt;
+        &lt;/com.google.android.material.card.MaterialCardView&gt;
+
+        &lt;!-- 2. Giroscopio --&gt;
+        &lt;com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            app:cardElevation="2dp"
+            app:strokeColor="@color/cardStroke"&gt;
+            &lt;LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="12dp"&gt;
+                &lt;TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/acsens_gyro_name" android:textStyle="bold" android:textSize="13sp"/&gt;
+                &lt;TextView android:id="@+id/txtValGyro" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="4dp" android:text="X: 0.00 | Y: 0.00 | Z: 0.00 rad/s" android:fontFamily="monospace" android:textSize="12sp"/&gt;
+            &lt;/LinearLayout&gt;
+        &lt;/com.google.android.material.card.MaterialCardView&gt;
+
+        &lt;!-- 3. Magnetómetro --&gt;
+        &lt;com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            app:cardElevation="2dp"
+            app:strokeColor="@color/cardStroke"&gt;
+            &lt;LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="12dp"&gt;
+                &lt;TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/acsens_mag_name" android:textStyle="bold" android:textSize="13sp"/&gt;
+                &lt;TextView android:id="@+id/txtValMag" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="4dp" android:text="X: 0.00 | Y: 0.00 | Z: 0.00 µT" android:fontFamily="monospace" android:textSize="12sp"/&gt;
+            &lt;/LinearLayout&gt;
+        &lt;/com.google.android.material.card.MaterialCardView&gt;
+
+        &lt;!-- 4. Luz --&gt;
+        &lt;com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            app:cardElevation="2dp"
+            app:strokeColor="@color/cardStroke"&gt;
+            &lt;LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="12dp"&gt;
+                &lt;TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/acsens_light_name" android:textStyle="bold" android:textSize="13sp"/&gt;
+                &lt;TextView android:id="@+id/txtValLight" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="4dp" android:text="Iluminación: 0.00 Lux" android:fontFamily="monospace" android:textSize="12sp"/&gt;
+            &lt;/LinearLayout&gt;
+        &lt;/com.google.android.material.card.MaterialCardView&gt;
+
+        &lt;!-- 5. Proximidad --&gt;
+        &lt;com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            app:cardElevation="2dp"
+            app:strokeColor="@color/cardStroke"&gt;
+            &lt;LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="12dp"&gt;
+                &lt;TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/acsens_prox_name" android:textStyle="bold" android:textSize="13sp"/&gt;
+                &lt;TextView android:id="@+id/txtValProx" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="4dp" android:text="Distancia: 0.00 cm" android:fontFamily="monospace" android:textSize="12sp"/&gt;
+            &lt;/LinearLayout&gt;
+        &lt;/com.google.android.material.card.MaterialCardView&gt;
+
+        &lt;!-- 6. Presión --&gt;
+        &lt;com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            app:cardElevation="2dp"
+            app:strokeColor="@color/cardStroke"&gt;
+            &lt;LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="12dp"&gt;
+                &lt;TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/acsens_pressure_name" android:textStyle="bold" android:textSize="13sp"/&gt;
+                &lt;TextView android:id="@+id/txtValPressure" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="4dp" android:text="Presión: 0.00 hPa" android:fontFamily="monospace" android:textSize="12sp"/&gt;
+            &lt;/LinearLayout&gt;
+        &lt;/com.google.android.material.card.MaterialCardView&gt;
+
+        &lt;!-- 7. Temperatura --&gt;
+        &lt;com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            app:cardElevation="2dp"
+            app:strokeColor="@color/cardStroke"&gt;
+            &lt;LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="12dp"&gt;
+                &lt;TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/acsens_temp_name" android:textStyle="bold" android:textSize="13sp"/&gt;
+                &lt;TextView android:id="@+id/txtValTemp" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="4dp" android:text="Temperatura: 0.00 °C" android:fontFamily="monospace" android:textSize="12sp"/&gt;
+            &lt;/LinearLayout&gt;
+        &lt;/com.google.android.material.card.MaterialCardView&gt;
+
+        &lt;!-- 8. Humedad --&gt;
+        &lt;com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            app:cardElevation="2dp"
+            app:strokeColor="@color/cardStroke"&gt;
+            &lt;LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="12dp"&gt;
+                &lt;TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/acsens_humidity_name" android:textStyle="bold" android:textSize="13sp"/&gt;
+                &lt;TextView android:id="@+id/txtValHumidity" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="4dp" android:text="Humedad: 0.00 %" android:fontFamily="monospace" android:textSize="12sp"/&gt;
+            &lt;/LinearLayout&gt;
+        &lt;/com.google.android.material.card.MaterialCardView&gt;
+
+        &lt;!-- 9. Gravedad --&gt;
+        &lt;com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            app:cardElevation="2dp"
+            app:strokeColor="@color/cardStroke"&gt;
+            &lt;LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="12dp"&gt;
+                &lt;TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/acsens_gravity_name" android:textStyle="bold" android:textSize="13sp"/&gt;
+                &lt;TextView android:id="@+id/txtValGravity" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="4dp" android:text="X: 0.00 | Y: 0.00 | Z: 0.00 m/s²" android:fontFamily="monospace" android:textSize="12sp"/&gt;
+            &lt;/LinearLayout&gt;
+        &lt;/com.google.android.material.card.MaterialCardView&gt;
+
+        &lt;!-- 10. Vector de Rotación --&gt;
+        &lt;com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="16dp"
+            app:cardElevation="2dp"
+            app:strokeColor="@color/cardStroke"&gt;
+            &lt;LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="12dp"&gt;
+                &lt;TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/acsens_rotation_name" android:textStyle="bold" android:textSize="13sp"/&gt;
+                &lt;TextView android:id="@+id/txtValRotation" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="4dp" android:text="X: 0.00 | Y: 0.00 | Z: 0.00 | Cos: 0.00" android:fontFamily="monospace" android:textSize="12sp"/&gt;
+            &lt;/LinearLayout&gt;
+        &lt;/com.google.android.material.card.MaterialCardView&gt;
+
+    &lt;/LinearLayout&gt;
+&lt;/ScrollView&gt;</code></pre>
+        </div>
+      </div>
+
+      <!-- Navigation Footer -->
+      <div class="flex items-center justify-between pt-6 border-t border-zinc-200">
+        <a href="lab-concurrencia.html" class="inline-flex items-center gap-2 text-xs font-medium text-zinc-600 hover:text-zinc-900 transition-colors">
+          ← Lab 11 · Concurrencia (Threads & AsyncTask)
+        </a>
+        <a href="labs.html" class="inline-flex items-center gap-2 text-xs font-medium text-zinc-900 hover:text-zinc-700 transition-colors">
+          Índice de Laboratorios →
+        </a>
+      </div>
+
+    </main>
+  </div>
+
+  <script src="assets/nav.js"></script>
+</body>
+</html>

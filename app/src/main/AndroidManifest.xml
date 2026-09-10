@@ -2,6 +2,13 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+
+    <queries>
+        <intent>
+            <action android:name="android.speech.RecognitionService" />
+        </intent>
+    </queries>
 
     <application
         android:allowBackup="true"
@@ -26,7 +33,7 @@
         <activity android:name=".IntroActivity" android:exported="false" />
         <activity android:name=".HomeActivity" android:exported="false" />
 
-        <!-- Sandbox labs -->
+        <!-- Módulo 1: Conoce Android (Labs 1 al 10) -->
         <activity android:name=".sandbox.TextInputsActivity" android:exported="false" android:windowSoftInputMode="adjustResize" />
         <activity android:name=".sandbox.DateTimeActivity" android:exported="false" />
         <activity android:name=".sandbox.ButtonsActivity" android:exported="false" />
@@ -37,6 +44,11 @@
         <activity android:name=".sandbox.LayoutsActivity" android:exported="false" />
         <activity android:name=".sandbox.SimpleScrollListActivity" android:exported="false" />
         <activity android:name=".sandbox.ContactRecyclerActivity" android:exported="false" />
+
+        <!-- Módulo 2: Funcionalidades Especiales (Labs 11, 12 y 13) -->
+        <activity android:name=".sandbox.ConcurrencyActivity" android:exported="false" />
+        <activity android:name=".sandbox.SensorsActivity" android:exported="false" />
+        <activity android:name=".sandbox.SpeechActivity" android:exported="false" />
     </application>
 
 </manifest>

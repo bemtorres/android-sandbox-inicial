@@ -1,0 +1,1515 @@
+<!DOCTYPE html>
+<html lang="es" class="h-full bg-zinc-950 text-zinc-100 antialiased">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🎮 Game Vectors & CRUD Exam — Sandbox Arcade Academy</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&family=Press+Start+2P&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+  <style type="text/tailwindcss">
+    @theme {
+      --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+      --font-pixel: 'Press Start 2P', monospace;
+    }
+  </style>
+  <style>
+    /* Custom scrollbar and animations */
+    ::-webkit-scrollbar { width: 8px; height: 8px; }
+    ::-webkit-scrollbar-track { background: #09090b; }
+    ::-webkit-scrollbar-thumb { background: #27272a; border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: #3f3f46; }
+    
+    .glow-cyan {
+      box-shadow: 0 0 25px -5px rgba(6, 182, 212, 0.35);
+    }
+    .glow-violet {
+      box-shadow: 0 0 25px -5px rgba(139, 92, 246, 0.35);
+    }
+    .glow-amber {
+      box-shadow: 0 0 25px -5px rgba(245, 158, 11, 0.35);
+    }
+    .shake {
+      animation: shake 0.4s cubic-bezier(.36,.07,.19,.97) both;
+    }
+    @keyframes shake {
+      10%, 90% { transform: translate3d(-1px, 0, 0); }
+      20%, 80% { transform: translate3d(2px, 0, 0); }
+      30%, 50%, 70% { transform: translate3d(-4px, 0, 0); }
+      40%, 60% { transform: translate3d(4px, 0, 0); }
+    }
+    @media print {
+      .no-print { display: none !important; }
+      body { background: white !important; color: black !important; }
+      .print-light { background: white !important; color: #111 !important; border-color: #ddd !important; }
+    }
+  </style>
+</head>
+<body class="min-h-full flex flex-col font-sans bg-zinc-950 text-zinc-100 selection:bg-cyan-500 selection:text-black">
+
+  <!-- Top Announcement Bar -->
+  <div class="no-print bg-linear-to-r from-violet-900 via-indigo-900 to-cyan-900 border-b border-white/10 px-4 py-2 text-xs text-center font-medium text-cyan-200 flex items-center justify-center gap-2">
+    <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold bg-cyan-500/20 border border-cyan-400/40 text-cyan-300 font-mono uppercase tracking-wider">
+      Evaluación Práctica
+    </span>
+    <span>⚔️ 6 Desafíos de Videojuegos · CRUD & Reportes con Vectores / Arreglos en Java</span>
+  </div>
+
+  <!-- Main Navigation Header -->
+  <header class="sticky top-0 z-50 w-full border-b border-zinc-800 bg-zinc-950/90 backdrop-blur-md">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-4">
+      <div class="flex items-center gap-3">
+        <a href="../../tutorial/index.html" class="flex items-center gap-2.5 font-bold text-sm tracking-tight text-white group">
+          <div class="w-9 h-9 rounded-xl bg-linear-to-br from-cyan-500 to-blue-600 text-black flex items-center justify-center font-extrabold shadow-lg shadow-cyan-500/20 group-hover:scale-105 transition-transform">
+            🎮
+          </div>
+          <div>
+            <div class="flex items-center gap-2">
+              <span class="text-base font-extrabold text-transparent bg-clip-text bg-linear-to-r from-cyan-400 to-blue-400">GameDev Academy</span>
+              <span class="text-[10px] font-mono font-semibold px-2 py-0.5 rounded-md bg-zinc-800 text-zinc-400 border border-zinc-700">CRUD LABS</span>
+            </div>
+            <p class="text-[11px] text-zinc-500 font-medium">Algoritmos & Estructuras de Datos</p>
+          </div>
+        </a>
+      </div>
+
+      <div class="flex items-center gap-3 no-print">
+        <button onclick="window.print()" class="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg border border-zinc-700 bg-zinc-900/80 hover:bg-zinc-800 text-xs font-medium text-zinc-300 hover:text-white transition-all shadow-xs">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/></svg>
+          <span>Imprimir / PDF</span>
+        </button>
+        <a href="../../tutorial/labs.html" class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-lg bg-cyan-500 hover:bg-cyan-400 text-zinc-950 text-xs font-bold transition-all shadow-md shadow-cyan-500/20">
+          <span>← Volver a Laboratorios</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="border-b border-zinc-800/80 bg-linear-to-b from-zinc-900/50 via-zinc-950 to-zinc-950 py-10 px-4 sm:px-6">
+    <div class="max-w-7xl mx-auto space-y-6">
+      <div class="flex flex-wrap items-center justify-between gap-4">
+        <div class="space-y-2 max-w-3xl">
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-mono font-medium bg-emerald-500/10 border border-emerald-500/30 text-emerald-400">
+            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+            Examen & Taller de Programación · Vectores Paralelos & CRUD
+          </div>
+          <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-white">
+            Inventarios de Videojuegos <span class="text-transparent bg-clip-text bg-linear-to-r from-cyan-400 via-indigo-400 to-fuchsia-400">CRUD & Reportes</span>
+          </h1>
+          <p class="text-sm sm:text-base text-zinc-400 leading-relaxed">
+            Domina la lógica de arreglos y colecciones implementando sistemas de gestión para 6 universos de videojuegos diferentes. Cada caso incluye su historia inmersiva, especificación de campos, operaciones CRUD (Crear, Leer, Modificar, Eliminar) y 4 reportes estadísticos avanzados.
+          </p>
+        </div>
+
+        <!-- Password Access Card Quick Info -->
+        <div class="bg-zinc-900/90 border border-zinc-800 p-4 rounded-2xl shadow-xl w-full sm:w-auto min-w-[280px] space-y-2.5">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-mono text-zinc-400 flex items-center gap-1.5">
+              <span class="text-base">🔐</span> Estado de Soluciones
+            </span>
+            <span id="globalLockStatus" class="px-2 py-0.5 text-[10px] font-mono font-bold rounded-md bg-amber-500/20 text-amber-300 border border-amber-500/30">
+              PROTEGIDO
+            </span>
+          </div>
+          <p class="text-xs text-zinc-400">
+            Las soluciones completas con código Java y Android requieren contraseña docente.
+          </p>
+          <button onclick="scrollToPasswordArea()" class="w-full text-center py-2 px-3 rounded-lg text-xs font-semibold bg-zinc-800 hover:bg-zinc-700 text-cyan-300 border border-zinc-700 transition-colors">
+            🔑 Desbloquear Soluciones
+          </button>
+        </div>
+      </div>
+
+      <!-- Quick Challenge Selector Pill Tabs -->
+      <div class="pt-4 border-t border-zinc-800/80">
+        <p class="text-xs font-semibold text-zinc-400 uppercase tracking-wider mb-3">Elige una Propuesta de Videojuego:</p>
+        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2.5" id="challengeTabs">
+          <!-- Tab 1 -->
+          <button onclick="selectChallenge(1)" id="tab-btn-1" class="tab-btn active text-left p-3 rounded-xl border border-cyan-500/50 bg-cyan-950/30 hover:bg-cyan-900/30 transition-all">
+            <div class="text-2xl mb-1">🧪</div>
+            <div class="font-bold text-xs text-white">1. Tienda Pociones</div>
+            <div class="text-[10px] font-mono text-cyan-300/80">nombre, cant, precio</div>
+          </button>
+          <!-- Tab 2 -->
+          <button onclick="selectChallenge(2)" id="tab-btn-2" class="tab-btn text-left p-3 rounded-xl border border-zinc-800 bg-zinc-900/60 hover:bg-zinc-800 transition-all">
+            <div class="text-2xl mb-1">⚔️</div>
+            <div class="font-bold text-xs text-zinc-300">2. Gladiadores</div>
+            <div class="text-[10px] font-mono text-zinc-500">nombre, vida, ataque</div>
+          </button>
+          <!-- Tab 3 -->
+          <button onclick="selectChallenge(3)" id="tab-btn-3" class="tab-btn text-left p-3 rounded-xl border border-zinc-800 bg-zinc-900/60 hover:bg-zinc-800 transition-all">
+            <div class="text-2xl mb-1">🏎️</div>
+            <div class="font-bold text-xs text-zinc-300">3. Carrera Autos</div>
+            <div class="text-[10px] font-mono text-zinc-500">piloto, auto, vel</div>
+          </button>
+          <!-- Tab 4 -->
+          <button onclick="selectChallenge(4)" id="tab-btn-4" class="tab-btn text-left p-3 rounded-xl border border-zinc-800 bg-zinc-900/60 hover:bg-zinc-800 transition-all">
+            <div class="text-2xl mb-1">🐉</div>
+            <div class="font-bold text-xs text-zinc-300">4. Bestiario</div>
+            <div class="text-[10px] font-mono text-zinc-500">nombre, tipo, nivel</div>
+          </button>
+          <!-- Tab 5 -->
+          <button onclick="selectChallenge(5)" id="tab-btn-5" class="tab-btn text-left p-3 rounded-xl border border-zinc-800 bg-zinc-900/60 hover:bg-zinc-800 transition-all">
+            <div class="text-2xl mb-1">🚀</div>
+            <div class="font-bold text-xs text-zinc-300">5. Naves Espacio</div>
+            <div class="text-[10px] font-mono text-zinc-500">nombre, comb, vel</div>
+          </button>
+          <!-- Tab 6 -->
+          <button onclick="selectChallenge(6)" id="tab-btn-6" class="tab-btn text-left p-3 rounded-xl border border-zinc-800 bg-zinc-900/60 hover:bg-zinc-800 transition-all">
+            <div class="text-2xl mb-1">⚽</div>
+            <div class="font-bold text-xs text-zinc-300">6. Torneo Fútbol</div>
+            <div class="text-[10px] font-mono text-zinc-500">equipo, goles, pts</div>
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Main Content Area -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 py-8 w-full space-y-10 flex-1">
+    
+    <!-- DYNAMIC CHALLENGE CONTAINER (Populated via JS) -->
+    <div id="challengeDetailArea" class="space-y-8">
+      <!-- Injected dynamically -->
+    </div>
+
+    <!-- GLOBAL INTERACTIVE SIMULATOR / PLAYGROUND -->
+    <section class="border border-zinc-800 rounded-2xl bg-zinc-900/70 p-6 sm:p-8 space-y-6 shadow-2xl">
+      <div class="flex flex-wrap items-center justify-between gap-4 border-b border-zinc-800 pb-4">
+        <div class="space-y-1">
+          <div class="flex items-center gap-2">
+            <span class="text-xl">🕹️</span>
+            <h2 class="text-xl sm:text-2xl font-bold text-white tracking-tight">
+              Simulador Interactivo de Vectores & CRUD
+            </h2>
+          </div>
+          <p class="text-xs sm:text-sm text-zinc-400">
+            Prueba cómo debe funcionar el sistema en tiempo de ejecución. Agrega, modifica, elimina y ejecuta reportes en tiempo real.
+          </p>
+        </div>
+        <div class="flex items-center gap-2">
+          <button onclick="loadSampleData()" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-indigo-600/30 hover:bg-indigo-600/50 text-indigo-300 border border-indigo-500/40 transition-colors">
+            🎲 Cargar Datos Demo
+          </button>
+          <button onclick="clearSimulatorData()" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-zinc-800 hover:bg-zinc-700 text-zinc-400 hover:text-white transition-colors">
+            🗑️ Vaciar Arreglo
+          </button>
+        </div>
+      </div>
+
+      <!-- Simulator Form + Table Layout -->
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        
+        <!-- Input Form -->
+        <div class="bg-zinc-950 border border-zinc-800 rounded-xl p-5 space-y-4">
+          <h3 class="text-xs font-mono font-bold text-cyan-400 uppercase tracking-wider flex items-center gap-2">
+            <span>📝</span> <span id="formTitle">Registrar Elemento</span>
+          </h3>
+          
+          <form id="simulatorForm" onsubmit="handleFormSubmit(event)" class="space-y-3">
+            <input type="hidden" id="editIndex" value="-1">
+
+            <div class="space-y-1">
+              <label id="lblField1" for="simField1" class="text-xs font-medium text-zinc-300">Nombre:</label>
+              <input type="text" id="simField1" required placeholder="Ej. Poción de Curación" class="w-full px-3 py-2 text-xs rounded-lg bg-zinc-900 border border-zinc-700 text-white placeholder-zinc-500 focus:outline-none focus:border-cyan-500">
+            </div>
+
+            <div class="space-y-1">
+              <label id="lblField2" for="simField2" class="text-xs font-medium text-zinc-300">Cantidad / Valor 1:</label>
+              <input type="number" id="simField2" required placeholder="Ej. 15" class="w-full px-3 py-2 text-xs rounded-lg bg-zinc-900 border border-zinc-700 text-white placeholder-zinc-500 focus:outline-none focus:border-cyan-500">
+            </div>
+
+            <div class="space-y-1">
+              <label id="lblField3" for="simField3" class="text-xs font-medium text-zinc-300">Precio / Valor 2:</label>
+              <input type="number" step="any" id="simField3" required placeholder="Ej. 45.50" class="w-full px-3 py-2 text-xs rounded-lg bg-zinc-900 border border-zinc-700 text-white placeholder-zinc-500 focus:outline-none focus:border-cyan-500">
+            </div>
+
+            <div class="pt-2 flex gap-2">
+              <button type="submit" id="btnSubmitSim" class="flex-1 py-2 rounded-lg text-xs font-bold bg-cyan-500 hover:bg-cyan-400 text-zinc-950 transition-colors shadow-sm">
+                ➕ Registrar
+              </button>
+              <button type="button" id="btnCancelEdit" onclick="cancelEditMode()" class="hidden px-3 py-2 rounded-lg text-xs font-medium bg-zinc-800 text-zinc-300 hover:bg-zinc-700">
+                Cancelar
+              </button>
+            </div>
+          </form>
+
+          <!-- Search & Filter Area -->
+          <div class="pt-3 border-t border-zinc-800 space-y-2">
+            <label class="text-[11px] font-mono text-zinc-400">🔍 Buscar por Nombre / Clave:</label>
+            <div class="flex gap-1.5">
+              <input type="text" id="searchQuery" placeholder="Buscar..." class="flex-1 px-3 py-1.5 text-xs rounded-lg bg-zinc-900 border border-zinc-700 text-white placeholder-zinc-500 focus:outline-none focus:border-cyan-500">
+              <button onclick="searchItem()" class="px-3 py-1.5 text-xs font-semibold bg-zinc-800 hover:bg-zinc-700 rounded-lg text-cyan-400 border border-zinc-700">
+                Buscar
+              </button>
+            </div>
+            <div id="searchResultFeedback" class="text-xs hidden p-2 rounded-lg bg-zinc-900 border border-zinc-800"></div>
+          </div>
+        </div>
+
+        <!-- Table View -->
+        <div class="lg:col-span-2 bg-zinc-950 border border-zinc-800 rounded-xl p-5 flex flex-col justify-between space-y-4">
+          <div class="space-y-3">
+            <div class="flex items-center justify-between">
+              <h3 class="text-xs font-mono font-bold text-indigo-400 uppercase tracking-wider flex items-center gap-2">
+                <span>📋</span> <span id="tableHeaderTitle">Registros en Memoria (Vectores)</span>
+              </h3>
+              <span id="itemCountBadge" class="text-[11px] font-mono px-2 py-0.5 rounded bg-zinc-800 text-zinc-300 border border-zinc-700">
+                0 elementos / MAX: 50
+              </span>
+            </div>
+
+            <!-- Table -->
+            <div class="overflow-x-auto max-h-[300px] border border-zinc-800 rounded-lg">
+              <table class="w-full text-left text-xs">
+                <thead class="bg-zinc-900 text-zinc-400 border-b border-zinc-800 font-mono text-[11px] sticky top-0">
+                  <tr>
+                    <th class="p-2.5">Índice</th>
+                    <th id="thField1" class="p-2.5">Nombre</th>
+                    <th id="thField2" class="p-2.5">Cantidad</th>
+                    <th id="thField3" class="p-2.5">Precio</th>
+                    <th class="p-2.5 text-right">Acciones</th>
+                  </tr>
+                </thead>
+                <tbody id="simTableBody" class="divide-y divide-zinc-800/60 font-sans">
+                  <!-- Injected via JS -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Quick Live Reports Buttons Bar -->
+          <div class="pt-3 border-t border-zinc-800 space-y-3">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-semibold text-zinc-300">📊 Ejecutar Reportes del Caso Activo:</span>
+            </div>
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
+              <button onclick="runReport(1)" class="p-2 text-left rounded-lg bg-zinc-900 hover:bg-zinc-800 border border-zinc-800 hover:border-cyan-500/40 text-[11px] transition-all">
+                <div class="font-bold text-cyan-400" id="repBtn1Title">🏆 Máximo</div>
+                <div class="text-zinc-500 text-[10px]" id="repBtn1Sub">Mayor valor</div>
+              </button>
+              <button onclick="runReport(2)" class="p-2 text-left rounded-lg bg-zinc-900 hover:bg-zinc-800 border border-zinc-800 hover:border-amber-500/40 text-[11px] transition-all">
+                <div class="font-bold text-amber-400" id="repBtn2Title">🛡️ Mínimo</div>
+                <div class="text-zinc-500 text-[10px]" id="repBtn2Sub">Menor valor</div>
+              </button>
+              <button onclick="runReport(3)" class="p-2 text-left rounded-lg bg-zinc-900 hover:bg-zinc-800 border border-zinc-800 hover:border-indigo-500/40 text-[11px] transition-all">
+                <div class="font-bold text-indigo-400" id="repBtn3Title">📈 Promedio / Total</div>
+                <div class="text-zinc-500 text-[10px]" id="repBtn3Sub">Métricas globales</div>
+              </button>
+              <button onclick="runReport(4)" class="p-2 text-left rounded-lg bg-zinc-900 hover:bg-zinc-800 border border-zinc-800 hover:border-emerald-500/40 text-[11px] transition-all">
+                <div class="font-bold text-emerald-400" id="repBtn4Title">⚡ Filtro Crítico</div>
+                <div class="text-zinc-500 text-[10px]" id="repBtn4Sub">Condición especial</div>
+              </button>
+            </div>
+
+            <!-- Report Output Display Card -->
+            <div id="reportOutputCard" class="hidden p-3.5 rounded-xl bg-zinc-900/90 border border-zinc-700/80 space-y-1">
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-mono font-bold text-white flex items-center gap-1.5" id="reportOutputTitle">
+                  Resultado del Reporte
+                </span>
+                <button onclick="document.getElementById('reportOutputCard').classList.add('hidden')" class="text-zinc-500 hover:text-white text-xs">✕</button>
+              </div>
+              <p class="text-xs text-zinc-300 font-sans leading-relaxed" id="reportOutputContent"></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PASSWORD-PROTECTED SOLUTIONS SECTION -->
+    <section id="passwordSection" class="border border-zinc-800 rounded-2xl bg-linear-to-b from-zinc-900/90 to-zinc-950 p-6 sm:p-8 space-y-6 shadow-2xl relative overflow-hidden">
+      
+      <!-- Ambient light effect -->
+      <div class="absolute -top-24 -right-24 w-72 h-72 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none"></div>
+
+      <div class="flex flex-wrap items-center justify-between gap-4 border-b border-zinc-800 pb-4">
+        <div class="space-y-1">
+          <div class="flex items-center gap-2">
+            <span class="text-2xl" id="lockIcon">🔒</span>
+            <h2 class="text-xl sm:text-2xl font-bold text-white tracking-tight">
+              Solución Oficial & Código Fuente Completo
+            </h2>
+          </div>
+          <p class="text-xs sm:text-sm text-zinc-400">
+            Acceso exclusivo con contraseña para docentes y revisión de pautas de corrección.
+          </p>
+        </div>
+
+        <div id="solutionBadgeUnlocked" class="hidden px-3 py-1 rounded-full text-xs font-mono font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 flex items-center gap-1.5">
+          <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+          DESBLOQUEADO · PROFE BENJA
+        </div>
+      </div>
+
+      <!-- LOCKED STATE UI -->
+      <div id="lockedStateArea" class="space-y-4 text-center py-8 max-w-md mx-auto">
+        <div class="w-16 h-16 rounded-2xl bg-zinc-800/80 border border-zinc-700 flex items-center justify-center text-3xl mx-auto shadow-inner">
+          🔐
+        </div>
+        <div class="space-y-1">
+          <h3 class="text-base font-bold text-white">Contenido Protegido por Contraseña</h3>
+          <p class="text-xs text-zinc-400">
+            Ingresa la clave del docente para desbloquear la solución en Java (Vectores Paralelos) y la versión POJO / Android con explicaciones detalladas.
+          </p>
+        </div>
+
+        <div class="flex flex-col sm:flex-row gap-2 pt-2">
+          <input type="password" id="passwordInput" placeholder="Ingresa contraseña..." class="flex-1 px-4 py-2.5 rounded-xl bg-zinc-900 border border-zinc-700 text-white placeholder-zinc-500 text-sm focus:outline-none focus:border-cyan-400 text-center sm:text-left font-mono">
+          <button onclick="verifyPassword()" class="px-6 py-2.5 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-zinc-950 font-bold text-sm transition-all shadow-lg shadow-cyan-500/20">
+            Desbloquear 🔓
+          </button>
+        </div>
+        <p id="passwordError" class="text-xs text-rose-400 font-medium hidden">
+          ❌ Contraseña incorrecta. Inténtalo nuevamente.
+        </p>
+        <p class="text-[11px] text-zinc-600 font-mono">
+          Pista docente: Contraseña de 14 caracteres en mayúsculas ("PROFEBENJA2026")
+        </p>
+      </div>
+
+      <!-- UNLOCKED STATE CONTENT (Initially Hidden) -->
+      <div id="unlockedContentArea" class="hidden space-y-6">
+        
+        <!-- Controls Bar for Unlocked Solutions -->
+        <div class="flex flex-wrap items-center justify-between gap-3 p-3 rounded-xl bg-zinc-900 border border-zinc-800">
+          <div class="flex items-center gap-2">
+            <span class="text-xs font-semibold text-zinc-300">Ver solución de:</span>
+            <select id="solutionCaseSelect" onchange="renderUnlockedSolution()" class="px-3 py-1.5 rounded-lg bg-zinc-950 border border-zinc-700 text-cyan-300 text-xs font-medium focus:outline-none focus:border-cyan-400">
+              <option value="1">🧪 1. Tienda de Pociones</option>
+              <option value="2">⚔️ 2. Gladiadores del Coliseo</option>
+              <option value="3">🏎️ 3. Carrera de Autos</option>
+              <option value="4">🐉 4. Bestiario Monster Hunter</option>
+              <option value="5">🚀 5. Naves Espaciales</option>
+              <option value="6">⚽ 6. Torneo de Fútbol</option>
+            </select>
+          </div>
+
+          <div class="flex items-center gap-2">
+            <button onclick="lockAgain()" class="px-3 py-1.5 rounded-lg bg-zinc-800 hover:bg-zinc-700 text-zinc-300 hover:text-white text-xs font-medium border border-zinc-700 transition-colors">
+              🔒 Volver a Bloquear
+            </button>
+          </div>
+        </div>
+
+        <!-- Tab selection between Pure Java (Parallel Vectors) and Android OOP Class -->
+        <div class="flex border-b border-zinc-800 gap-4">
+          <button onclick="setSolutionTab('vectors')" id="solTabVectors" class="pb-2.5 text-xs font-bold text-cyan-400 border-b-2 border-cyan-400 flex items-center gap-2">
+            <span>☕ Java Puro · Vectores Paralelos</span>
+            <span class="text-[10px] font-mono px-1.5 py-0.2 rounded bg-cyan-950 text-cyan-300 border border-cyan-800">Algoritmos</span>
+          </button>
+          <button onclick="setSolutionTab('android')" id="solTabAndroid" class="pb-2.5 text-xs font-bold text-zinc-400 hover:text-zinc-200 flex items-center gap-2">
+            <span>🤖 Implementación Android / POJO</span>
+            <span class="text-[10px] font-mono px-1.5 py-0.2 rounded bg-zinc-800 text-zinc-400 border border-zinc-700">OOP</span>
+          </button>
+        </div>
+
+        <!-- Dynamic Solution Code Container -->
+        <div id="solutionCodeDisplayArea" class="space-y-4">
+          <!-- Populated by JS -->
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- EVALUATION RUBRIC & PEDAGOGICAL GUIDE -->
+    <section class="border border-zinc-800 rounded-2xl bg-zinc-900/50 p-6 sm:p-8 space-y-6">
+      <div class="space-y-1">
+        <h2 class="text-xl font-bold text-white tracking-tight flex items-center gap-2">
+          <span>📋</span> Rúbrica de Evaluación & Criterios de Calificación
+        </h2>
+        <p class="text-xs text-zinc-400">
+          Criterios estándar de evaluación para exámenes prácticos de Programación y Estructuras de Datos.
+        </p>
+      </div>
+
+      <div class="overflow-x-auto border border-zinc-800 rounded-xl">
+        <table class="w-full text-left text-xs">
+          <thead class="bg-zinc-900 text-zinc-300 font-mono text-[11px] border-b border-zinc-800">
+            <tr>
+              <th class="p-3">Módulo / Criterio</th>
+              <th class="p-3">Descripción Técnica</th>
+              <th class="p-3 text-center">Puntaje</th>
+              <th class="p-3">Puntos Clave a Evaluar</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-zinc-800 text-zinc-300">
+            <tr>
+              <td class="p-3 font-semibold text-white">1. Estructura de Vectores & Variables</td>
+              <td class="p-3 text-zinc-400">Declaración de arreglos con tipos adecuados, constantes de límite (`MAX`) y control del contador de elementos.</td>
+              <td class="p-3 text-center font-mono font-bold text-cyan-400">15%</td>
+              <td class="p-3 text-xs text-zinc-400">Tipos correctos (String, int, double), inicialización y uso del índice libre.</td>
+            </tr>
+            <tr>
+              <td class="p-3 font-semibold text-white">2. Create (Registro con Validaciones)</td>
+              <td class="p-3 text-zinc-400">Verificación de desbordamiento de vector, campos no vacíos, valores > 0 y evitar elementos duplicados.</td>
+              <td class="p-3 text-center font-mono font-bold text-cyan-400">20%</td>
+              <td class="p-3 text-xs text-zinc-400">`contador < MAX`, validación de nombre único y parseo seguro.</td>
+            </tr>
+            <tr>
+              <td class="p-3 font-semibold text-white">3. Read & Búsqueda Secuencial</td>
+              <td class="p-3 text-zinc-400">Listado completo con formato tabular y función de búsqueda lineal por nombre que retorne el índice o -1.</td>
+              <td class="p-3 text-center font-mono font-bold text-cyan-400">20%</td>
+              <td class="p-3 text-xs text-zinc-400">Recorrido `for (int i=0; i<contador; i++)`, `equalsIgnoreCase`.</td>
+            </tr>
+            <tr>
+              <td class="p-3 font-semibold text-white">4. Update & Delete (Desplazamiento)</td>
+              <td class="p-3 text-zinc-400">Actualización de atributos y algoritmo de compactación/desplazamiento a la izquierda al eliminar.</td>
+              <td class="p-3 text-center font-mono font-bold text-cyan-400">25%</td>
+              <td class="p-3 text-xs text-zinc-400">`v[i] = v[i+1]` para todos los vectores paralelos y decremento de `contador--`.</td>
+            </tr>
+            <tr>
+              <td class="p-3 font-semibold text-white">5. Reportes & Lógica de Negocio</td>
+              <td class="p-3 text-zinc-400">Cálculo de Máximo, Mínimo, Totales/Promedios y filtrado por condición temática de juego.</td>
+              <td class="p-3 text-center font-mono font-bold text-cyan-400">20%</td>
+              <td class="p-3 text-xs text-zinc-400">Algoritmo de pivote `posMayor = 0`, acumuladores `suma += ...` y control de división por cero.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="border-t border-zinc-800 bg-zinc-950 py-8 px-4 sm:px-6 text-center text-xs text-zinc-500 space-y-2">
+    <p>🎮 Sandbox Android & Algoritmos Academy · Creado para Exámenes y Talleres Prácticos</p>
+    <p class="font-mono text-[11px] text-zinc-600">Material desarrollado por el Profe Benja · Versión 2026</p>
+  </footer>
+
+  <!-- JAVASCRIPT DATA & LOGIC -->
+  <script>
+    // ==========================================
+    // 1. DATA MODEL FOR 6 GAMING PROPOSALS
+    // ==========================================
+    const CHALLENGES = [
+      {
+        id: 1,
+        emoji: "🧪",
+        title: "La Botica del Alquimista: Tienda de Pociones",
+        subtitle: "Inventario de Brebajes Mágicos y Elixires",
+        color: "cyan",
+        fields: [
+          { key: "nombre", label: "Nombre de la Poción", type: "String", desc: "Identificador único del brebaje (ej. Poción de Maná)", placeholder: "Poción de Maná" },
+          { key: "cantidad", label: "Cantidad en Stock", type: "int", desc: "Unidades disponibles en bodega (ej. 15)", placeholder: "15" },
+          { key: "precio", label: "Precio en Monedas de Oro", type: "double", desc: "Costo unitario por frasco (ej. 45.50)", placeholder: "45.50" }
+        ],
+        lore: "En la bulliciosa ciudad de Novigrado, el maestro alquimista Geraldus necesita automatizar el inventario de su tienda mágica antes de que los cazadores de monstruos agoten sus reservas. Los frascos de elixires se rompen fácilmente y los precios fluctúan según la rareza de las hierbas. Eres el aprendiz de mago encargado de programar el sistema de gestión.",
+        mission: "Construir un sistema de inventario basado en arreglos paralelos que permita registrar nuevos elixires, buscar pociones por nombre, actualizar stock tras compras, eliminar frascos caducados y generar reportes financieros para el gremio de alquimistas.",
+        reportsDef: [
+          { id: 1, title: "🏆 Poción Más Cara", desc: "Encuentra el elixir de mayor precio unitario en la tienda." },
+          { id: 2, title: "🛡️ Menor Stock (Alerta)", desc: "Detecta la poción con menor cantidad de frascos disponibles." },
+          { id: 3, title: "💰 Valor Total del Inventario", desc: "Calcula la suma total del dinero en bodega (Σ cantidad * precio)." },
+          { id: 4, title: "⚠️ Pociones Críticas (Stock < 5)", desc: "Lista todas las pociones que necesitan ser reabastecidas de urgencia." }
+        ],
+        sampleData: [
+          { f1: "Elixir de Maná Supremo", f2: 18, f3: 45.0 },
+          { f1: "Poción de Curación Mayor", f2: 4, f3: 30.0 },
+          { f1: "Brebaje Ojo de Halcón", f2: 12, f3: 65.5 },
+          { f1: "Veneno de Basilisco", f2: 2, f3: 120.0 },
+          { f1: "Filtro de Fuerza Titán", f2: 25, f3: 85.0 }
+        ]
+      },
+      {
+        id: 2,
+        emoji: "⚔️",
+        title: "El Coliseo de Sangre: Registro de Gladiadores",
+        subtitle: "Lanza a la Arena a los Guerreros Legendarios",
+        color: "rose",
+        fields: [
+          { key: "nombre", label: "Nombre del Gladiador", type: "String", desc: "Apodo o título de batalla (ej. Maximus el Invencible)", placeholder: "Maximus" },
+          { key: "vida", label: "Puntos de Vida (HP)", type: "int", desc: "Salud actual del guerrero entre 0 y 1000", placeholder: "750" },
+          { key: "ataque", label: "Poder de Ataque (AP)", type: "int", desc: "Fuerza destructiva en combate cuerpo a cuerpo", placeholder: "180" }
+        ],
+        lore: "El Emperador ha ordenado la apertura de los Juegos del Gran Coliseo. Miles de guerreros provenientes de todas las provincias compiten por la gloria eterna. El Lanista (administrador de gladiadores) necesita monitorear la condición física de cada combatiente para emparejar los duelos de forma justa y evitar que gladiadores moribundos entren al foso.",
+        mission: "Desarrollar el software de combate en vectores paralelos para inscribir guerreros, buscar luchadores por nombre, actualizar su HP tras las peleas, retirar a los caídos y generar estadísticas de poder de la arena.",
+        reportsDef: [
+          { id: 1, title: "🏆 Gladiador con Mayor Ataque", desc: "Identifica al guerrero más letal del coliseo." },
+          { id: 2, title: "🛡️ Gladiador Más Débil (Menor HP)", desc: "Encuentra al luchador con menor cantidad de vida restante." },
+          { id: 3, title: "⚔️ Promedio de Poder de Ataque", desc: "Calcula la media de ataque de toda la legión de gladiadores." },
+          { id: 4, title: "🚨 Estado Crítico (Vida < 200)", desc: "Alerta de gladiadores heridos de gravedad que no deben pelear hoy." }
+        ],
+        sampleData: [
+          { f1: "Spartacus el Rebelde", f2: 850, f3: 210 },
+          { f1: "Crixus Indómito", f2: 600, f3: 195 },
+          { f1: "Gannicus de la Espada Doble", f2: 720, f3: 230 },
+          { f1: "Flamma de Siria", f2: 150, f3: 160 },
+          { f1: "Oenomaus el Doctrinal", f2: 900, f3: 185 }
+        ]
+      },
+      {
+        id: 3,
+        emoji: "🏎️",
+        title: "Cyberpunk Grand Prix: Telemetría de Carreras",
+        subtitle: "Parrilla de Salida y Bólidos de Alta Velocidad",
+        color: "amber",
+        fields: [
+          { key: "piloto", label: "Nombre del Piloto", type: "String", desc: "Alias del corredor en el circuito urbano", placeholder: "Kira Neon" },
+          { key: "auto", label: "Modelo del Bólido", type: "String", desc: "Marca y prototipo del vehículo", placeholder: "Viper Cyber GT" },
+          { key: "velocidad", label: "Velocidad Máxima (km/h)", type: "double", desc: "Registro de telemetría en recta", placeholder: "342.5" }
+        ],
+        lore: "Bajo las luces de neón de Neo-Tokyo, se disputa el torneo de carreras ilegales más peligroso del planeta. Los vehículos están potenciados con nitro y reactores de plasma. La central de telemetría subterránea debe controlar la parrilla de competidores, registrar las modificaciones mecánicas y emitir los datos oficiales de velocidad antes de la gran final.",
+        mission: "Implementar el panel de control de carreras mediante vectores paralelos para registrar pilotos y sus autos, consultar especificaciones por nombre de piloto, calibrar velocidades y reportar los récords de pista.",
+        reportsDef: [
+          { id: 1, title: "🏆 Auto Más Veloz (Pole Position)", desc: "Determina el piloto y bólido que alcanzó la velocidad más alta." },
+          { id: 2, title: "🛡️ Auto Más Lento", desc: "Identifica el vehículo con la menor velocidad punta registrada." },
+          { id: 3, title: "⚡ Promedio de Velocidad del Torneo", desc: "Calcula la velocidad media general de la competencia." },
+          { id: 4, title: "🚀 Club Supersónico (Vel > 300 km/h)", desc: "Lista de todos los autos que superan la barrera de los 300 km/h." }
+        ],
+        sampleData: [
+          { f1: "Kira Neon", f2: "Apex Phantom X", f3: 348.0 },
+          { f1: "Ryder Turbo", f2: "Cyber Veloce 99", f3: 312.5 },
+          { f1: "Mia Nitro", f2: "Hyperion Solar GT", f3: 365.2 },
+          { f1: "Dexter Drift", f2: "Rusty Runner MK1", f3: 275.0 },
+          { f1: "Viper Zero", f2: "Ghost Quantum R", f3: 330.8 }
+        ]
+      },
+      {
+        id: 4,
+        emoji: "🐉",
+        title: "El Bestiario del Cazador: Criaturas Mágicas",
+        subtitle: "Enciclopedia de Monstruos y Dragones Legendarios",
+        color: "emerald",
+        fields: [
+          { key: "nombre", label: "Nombre de la Bestia", type: "String", desc: "Especie o espécimen registrado (ej. Dragón Rojo)", placeholder: "Dragón Rojo Antiguo" },
+          { key: "tipo", label: "Tipo / Elemento", type: "String", desc: "Fuego, Hielo, Sombras, Bestia, Volador", placeholder: "Fuego" },
+          { key: "nivel", label: "Nivel de Peligro (1 - 100)", type: "int", desc: "Rango de amenaza según el gremio", placeholder: "85" }
+        ],
+        lore: "El Gremio Real de Cazadores ha descubierto un nuevo continente inexplorado repleto de bestias colosales. Los cazadores novatos están muriendo por falta de información sobre las debilidades y el nivel de peligro de los monstruos. Como escriba del gremio, debes diseñar la enciclopedia digital donde se catalogue cada criatura avistada.",
+        mission: "Crear el sistema del Bestiario usando vectores para almacenar criaturas, buscar monstruos para leer su ficha técnica, reclasificar niveles de amenaza, eliminar registros erróneos y generar informes de alerta para el reino.",
+        reportsDef: [
+          { id: 1, title: "🏆 Jefe Máximo (Mayor Nivel)", desc: "Encuentra a la bestia con el mayor nivel de peligro catalogada." },
+          { id: 2, title: "🛡️ Criatura Menos Amenazante", desc: "Detecta la criatura con el nivel más bajo (ideal para novatos)." },
+          { id: 3, title: "📊 Nivel Promedio de Amenaza", desc: "Calcula el nivel promedio de todas las criaturas registradas." },
+          { id: 4, title: "🔥 Filtro por Monstruos de Fuego / Dragones", desc: "Cuenta y lista criaturas con nivel > 50 que amenazan aldeas." }
+        ],
+        sampleData: [
+          { f1: "Dragón Carmesí Ignis", f2: "Fuego", f3: 92 },
+          { f1: "Leviatán de las Profundidades", f2: "Agua", f3: 88 },
+          { f1: "Duende de las Cavernas", f2: "Bestia", f3: 15 },
+          { f1: "Quimera de Tres Cabezas", f2: "Mítico", f3: 65 },
+          { f1: "Gólem de Obsidiana", f2: "Tierra", f3: 74 }
+        ]
+      },
+      {
+        id: 5,
+        emoji: "🚀",
+        title: "Hangar Estelar: Flota de Naves Espaciales",
+        subtitle: "Control de Crucero Intergaláctico y Cazas",
+        color: "violet",
+        fields: [
+          { key: "nombre", label: "Código / Nombre de la Nave", type: "String", desc: "Designación estelar (ej. USS Millennium Falcon)", placeholder: "Crucero Hyperion" },
+          { key: "combustible", label: "Combustible / Plasma (%)", type: "int", desc: "Capacidad de energía actual (0 - 100)", placeholder: "85" },
+          { key: "velocidad", label: "Velocidad Warp (Años Luz/h)", type: "double", desc: "Potencia de curvatura hiperespacial", placeholder: "9.4" }
+        ],
+        lore: "La Federación Galáctica está librando una guerra en el Borde Exterior. En el hangar nodriza aterrizan cientos de cazas estelares, cruceros de batalla y fragatas de carga. El oficial de cubierta necesita saber con exactitud qué naves tienen el combustible listo para el salto hiperespacial y cuáles necesitan abastecimiento urgente.",
+        mission: "Construir la consola de mando de naves espaciales mediante arreglos paralelos para registrar despegues/aterrizajes, consultar estado por matrícula, reabastecer plasma y emitir reportes de combate a la comandancia.",
+        reportsDef: [
+          { id: 1, title: "🏆 Nave Más Veloz (Salto Hiperespacial)", desc: "Encuentra la nave con mayor potencia Warp de la flota." },
+          { id: 2, title: "🛡️ Nave en Reserva Crítica (Menor Combustible)", desc: "Identifica la nave con menor porcentaje de combustible." },
+          { id: 3, title: "⚡ Promedio de Combustible de la Flota", desc: "Calcula el porcentaje medio de combustible disponible." },
+          { id: 4, title: "⚠️ Alerta de Reabastecimiento (< 25%)", desc: "Lista todas las naves que no pueden entrar en batalla por falta de energía." }
+        ],
+        sampleData: [
+          { f1: "Caza Estelar X-Wing 01", f2: 90, f3: 8.5 },
+          { f1: "Crucero Imperial Titan", f2: 20, f3: 6.2 },
+          { f1: "Halcón de Plasma 9", f2: 75, f3: 9.8 },
+          { f1: "Fragata de Carga Orión", f2: 15, f3: 4.5 },
+          { f1: "Interceptor Fantasma V", f2: 98, f3: 9.9 }
+        ]
+      },
+      {
+        id: 6,
+        emoji: "⚽",
+        title: "Liga Galáctica: Tabla de Posiciones de Fútbol",
+        subtitle: "Estadísticas de Clubes, Goleadores y Puntos",
+        color: "emerald",
+        fields: [
+          { key: "equipo", label: "Nombre del Club / Equipo", type: "String", desc: "Nombre oficial del club deportivo", placeholder: "Real Cósmico FC" },
+          { key: "goles", label: "Goles a Favor", type: "int", desc: "Total de anotaciones en el campeonato", placeholder: "28" },
+          { key: "puntos", label: "Puntos Acumulados", type: "int", desc: "Puntaje total en la tabla de clasificación", placeholder: "34" }
+        ],
+        lore: "El torneo interplanetario de fútbol 'Super Champions League' está llegando a su fase decisiva. Millones de espectadores siguen cada partido. La Federación de Fútbol necesita una central informática que registre los equipos, actualice los marcadores tras cada fecha, elimine clubes descalificados y calcule al instante al puntero y la tabla de posiciones.",
+        mission: "Programar la tabla de posiciones usando vectores paralelos para inscribir clubes, buscar estadísticas por nombre de equipo, actualizar goles y puntos tras los partidos, y generar los reportes de campeonato y descenso.",
+        reportsDef: [
+          { id: 1, title: "🏆 Líder del Torneo (Mayor Puntaje)", desc: "Encuentra al club que encabeza la tabla de posiciones." },
+          { id: 2, title: "🛡️ Colista en Descenso (Menor Puntaje)", desc: "Identifica al equipo en el último lugar de la tabla." },
+          { id: 3, title: "⚽ Total y Promedio de Goles de la Liga", desc: "Calcula el acumulado de goles y el promedio por equipo." },
+          { id: 4, title: "🔥 Equipos Goleadores (> 20 Goles)", desc: "Lista todos los clubes con alto poder ofensivo en el torneo." }
+        ],
+        sampleData: [
+          { f1: "Real Cósmico FC", f2: 32, f3: 41 },
+          { f1: "Atlético Galaxia", f2: 26, f3: 35 },
+          { f1: "Inter Nebulosa", f2: 19, f3: 28 },
+          { f1: "Deportivo Asteroide", f2: 9, f3: 11 },
+          { f1: "Cyber Sporting", f2: 24, f3: 30 }
+        ]
+      }
+    ];
+
+    // Current State
+    let currentChallengeId = 1;
+    let currentSimData = [];
+    let isUnlocked = false;
+    let currentSolutionTab = 'vectors';
+
+    // ==========================================
+    // 2. INITIALIZATION & TAB SWITCHING
+    // ==========================================
+    function selectChallenge(id) {
+      currentChallengeId = id;
+      
+      // Update tab buttons style
+      for (let i = 1; i <= 6; i++) {
+        const btn = document.getElementById(`tab-btn-${i}`);
+        if (!btn) continue;
+        if (i === id) {
+          btn.className = "tab-btn active text-left p-3 rounded-xl border border-cyan-500/50 bg-cyan-950/40 shadow-lg shadow-cyan-500/10 transition-all";
+          btn.querySelector('.font-bold').className = "font-bold text-xs text-white";
+        } else {
+          btn.className = "tab-btn text-left p-3 rounded-xl border border-zinc-800 bg-zinc-900/60 hover:bg-zinc-800 transition-all";
+          btn.querySelector('.font-bold').className = "font-bold text-xs text-zinc-400";
+        }
+      }
+
+      renderChallengeDetail();
+      updateSimulatorForm();
+      loadSampleData();
+
+      // If unlocked, update the solution selector
+      const solSelect = document.getElementById('solutionCaseSelect');
+      if (solSelect) {
+        solSelect.value = id;
+        if (isUnlocked) renderUnlockedSolution();
+      }
+    }
+
+    // ==========================================
+    // 3. RENDER CHALLENGE DETAIL
+    // ==========================================
+    function renderChallengeDetail() {
+      const c = CHALLENGES.find(x => x.id === currentChallengeId);
+      const container = document.getElementById('challengeDetailArea');
+      if (!c || !container) return;
+
+      container.innerHTML = `
+        <!-- Main Challenge Card -->
+        <div class="border border-zinc-800 rounded-2xl bg-zinc-900/80 p-6 sm:p-8 space-y-6 shadow-xl relative overflow-hidden">
+          
+          <div class="flex flex-wrap items-center justify-between gap-4 border-b border-zinc-800 pb-5">
+            <div class="space-y-1">
+              <div class="flex items-center gap-2">
+                <span class="text-3xl">${c.emoji}</span>
+                <span class="text-xs font-mono font-bold px-2.5 py-0.5 rounded-md bg-cyan-500/10 text-cyan-400 border border-cyan-500/30">
+                  CASO PRÁCTICO 0${c.id} DE 06
+                </span>
+              </div>
+              <h2 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
+                ${c.title}
+              </h2>
+              <p class="text-xs sm:text-sm text-zinc-400 font-medium">
+                ${c.subtitle}
+              </p>
+            </div>
+            
+            <div class="flex items-center gap-2">
+              <span class="text-xs font-mono text-zinc-400 bg-zinc-950 px-3 py-1.5 rounded-lg border border-zinc-800">
+                Límite: <strong class="text-cyan-400">MAX = 50</strong> registros
+              </span>
+            </div>
+          </div>
+
+          <!-- Story Lore Banner -->
+          <div class="bg-linear-to-r from-zinc-950 via-zinc-900 to-zinc-950 border border-zinc-800 rounded-xl p-5 space-y-2">
+            <div class="flex items-center gap-2 text-xs font-mono font-bold text-amber-400">
+              <span>📜</span> CONTEXTO NARRATIVO / LORE DEL VIDEOJUEGO
+            </div>
+            <p class="text-xs sm:text-sm text-zinc-300 leading-relaxed italic">
+              "${c.lore}"
+            </p>
+          </div>
+
+          <!-- Requirements Grid (3 Columns) -->
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+            
+            <!-- Column 1: Variables & Data Structure -->
+            <div class="bg-zinc-950/70 border border-zinc-800 rounded-xl p-4 space-y-3">
+              <div class="flex items-center gap-2 text-xs font-mono font-bold text-cyan-400">
+                <span>📦</span> 1. ESTRUCTURA DE VECTORES
+              </div>
+              <p class="text-xs text-zinc-400">
+                Declara 3 vectores paralelos con tamaño máximo 50 y un contador entero:
+              </p>
+              <div class="space-y-2 font-mono text-[11px]">
+                ${c.fields.map(f => `
+                  <div class="p-2 rounded bg-zinc-900 border border-zinc-800 flex justify-between items-center">
+                    <span class="text-cyan-300 font-semibold">${f.key}[]</span>
+                    <span class="text-zinc-500 font-bold">${f.type}</span>
+                  </div>
+                `).join('')}
+                <div class="p-2 rounded bg-zinc-900 border border-zinc-800 flex justify-between items-center">
+                  <span class="text-emerald-300 font-semibold">int contador</span>
+                  <span class="text-zinc-500">Inicializado en 0</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Column 2: CRUD Requirements -->
+            <div class="bg-zinc-950/70 border border-zinc-800 rounded-xl p-4 space-y-3">
+              <div class="flex items-center gap-2 text-xs font-mono font-bold text-indigo-400">
+                <span>⚙️</span> 2. OPERACIONES CRUD
+              </div>
+              <ul class="space-y-2 text-xs text-zinc-300">
+                <li class="flex items-start gap-1.5">
+                  <span class="text-emerald-400 font-bold">C:</span>
+                  <span><strong>Registrar:</strong> Validar límite de vector (< 50), campos no vacíos y valores positivos.</span>
+                </li>
+                <li class="flex items-start gap-1.5">
+                  <span class="text-blue-400 font-bold">R:</span>
+                  <span><strong>Listar / Buscar:</strong> Recorrido lineal secuencial por <code class="text-cyan-300 font-mono">${c.fields[0].key}</code>.</span>
+                </li>
+                <li class="flex items-start gap-1.5">
+                  <span class="text-amber-400 font-bold">U:</span>
+                  <span><strong>Modificar:</strong> Actualizar datos numéricos/atributos de un elemento existente.</span>
+                </li>
+                <li class="flex items-start gap-1.5">
+                  <span class="text-rose-400 font-bold">D:</span>
+                  <span><strong>Eliminar:</strong> Desplazamiento a la izquierda <code class="text-zinc-400 font-mono">v[i] = v[i+1]</code> y <code class="text-zinc-400 font-mono">contador--</code>.</span>
+                </li>
+              </ul>
+            </div>
+
+            <!-- Column 3: Reports Requirements -->
+            <div class="bg-zinc-950/70 border border-zinc-800 rounded-xl p-4 space-y-3">
+              <div class="flex items-center gap-2 text-xs font-mono font-bold text-emerald-400">
+                <span>📊</span> 3. CUATRO REPORTES EXIGIDOS
+              </div>
+              <div class="space-y-1.5 text-xs">
+                ${c.reportsDef.map(r => `
+                  <div class="p-2 rounded bg-zinc-900 border border-zinc-800">
+                    <div class="font-bold text-zinc-200">${r.title}</div>
+                    <div class="text-[11px] text-zinc-400 mt-0.5">${r.desc}</div>
+                  </div>
+                `).join('')}
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Mission Callout -->
+          <div class="flex items-center justify-between p-4 rounded-xl bg-cyan-950/20 border border-cyan-500/30 text-xs">
+            <div class="flex items-center gap-2 text-cyan-300">
+              <span class="text-base">🎯</span>
+              <span><strong>Misión del Alumno:</strong> ${c.mission}</span>
+            </div>
+            <button onclick="scrollToSimulator()" class="no-print whitespace-nowrap px-3 py-1 rounded bg-cyan-500 text-zinc-950 font-bold hover:bg-cyan-400 transition-colors">
+              Probar en Simulador ↓
+            </button>
+          </div>
+
+        </div>
+      `;
+    }
+
+    // ==========================================
+    // 4. SIMULATOR LOGIC (INTERACTIVE PLAYGROUND)
+    // ==========================================
+    function updateSimulatorForm() {
+      const c = CHALLENGES.find(x => x.id === currentChallengeId);
+      if (!c) return;
+
+      document.getElementById('lblField1').innerText = `${c.fields[0].label} (${c.fields[0].key}):`;
+      document.getElementById('lblField2').innerText = `${c.fields[1].label} (${c.fields[1].key}):`;
+      document.getElementById('lblField3').innerText = `${c.fields[2].label} (${c.fields[2].key}):`;
+
+      document.getElementById('simField1').placeholder = c.fields[0].placeholder;
+      document.getElementById('simField2').placeholder = c.fields[1].placeholder;
+      document.getElementById('simField3').placeholder = c.fields[2].placeholder;
+
+      // Table headers
+      document.getElementById('thField1').innerText = c.fields[0].key;
+      document.getElementById('thField2').innerText = c.fields[1].key;
+      document.getElementById('thField3').innerText = c.fields[2].key;
+
+      // Report button titles
+      document.getElementById('repBtn1Title').innerText = c.reportsDef[0].title;
+      document.getElementById('repBtn2Title').innerText = c.reportsDef[1].title;
+      document.getElementById('repBtn3Title').innerText = c.reportsDef[2].title;
+      document.getElementById('repBtn4Title').innerText = c.reportsDef[3].title;
+
+      cancelEditMode();
+    }
+
+    function loadSampleData() {
+      const c = CHALLENGES.find(x => x.id === currentChallengeId);
+      if (!c) return;
+      currentSimData = JSON.parse(JSON.stringify(c.sampleData));
+      renderSimTable();
+    }
+
+    function clearSimulatorData() {
+      currentSimData = [];
+      renderSimTable();
+      document.getElementById('reportOutputCard').classList.add('hidden');
+    }
+
+    function renderSimTable() {
+      const tbody = document.getElementById('simTableBody');
+      const badge = document.getElementById('itemCountBadge');
+      if (!tbody) return;
+
+      badge.innerText = `${currentSimData.length} elementos / MAX: 50`;
+
+      if (currentSimData.length === 0) {
+        tbody.innerHTML = `
+          <tr>
+            <td colspan="5" class="p-8 text-center text-zinc-600 italic">
+              El arreglo está vacío. Registra un elemento con el formulario o presiona "Cargar Datos Demo".
+            </td>
+          </tr>
+        `;
+        return;
+      }
+
+      tbody.innerHTML = currentSimData.map((item, idx) => `
+        <tr class="hover:bg-zinc-900/60 transition-colors">
+          <td class="p-2.5 font-mono text-zinc-500 font-bold">${idx}</td>
+          <td class="p-2.5 font-semibold text-white">${item.f1}</td>
+          <td class="p-2.5 text-zinc-300 font-mono">${item.f2}</td>
+          <td class="p-2.5 text-cyan-400 font-mono font-medium">${typeof item.f3 === 'number' && !Number.isInteger(item.f3) ? item.f3.toFixed(2) : item.f3}</td>
+          <td class="p-2.5 text-right space-x-1 whitespace-nowrap">
+            <button onclick="startEditItem(${idx})" class="px-2 py-1 rounded bg-zinc-800 hover:bg-zinc-700 text-amber-300 text-[10px] font-mono transition-colors">
+              ✏️ Editar
+            </button>
+            <button onclick="deleteItem(${idx})" class="px-2 py-1 rounded bg-zinc-800 hover:bg-rose-900/60 text-rose-400 text-[10px] font-mono transition-colors">
+              🗑️ Borrar
+            </button>
+          </td>
+        </tr>
+      `).join('');
+    }
+
+    function handleFormSubmit(e) {
+      e.preventDefault();
+      const f1 = document.getElementById('simField1').value.trim();
+      const f2 = parseFloat(document.getElementById('simField2').value);
+      const f3 = parseFloat(document.getElementById('simField3').value);
+      const editIdx = parseInt(document.getElementById('editIndex').value);
+
+      if (!f1 || isNaN(f2) || isNaN(f3)) {
+        alert("Por favor completa todos los campos con valores válidos.");
+        return;
+      }
+
+      if (editIdx >= 0) {
+        // UPDATE (U)
+        currentSimData[editIdx] = { f1, f2, f3 };
+        cancelEditMode();
+      } else {
+        // CREATE (C)
+        if (currentSimData.length >= 50) {
+          alert("Error: El vector ha alcanzado su capacidad máxima (MAX = 50).");
+          return;
+        }
+
+        // Check duplicate
+        const exists = currentSimData.some(x => x.f1.toLowerCase() === f1.toLowerCase());
+        if (exists) {
+          if (!confirm(`Ya existe un registro con el nombre '${f1}'. ¿Deseas agregarlo de todos modos?`)) {
+            return;
+          }
+        }
+
+        currentSimData.push({ f1, f2, f3 });
+        document.getElementById('simulatorForm').reset();
+      }
+
+      renderSimTable();
+    }
+
+    function startEditItem(idx) {
+      const item = currentSimData[idx];
+      if (!item) return;
+
+      document.getElementById('editIndex').value = idx;
+      document.getElementById('simField1').value = item.f1;
+      document.getElementById('simField2').value = item.f2;
+      document.getElementById('simField3').value = item.f3;
+
+      document.getElementById('formTitle').innerText = `Modificar Registro [Índice ${idx}]`;
+      document.getElementById('btnSubmitSim').innerText = "💾 Guardar Cambios";
+      document.getElementById('btnCancelEdit').classList.remove('hidden');
+
+      document.getElementById('simField1').focus();
+    }
+
+    function cancelEditMode() {
+      document.getElementById('editIndex').value = -1;
+      document.getElementById('simulatorForm').reset();
+      document.getElementById('formTitle').innerText = "Registrar Elemento";
+      document.getElementById('btnSubmitSim').innerText = "➕ Registrar";
+      document.getElementById('btnCancelEdit').classList.add('hidden');
+    }
+
+    function deleteItem(idx) {
+      const item = currentSimData[idx];
+      if (!item) return;
+
+      if (confirm(`¿Estás seguro de eliminar el registro '${item.f1}' en el índice ${idx}? Se aplicará desplazamiento a la izquierda.`)) {
+        // Simulation of left shift algorithm: v[i] = v[i+1]
+        for (let i = idx; i < currentSimData.length - 1; i++) {
+          currentSimData[i] = currentSimData[i + 1];
+        }
+        currentSimData.pop();
+        renderSimTable();
+        cancelEditMode();
+      }
+    }
+
+    function searchItem() {
+      const q = document.getElementById('searchQuery').value.trim().toLowerCase();
+      const feedback = document.getElementById('searchResultFeedback');
+      if (!q) {
+        feedback.classList.add('hidden');
+        return;
+      }
+
+      const idx = currentSimData.findIndex(x => x.f1.toLowerCase().includes(q));
+      feedback.classList.remove('hidden');
+
+      if (idx !== -1) {
+        const item = currentSimData[idx];
+        const c = CHALLENGES.find(x => x.id === currentChallengeId);
+        feedback.className = "text-xs p-2.5 rounded-lg bg-emerald-950/40 border border-emerald-500/40 text-emerald-300 space-y-1";
+        feedback.innerHTML = `
+          <div class="font-bold">✅ Registro encontrado en índice [${idx}]:</div>
+          <div class="font-mono text-[11px] text-zinc-300">${c.fields[0].key}: <strong>${item.f1}</strong> | ${c.fields[1].key}: <strong>${item.f2}</strong> | ${c.fields[2].key}: <strong>${item.f3}</strong></div>
+        `;
+      } else {
+        feedback.className = "text-xs p-2.5 rounded-lg bg-rose-950/40 border border-rose-500/40 text-rose-300";
+        feedback.innerHTML = `❌ No se encontró ningún registro que coincida con "<strong>${q}</strong>" (Retorna índice -1).`;
+      }
+    }
+
+    // ==========================================
+    // 5. REPORTS CALCULATION (BUSINESS LOGIC)
+    // ==========================================
+    function runReport(repNum) {
+      const card = document.getElementById('reportOutputCard');
+      const title = document.getElementById('reportOutputTitle');
+      const content = document.getElementById('reportOutputContent');
+      const c = CHALLENGES.find(x => x.id === currentChallengeId);
+
+      if (currentSimData.length === 0) {
+        alert("El arreglo está vacío. Agrega datos primero para generar reportes.");
+        return;
+      }
+
+      card.classList.remove('hidden');
+
+      if (repNum === 1) {
+        // MAX REPORT
+        title.innerHTML = `🏆 ${c.reportsDef[0].title}`;
+        let maxIdx = 0;
+        // In case 1 (Potions): max price (f3). In case 2 (Gladiators): max attack (f3). In case 3 (Cars): max speed (f3).
+        // In case 4 (Beasts): max level (f3). In case 5 (Ships): max speed (f3). In case 6 (Soccer): max points (f3).
+        for (let i = 1; i < currentSimData.length; i++) {
+          if (currentSimData[i].f3 > currentSimData[maxIdx].f3) {
+            maxIdx = i;
+          }
+        }
+        const best = currentSimData[maxIdx];
+        content.innerHTML = `
+          El elemento con el valor más alto registrado es <strong class="text-cyan-300">${best.f1}</strong> en el índice <span class="font-mono text-zinc-400">[${maxIdx}]</span> con 
+          <strong class="text-emerald-400">${c.fields[2].key}: ${best.f3}</strong> (${c.fields[1].key}: ${best.f2}).
+        `;
+      } else if (repNum === 2) {
+        // MIN REPORT
+        title.innerHTML = `🛡️ ${c.reportsDef[1].title}`;
+        let minIdx = 0;
+        // Case 1: min stock (f2). Case 2: min HP (f2). Case 3: min speed (f3). Case 4: min level (f3). Case 5: min fuel (f2). Case 6: min points (f3).
+        const targetField = (c.id === 1 || c.id === 2 || c.id === 5) ? 'f2' : 'f3';
+        const targetFieldName = (c.id === 1 || c.id === 2 || c.id === 5) ? c.fields[1].key : c.fields[2].key;
+
+        for (let i = 1; i < currentSimData.length; i++) {
+          if (currentSimData[i][targetField] < currentSimData[minIdx][targetField]) {
+            minIdx = i;
+          }
+        }
+        const lowest = currentSimData[minIdx];
+        content.innerHTML = `
+          El elemento con el menor valor es <strong class="text-amber-300">${lowest.f1}</strong> en el índice <span class="font-mono text-zinc-400">[${minIdx}]</span> con 
+          <strong class="text-rose-400">${targetFieldName}: ${lowest[targetField]}</strong>.
+        `;
+      } else if (repNum === 3) {
+        // TOTAL / AVERAGE REPORT
+        title.innerHTML = `📈 ${c.reportsDef[2].title}`;
+        if (c.id === 1) {
+          // Total value: sum(qty * price)
+          let totalMoney = 0;
+          let totalQty = 0;
+          for (let item of currentSimData) {
+            totalMoney += item.f2 * item.f3;
+            totalQty += item.f2;
+          }
+          content.innerHTML = `
+            Valor total del inventario en bodega: <strong class="text-emerald-400 font-mono">$${totalMoney.toFixed(2)} monedas de oro</strong>.<br>
+            Total de unidades almacenadas: <strong class="text-cyan-300 font-mono">${totalQty} frascos</strong> distribuidos en ${currentSimData.length} tipos de pociones.
+          `;
+        } else if (c.id === 6) {
+          // Soccer: Total goals and avg points
+          let totalGoals = 0;
+          let totalPts = 0;
+          for (let item of currentSimData) {
+            totalGoals += item.f2;
+            totalPts += item.f3;
+          }
+          let avgGoals = (totalGoals / currentSimData.length).toFixed(2);
+          let avgPts = (totalPts / currentSimData.length).toFixed(2);
+          content.innerHTML = `
+            Total de goles anotados en el torneo: <strong class="text-cyan-300 font-mono">${totalGoals} goles</strong> (Promedio: ${avgGoals} por club).<br>
+            Puntaje promedio de la liga: <strong class="text-indigo-300 font-mono">${avgPts} pts</strong>.
+          `;
+        } else {
+          // Generic average for field 3 (attack, speed, level, speed)
+          let sum = 0;
+          for (let item of currentSimData) {
+            sum += item.f3;
+          }
+          let avg = (sum / currentSimData.length).toFixed(2);
+          content.innerHTML = `
+            El promedio general de <strong class="text-cyan-300">${c.fields[2].key}</strong> en los ${currentSimData.length} registros es de: 
+            <strong class="text-emerald-400 font-mono">${avg}</strong>.
+          `;
+        }
+      } else if (repNum === 4) {
+        // CRITICAL FILTER REPORT
+        title.innerHTML = `⚡ ${c.reportsDef[3].title}`;
+        let matches = [];
+
+        if (c.id === 1) matches = currentSimData.filter(x => x.f2 < 5);
+        else if (c.id === 2) matches = currentSimData.filter(x => x.f2 < 200);
+        else if (c.id === 3) matches = currentSimData.filter(x => x.f3 > 300);
+        else if (c.id === 4) matches = currentSimData.filter(x => x.f3 > 50);
+        else if (c.id === 5) matches = currentSimData.filter(x => x.f2 < 25);
+        else if (c.id === 6) matches = currentSimData.filter(x => x.f2 > 20);
+
+        if (matches.length === 0) {
+          content.innerHTML = `No hay elementos que cumplan la condición del filtro en este momento.`;
+        } else {
+          content.innerHTML = `
+            Se encontraron <strong class="text-cyan-300">${matches.length}</strong> registros que cumplen el criterio:<br>
+            <ul class="list-disc list-inside mt-1 space-y-0.5 font-mono text-[11px] text-zinc-300">
+              ${matches.map(m => `<li><strong>${m.f1}</strong> (${c.fields[1].key}: ${m.f2}, ${c.fields[2].key}: ${m.f3})</li>`).join('')}
+            </ul>
+          `;
+        }
+      }
+    }
+
+    // ==========================================
+    // 6. PASSWORD SYSTEM ("PROFEBENJA2026")
+    // ==========================================
+    const SECRET_KEY = "PROFEBENJA2026";
+
+    function verifyPassword() {
+      const input = document.getElementById('passwordInput');
+      const errorMsg = document.getElementById('passwordError');
+      const val = input.value.trim().toUpperCase();
+
+      if (val === SECRET_KEY) {
+        isUnlocked = true;
+        errorMsg.classList.add('hidden');
+        document.getElementById('lockedStateArea').classList.add('hidden');
+        document.getElementById('unlockedContentArea').classList.remove('hidden');
+        document.getElementById('solutionBadgeUnlocked').classList.remove('hidden');
+        document.getElementById('globalLockStatus').innerText = "DESBLOQUEADO";
+        document.getElementById('globalLockStatus').className = "px-2 py-0.5 text-[10px] font-mono font-bold rounded-md bg-emerald-500/20 text-emerald-300 border border-emerald-500/30";
+        document.getElementById('lockIcon').innerText = "🔓";
+
+        // Confetti celebration
+        if (typeof confetti === 'function') {
+          confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
+        }
+
+        renderUnlockedSolution();
+      } else {
+        errorMsg.classList.remove('hidden');
+        input.classList.add('shake', 'border-rose-500');
+        setTimeout(() => input.classList.remove('shake'), 500);
+      }
+    }
+
+    function lockAgain() {
+      isUnlocked = false;
+      document.getElementById('passwordInput').value = "";
+      document.getElementById('lockedStateArea').classList.remove('hidden');
+      document.getElementById('unlockedContentArea').classList.add('hidden');
+      document.getElementById('solutionBadgeUnlocked').classList.add('hidden');
+      document.getElementById('globalLockStatus').innerText = "PROTEGIDO";
+      document.getElementById('globalLockStatus').className = "px-2 py-0.5 text-[10px] font-mono font-bold rounded-md bg-amber-500/20 text-amber-300 border border-amber-500/30";
+      document.getElementById('lockIcon').innerText = "🔒";
+    }
+
+    function setSolutionTab(tab) {
+      currentSolutionTab = tab;
+      const btnV = document.getElementById('solTabVectors');
+      const btnA = document.getElementById('solTabAndroid');
+
+      if (tab === 'vectors') {
+        btnV.className = "pb-2.5 text-xs font-bold text-cyan-400 border-b-2 border-cyan-400 flex items-center gap-2";
+        btnA.className = "pb-2.5 text-xs font-bold text-zinc-400 hover:text-zinc-200 flex items-center gap-2";
+      } else {
+        btnA.className = "pb-2.5 text-xs font-bold text-cyan-400 border-b-2 border-cyan-400 flex items-center gap-2";
+        btnV.className = "pb-2.5 text-xs font-bold text-zinc-400 hover:text-zinc-200 flex items-center gap-2";
+      }
+
+      renderUnlockedSolution();
+    }
+
+    function renderUnlockedSolution() {
+      const select = document.getElementById('solutionCaseSelect');
+      const caseId = parseInt(select ? select.value : currentChallengeId);
+      const c = CHALLENGES.find(x => x.id === caseId) || CHALLENGES[0];
+      const container = document.getElementById('solutionCodeDisplayArea');
+      if (!container) return;
+
+      const f1 = c.fields[0].key;
+      const f2 = c.fields[1].key;
+      const f3 = c.fields[2].key;
+
+      const t1 = c.fields[0].type;
+      const t2 = c.fields[1].type;
+      const t3 = c.fields[2].type;
+
+      if (currentSolutionTab === 'vectors') {
+        // PURE JAVA VECTORS IMPLEMENTATION
+        const javaCode = `import java.util.Scanner;
+
+public class EvaluacionVectoresCaso0${c.id} {
+    // 1. Constante de tamaño máximo y vectores paralelos
+    private static final int MAX = 50;
+    private static ${t1}[] ${f1} = new ${t1}[MAX];
+    private static ${t2}[] ${f2} = new ${t2}[MAX];
+    private static ${t3}[] ${f3} = new ${t3}[MAX];
+    private static int contador = 0; // Índice de elementos actuales
+
+    private static Scanner scanner = new Scanner(System.in);
+
+    public static void main(String[] args) {
+        int opcion;
+        do {
+            System.out.println("\\n==========================================");
+            System.out.println("  ${c.title.toUpperCase()}");
+            System.out.println("==========================================");
+            System.out.println("1. Registrar nuevo (${f1})");
+            System.out.println("2. Listar todos los registros");
+            System.out.println("3. Buscar por ${f1}");
+            System.out.println("4. Modificar ${f2} y ${f3}");
+            System.out.println("5. Eliminar registro");
+            System.out.println("6. Reporte 1: ${c.reportsDef[0].title}");
+            System.out.println("7. Reporte 2: ${c.reportsDef[1].title}");
+            System.out.println("8. Reporte 3: ${c.reportsDef[2].title}");
+            System.out.println("9. Reporte 4: ${c.reportsDef[3].title}");
+            System.out.println("0. Salir");
+            System.out.print("Seleccione una opción: ");
+            opcion = scanner.nextInt();
+            scanner.nextLine(); // Limpiar buffer
+
+            switch (opcion) {
+                case 1 -> registrar();
+                case 2 -> listar();
+                case 3 -> buscarPorNombre();
+                case 4 -> modificar();
+                case 5 -> eliminar();
+                case 6 -> reporteMaximo();
+                case 7 -> reporteMinimo();
+                case 8 -> reporteEstadisticas();
+                case 9 -> reporteFiltroEspecial();
+                case 0 -> System.out.println("¡Hasta pronto!");
+                default -> System.out.println("Opción inválida.");
+            }
+        } while (opcion != 0);
+    }
+
+    // CREATE (C)
+    private static void registrar() {
+        if (contador >= MAX) {
+            System.out.println("Error: El arreglo está lleno (Capacidad máxima: " + MAX + ").");
+            return;
+        }
+
+        System.out.print("Ingrese ${f1}: ");
+        String nom = scanner.nextLine().trim();
+        if (nom.isEmpty()) {
+            System.out.println("Error: El campo no puede estar vacío.");
+            return;
+        }
+
+        // Validar si ya existe
+        if (buscarIndice(nom) != -1) {
+            System.out.println("Aviso: Ya existe un registro con ese nombre.");
+        }
+
+        System.out.print("Ingrese ${f2}: ");
+        ${t2} val2 = scanner.next${t2 === 'int' ? 'Int' : 'Double'}();
+        System.out.print("Ingrese ${f3}: ");
+        ${t3} val3 = scanner.next${t3 === 'int' ? 'Int' : 'Double'}();
+        scanner.nextLine();
+
+        ${f1}[contador] = nom;
+        ${f2}[contador] = val2;
+        ${f3}[contador] = val3;
+        contador++;
+
+        System.out.println("✔ Registro guardado exitosamente en el índice [" + (contador - 1) + "].");
+    }
+
+    // READ (R) - Listar
+    private static void listar() {
+        if (contador == 0) {
+            System.out.println("No hay registros almacenados.");
+            return;
+        }
+        System.out.println("\\n--- LISTADO DE REGISTROS (" + contador + " / " + MAX + ") ---");
+        for (int i = 0; i < contador; i++) {
+            System.out.printf("[%d] %-25s | %-12s: %s | %-12s: %s%n",
+                    i, ${f1}[i], "${f2}", ${f2}[i], "${f3}", ${f3}[i]);
+        }
+    }
+
+    // READ (R) - Búsqueda Secuencial
+    private static int buscarIndice(String criterio) {
+        for (int i = 0; i < contador; i++) {
+            if (${f1}[i].equalsIgnoreCase(criterio)) {
+                return i; // Retorna posición
+            }
+        }
+        return -1; // No encontrado
+    }
+
+    private static void buscarPorNombre() {
+        System.out.print("Ingrese el ${f1} a buscar: ");
+        String nom = scanner.nextLine().trim();
+        int pos = buscarIndice(nom);
+        if (pos != -1) {
+            System.out.println("✔ Encontrado en índice [" + pos + "]:");
+            System.out.println("${f1}: " + ${f1}[pos] + " | ${f2}: " + ${f2}[pos] + " | ${f3}: " + ${f3}[pos]);
+        } else {
+            System.out.println("❌ No se encontró ningún registro con ese nombre.");
+        }
+    }
+
+    // UPDATE (U)
+    private static void modificar() {
+        System.out.print("Ingrese el ${f1} del registro a modificar: ");
+        String nom = scanner.nextLine().trim();
+        int pos = buscarIndice(nom);
+        if (pos == -1) {
+            System.out.println("❌ Registro no encontrado.");
+            return;
+        }
+
+        System.out.println("Valores actuales -> ${f2}: " + ${f2}[pos] + ", ${f3}: " + ${f3}[pos]);
+        System.out.print("Nuevo valor para ${f2}: ");
+        ${f2}[pos] = scanner.next${t2 === 'int' ? 'Int' : 'Double'}();
+        System.out.print("Nuevo valor para ${f3}: ");
+        ${f3}[pos] = scanner.next${t3 === 'int' ? 'Int' : 'Double'}();
+        scanner.nextLine();
+
+        System.out.println("✔ Registro actualizado con éxito.");
+    }
+
+    // DELETE (D) - Desplazamiento a la izquierda
+    private static void eliminar() {
+        System.out.print("Ingrese el ${f1} a eliminar: ");
+        String nom = scanner.nextLine().trim();
+        int pos = buscarIndice(nom);
+        if (pos == -1) {
+            System.out.println("❌ No se encontró el registro.");
+            return;
+        }
+
+        // Algoritmo de compactación: mover elementos a la izquierda
+        for (int i = pos; i < contador - 1; i++) {
+            ${f1}[i] = ${f1}[i + 1];
+            ${f2}[i] = ${f2}[i + 1];
+            ${f3}[i] = ${f3}[i + 1];
+        }
+
+        // Limpiar última posición y decrementar contador
+        ${f1}[contador - 1] = null;
+        ${f2}[contador - 1] = 0;
+        ${f3}[contador - 1] = 0;
+        contador--;
+
+        System.out.println("✔ Registro eliminado correctamente. Total actual: " + contador);
+    }
+
+    // REPORTES
+    private static void reporteMaximo() {
+        if (contador == 0) return;
+        int posMax = 0;
+        for (int i = 1; i < contador; i++) {
+            if (${f3}[i] > ${f3}[posMax]) {
+                posMax = i;
+            }
+        }
+        System.out.println("🏆 ${c.reportsDef[0].title}: " + ${f1}[posMax] + " con " + ${f3}[posMax]);
+    }
+
+    private static void reporteMinimo() {
+        if (contador == 0) return;
+        int posMin = 0;
+        for (int i = 1; i < contador; i++) {
+            if (${f2}[i] < ${f2}[posMin]) {
+                posMin = i;
+            }
+        }
+        System.out.println("🛡️ ${c.reportsDef[1].title}: " + ${f1}[posMin] + " con " + ${f2}[posMin]);
+    }
+
+    private static void reporteEstadisticas() {
+        if (contador == 0) return;
+        double acumulador = 0;
+        for (int i = 0; i < contador; i++) {
+            acumulador += ${c.id === 1 ? `${f2}[i] * ${f3}[i]` : `${f3}[i]`};
+        }
+        System.out.println("📊 ${c.reportsDef[2].title}: " + acumulador);
+    }
+
+    private static void reporteFiltroEspecial() {
+        if (contador == 0) return;
+        System.out.println("⚡ ${c.reportsDef[3].title}:");
+        int encontrados = 0;
+        for (int i = 0; i < contador; i++) {
+            if (${c.id === 1 ? `${f2}[i] < 5` : c.id === 2 ? `${f2}[i] < 200` : c.id === 3 ? `${f3}[i] > 300` : c.id === 4 ? `${f3}[i] > 50` : c.id === 5 ? `${f2}[i] < 25` : `${f2}[i] > 20`}) {
+                System.out.println(" - " + ${f1}[i] + " (" + ${f2}[i] + ", " + ${f3}[i] + ")");
+                encontrados++;
+            }
+        }
+        System.out.println("Total encontrados: " + encontrados);
+    }
+}`;
+
+        container.innerHTML = `
+          <div class="space-y-3">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-mono text-cyan-400 font-bold">EvaluacionVectoresCaso0${c.id}.java</span>
+              <button onclick="copyCodeToClipboard('codeBlockVectors')" class="px-3 py-1 rounded bg-zinc-800 hover:bg-zinc-700 text-xs font-semibold text-zinc-300 hover:text-white border border-zinc-700 transition-colors">
+                📋 Copiar Código Java
+              </button>
+            </div>
+            <pre class="bg-zinc-950 p-4 rounded-xl border border-zinc-800 overflow-x-auto text-xs font-mono text-zinc-200 leading-relaxed max-h-[500px]" id="codeBlockVectors"><code>${escapeHtml(javaCode)}</code></pre>
+          </div>
+        `;
+      } else {
+        // ANDROID OOP IMPLEMENTATION (Model + Activity)
+        const className = c.id === 1 ? "Potion" : c.id === 2 ? "Gladiator" : c.id === 3 ? "RaceCar" : c.id === 4 ? "Monster" : c.id === 5 ? "Spaceship" : "SoccerTeam";
+        const modelCode = `package com.example.sandbox.game;
+
+import java.io.Serializable;
+
+public class ${className} implements Serializable {
+    private String ${f1};
+    private ${t2} ${f2};
+    private ${t3} ${f3};
+
+    public ${className}(String ${f1}, ${t2} ${f2}, ${t3} ${f3}) {
+        this.${f1} = ${f1};
+        this.${f2} = ${f2};
+        this.${f3} = ${f3};
+    }
+
+    public String get${capitalize(f1)}() { return ${f1}; }
+    public void set${capitalize(f1)}(String ${f1}) { this.${f1} = ${f1}; }
+
+    public ${t2} get${capitalize(f2)}() { return ${f2}; }
+    public void set${capitalize(f2)}(${t2} ${f2}) { this.${f2} = ${f2}; }
+
+    public ${t3} get${capitalize(f3)}() { return ${f3}; }
+    public void set${capitalize(f3)}(${t3} ${f3}) { this.${f3} = ${f3}; }
+
+    @Override
+    public String toString() {
+        return ${f1} + " | " + ${f2} + " | " + ${f3};
+    }
+}`;
+
+        container.innerHTML = `
+          <div class="space-y-4">
+            <div class="space-y-2">
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-mono text-indigo-400 font-bold">1. Modelo POJO: ${className}.java</span>
+                <button onclick="copyCodeToClipboard('codeBlockModel')" class="px-2.5 py-1 rounded bg-zinc-800 hover:bg-zinc-700 text-xs font-semibold text-zinc-300">
+                  📋 Copiar POJO
+                </button>
+              </div>
+              <pre class="bg-zinc-950 p-4 rounded-xl border border-zinc-800 overflow-x-auto text-xs font-mono text-zinc-200" id="codeBlockModel"><code>${escapeHtml(modelCode)}</code></pre>
+            </div>
+
+            <div class="p-4 rounded-xl bg-zinc-900 border border-zinc-800 text-xs text-zinc-300 space-y-2">
+              <div class="font-bold text-white flex items-center gap-1.5">
+                <span>💡</span> Equivalencia Algorítmica: Arreglos vs ArrayList en Android
+              </div>
+              <p>
+                En una aplicación Android profesional, los arreglos paralelos se reemplazan por una lista de objetos: <code class="text-cyan-300 font-mono">ArrayList&lt;${className}&gt; lista = new ArrayList&lt;&gt;();</code>.
+              </p>
+              <ul class="list-disc list-inside space-y-1 font-mono text-[11px] text-zinc-400">
+                <li><strong>Create:</strong> <code class="text-emerald-400">lista.add(new ${className}(...));</code></li>
+                <li><strong>Read:</strong> <code class="text-blue-400">lista.get(i);</code></li>
+                <li><strong>Update:</strong> <code class="text-amber-400">lista.get(pos).set${capitalize(f2)}(nuevoValor);</code></li>
+                <li><strong>Delete:</strong> <code class="text-rose-400">lista.remove(pos);</code> (Desplaza automáticamente los punteros internos).</li>
+              </ul>
+            </div>
+          </div>
+        `;
+      }
+    }
+
+    // ==========================================
+    // 7. UTILITIES
+    // ==========================================
+    function escapeHtml(str) {
+      return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+    }
+
+    function capitalize(str) {
+      return str.charAt(0).toUpperCase() + str.slice(1);
+    }
+
+    function copyCodeToClipboard(elementId) {
+      const el = document.getElementById(elementId);
+      if (!el) return;
+      navigator.clipboard.writeText(el.innerText).then(() => {
+        alert("¡Código copiado al portapapeles con éxito!");
+      });
+    }
+
+    function scrollToPasswordArea() {
+      document.getElementById('passwordSection').scrollIntoView({ behavior: 'smooth' });
+      document.getElementById('passwordInput').focus();
+    }
+
+    function scrollToSimulator() {
+      document.getElementById('simulatorForm').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    // Enter key trigger for password input
+    document.addEventListener('DOMContentLoaded', () => {
+      selectChallenge(1);
+      const passInput = document.getElementById('passwordInput');
+      if (passInput) {
+        passInput.addEventListener('keypress', (e) => {
+          if (e.key === 'Enter') verifyPassword();
+        });
+      }
+    });
+  </script>
+</body>
+</html>
